@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% for d in data_list %}
+            {% if d.GameKey == '201610115' %}
+                    {{ d.Date }}{{ d.AwayTeam }}{{ d.HomeTeam }}{{ d.PointSpread }}{{ d.OverUnder }}
+                {% endif %}
+                
+            {% endfor %}
+            <h1>Create-A-Bet</h1>
+            <form method="POST" action="">
+                <input type="text" name="team" value="">
+                <input type="text" name="spread" value="">
+                <input type="text" name="totals" value="">
+                <input type="text" name="amount" value="">
+                <input type="submit">
+            </form>
+            <form method="post" action="">
+                {{ form }}
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

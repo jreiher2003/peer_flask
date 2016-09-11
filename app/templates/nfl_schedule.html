@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}NFL schedule{% endblock title %}
+{% block style %}
+.button {
+    border-style: solid;
+  border-width : 1px 1px 1px 1px;
+  text-decoration : none;
+  padding : 4px;
+  border-color : #000000
+}
+.create {
+    <!-- background-color: blue; -->
+}
+.board {
+    <!-- background-color: red; -->
+}
+
+
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <table class="table">
+                    <tr> 
+                        <th>Date</th> 
+                        <th>Game Number</th> 
+                        <th>Game</th>
+                        <th>Spread</th>
+                        <th>ML</th>
+                        <th>Bet</th>
+                    </tr> 
+                <thead> 
+                </thead> 
+                <tbody>
+                {% for d in data %}
+                    {#{% if d.Date|dateify > dt and d.PointSpread != None %}#}
+                    <tr>
+                        <td>{{ d.Date|dateify }}</td>
+                        <td>{{ d.GameKey }}</td>
+                        <td>{{ d.AwayTeam }}<br>{{ d.HomeTeam }}</td>
+                        {% if d.PointSpread > 0 %}
+                            <td>-{{ d.PointSpread }}<br>{{ d.OverUnder }}</td>
+                        {% elif d.PointSpread == 0.0 %}
+                            <td>{{ d.OverUnder }}<br>even</td>
+                        {% else %}
+                            <td>{{ d.OverUnder }}<br>{{ d.PointSpread }}</td>
+                        {% endif %}
+                        {% if d.AwayTeamMoneyLine > 0 %}
+                            <td>+{{ d.AwayTeamMoneyLine }}<br>{{ d.HomeTeamMoneyLine }}</td>
+                        {% elif d.HomeTeamMoneyLine > 0 %}
+                            <td>{{ d.AwayTeamMoneyLine }}<br>+{{ d.HomeTeamMoneyLine }}</td>
+                        {% else %}
+                            <td>{{ d.AwayTeamMoneyLine }}<br>{{ d.HomeTeamMoneyLine }}</td>
+                        {% endif %}
+                        <td><a class="board button" href="{{ url_for('nfl_public_board') }}">Board</a><a class="create button" href="{{ url_for('nfl_create_bet') }}">Create</a></td>
+                    </tr>
+                     {#{% endif %}#}
+                {% endfor %}
+                </tbody>
+            </table>
+            <!-- {#<div class="pagination">
+                <span class="step-links">
+                    {% if data.has_previous %}
+                        <a href="?page={{ data.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ data.number }} of {{ data.paginator.num_pages }}.
+                    </span>
+
+                    {% if data.has_next %}
+                        <a href="?page={{ data.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div> #}-->
+        </div>
+    </div>
+</div>
+{% endblock content %}
