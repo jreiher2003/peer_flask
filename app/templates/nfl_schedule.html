@@ -55,7 +55,7 @@
                         {% else %}
                             <td>{{ d.AwayTeamMoneyLine }}<br>{{ d.HomeTeamMoneyLine }}</td>
                         {% endif %}
-                        <td><a class="board button" href="{{ url_for('nfl_public_board') }}">Board</a><a class="create button" href="{{ url_for('nfl_create_bet') }}">Create</a></td>
+                        <td><a class="board button" href="{{ url_for('nfl_public_board') }}">Board</a><a class="create button" href="{{ url_for('nfl_create_bet', game_key=d.GameKey) }}">Create</a></td>
                     </tr>
                      {% endif %}
                 {% endfor %}

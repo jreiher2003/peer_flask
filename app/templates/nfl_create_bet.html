@@ -4,26 +4,118 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            {% for d in data_list %}
-            {% if d.GameKey == '201610115' %}
-                    {{ d.Date }}{{ d.AwayTeam }}{{ d.HomeTeam }}{{ d.PointSpread }}{{ d.OverUnder }}
-                {% endif %}
-                
-            {% endfor %}
+        <div class="col-md-6 col-md-offset-3">
+            1. First Pick a Team<br>
+            2. Pick a bet type (ml, spread, total)<br>
+            3. Pick a dollar amount <br>
+            4. Change spreads as u see fit<br>
+            5. Check to make sure its what u want<br>
+            6. Creat bet
             <h1>Create-A-Bet</h1>
             <form method="POST" action="">
-                <input type="text" name="team" value="">
-                <input type="text" name="spread" value="">
-                <input type="text" name="totals" value="">
-                <input type="text" name="amount" value="">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    <label for="pickteam">Which do you want to bet on {{ nfl_game.HomeTeam }} or {{ nfl_game.AwayTeam }} or the game Total?</label>
+                    <!-- Nav tabs -->
+                      <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+                        <li role="presentation"><a href="#away" aria-controls="away" role="tab" data-toggle="tab">Away</a></li>
+                        <li role="presentation"><a href="#totals" aria-controls="totals" role="tab" data-toggle="tab">Over/Under</a></li>
+                      </ul>
+                </div>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">{{ form.home_team.label }}
+                        {{ form.home_team(class="form-control", readonly=True,value=nfl_game.HomeTeam) }}
+                        <div class="form-group">
+                            <label for="bet-group">What type of Bet do you want to make?</label>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#spread" aria-controls="spread" role="tab" data-toggle="tab">Spread</a></li>
+                                <li role="presentation"><a href="#ml" aria-controls="ml" role="tab" data-toggle="tab">Money Line</a></li>
+                             </ul>
+                        </div>
+                        
+                        <div role="tabpanel" class="tab-pane active" id="spread"> {{ form.point_spread.label }}
+                        {{ form.point_spread(class="form-control", value=nfl_game.PointSpread,type="number", min="-13",max="14", step=".5") }}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="ml">{{ form.home_team_ml.label }}
+                        {{ form.home_team_ml(class="form-control", value=nfl_game.HomeTeamMoneyLine) }}
+                        </div>
+                        
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="away">{{ form.away_team.label }}
+                        {{ form.away_team(class="form-control", readonly=True,value=nfl_game.AwayTeam) }}
+                        <div class="form-group">
+                            <label for="bet-group">What type of Bet do you want to make?</label>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#spread" aria-controls="spread" role="tab" data-toggle="tab">Spread</a></li>
+                                <li role="presentation"><a href="#ml" aria-controls="ml" role="tab" data-toggle="tab">Money Line</a></li>
+                              </ul>
+                        </div>
+                        
+                        <div role="tabpanel" class="tab-pane active" id="spread"> {{ form.point_spread.label }}
+                        {{ form.point_spread(class="form-control", value=nfl_game.PointSpread,type="number", min="-13",max="14", step=".5") }}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="ml">{{ form.home_team_ml.label }}
+                        {{ form.away_team_ml(class="form-control", value=nfl_game.AwayTeamMoneyLine) }}
+                        </div>
+                       
+
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="totals">{{ form.over_under.label }}
+                    {{ form.over_under(class="form-control", value=nfl_game.OverUnder,type="number", min="-50",max="60", step="0.5") }}
+                    </div>
+
+                </div>
+
+                <!-- <div id="spml">
+                    <div class="form-group">
+                        <label for="bet-group">What type of Bet do you want to make?</label>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#spread" aria-controls="spread" role="tab" data-toggle="tab">Spread</a></li>
+                            
+                            <li role="presentation"><a href="#ml" aria-controls="ml" role="tab" data-toggle="tab">Money Line</a></li>
+                          </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="spread"> {{ form.point_spread.label }}
+                        {{ form.point_spread(class="form-control", value=nfl_game.PointSpread,type="number", min="-13",max="14", step=".5") }}</div>
+                        
+                        
+                        <div role="tabpanel" class="tab-pane" id="ml">Money Line</div>
+                    </div>
+                </div> -->
+
+                 <!-- <div class="form-group" id="teamml">
+                    {{ form.team_ml.label }}
+                    {{ form.team_ml }}
+                </div> -->
+                <!-- <div class="form-group" id="pointspread">
+                    {{ form.point_spread.label }}
+                    {{ form.point_spread(class="form-control", value=nfl_game.PointSpread,type="number", min="-13",max="14") }}
+                </div>
+                <div class="form-group" id="overunder1">
+                    {{ form.over_under.label }}
+                    {{ form.over_under(class="form-control", value=nfl_game.OverUnder,type="number", min="-50",max="60") }}
+                </div> -->
+                <!-- <div class="form-group" id="hometeamml">
+                    {{ form.home_team_ml.label }}
+                    {{ form.home_team_ml(class="form-control", value=nfl_game.HomeTeamMoneyLine) }}
+                </div>
+                <div class="form-group" id="awayteamml">
+                    {{ form.away_team_ml.label }}
+                    {{ form.home_team_ml(class="form-control", value=nfl_game.AwayTeamMoneyLine) }}
+                </div> -->
                 <input type="submit">
-            </form>
-            <form method="post" action="">
-                {{ form }}
             </form>
         </div>
     </div>
 </div>
+
+
+
 
 {% endblock content %}
