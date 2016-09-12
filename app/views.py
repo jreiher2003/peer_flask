@@ -17,7 +17,7 @@ def nfl_schedule():
     d = datetime.date.today()
     dt = datetime.datetime.combine(d,t)
     # data = data
-    return render_template("nfl_schedule.html" , data=data)
+    return render_template("nfl_schedule.html" , data=data, dt=dt)
 
 @app.route("/nfl/board/")
 def nfl_public_board():
