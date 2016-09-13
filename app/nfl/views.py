@@ -11,6 +11,7 @@ with open('Schedule.2016.json') as data_file:
 
 
 @nfl_blueprint.route("/nfl/home/")
+@nfl_blueprint.route("/nfl/")
 def nfl_home():
     return render_template("nfl_home.html")
 
@@ -26,7 +27,11 @@ def nfl_schedule():
 def nfl_public_board():
     return render_template("nfl_public_board.html")
 
-@nfl_blueprint.route("/nfl/create/<path:game_key>/")
+@nfl_blueprint.route("/nfl/create/")
+def nfl_create_broad():
+    return "create reg"
+
+@nfl_blueprint.route("/nfl/board/create/<path:game_key>/")
 def nfl_create_bet(game_key):
     for d in data:
         if d['GameKey'] == game_key:
@@ -34,6 +39,10 @@ def nfl_create_bet(game_key):
     form = CreateNflBet()
     
     return render_template("nfl_create_bet.html" ,form=form, nfl_game=nfl_game)
+
+@nfl_blueprint.route("/nfl/confirm/")
+def nfl_confirm_bet():
+    return "nfl confim"
 
 
 

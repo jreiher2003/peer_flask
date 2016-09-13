@@ -20,6 +20,7 @@ class BaseConfig(object):
 class TestConfig(BaseConfig):
     DEBUG = True
     TESTING = True
+    PRESERVE_CONTEXT_ON_EXCEPTION = False
     MAIL_SUPPRESS_SEND = False
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
