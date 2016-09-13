@@ -17,8 +17,8 @@ def nfl_schedule():
     t = datetime.time()
     d = datetime.date.today()
     dt = datetime.datetime.combine(d,t)
-    # data = data
-    return render_template("nfl_schedule.html" , data=data, dt=dt)
+    dn = datetime.datetime.now()
+    return render_template("nfl_schedule.html" , data=data, dt=dt, dn=dn)
 
 @app.route("/nfl/board/")
 def nfl_public_board():
@@ -30,9 +30,7 @@ def nfl_create_bet(game_key):
         if d['GameKey'] == game_key:
             nfl_game = d
     form = CreateNflBet()
-    form.team.choices = [(nfl_game['AwayTeam'],nfl_game['AwayTeam']),(nfl_game['HomeTeam'],nfl_game['HomeTeam'])]
-    form.team_ml.choices = [(nfl_game['AwayTeamMoneyLine'],'awayteamml'),(nfl_game["HomeTeamMoneyLine"],'hometeamml')]
-    form.process()
+    
     return render_template("nfl_create_bet.html" ,form=form, nfl_game=nfl_game)
 
 @app.route("/profile/")
