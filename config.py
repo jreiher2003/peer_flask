@@ -6,6 +6,15 @@ class BaseConfig(object):
     SECRET_KEY = os.environ['SECRET_KEY']
     # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     SQLALCHEMY_DATABASE_URI = "sqlite:///peer.db"
+
+    MAIL_USERNAME = "jeffreiher@gmail.com"
+    MAIL_PASSWORD = "7797finn"
+    MAIL_DEFAULT_SENDER = '"Jeff" <jeffreiher@gmail.com>'
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 465
+    MAIL_USE_SSL = True
+    MAIL_USE_TLS = False
+    USER_APP_NAME = "Peer2Peer"
     
    
 class TestConfig(BaseConfig):
