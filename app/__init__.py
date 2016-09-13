@@ -2,12 +2,18 @@ import os
 from dateutil.parser import parse as parse_date 
 from datetime import datetime
 from flask import Flask 
-from flask_sqlalchemy import SQLAlchemy 
-# from dateify import dateify 
+from flask_sqlalchemy import SQLAlchemy  
 
 app = Flask(__name__) 
 app.config.from_object(os.environ['APP_SETTINGS']) 
 db = SQLAlchemy(app) 
+
+from app.users.views import users_blueprint
+app.register_blueprint(users_blueprint) 
+from app.home.views import home_blueprint
+app.register_blueprint(home_blueprint) 
+from app.nfl.views import nfl_blueprint
+app.register_blueprint(nfl_blueprint) 
 
 @app.template_filter()
 def dateify(value):
@@ -22,5 +28,5 @@ def datetimefilter(value):
 app.jinja_env.filters["dateify"] = dateify
 app.jinja_env.filters['datetimefilter'] = datetimefilter
 
-from app import views, models 
+from app import models 
 # from models import *

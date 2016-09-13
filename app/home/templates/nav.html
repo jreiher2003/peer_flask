@@ -7,14 +7,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{{ url_for('nfl_home') }}">Peer2Peer</a>
+      <a class="navbar-brand" href="{{ url_for('home.home') }}">Peer2Peer</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{ url_for('nfl_home') }}">Home</a></li>
-        <li><a href="{{ url_for('nfl_schedule') }}">Schedule</a></li>
-        <li><a href="{{ url_for('profile') }}">Profile</a></li>
-        <li><a href="#">Help</a></li>
+        <li><a href="{{ url_for('nfl.nfl_home') }}">NFL Home</a></li>
+        <li><a href="{{ url_for('nfl.nfl_schedule') }}">Schedule</a></li>
+        <li><a href="{{ url_for('home.profile') }}">Profile</a></li>
+        <li><a href="{{ url_for('users.login') }}">login</a></li>
+        <li><a href="{{ url_for('users.login') }}">logout</a></li>
+        <li><a href="{{ url_for('users.register') }}">register</a></li>
       </ul>
       <form class="navbar-form navbar-right">
         <input type="text" class="form-control" placeholder="Search...">
