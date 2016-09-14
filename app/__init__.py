@@ -6,7 +6,6 @@ from flask_mail import Mail
 from flask_script import Manager 
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin
-from flask_bcrypt import Bcrypt 
 from flask_login import LoginManager 
 
 app = Flask(__name__) 
@@ -14,7 +13,6 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 mail = Mail(app)  # Initialize Flask-Mail
 db = SQLAlchemy(app) # Initialize Flask-SQLAlchemy
 manager = Manager(app) 
-bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -41,6 +39,7 @@ app.jinja_env.filters['datetimefilter'] = datetimefilter
 from app.users.models import Users, Role, UserRoles, Profile
 # Setup Flask-Security
 user_datastore = SQLAlchemyUserDatastore(db, Users, Role)
+#https://pythonhosted.org/Flask-Security/api.html user_datastore api docs ie create_role, create_user
 security = Security(app, user_datastore)
 
 login_manager.login_view = "users.login"

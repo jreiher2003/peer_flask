@@ -18,6 +18,9 @@ class BaseConfig(object):
     SECURITY_REGISTERABLE = True
     SECURITY_CONFIRMABLE = True
     SECURITY_RECOVERABLE = True
+    SECURITY_TRACKABLE = True
+    SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'
+    SECURITY_PASSWORD_SALT = 'something_super_secret_change_in_production'
     
    
 class TestConfig(BaseConfig):

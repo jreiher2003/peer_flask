@@ -11,6 +11,14 @@ class Users(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False, default='')
     email = db.Column(db.String(255), nullable=False, unique=True)
     confirmed_at = db.Column(db.DateTime(), default=datetime.datetime.now())
+    active = db.Column(db.Boolean(), default=False)
+    date_created = db.Column(db.DateTime(),  default=datetime.datetime.now())
+    date_modified = db.Column(db.DateTime,  default=datetime.datetime.now(),
+                                       onupdate=datetime.datetime.now())
+    last_login_at = db.Column(db.DateTime())
+    last_login_ip = db.Column(db.String(45))
+    current_login_ip = db.Column(db.String(45))
+    login_count = db.Column(db.Integer)
     profile = db.relationship("Profile")
     roles = db.relationship('Role', secondary='user_roles',
             backref=db.backref('users', lazy='dynamic'))
@@ -27,14 +35,20 @@ class Users(db.Model, UserMixin):
     def is_anonymous(self):
         return False
 
+    def has_role(self, role):
+        return True
+
     def get_id(self):
         return unicode(self.id)
 
 # Define the Role DataModel
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(50))
+    name = db.Column(db.String(50), unique=True)
     description = db.Column(db.String(255))
+
+    def __repr__(self):
+        return '<Role %r>' % self.name
 
 class UserRoles(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
