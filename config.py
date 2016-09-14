@@ -15,6 +15,9 @@ class BaseConfig(object):
     MAIL_USE_SSL = True
     MAIL_USE_TLS = False
     USER_APP_NAME = "Peer2Peer"
+    SECURITY_REGISTERABLE = True
+    SECURITY_CONFIRMABLE = True
+    SECURITY_RECOVERABLE = True
     
    
 class TestConfig(BaseConfig):

@@ -1,8 +1,9 @@
 import datetime
-from app import db 
+from app import db
+from flask_security import UserMixin, RoleMixin 
 
 
-class Users(db.Model):
+class Users(db.Model, UserMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -30,9 +31,10 @@ class Users(db.Model):
         return unicode(self.id)
 
 # Define the Role DataModel
-class Role(db.Model):
+class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50))
+    description = db.Column(db.String(255))
 
 class UserRoles(db.Model):
     id = db.Column(db.Integer(), primary_key=True)

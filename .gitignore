@@ -1,3 +1,6 @@
 *.pyc
 *.db
 app/*.pyc
+app/users/*.pyc
+app/nfl/*.pyc
+app/home/*.pyc

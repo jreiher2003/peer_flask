@@ -5,6 +5,7 @@ from flask import Flask
 from flask_mail import Mail
 from flask_script import Manager 
 from flask_sqlalchemy import SQLAlchemy
+from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin
 from flask_bcrypt import Bcrypt 
 from flask_login import LoginManager 
 
@@ -38,6 +39,10 @@ app.jinja_env.filters["dateify"] = dateify
 app.jinja_env.filters['datetimefilter'] = datetimefilter
 
 from app.users.models import Users, Role, UserRoles, Profile
+# Setup Flask-Security
+user_datastore = SQLAlchemyUserDatastore(db, Users, Role)
+security = Security(app, user_datastore)
+
 login_manager.login_view = "users.login"
 login_manager.login_message = "You need to login first!"
 login_manager.login_message_category = "info"
