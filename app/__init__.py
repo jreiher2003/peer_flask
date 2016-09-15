@@ -5,16 +5,13 @@ from flask import Flask
 from flask_mail import Mail
 from flask_script import Manager 
 from flask_sqlalchemy import SQLAlchemy
-from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin
-from flask_login import LoginManager 
+from flask_security import Security, SQLAlchemyUserDatastore
 
 app = Flask(__name__) 
 app.config.from_object(os.environ['APP_SETTINGS']) 
 mail = Mail(app)  # Initialize Flask-Mail
 db = SQLAlchemy(app) # Initialize Flask-SQLAlchemy
 manager = Manager(app) 
-login_manager = LoginManager()
-login_manager.init_app(app)
 
 from app.users.views import users_blueprint
 app.register_blueprint(users_blueprint) 
@@ -38,16 +35,10 @@ app.jinja_env.filters['datetimefilter'] = datetimefilter
 
 from app.users.models import Users, Role, UserRoles, Profile
 # Setup Flask-Security
-user_datastore = SQLAlchemyUserDatastore(db, Users, Role)
 #https://pythonhosted.org/Flask-Security/api.html user_datastore api docs ie create_role, create_user
-security = Security(app, user_datastore)
+from app.users.forms import ExtendedConfirmRegisterForm
 
-login_manager.login_view = "users.login"
-login_manager.login_message = "You need to login first!"
-login_manager.login_message_category = "info"
+user_datastore = SQLAlchemyUserDatastore(db, Users, Role)
+security = Security(app, user_datastore,register_form=ExtendedConfirmRegisterForm)
 
-# loads users info from db and stores it in a session
-@login_manager.user_loader 
-def load_user(user_id):
-    return Users.query.filter(Users.id == int(user_id)).first()
 

@@ -36,7 +36,7 @@
                 </thead> 
                 <tbody>
                 {% for d in data %}
-                    {#{% if d.Date|dateify > dt and d.PointSpread != None %}#}
+                    {% if d.Date|dateify > dt and d.PointSpread != None %}
                     <tr>
                         <td>{{ d.Date|datetimefilter }}</td>
                         <td>{{ d.GameKey }}</td>
@@ -57,7 +57,7 @@
                         {% endif %}
                         <td><a class="board button" href="{{ url_for('nfl.nfl_public_board') }}">Board</a><a class="create button" href="{{ url_for('nfl.nfl_create_bet', game_key=d.GameKey) }}">Create</a></td>
                     </tr>
-                     {#{% endif %}#}
+                     {% endif %}
                 {% endfor %}
                 </tbody>
             </table>

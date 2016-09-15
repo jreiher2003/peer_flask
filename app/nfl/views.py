@@ -6,9 +6,8 @@ from flask import Blueprint, render_template, url_for
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 
-with open('Schedule.2016.json') as data_file:    
+with open('sports/Schedule.2016.json') as data_file:    
         data = json.load(data_file)
-
 
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")
@@ -43,6 +42,18 @@ def nfl_create_bet(game_key):
 @nfl_blueprint.route("/nfl/confirm/")
 def nfl_confirm_bet():
     return "nfl confim"
+
+@nfl_blueprint.route("/nfl/scores/")
+def nfl_scores():
+    return "nfl scores"
+
+@nfl_blueprint.route("/nfl/standings/")
+def nfl_standings():
+    return "nfl standings"
+
+@nfl_blueprint.route("/nfl/stats/")
+def nfl_stats():
+    return "nfl stats"
 
 
 
