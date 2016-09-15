@@ -1,32 +1,72 @@
 {% extends "base.html" %}
 {% block title %}NFL Teams{% endblock %}
 {% block content %}
-{% for x in nfl %}
-    {{ x.Key }}<br>
-    {{ x.City }}<br>
-    {{ x.Name}}<br>
-    {{ x.Conference }}<br>
-    {{ x.Division }}<br>
-    {{ x.FullName }}<br>
-    {{ x.ByeWeek }}<br>
-    {{ x.HeadCoach }}<br>
-    {{ x.OffensiveCoordinator }}<br>
-    {{ x.DefensiveCoordinator }}<br>
-    {{ x.SpecialTeamsCoach }}<br>
-    {{ x.OffensiveScheme }}<br>
-    {{ x.DefensiveScheme }}<br>
-{% for y in stadium %}
-    {% if x.StadiumID == y.StadiumID %}
-        {{ y.StadiumID }}<br>
-        {{ y.Name }}<br>
-        {{ y.City }}<br>
-        {{ y.State }}<br>
-        {{ y.Country }}<br>
-        {{ y.Capacity }}<br>
-        {{ y.PlayingSurface }}<br>
-        {{ y.GeoLat }}<br>
-        {{ y.GeoLong }}<br> 
-    {% endif %}
+<div class="container">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-6">
+            <!-- {#{% for standing in standing %}#} -->
+{% for nfl,stadium,standing in nfl_stadium_standing %}
+                {{ nfl.StadiumID }} | {{ stadium.StadiumID }}<br>
+                {{ nfl.City }}<br>
+                {{ nfl.Name }}<br>
+                {{ nfl.Conference }} | {{ nfl.Division }}<br>
+                Home Town: {{ stadium.City }}, {{ stadium.State }}<br>
+                Stadium: {{ stadium.Name }} | capacity: {{ stadium.Capacity }}<br>
+                Head Coach: {{ nfl.HeadCoach }}<br>
+                Bye Week: {{ nfl.ByeWeek }}<br>
+                Offensive Scheme: {{ nfl.OffensiveScheme }} | Offensive Coordinator: {{ nfl.OffensiveCoordinator }}<br>
+                Defensive Scheme: {{ nfl.DefensiveScheme }} | Defensive Coordinator:  {{ nfl.DefensiveCoordinator }}<br>
+                Special Teams Coach: {{ nfl.SpecialTeamsCoach }}<br>
+                {{ standing.Wins }}-{{ standing.Losses }} Overall | {{ standing.DivisionWins }}-{{ standing.DivisionLosses }} {{ nfl.Conference }} {{ nfl.Division }}
+ 
 {% endfor %}
-{% endfor %}
+
+            </div>
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Team Ranking</th>
+                            <th>Overall </th>
+                            <th>Rushing</th>
+                            <th>Passing</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        {% for team in team_season_team %}
+                            {% if team.SeasonType == 1 %}
+                            <td>offense<br>defense</td>
+                            <td>{{ team_off_rank }}th<br>{{ team_def_rank }}th</td>
+                            <td>{{ team.RushingYards }}({{ team_rush_rank }}th)<br>{{ team.OpponentRushingYards }}({{ opp_team_rush_rank }}th)</td>
+                            <td>{{ team.PassingYards }}({{ team_pass_rank }}th)<br>{{ team.OpponentPassingYards }}({{ opp_team_pass_rank }}th)</td>
+                            {% endif %}
+                        {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {% for nfl in nfl_team %}
+                <a href="{{ url_for('nfl.nfl_team_home', team=nfl.FullName|urlify) }}">home</a>
+                <a href="{{ url_for('nfl.nfl_team_schedule', team=nfl.FullName|urlify) }}">schedule</a>
+                <a href="{{ url_for('nfl.nfl_team_stats', team=nfl.FullName|urlify) }}">stats</a>
+                {% endfor %}
+                <form action="" method="get" enctype="multipart/form-data">
+                    <select id="goto">
+                        <option value="">Select Team</option>
+                        {% for team in all_teams %}
+                        <option value="{{ url_for('nfl.nfl_team_home', team=team.FullName|urlify) }}">{{ team.FullName }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}

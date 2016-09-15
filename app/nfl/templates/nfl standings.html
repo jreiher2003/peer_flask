@@ -13,7 +13,7 @@
             {% for x in standing %}
             {% if x.Conference == "AFC" and x.Division == "East" %}
         <tr>
-          <td><a href="{{ url_for('nfl.nfl_team', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
+          <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
           <td>{{ x.Wins }}</td>
           <td>{{ x.Losses }}</td>
           <td>{{ x.Ties }}</td>
@@ -37,7 +37,7 @@
             {% for x in standing %}
             {% if x.Conference == "AFC" and x.Division == "North" %}
         <tr>
-          <td><a href="{{ url_for('nfl.nfl_team', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
+          <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
           <td>{{ x.Wins }}</td>
           <td>{{ x.Losses }}</td>
           <td>{{ x.Ties }}</td>
@@ -61,7 +61,7 @@
             {% for x in standing %}
             {% if x.Conference == "AFC" and x.Division == "South" %}
             <tr>
-              <td><a href="{{ url_for('nfl.nfl_team', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
+              <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
               <td>{{ x.Wins }}</td>
               <td>{{ x.Losses }}</td>
               <td>{{ x.Ties }}</td>
@@ -85,7 +85,7 @@
                 {% for x in standing %}
                 {% if x.Conference == "AFC" and x.Division == "West" %}
                 <tr>
-                  <td><a href="{{ url_for('nfl.nfl_team', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
+                  <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
                   <td>{{ x.Wins }}</td>
                   <td>{{ x.Losses }}</td>
                   <td>{{ x.Ties }}</td>
@@ -109,7 +109,7 @@
                 {% for x in standing %}
                 {% if x.Conference == "NFC" and x.Division == "East" %}
                 <tr>
-                  <td><a href="{{ url_for('nfl.nfl_team', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
+                  <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
                   <td>{{ x.Wins }}</td>
                   <td>{{ x.Losses }}</td>
                   <td>{{ x.Ties }}</td>
@@ -133,7 +133,7 @@
                 {% for x in standing %}
                 {% if x.Conference == "NFC" and x.Division == "North" %}
                 <tr>
-                  <td><a href="{{ url_for('nfl.nfl_team', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
+                  <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
                   <td>{{ x.Wins }}</td>
                   <td>{{ x.Losses }}</td>
                   <td>{{ x.Ties }}</td>
@@ -157,7 +157,7 @@
                 {% for x in standing %}
                 {% if x.Conference == "NFC" and x.Division == "South" %}
                 <tr>
-                  <td><a href="{{ url_for('nfl.nfl_team', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
+                  <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
                   <td>{{ x.Wins }}</td>
                   <td>{{ x.Losses }}</td>
                   <td>{{ x.Ties }}</td>
@@ -180,7 +180,7 @@
                 {% for x in standing %}
                 {% if x.Conference == "NFC" and x.Division == "West" %}
                 <tr>
-                  <td><a href="{{ url_for('nfl.nfl_team', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
+                  <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
                   <td>{{ x.Wins }}</td>
                   <td>{{ x.Losses }}</td>
                   <td>{{ x.Ties }}</td>

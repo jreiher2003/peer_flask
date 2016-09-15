@@ -17,12 +17,7 @@ $('#bet_tabs').on('click', 'a[data-toggle="tab"]', function(e) {
 
 });
 
-function loadData() {
-    var $ptext = $("#ptext");
-    $ptext.text("");
-    $ptext.text("This is some text");
-};
-$('#form-container').submit(loadData);
+
 
 
 
