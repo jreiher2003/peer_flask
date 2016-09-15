@@ -10,7 +10,7 @@ from .utils import team_rush_avg, team_pass_avg, opp_team_rush_avg, opp_team_pas
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 
 with open('sports/Schedule.2016.json') as data_file:    
-        data = json.load(data_file)
+        schedule = json.load(data_file)
 with open('sports/Standing.2016.json') as data_file1:    
         standing = json.load(data_file1)
 with open('sports/Team.2016.json') as data_file2:    
@@ -19,6 +19,8 @@ with open('sports/Stadium.2016.json') as data_file3:
         stadium = json.load(data_file3)
 with open('sports/TeamSeason.2016.json') as data_file4:    
         teamseason = json.load(data_file4)
+with open('sports/TeamGame.2016.json') as data_file5:    
+        teamgame = json.load(data_file5)
 
 
 @nfl_blueprint.route("/nfl/home/")
@@ -32,7 +34,7 @@ def nfl_schedule():
     d = datetime.date.today()
     dt = datetime.datetime.combine(d,t)
     dn = datetime.datetime.now()
-    return render_template("nfl_schedule.html" , data=data, dt=dt, dn=dn)
+    return render_template("nfl_schedule.html" , data=schedule, dt=dt, dn=dn, teamgame=teamgame)
 
 @nfl_blueprint.route("/nfl/board/")
 def nfl_public_board():
