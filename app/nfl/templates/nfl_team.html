@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}NFL Teams{% endblock %}
+{% block content %}
+{% for x in nfl %}
+    {{ x.Key }}<br>
+    {{ x.City }}<br>
+    {{ x.Name}}<br>
+    {{ x.Conference }}<br>
+    {{ x.Division }}<br>
+    {{ x.FullName }}<br>
+    {{ x.ByeWeek }}<br>
+    {{ x.HeadCoach }}<br>
+    {{ x.OffensiveCoordinator }}<br>
+    {{ x.DefensiveCoordinator }}<br>
+    {{ x.SpecialTeamsCoach }}<br>
+    {{ x.OffensiveScheme }}<br>
+    {{ x.DefensiveScheme }}<br>
+{% for y in stadium %}
+    {% if x.StadiumID == y.StadiumID %}
+        {{ y.StadiumID }}<br>
+        {{ y.Name }}<br>
+        {{ y.City }}<br>
+        {{ y.State }}<br>
+        {{ y.Country }}<br>
+        {{ y.Capacity }}<br>
+        {{ y.PlayingSurface }}<br>
+        {{ y.GeoLat }}<br>
+        {{ y.GeoLong }}<br> 
+    {% endif %}
+{% endfor %}
+{% endfor %}
+{% endblock %}

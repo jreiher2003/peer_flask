@@ -24,6 +24,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <table class="table">
+                <thead> 
                     <tr> 
                         <th>Date</th> 
                         <th>Game Number</th> 
@@ -32,7 +33,6 @@
                         <th>ML</th>
                         <th>Bet</th>
                     </tr> 
-                <thead> 
                 </thead> 
                 <tbody>
                 {% for d in data %}
@@ -42,7 +42,7 @@
                         <td>{{ d.GameKey }}</td>
                         <td>{{ d.AwayTeam }}<br>{{ d.HomeTeam }}</td>
                         {% if d.PointSpread > 0 %}
-                            <td>-{{ d.PointSpread }}<br>{{ d.OverUnder }}</td>
+                            <td>{{ d.PointSpread * -1 }}<br>{{ d.OverUnder }}</td>
                         {% elif d.PointSpread == 0.0 %}
                             <td>{{ d.OverUnder }}<br>even</td>
                         {% else %}

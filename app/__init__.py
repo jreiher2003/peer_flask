@@ -1,6 +1,4 @@
 import os 
-from dateutil.parser import parse as parse_date 
-from datetime import datetime
 from flask import Flask
 from flask_mail import Mail
 from flask_script import Manager 
@@ -20,18 +18,10 @@ app.register_blueprint(home_blueprint)
 from app.nfl.views import nfl_blueprint
 app.register_blueprint(nfl_blueprint) 
 
-@app.template_filter()
-def dateify(value):
-    return parse_date(value)
-
-@app.template_filter()
-def datetimefilter(value):
-    """convert a datetime to a different format."""
-    tt = datetime.strptime(value, '%m/%d/%Y %H:%M:%f %p')
-    return tt.strftime('%b %d - %H:%M EST')
-
+from temp_filters import dateify, datetimefilter, urlify
 app.jinja_env.filters["dateify"] = dateify
-app.jinja_env.filters['datetimefilter'] = datetimefilter
+app.jinja_env.filters["datetimefilter"] = datetimefilter
+app.jinja_env.filters["urlify"] = urlify
 
 from app.users.models import Users, Role, UserRoles, Profile
 # Setup Flask-Security

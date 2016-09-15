@@ -12,7 +12,9 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
           <li><a href="{{ url_for('nfl.nfl_home') }}">NFL Home</a></li>
+          <li><a href="{{ url_for('nfl.nfl_standings') }}">Standings</a></li>
           <li><a href="{{ url_for('nfl.nfl_schedule') }}">Schedule</a></li>
+          <li><a href="{{ url_for('nfl.nfl_stats') }}">Stats</a></li>
         {% if current_user.is_active %}
           <li><a href="{{ url_for('home.profile') }}">{{ current_user.username }}</a></li>
           <li><a href="{{ url_for('security.logout') }}">logout</a></li>
