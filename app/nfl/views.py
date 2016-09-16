@@ -30,44 +30,60 @@ with open('sports/Score.2016.json') as data_file6:
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")
 def nfl_home():
-    return render_template("nfl_home.html")
+    all_teams = nflteam
+    return render_template("nfl_home.html", all_teams=all_teams)
 
 @nfl_blueprint.route("/nfl/schedule/")
 def nfl_schedule():
+    all_teams = nflteam
     dt = today_date()
     dn = today_and_now()
-    return render_template("nfl_schedule.html" , data=schedule, dt=dt, dn=dn, teamgame=teamgame)
+    return render_template(
+        "nfl_schedule.html", 
+        all_teams=all_teams, 
+        data=schedule, 
+        dt=dt, 
+        dn=dn, 
+        teamgame=teamgame
+        )
 
 @nfl_blueprint.route("/nfl/board/")
 def nfl_public_board():
-    return render_template("nfl_public_board.html")
+    all_teams = nflteam
+    return render_template("nfl_public_board.html", all_teams=all_teams)
 
 @nfl_blueprint.route("/nfl/create/")
 def nfl_create_broad():
+    all_teams = nflteam
     return "create reg"
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/")
 def nfl_create_bet(game_key):
+    all_teams = nflteam
     for d in schedule:
         if d['GameKey'] == game_key:
             nfl_game = d
     form = CreateNflBet()
-    return render_template("nfl_create_bet.html" ,form=form, nfl_game=nfl_game)
+    return render_template("nfl_create_bet.html",form=form, nfl_game=nfl_game, all_teams=all_teams)
 
 @nfl_blueprint.route("/nfl/confirm/")
 def nfl_confirm_bet():
+    all_teams = nflteam
     return "nfl confim"
 
 @nfl_blueprint.route("/nfl/scores/")
 def nfl_scores():
+    all_teams = nflteam
     return "nfl scores"
 
 @nfl_blueprint.route("/nfl/standings/")
 def nfl_standings():
-    return render_template("nfl standings.html", standing=standing,)
+    all_teams = nflteam
+    return render_template("nfl standings.html", standing=standing, all_teams=all_teams)
 
 @nfl_blueprint.route("/nfl/stats/")
 def nfl_stats():
+    all_teams = nflteam
     return "nfl stats"
 
 @nfl_blueprint.route("/nfl/team/home/<path:team>/")
@@ -113,10 +129,12 @@ def nfl_team_home(team):
 
 @nfl_blueprint.route("/nfl/team/schedule/<path:team>/")
 def nfl_team_schedule(team):
+    all_teams = nflteam
     return "schedule"
 
 @nfl_blueprint.route("/nfl/team/stats/<path:team>/")
 def nfl_team_stats(team):
+    all_teams = nflteam
     return "stats"
 
 

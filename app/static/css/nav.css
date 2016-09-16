@@ -1,0 +1,27 @@
+.caret-up {
+    width: 0; 
+    height: 0; 
+    border-left: 4px solid rgba(0, 0, 0, 0);
+    border-right: 4px solid rgba(0, 0, 0, 0);
+    border-bottom: 4px solid;
+    display: inline-block;
+    margin-left: 2px;
+    vertical-align: middle;
+}
+.nav > li.dropdown.open {
+    position: static;
+}
+.nav > li.dropdown.open .dropdown-menu, a.dropdown-toggle {
+    display:table; 
+    width: 100%; 
+    text-align: center; */
+    left:0; 
+    right:0;
+}
+.dropdown-menu>li {
+    display: table-cell;
+}
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;/* // remove the gap so it doesn't close*/
+ }
