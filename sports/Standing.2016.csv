@@ -1,8 +1,8 @@
 SeasonType,Season,Conference,Division,Team,Name,Wins,Losses,Ties,Percentage,PointsFor,PointsAgainst,NetPoints,Touchdowns,DivisionWins,DivisionLosses,ConferenceWins,ConferenceLosses
 1,2016,AFC,East,NE,New England Patriots,1,0,0,1.000,23,21,2,2,0,0,0,0
-1,2016,AFC,East,NYJ,New York Jets,0,1,0,0.000,22,23,-1,2,0,0,0,1
-1,2016,AFC,East,BUF,Buffalo Bills,0,1,0,0.000,7,13,-6,1,0,0,0,1
-1,2016,AFC,East,MIA,Miami Dolphins,0,1,0,0.000,10,12,-2,1,0,0,0,0
+1,2016,AFC,East,NYJ,New York Jets,1,1,0,0.500,59,54,5,6,1,0,1,1
+1,2016,AFC,East,BUF,Buffalo Bills,0,2,0,0.000,38,50,-12,5,0,1,0,2
+1,2016,AFC,East,MIA,Miami Dolphins,0,1,0,0.000,10,12,-2,2,0,0,0,0
 1,2016,AFC,North,BAL,Baltimore Ravens,1,0,0,1.000,13,7,6,1,0,0,1,0
 1,2016,AFC,North,CIN,Cincinnati Bengals,1,0,0,1.000,23,22,1,2,0,0,1,0
 1,2016,AFC,North,PIT,Pittsburgh Steelers,1,0,0,1.000,38,16,22,5,0,0,0,0

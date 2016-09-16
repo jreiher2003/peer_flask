@@ -1,8 +1,5 @@
-{% extends "base.html" %}
-{% block title %}NFL Teams{% endblock %}
-{% block content %}
-<div class="container">
-    <div class="jumbotron">
+<div class="jumbotron">
+    <div class="container">
         <div class="row">
             <div class="col-md-6">
             <!-- {#{% for standing in standing %}#} -->
@@ -50,11 +47,6 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                {% for nfl in nfl_team %}
-                <a href="{{ url_for('nfl.nfl_team_home', team=nfl.FullName|urlify) }}">home</a>
-                <a href="{{ url_for('nfl.nfl_team_schedule', team=nfl.FullName|urlify) }}">schedule</a>
-                <a href="{{ url_for('nfl.nfl_team_stats', team=nfl.FullName|urlify) }}">stats</a>
-                {% endfor %}
                 <form action="" method="get" enctype="multipart/form-data">
                     <select id="goto">
                         <option value="">Select Team</option>
@@ -63,10 +55,12 @@
                         {% endfor %}
                     </select>
                 </form>
+                <!--{# {% for nfl in nfl_team %}
+                <a href="{{ url_for('nfl.nfl_team_home', team=nfl.FullName|urlify) }}">home</a>
+                <a href="{{ url_for('nfl.nfl_team_schedule', team=nfl.FullName|urlify) }}">schedule</a>
+                <a href="{{ url_for('nfl.nfl_team_stats', team=nfl.FullName|urlify) }}">stats</a>
+                {% endfor %} #}-->
             </div>
         </div>
     </div>
 </div>
-
-
-{% endblock %}

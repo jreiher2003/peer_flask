@@ -4,7 +4,9 @@ from app import app, db
 from forms import CreateNflBet
 from flask import Blueprint, render_template, url_for
 from slugify import slugify
-from .utils import team_rush_avg, team_pass_avg, opp_team_rush_avg, opp_team_pass_avg, team_off_avg, team_def_avg
+from .utils import team_rush_avg, team_pass_avg, \
+opp_team_rush_avg, opp_team_pass_avg, team_off_avg, \
+team_def_avg
 
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
@@ -86,7 +88,7 @@ def nfl_team_home(team):
     team_stadium = [y for y in stadium if y["StadiumID"] == sID]
     team_standing = [z for z in standing if z["Name"] == nflfull]
     return render_template(
-        "nfl_team.html",
+        "nfl_team_home.html",
         nfl_team=nfl_team,
         nfl_stadium_standing=zip(nfl_team,team_stadium,team_standing),
         all_teams=all_teams,

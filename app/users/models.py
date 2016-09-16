@@ -11,7 +11,7 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False, default='')
     active = db.Column(db.Boolean(), default=False)
-    confirmed_at = db.Column(db.DateTime(), default=datetime.datetime.now())
+    confirmed_at = db.Column(db.DateTime())
     date_created = db.Column(db.DateTime(),  default=datetime.datetime.now())
     date_modified = db.Column(db.DateTime,  default=datetime.datetime.now(),
                                        onupdate=datetime.datetime.now())
