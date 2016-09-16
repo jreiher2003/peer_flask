@@ -23,61 +23,62 @@
                         <li><a href="#totals" data-toggle="tab">Over/Under</a></li>
                       </ul>
                 </div>
-
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div class="tab-pane" id="home">
                         {{ form.home_team.label }}
-                        {{ form.home_team(class="form-control", readonly=True,value=nfl_game.HomeTeam) }}
+                        {{ form.home_team(id="home_team", class="form-control", readonly=True,value=nfl_game.HomeTeam) }}
                         <label for="bet-group">What type of Bet do you want to make?</label>
                         <ul class="nav nav-tabs" id="home_spread">
                             <li><a href="#home_spread1" data-toggle="tab">Home Spread</a></li>
                             <li><a href="#home_ml" data-toggle="tab">Home Money Line</a></li>
                         </ul>
                     </div>
-                        
                     <div class="tab-pane" id="away">
                         {{ form.away_team.label }}
-                        {{ form.away_team(class="form-control", readonly=True,value=nfl_game.AwayTeam) }}
+                        {{ form.away_team(id="away_team", class="form-control", readonly=True,value=nfl_game.AwayTeam) }}
                         <label for="bet-group">What type of Bet do you want to make?</label>
                         <ul class="nav nav-tabs" id="home_spread">
                             <li><a href="#away_spread1" data-toggle="tab">Away Spread</a></li>
                             <li><a href="#away_ml" data-toggle="tab">Away Money Line</a></li>
                         </ul>
                     </div>
-
                     <div class="tab-pane" id="totals">
                         {{ form.over_under.label }}
-                        {{ form.over_under(class="form-control", value=nfl_game.OverUnder,type="number", min="-50",max="60", step="0.5") }}  
+                        {{ form.over_under(id="over_under", class="form-control", value=nfl_game.OverUnder,type="number", min="-50",max="60", step="0.5") }}  
                     </div>
                 </div>
-
                 <div class="tab-content">
                     <div id="home_spread1" class="tab-pane">
                         {{ form.point_spread.label }}
-                        {{ form.point_spread(value=nfl_game.PointSpread, type="number", min="-14", max="14", step="0.5") }}
+                        {% if nfl_game.PointSpread < 0 %}
+                            {{ form.point_spread(id="home_ps",class="form-control", value=nfl_game.PointSpread, type="number", min="-14", max="14", step="0.5") }}
+                        {% else %}
+                            {{ form.point_spread(id="home_ps",class="form-control", value=nfl_game.PointSpread, type="number", min="-14", max="14", step="0.5") }}
+                        {% endif %}
                     </div>
                     <div id="home_ml" class="tab-pane">
                         {{ form.home_team_ml.label }}
-                        {{ form.home_team_ml(value=nfl_game.HomeTeamMoneyLine, type="number", min="-750", max="500", step="1") }}
+                        {{ form.home_team_ml(id="home_ml", class="form-control", value=nfl_game.HomeTeamMoneyLine, type="number", min="-750", max="500", step="1") }}
                     </div>
                 </div>
                 <div class="tab-content">
                     <div id="away_spread1" class="tab-pane">
                         {{ form.point_spread.label }}
-                        {{ form.point_spread(value=nfl_game.PointSpread, type="number", min="-14", max="14", step="0.5") }}
+                        {% if nfl_game.PointSpread > 0 %}
+                            {{ form.point_spread(id="away_ps", class="form-control", value=nfl_game.PointSpread*-1, type="number", min="-14", max="14", step="0.5") }}
+                        {% else %}
+                            {{ form.point_spread(id="away_ps", class="form-control", value=nfl_game.PointSpread*-1, type="number", min="-14", max="14", step="0.5") }}
+                        {% endif %}
                     </div>
                     <div id="away_ml" class="tab-pane">
                         {{ form.away_team_ml.label }}
-                        {{ form.away_team_ml(value=nfl_game.AwayTeamMoneyLine, type="number", min="-750", max="500", step="1") }}
+                        {{ form.away_team_ml(id="away_ml",class="form-control", value=nfl_game.AwayTeamMoneyLine, type="number", min="-750", max="500", step="1") }}
                     </div>
                 </div>
-
-               
                 <div class="form-group">
                     {{ form.amount.label }}
-                    {{ form.amount(placeholder="$20.00", class="form-control")}}
-                    <!-- <input type="text" name="amount" placeholder="$20.00" class="form-control"> -->
+                    {{ form.amount(id="amount", placeholder="$20.00", class="form-control")}}
                 </div>
                 <input type="submit">
             </form>
@@ -85,8 +86,4 @@
         </div>
     </div>
 </div>
-
-
-
-
 {% endblock content %}

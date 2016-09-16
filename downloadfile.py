@@ -3,7 +3,7 @@ import os
 import zipfile 
 from datetime import datetime
 import time
-from apscheduler.scheduler.background import BackgroundScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 
@@ -15,10 +15,11 @@ def download():
     os.remove("file.zip")
 
 if __name__ == "__main__":
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(download, "interval", hours=2)
-    scheduler.start()
-    try:
-        pass
-    except (KeyboardInterrupt, SystemExit):
-        scheduler.shutdown() 
+    # scheduler = BackgroundScheduler()
+    # scheduler.add_job(download, "interval", hours=2)
+    # scheduler.start()
+    # try:
+    #     pass
+    # except (KeyboardInterrupt, SystemExit):
+    #     scheduler.shutdown() 
+    download()
