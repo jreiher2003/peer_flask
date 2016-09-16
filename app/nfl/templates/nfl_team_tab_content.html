@@ -13,14 +13,31 @@
 </div>
 <section id="tab1" class="tab-content active">
     <div>
-        Content in tab home
+        home
     </div>
 </section>
+
+
 <section id="tab2" class="tab-content hide">
-    <div>
-        Content in tab schedule
-    </div>
+  <!--   <table class="table">
+        <tbody> -->
+        {% if team_score %}
+            {% for score in team_score %}
+                {{ score }}<br><br>
+            {% endfor %}
+        {% endif %}
+
+        {% for team in team_schedule %}
+            {% if team.Date|dateify > dt %}
+                {{ team }}<br><br><br>
+            {% endif %}
+        {% endfor %}
+      <!--   </tbody>
+    </table> -->
+    
 </section>
+
+
 <section id="tab3" class="tab-content hide">
     <div>
         Content in tab stats

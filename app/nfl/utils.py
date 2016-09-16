@@ -1,4 +1,5 @@
 import json
+import datetime
 with open('sports/Schedule.2016.json') as data_file:    
         data = json.load(data_file)
 with open('sports/Standing.2016.json') as data_file1:    
@@ -9,6 +10,14 @@ with open('sports/Stadium.2016.json') as data_file3:
         stadium = json.load(data_file3)
 with open('sports/TeamSeason.2016.json') as data_file4:    
         teamseason = json.load(data_file4)
+
+def today_date():
+    t = datetime.time()
+    d = datetime.date.today()
+    return datetime.datetime.combine(d,t)
+
+def today_and_now():
+    return datetime.datetime.now()
 
 def team_rush_avg(rush_yds, team):
     team_rush_avg = []
@@ -63,3 +72,4 @@ def team_def_avg(pass_yds, team):
     team_pass_avg =  sorted(team_pass_avg, key=lambda x: x[0]) 
     rank = team_pass_avg.index((pass_yds, team)) + 1
     return rank
+
