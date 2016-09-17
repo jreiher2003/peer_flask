@@ -1,26 +1,17 @@
-<div>
-    <ul class="nav nav-tabs">
-        <li class="active">
-            <a href="#tab1">Home</a>
-        </li>
-        <li>
-            <a href="#tab2">Schedule</a>
-        </li>
-        <li>
-            <a href="#tab3">Stats</a>
-        </li>
-    </ul>
-</div>
-<section id="tab1" class="tab-content active">
-    <div>
-        home
-    </div>
-</section>
-
-
-<section id="tab2" class="tab-content hide">
-  <!--   <table class="table">
-        <tbody> -->
+<div class="tabbable">
+  <ul class="nav nav-tabs" id="interest_tabs">
+      <!--top level tabs-->
+    <li><a href="#home" data-toggle="tab">Home</a></li>
+    <li class="active"><a href="#schedule" data-toggle="tab">Schedule</a></li>
+    <li><a href="#stats" data-toggle="tab">Stats</a></li>
+  </ul>
+  <!--top level tab content-->
+  <div class="tab-content">
+      <!--home tab menu-->
+      <div id="home" class="tab-pane">
+        <i>all_home interests go here</i>
+      </div>
+      <div id="schedule" class="tab-pane active">
         {% if team_score %}
             {% for score in team_score %}
                 {{ score }}<br><br>
@@ -32,14 +23,35 @@
                 {{ team }}<br><br><br>
             {% endif %}
         {% endfor %}
-      <!--   </tbody>
-    </table> -->
+      </div>
+      <!--stats tab menu-->
+      <div id="stats" class="tab-pane">
+          <ul class="nav nav-tabs" id="stats_tabs">
+              <li class="active"><a href="#stats_avg" data-toggle="tab">Season Avg</a></li>
+              <li><a href="#stats_total" data-toggle="tab">Season Total</a></li>
+          </ul>
+          <!--stats tab content-->
+          <div class="tab-content">
+              <div id="stats_avg" class="tab-pane active">
+                  <h2>Season avg</h2>
+                    {% for ts in team_season_stats %}
+                        {% if ts.SeasonType == 1 %}
+                            {{ ts }}
+                        {% endif %}
+                    {% endfor %}
+              </div>
+              <div id="stats_total" class="tab-pane">
+                  <h2>Season totals</h2>
+                    {% for ts in team_season_stats %}
+                        {% if ts.SeasonType == 2 %}
+                            {{ ts }}
+                        {% endif %}
+                    {% endfor %}
+              </div>
+          </div>
+      </div><!--stats tab pane-->
+    </div> <!--top level tab content-->
+</div>
     
-</section>
 
 
-<section id="tab3" class="tab-content hide">
-    <div>
-        Content in tab stats
-    </div>
-</section>
