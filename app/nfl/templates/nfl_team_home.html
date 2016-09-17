@@ -3,5 +3,10 @@
 {% block content %}
 {% include "nfl_team_jumbotron.html" %}
 {% include "nfl_team_tab_content.html" %}
-
+<script>
+$("ul.nav-tabs a").click(function (e) {
+   e.preventDefault();  
+     $(this).tab('show');
+});
+</script>
 {% endblock %}

@@ -1,4 +1,4 @@
-$("ul.nav-tabs a").click(function (e) {
-  e.preventDefault();  
-    $(this).tab('show');
-});
+// $("ul.nav-tabs a").click(function (e) {
+//   e.preventDefault();  
+//     $(this).tab('show');
+// });
