@@ -1,101 +1,125 @@
 <div class="tabbable">
-  <ul class="nav nav-tabs" id="interest_tabs">
-      <!--top level tabs-->
-    <li><a href="#home" data-toggle="tab">Home</a></li>
-    <li class="active"><a href="#schedule" data-toggle="tab">Schedule</a></li>
-    <li><a href="#stats" data-toggle="tab">Stats</a></li>
-  </ul>
-  <!--top level tab content-->
-  <div class="tab-content">
+    <ul class="nav nav-tabs" id="interest_tabs">
+        <!--top level tabs-->
+        <li><a href="#home" data-toggle="tab">Home</a></li>
+        <li class="active"><a href="#schedule" data-toggle="tab">Schedule</a></li>
+        <li><a href="#stats" data-toggle="tab">Stats</a></li>
+    </ul>
+<!--top level tab content-->
+<div class="tab-content">
       <!--home tab menu-->
-      <div id="home" class="tab-pane">
+    <div id="home" class="tab-pane">
         <i>all_home interests go here</i>
-      </div>
-      <div id="schedule" class="tab-pane active">
-        <div class="row">
-          <div class="col-md-12 team_schedule">
-             {% if team_score %}
-                {% for score in team_score %}
-              {{ score.OverUnder }},{{ score.AwayTeam }},{{ score.PointSpread }},{{ score.QuarterDescription }}, 
-              {{ score.Week }}, {{ score.GameKey }}, {{ score.Season }}, {{ score.Date }}, {{ score.IsOvertime }},
-              {{ score.AwayTeamMoneyLine }}, {{ score.HomeTeamMoneyLine }}, {{ score.StadiumID }}, {{ score.AwayScore }},
-              {{ score.HomeTeam }}, {{ score.HomeScore }}, 
-            <div class="row">
-              <div class="col-md-4">
-                {{ score.Week }}<br>
-                {{ score.Date }}<br>
-                {{ score.AwayTeam }}<br>
-              </div>
-              <div class="col-md-4">
-                <table class="table table-condensed">
-                  <thead>
-                    {{ score.QuarterDescription }}
-                    <tr>
-                      <th></th>
-                      <th>1</th>
-                      <th>2</th>
-                      <th>3</th>
-                      <th>4</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{{ score.AwayTeam }}<br>{{ score.HomeTeam }}</td>
-                      <td>{{ score.AwayScoreQuarter1 }}<br>{{ score.HomeScoreQuarter1 }}</td>
-                      <td>{{ score.AwayScoreQuarter2 }}<br>{{ score.HomeScoreQuarter2 }}</td> 
-                      <td>{{ score.AwayScoreQuarter3 }}<br>{{ score.HomeScoreQuarter3 }}</td>
-                      <td>{{ score.AwayScoreQuarter4 }}<br>{{ score.HomeScoreQuarter4 }}</td>
-                    </tr>   
-                  </tbody>
-                </table>
-              </div>
-              <div class="col-md-4">{{ score.HomeTeam }}</div>
-            </div>
-                {% endfor %}
-            {% endif %}
-          </div>
-        </div>
-        {% if team_score %}
-            {% for score in team_score %}
-                {{ score }}<br><br>
-            {% endfor %}
-        {% endif %}
+    </div>
 
-        {% for team in team_schedule %}
-            {% if team.Date|dateify > dt %}
-                {{ team }}<br><br><br>
+<div id="schedule" class="tab-pane active">
+    <div class="row">
+        <div class="col-md-12 team_schedule thumbnail">
+            {% if team_score %}
+            {% for score in team_score %}
+            <div class="row">
+                <div class="col-md-4">
+                    {{ score.AwayTeam }}<br>
+                    {{ score.AwayScore }}
+                </div>
+                <div class="col-md-4">
+                    <table class="table table-condensed">
+                        <thead>
+                             {{ score.QuarterDescription }}, Week: {{ score.Week }},{{ score.PointSpread }}, {{ score.AwayTeamMoneyLine }}, {{ score.OverUnder }} stadium: {{ score.StadiumID }} date: {{ score.Date }}
+                            <tr>
+                                <th></th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                {% if score.IsOvertime == true %}
+                                    <th>OT</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ score.AwayTeam }}<br>{{ score.HomeTeam }}</td>
+                                <td>{{ score.AwayScoreQuarter1 }}<br>{{ score.HomeScoreQuarter1 }}</td>
+                                <td>{{ score.AwayScoreQuarter2 }}<br>{{ score.HomeScoreQuarter2 }}</td> 
+                                <td>{{ score.AwayScoreQuarter3 }}<br>{{ score.HomeScoreQuarter3 }}</td>
+                                <td>{{ score.AwayScoreQuarter4 }}<br>{{ score.HomeScoreQuarter4 }}</td>
+                                {% if score.IsOvertime == true %}
+                                <td>{{ score.AwayScoreOvertime }}<br>{{ score.HomeScoreOvertime }}</td>
+                                {% endif %}
+                            </tr>   
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    {{ score.HomeTeam }}<br>
+                    {{ score.HomeScore }}
+                </div>
+            </div>
+            {% endfor %}
             {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        {% for team in team_schedule %}
+        {% if team.Date|dateify > dt %}
+        <div class="col-md-12 team_schedule thumbnail">
+            <div class="row">
+                <div class="col-md-4">
+                    Away: {{ team.AwayTeam }}<br>
+                    ML: {{ team.AwayTeamMoneyLine }}<br>
+                </div>
+                <div class="col-md-4">
+                    Week: {{ team.Week }}<br>
+                    Date: {{ team.Date }}<br>
+                    Over/Under: {{ team.OverUnder }}<br>
+                    Pointspread: {{ team.PointSpread }}<br>
+                    Stadium: {{ team.StadiumID }}<br>
+                    Forcast: {{ team.ForecastDescription }}
+                </div>
+                <div class="col-md-4">
+                    Home:{{ team.HomeTeam }}<br>
+                    ML: {{ team.HomeTeamMoneyLine }}<br>
+                </div>
+            </div>
+
+        </div>
+        {% endif %}
         {% endfor %}
-      </div>
-      <!--stats tab menu-->
-      <div id="stats" class="tab-pane">
-          <ul class="nav nav-tabs" id="stats_tabs">
-              <li class="active"><a href="#stats_avg" data-toggle="tab">Season Avg</a></li>
-              <li><a href="#stats_total" data-toggle="tab">Season Total</a></li>
-          </ul>
-          <!--stats tab content-->
-          <div class="tab-content">
-              <div id="stats_avg" class="tab-pane active">
-                  <h2>Season avg</h2>
-                    {% for ts in team_season_stats %}
-                        {% if ts.SeasonType == 1 %}
-                            {{ ts }}
-                            
-                        {% endif %}
-                    {% endfor %}
-              </div>
-              <div id="stats_total" class="tab-pane">
-                  <h2>Season totals</h2>
-                    {% for ts in team_season_stats %}
-                        {% if ts.SeasonType == 2 %}
-                            {{ ts }}
-                        {% endif %}
-                    {% endfor %}
-              </div>
-          </div>
-      </div><!--stats tab pane-->
-    </div> <!--top level tab content-->
+    </div>
+</div><!-- end schdule div -->
+
+
+<!--stats tab menu-->
+<div id="stats" class="tab-pane">
+    <ul class="nav nav-tabs" id="stats_tabs">
+        <li class="active"><a href="#stats_avg" data-toggle="tab">Season Avg</a></li>
+        <li><a href="#stats_total" data-toggle="tab">Season Total</a></li>
+    </ul>
+    <!--stats tab content-->
+    <div class="tab-content">
+        <div id="stats_avg" class="tab-pane active">
+            <h2>Season avg</h2>
+            {% for ts in team_season_stats %}
+                {% if ts.SeasonType == 1 %}
+                    {{ ts }}
+
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div id="stats_total" class="tab-pane">
+            <h2>Season totals</h2>
+            {% for ts in team_season_stats %}
+                {% if ts.SeasonType == 2 %}
+                    {{ ts }}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div><!--stats tab pane-->
+
+</div> <!--top level tab content-->
 </div>
-    
+
 
 
