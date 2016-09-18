@@ -8,7 +8,7 @@
       <table class="table table-condensed table-responsive">
         <thead> 
           <tr>
-            <th><b>AFC East</b></th> 
+            <th class="team"><b>AFC East</b></th> 
             {% include "table_head_standing.html" %}
             {% for x in standing %}
               {% if x.Conference == "AFC" and x.Division == "East" %}

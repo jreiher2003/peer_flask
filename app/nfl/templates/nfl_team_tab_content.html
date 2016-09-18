@@ -12,6 +12,49 @@
         <i>all_home interests go here</i>
       </div>
       <div id="schedule" class="tab-pane active">
+        <div class="row">
+          <div class="col-md-12 team_schedule">
+             {% if team_score %}
+                {% for score in team_score %}
+              {{ score.OverUnder }},{{ score.AwayTeam }},{{ score.PointSpread }},{{ score.QuarterDescription }}, 
+              {{ score.Week }}, {{ score.GameKey }}, {{ score.Season }}, {{ score.Date }}, {{ score.IsOvertime }},
+              {{ score.AwayTeamMoneyLine }}, {{ score.HomeTeamMoneyLine }}, {{ score.StadiumID }}, {{ score.AwayScore }},
+              {{ score.HomeTeam }}, {{ score.HomeScore }}, 
+            <div class="row">
+              <div class="col-md-4">
+                {{ score.Week }}<br>
+                {{ score.Date }}<br>
+                {{ score.AwayTeam }}<br>
+              </div>
+              <div class="col-md-4">
+                <table class="table table-condensed">
+                  <thead>
+                    {{ score.QuarterDescription }}
+                    <tr>
+                      <th></th>
+                      <th>1</th>
+                      <th>2</th>
+                      <th>3</th>
+                      <th>4</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{ score.AwayTeam }}<br>{{ score.HomeTeam }}</td>
+                      <td>{{ score.AwayScoreQuarter1 }}<br>{{ score.HomeScoreQuarter1 }}</td>
+                      <td>{{ score.AwayScoreQuarter2 }}<br>{{ score.HomeScoreQuarter2 }}</td> 
+                      <td>{{ score.AwayScoreQuarter3 }}<br>{{ score.HomeScoreQuarter3 }}</td>
+                      <td>{{ score.AwayScoreQuarter4 }}<br>{{ score.HomeScoreQuarter4 }}</td>
+                    </tr>   
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-4">{{ score.HomeTeam }}</div>
+            </div>
+                {% endfor %}
+            {% endif %}
+          </div>
+        </div>
         {% if team_score %}
             {% for score in team_score %}
                 {{ score }}<br><br>
@@ -37,6 +80,7 @@
                     {% for ts in team_season_stats %}
                         {% if ts.SeasonType == 1 %}
                             {{ ts }}
+                            
                         {% endif %}
                     {% endfor %}
               </div>
