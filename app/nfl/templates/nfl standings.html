@@ -3,201 +3,121 @@
 {% block content %}
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8 col-md-offset-2">
       <!-- AFC EAST -->
-      <table class="table">
+      <table class="table table-condensed table-responsive">
         <thead> 
           <tr>
             <th><b>AFC East</b></th> 
             {% include "table_head_standing.html" %}
             {% for x in standing %}
-            {% if x.Conference == "AFC" and x.Division == "East" %}
-        <tr>
-          <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
-          <td>{{ x.Wins }}</td>
-          <td>{{ x.Losses }}</td>
-          <td>{{ x.Ties }}</td>
-          <td>{{ x.Percentage }}</td>
-          <td>{{ x.PointsFor }}</td>
-          <td>{{ x.PointsAgainst }}</td>
-          <td>{{ x.NetPoints }}</td>
-          <td>{{ x.Touchdowns }}</td>
-          <td>{{ x.DivisionWins }}</td>
-          <td>{{ x.ConferenceWins }}</td>
-        </tr>
-        {% endif %}
-        {% endfor %}
+              {% if x.Conference == "AFC" and x.Division == "East" %}
+          <tr>
+            {% include "table_standings_td.html" %}
+          </tr>
+              {% endif %}
+            {% endfor %}
       </table>
       <!-- AFC NORTH -->
-      <table class="table">
+      <table class="table table-condensed table-responsive">
         <thead> 
           <tr>
             <th><b>AFC North</b></th> 
             {% include "table_head_standing.html" %}
             {% for x in standing %}
-            {% if x.Conference == "AFC" and x.Division == "North" %}
-        <tr>
-          <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
-          <td>{{ x.Wins }}</td>
-          <td>{{ x.Losses }}</td>
-          <td>{{ x.Ties }}</td>
-          <td>{{ x.Percentage }}</td>
-          <td>{{ x.PointsFor }}</td>
-          <td>{{ x.PointsAgainst }}</td>
-          <td>{{ x.NetPoints }}</td>
-          <td>{{ x.Touchdowns }}</td>
-          <td>{{ x.DivisionWins }}</td>
-          <td>{{ x.ConferenceWins }}</td>
-        </tr>
-        {% endif %}
-        {% endfor %}
+              {% if x.Conference == "AFC" and x.Division == "North" %}
+            <tr>
+              {% include "table_standings_td.html" %}
+            </tr>
+              {% endif %}
+            {% endfor %}
       </table>
       <!-- AFC SOUTH -->
-      <table class="table">
+      <table class="table table-condensed table-responsive">
         <thead> 
           <tr>
             <th><b>AFC South</b></th> 
             {% include "table_head_standing.html" %}
             {% for x in standing %}
-            {% if x.Conference == "AFC" and x.Division == "South" %}
+              {% if x.Conference == "AFC" and x.Division == "South" %}
             <tr>
-              <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
-              <td>{{ x.Wins }}</td>
-              <td>{{ x.Losses }}</td>
-              <td>{{ x.Ties }}</td>
-              <td>{{ x.Percentage }}</td>
-              <td>{{ x.PointsFor }}</td>
-              <td>{{ x.PointsAgainst }}</td>
-              <td>{{ x.NetPoints }}</td>
-              <td>{{ x.Touchdowns }}</td>
-              <td>{{ x.DivisionWins }}</td>
-              <td>{{ x.ConferenceWins }}</td>
+              {% include "table_standings_td.html" %}
             </tr>
-            {% endif %}
+              {% endif %}
             {% endfor %}
-          </table>
-          <!-- AFC WEST -->
-          <table class="table">
-            <thead> 
-              <tr>
-                <th><b>AFC West</b></th> 
-                {% include "table_head_standing.html" %}
-                {% for x in standing %}
-                {% if x.Conference == "AFC" and x.Division == "West" %}
-                <tr>
-                  <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
-                  <td>{{ x.Wins }}</td>
-                  <td>{{ x.Losses }}</td>
-                  <td>{{ x.Ties }}</td>
-                  <td>{{ x.Percentage }}</td>
-                  <td>{{ x.PointsFor }}</td>
-                  <td>{{ x.PointsAgainst }}</td>
-                  <td>{{ x.NetPoints }}</td>
-                  <td>{{ x.Touchdowns }}</td>
-                  <td>{{ x.DivisionWins }}</td>
-                  <td>{{ x.ConferenceWins }}</td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </table>
-            <!-- NFC EAST -->
-            <table class="table">
-            <thead> 
-              <tr>
-                <th><b>NFL East</b></th> 
-                {% include "table_head_standing.html" %}
-                {% for x in standing %}
-                {% if x.Conference == "NFC" and x.Division == "East" %}
-                <tr>
-                  <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
-                  <td>{{ x.Wins }}</td>
-                  <td>{{ x.Losses }}</td>
-                  <td>{{ x.Ties }}</td>
-                  <td>{{ x.Percentage }}</td>
-                  <td>{{ x.PointsFor }}</td>
-                  <td>{{ x.PointsAgainst }}</td>
-                  <td>{{ x.NetPoints }}</td>
-                  <td>{{ x.Touchdowns }}</td>
-                  <td>{{ x.DivisionWins }}</td>
-                  <td>{{ x.ConferenceWins }}</td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </table>
-            <!-- NFC NORTH -->
-            <table class="table">
-            <thead> 
-              <tr>
-                <th><b>NFC North</b></th> 
-                {% include "table_head_standing.html" %}
-                {% for x in standing %}
-                {% if x.Conference == "NFC" and x.Division == "North" %}
-                <tr>
-                  <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
-                  <td>{{ x.Wins }}</td>
-                  <td>{{ x.Losses }}</td>
-                  <td>{{ x.Ties }}</td>
-                  <td>{{ x.Percentage }}</td>
-                  <td>{{ x.PointsFor }}</td>
-                  <td>{{ x.PointsAgainst }}</td>
-                  <td>{{ x.NetPoints }}</td>
-                  <td>{{ x.Touchdowns }}</td>
-                  <td>{{ x.DivisionWins }}</td>
-                  <td>{{ x.ConferenceWins }}</td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </table>
-            <!-- NFL SOUTH -->
-            <table class="table">
-            <thead> 
-              <tr>
-                <th><b>NFC South</b></th> 
-                {% include "table_head_standing.html" %}
-                {% for x in standing %}
-                {% if x.Conference == "NFC" and x.Division == "South" %}
-                <tr>
-                  <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
-                  <td>{{ x.Wins }}</td>
-                  <td>{{ x.Losses }}</td>
-                  <td>{{ x.Ties }}</td>
-                  <td>{{ x.Percentage }}</td>
-                  <td>{{ x.PointsFor }}</td>
-                  <td>{{ x.PointsAgainst }}</td>
-                  <td>{{ x.NetPoints }}</td>
-                  <td>{{ x.Touchdowns }}</td>
-                  <td>{{ x.DivisionWins }}</td>
-                  <td>{{ x.ConferenceWins }}</td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </table>
-            <table class="table">
-            <thead> 
-              <tr>
-                <th><b>NFC West</b></th> 
-                {% include "table_head_standing.html" %}
-                {% for x in standing %}
-                {% if x.Conference == "NFC" and x.Division == "West" %}
-                <tr>
-                  <td><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
-                  <td>{{ x.Wins }}</td>
-                  <td>{{ x.Losses }}</td>
-                  <td>{{ x.Ties }}</td>
-                  <td>{{ x.Percentage }}</td>
-                  <td>{{ x.PointsFor }}</td>
-                  <td>{{ x.PointsAgainst }}</td>
-                  <td>{{ x.NetPoints }}</td>
-                  <td>{{ x.Touchdowns }}</td>
-                  <td>{{ x.DivisionWins }}</td>
-                  <td>{{ x.ConferenceWins }}</td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </table>
-          </div>
-        </div>
-      </div>
+      </table>
+      <!-- AFC WEST -->
+      <table class="table table-condensed table-responsive">
+        <thead> 
+          <tr>
+            <th><b>AFC West</b></th> 
+            {% include "table_head_standing.html" %}
+            {% for x in standing %}
+              {% if x.Conference == "AFC" and x.Division == "West" %}
+            <tr>
+              {% include "table_standings_td.html" %}
+            </tr>
+              {% endif %}
+            {% endfor %}
+      </table>
+      <!-- NFC EAST -->
+      <table class="table table-condensed table-responsive">
+        <thead> 
+          <tr>
+            <th><b>NFL East</b></th> 
+            {% include "table_head_standing.html" %}
+            {% for x in standing %}
+              {% if x.Conference == "NFC" and x.Division == "East" %}
+            <tr>
+              {% include "table_standings_td.html" %}
+            </tr>
+              {% endif %}
+            {% endfor %}
+      </table>
+      <!-- NFC NORTH -->
+      <table class="table table-condensed table-responsive">
+        <thead> 
+          <tr>
+            <th><b>NFC North</b></th> 
+            {% include "table_head_standing.html" %}
+            {% for x in standing %}
+              {% if x.Conference == "NFC" and x.Division == "North" %}
+            <tr>
+              {% include "table_standings_td.html" %}
+            </tr>
+              {% endif %}
+            {% endfor %}
+      </table>
+      <!-- NFL SOUTH -->
+      <table class="table table-condensed table-responsive">
+        <thead> 
+          <tr>
+            <th><b>NFC South</b></th> 
+            {% include "table_head_standing.html" %}
+            {% for x in standing %}
+              {% if x.Conference == "NFC" and x.Division == "South" %}
+            <tr>
+              {% include "table_standings_td.html" %}
+            </tr>
+              {% endif %}
+            {% endfor %}
+      </table>
+      <table class="table table-condensed table-responsive">
+        <thead> 
+          <tr>
+            <th><b>NFC West</b></th> 
+            {% include "table_head_standing.html" %}
+            {% for x in standing %}
+              {% if x.Conference == "NFC" and x.Division == "West" %}
+            <tr>
+              {% include "table_standings_td.html" %}
+            </tr>
+              {% endif %}
+            {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
 
 
 {% endblock %}

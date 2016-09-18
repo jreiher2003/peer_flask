@@ -1,0 +1,11 @@
+/* Note: Design for a width of 768px */
+@media screen and (max-width: 768px) {
+    th.pct,th.pf,th.pa,th.net_pts,th.td,
+    td.pct,td.pf,td.pa,td.net_pts,td.td{
+        display:none;
+        width:0;
+        height:0;
+        opacity:0;
+        visibility: collapse;       
+    } 
+}

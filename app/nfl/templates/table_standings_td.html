@@ -1,0 +1,11 @@
+<td class="team"><a href="{{ url_for('nfl.nfl_team_home', team=x.Name|urlify) }}">{{ x.Name }}</a></td>
+<td class="w">{{ x.Wins }}</td>
+<td class="l">{{ x.Losses }}</td>
+<td class="t">{{ x.Ties }}</td>
+<td class="pct">{{ x.Percentage }}</td>
+<td class="pf">{{ x.PointsFor }}</td>
+<td class="pa">{{ x.PointsAgainst }}</td>
+<td class="net_pts">{{ x.NetPoints }}</td>
+<td class="td">{{ x.Touchdowns }}</td>
+<td class="div">{{ x.DivisionWins }}</td>
+<td class="conf">{{ x.ConferenceWins }}</td>
