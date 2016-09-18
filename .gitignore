@@ -5,3 +5,17 @@ app/users/*.pyc
 app/nfl/*.pyc
 app/home/*.pyc
 sports/*
+sports/Schedule.2016.csv
+sports/Schedule.2016.json
+sports/Schedule.2016.txt
+sports/Schedule.2016.xml
+sports/Score.2016.csv
+sports/Score.2016.json
+sports/Score.2016.txt
+sports/Score.2016.xml
+sports/Team.2016.csv
+sports/Team.2016.json
+sports/Team.2016.txt
+sports/Team.2016.xml
+sports/TeamSeason.2016.json
+sports/TeamSeason.2016.xml
