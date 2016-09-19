@@ -31,16 +31,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
                         {% for team in team_season_stats %}
                             {% if team.SeasonType == 1 %}
-                            <td>offense<br>defense</td>
-                            <td>{{ team_off_rank }}th<br>{{ team_def_rank }}th</td>
-                            <td>{{ team.RushingYards }}({{ team_rush_rank }}th)<br>{{ team.OpponentRushingYards }}({{ opp_team_rush_rank }}th)</td>
-                            <td>{{ team.PassingYards }}({{ team_pass_rank }}th)<br>{{ team.OpponentPassingYards }}({{ opp_team_pass_rank }}th)</td>
+                        <tr>
+                            <td>offense</td>
+                            <td>{{ team_off_rank }}th</td>
+                            <td>{{ team.RushingYards }}({{ team_rush_rank }}th)</td>
+                            <td>{{ team.PassingYards }}({{ team_pass_rank }}th)</td>
+                        </tr>
+                        <tr>
+                            <td>defense</td>
+                            <td>{{ team_def_rank }}th</td>
+                            <td>{{ team.OpponentRushingYards }}({{ opp_team_rush_rank }}th)</td>
+                            <td>{{ team.OpponentPassingYards }}({{ opp_team_pass_rank }}th)</td>
+                        </tr>
                             {% endif %}
                         {% endfor %}
-                        </tr>
                     </tbody>
                 </table>
             </div>
