@@ -84,7 +84,7 @@ def nfl_standings():
 @nfl_blueprint.route("/nfl/stats/")
 def nfl_stats():
     all_teams = nflteam
-    sort_by_offensive_yds = nfl_off_yds("OffensiveYards")
+    # sort_by_offensive_yds = nfl_off_yds("OffensiveYards")
     teamseason1 = [x for x in teamseason if x["SeasonType"] == 1]
     return render_template(
         "nfl_stats.html", 

@@ -3,40 +3,45 @@
 {% block style %}
 {% endblock %}
 {% block content %}
-<table class="table table-condensed">
-    <thead>
-        <tr>
-            <td>RK</td>
-            <td><a href="nfl/stats/?sort_on=Team">TEAM</a></td>
-            <td><a href="/nfl/stats/?sort_on=OffensiveYards">YDS</a></td>
-            <td>YDS/G</td>
-            <td><a href="/nfl/stats/?sort_on=PassingYards">PASS</td>
-            <td>P YDS/G</td>
-            <td><a href="/nfl/stats/?sort_on=RushingYards">RUSH</td>
-            <td>R YDS/G</td>
-            <td><a href="/nfl/stats/?sort_on=Score">PTS</td>
-            <td>PTS/G</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% set sort_on = request.args.sort_on|default('Team') %}
-        {% for t in teamseason|sort(attribute=sort_on)|reverse %}
-        <tr>
-            <td></td>
-            <td>{{ t.Team }}</td>
-            <td>{{ t.OffensiveYards }}</td>
-            <td>{{ t.OffensiveYards / t.Games }}</td>
-            <td>{{ t.PassingYards }}</td>
-            <td>{{ t.PassingYards / t.Games }}</td>
-            <td>{{ t.RushingYards }}</td>
-            <td>{{ t.RushingYards / t.Games }}</td>
-            <td>{{ t.Score }}</td>
-            <td>{{ t.Score / t.Games }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <table class="table table-condensed">
+                <thead>
+                    <h3>Passing</h3>
+                    <tr>
+                        <td>RK</td>
+                        <td><a href="/nfl/stats/?sort_on=Team">TEAM</a></td>
+                        <td><a href="/nfl/stats/?sort_on=OffensiveYards">YDS</a></td>
+                        <td>YDS/G</td>
+                        <td><a href="/nfl/stats/?sort_on=PassingYards">PASS</td>
+                        <td>P YDS/G</td>
+                        <td><a href="/nfl/stats/?sort_on=RushingYards">RUSH</td>
+                        <td>R YDS/G</td>
+                        <td><a href="/nfl/stats/?sort_on=Score">PTS</td>
+                        <td>PTS/G</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set sort_on = request.args.sort_on|default('OffensiveYards') %}
+                    {% for t in teamseason|sort(attribute=sort_on)|reverse %}
+                    <tr>
+                        <td></td>
+                        <td>{{ t.Team }}</td>
+                        <td>{{ t.OffensiveYards }}</td>
+                        <td>{{ t.OffensiveYards / t.Games }}</td>
+                        <td>{{ t.PassingYards }}</td>
+                        <td>{{ t.PassingYards / t.Games }}</td>
+                        <td>{{ t.RushingYards }}</td>
+                        <td>{{ t.RushingYards / t.Games }}</td>
+                        <td>{{ t.Score }}</td>
+                        <td>{{ t.Score / t.Games }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
