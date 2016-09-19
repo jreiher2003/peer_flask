@@ -87,17 +87,18 @@ def nfl_stats(sid):
     teamseason1 = [x for x in teamseason if x["SeasonType"] == sid]
     return render_template("nfl_stats.html", all_teams=all_teams, teamseason=teamseason1,)
 
-@nfl_blueprint.route("/nfl/team/home/<path:team>/")
-def nfl_team_home(team):
+@nfl_blueprint.route("/nfl/team/home/<int:sid>/<path:team>/")
+def nfl_team_home(sid,team):
     dt = today_date()
     all_teams = nflteam
     nfl_team = [x for x in nflteam if slugify(x["FullName"]) == team]
     nfl_team_key = [x["Key"] for x in nfl_team][0]
     team_season_stats = [x for x in teamseason if x["Team"] == nfl_team_key]
+    team_season_stats1 = [x for x in team_season_stats if x["SeasonType"] == sid]
 
     team_schedule1 = [x for x in schedule if x["AwayTeam"] == nfl_team_key or x["HomeTeam"] == nfl_team_key]
-    team_schedule = [x for x in team_schedule1 if x["SeasonType"] == 1]
-    team_score1 = [x for x in score if x["SeasonType"] == 1]
+    team_schedule = [x for x in team_schedule1 if x["SeasonType"] == sid]
+    team_score1 = [x for x in score if x["SeasonType"] == sid]
     team_score = [x for x in team_score1 if x["AwayTeam"] == nfl_team_key or x["HomeTeam"] == nfl_team_key]
     team_rush_rank = [team_rush_avg(x["RushingYards"],x["Team"]) for x in team_season_stats if x["SeasonType"] == 1][0]
     team_pass_rank = [team_pass_avg(x["PassingYards"],x["Team"]) for x in team_season_stats if x["SeasonType"] == 1][0]
@@ -115,7 +116,7 @@ def nfl_team_home(team):
         nfl_team=nfl_team,
         nfl_stadium_standing=zip(nfl_team,team_stadium,team_standing),
         all_teams=all_teams,
-        team_season_stats=team_season_stats,
+        team_season_stats=team_season_stats1,
         team_rush_rank=team_rush_rank,
         team_pass_rank=team_pass_rank,
         opp_team_rush_rank=opp_team_rush_rank,
@@ -125,7 +126,8 @@ def nfl_team_home(team):
         team_schedule=team_schedule,
         team_score=team_score,
         team_schedule_team_score=zip(team_schedule,team_score),
-        dt=dt
+        dt=dt,
+        team=team
         )
 
 @nfl_blueprint.route("/nfl/team/schedule/<path:team>/")

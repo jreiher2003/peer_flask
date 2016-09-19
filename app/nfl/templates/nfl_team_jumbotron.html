@@ -57,7 +57,7 @@
                     <select id="goto">
                         <option value="">Select Team</option>
                         {% for team in all_teams %}
-                        <option value="{{ url_for('nfl.nfl_team_home', team=team.FullName|urlify) }}">{{ team.FullName }}</option>
+                        <option value="{{ url_for('nfl.nfl_team_home', sid=1,team=team.FullName|urlify) }}">{{ team.FullName }}</option>
                         {% endfor %}
                     </select>
                 </form>

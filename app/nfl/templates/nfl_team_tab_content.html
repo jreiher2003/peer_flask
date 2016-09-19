@@ -1,3 +1,11 @@
+<form action="" method="get" enctype="multipart/form-data">
+    <select id="goto1">
+        <option value="">Select Season</option>
+        <option value="{{ url_for('nfl.nfl_team_home', sid=1,team=team) }}">Regular Season</option>
+        <option value="{{ url_for('nfl.nfl_team_home', sid=2,team=team) }}">Pre-Season</option>
+       
+    </select>
+</form>
 <div class="tabbable">
     <ul class="nav nav-tabs" id="interest_tabs">
         <!--top level tabs-->
@@ -129,7 +137,7 @@
                 </thead>
                 <tbody>
                     {% for ts in team_season_stats %}
-                        {% if ts.SeasonType == 1 %}
+                        
                     <tr>
                         <td>{{ ts.Team }}</td>
                         <td>{{ ts.PassingAttempts }}</td>
@@ -158,7 +166,7 @@
                         <td>{{ ts.OpponentTimesSackedYards }}</td>
                         <td>{{ ts.OpponentPasserRating }}</td>
                     </tr>
-                        {% endif %}
+                        
                     {% endfor %}
                 </tbody>
             </table>
@@ -177,7 +185,7 @@
                 </thead>
                 <tbody>
                     {% for ts in team_season_stats %}
-                        {% if ts.SeasonType == 1 %}
+                        
                     <tr>
                         <td>{{ ts.Team }}</td>
                         <td>{{ ts.RushingAttempts }}</td>
@@ -197,7 +205,6 @@
                         <td>{{ ts.OpponentFirstDownsByRushing }}</td>
                     </tr>
 
-                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
@@ -224,7 +231,7 @@
                 </thead>
                 <tbody>
                     {% for ts in team_season_stats %}
-                        {% if ts.SeasonType == 1 %}
+                        
                     <tr>
                         <td>{{ ts.Team }}</td>
                         <td>{{ ts.SoloTackles }}</td>
@@ -259,7 +266,7 @@
                         <td>{{ ts.OpponentFumbleReturnTouchdowns }}</td>
                         <td>{{ ts.OpponentBlockedKicks }}</td>
                     </tr>
-                        {% endif %}
+                        
                     {% endfor %}
                 </tbody>
             </table>
@@ -284,7 +291,7 @@
                 </thead>
                 <tbody>
                     {% for ts in team_season_stats %}
-                        {% if ts.SeasonType == 1 %}
+                        
                     <tr>
                         <td>{{ ts.Team }}</td>
                         <td>{{ ts.FirstDowns }}</td>
@@ -315,7 +322,7 @@
                         <td>{{ ts.OpponentPenalties }}</td>
                         <td>{{ ts.OpponentPenaltyYards }}</td>
                     </tr>
-                        {% endif %}
+                        
                     {% endfor %}
                 </tbody>
             </table>
@@ -338,7 +345,7 @@
                 </thead>
                 <tbody>
                     {% for ts in team_season_stats %}
-                        {% if ts.SeasonType == 1 %}
+                        
                     <tr>
                         <td>{{ ts.Team }}</td>
                         <td>{{ ts.KickReturns }}</td>
@@ -365,7 +372,7 @@
                         <td>{{ ts.OpponentPuntReturnLong }}</td>
                         <td>{{ ts.OpponentPuntReturnTouchdowns }}</td>
                     </tr>
-                        {% endif %}
+                       
                     {% endfor %}
                 </tbody>
             </table>
@@ -384,7 +391,7 @@
                 </thead>
                 <tbody>
                     {% for ts in team_season_stats %}
-                        {% if ts.SeasonType == 1 %}
+                        
                     <tr>
                         <td>{{ ts.Team }}</td>
                         <td>{{ ts.FieldGoalsMade }}</td>
@@ -403,7 +410,7 @@
                         <td>{{ ts.OpponentExtraPointKickingAttempts }}</td>
                         <td>{{ ts.OpponentExtraPointPercentage }}</td>
                     </tr>
-                        {% endif %}
+                       
                     {% endfor %}
                 </tbody>
             </table>
@@ -424,7 +431,7 @@
                 </thead>
                 <tbody>
                     {% for ts in team_season_stats %}
-                        {% if ts.SeasonType == 1 %}
+                        
                     <tr>
                         <td>{{ ts.Team }}</td>
                         <td>{{ ts.Punts }}</td>
@@ -447,7 +454,7 @@
                         <td>{{ ts.PuntReturnYards }}</td>
                         <td>{{ ts.PuntReturnAverage }}</td>
                     </tr>
-                        {% endif %}
+                        
                     {% endfor %}
                 </tbody>
             </table>
