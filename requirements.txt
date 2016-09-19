@@ -21,6 +21,8 @@ itsdangerous==0.24
 Jinja2==2.8
 Mako==1.0.4
 MarkupSafe==0.23
+numpy==1.11.1
+pandas==0.18.1
 passlib==1.6.5
 pycparser==2.14
 pycrypto==2.6.1
