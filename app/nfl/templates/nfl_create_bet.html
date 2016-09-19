@@ -14,8 +14,9 @@
             <h1>Create-A-Bet</h1>
             <form id="form-container">
                 {{ form.csrf_token }}
+                {{ form.game_key(value=nfl_game.GameKey) }}
                 <div class="form-group">
-                    <label for="pickteam">Which do you want to bet on {{ nfl_game.HomeTeam }} or {{ nfl_game.AwayTeam }} or the game Total?</label>
+                    <label for="pickteam">Which do you want to bet on {{ nfl_game.HomeTeam }} or {{ nfl_game.AwayTeam }} or the game Total? {{ nfl_game.GameKey }} on this day {{ nfl_game.Date }}</label>
                     <!-- Nav tabs -->
                       <ul class="nav nav-tabs" id="bet_tabs">
                         <li><a href="#home" data-toggle="tab">Home</a></li>

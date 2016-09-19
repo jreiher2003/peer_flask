@@ -60,11 +60,14 @@ def nfl_create_broad():
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/")
 def nfl_create_bet(game_key):
     all_teams = nflteam
-    for d in schedule:
-        if d['GameKey'] == game_key:
-            nfl_game = d
     form = CreateNflBet()
-    return render_template("nfl_create_bet.html",form=form, nfl_game=nfl_game, all_teams=all_teams)
+    nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
+    return render_template(
+        "nfl_create_bet.html",
+        form=form, 
+        nfl_game=nfl_game, 
+        all_teams=all_teams
+        )
 
 @nfl_blueprint.route("/nfl/confirm/")
 def nfl_confirm_bet():
