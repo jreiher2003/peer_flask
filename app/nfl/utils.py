@@ -19,6 +19,7 @@ def today_date():
 def today_and_now():
     return datetime.datetime.now()
 
+## OFFENSIVE STATS by TEAM
 def team_rush_avg(rush_yds, team):
     team_rush_avg = []
     for x in teamseason:
@@ -73,3 +74,8 @@ def team_def_avg(pass_yds, team):
     rank = team_pass_avg.index((pass_yds, team)) + 1
     return rank
 
+# NFL OFFENSIVE STATS ##################################################
+def nfl_off_yds(col_to_sort):
+    return sorted(teamseason, key=lambda k: int(k[col_to_sort]), reverse=True)
+    
+             

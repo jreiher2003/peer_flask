@@ -6,7 +6,7 @@ from flask import Blueprint, render_template, url_for
 from slugify import slugify
 from .utils import team_rush_avg, team_pass_avg, \
 opp_team_rush_avg, opp_team_pass_avg, team_off_avg, \
-team_def_avg, today_date,today_and_now
+team_def_avg, today_date,today_and_now, nfl_off_yds
 
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
@@ -84,7 +84,14 @@ def nfl_standings():
 @nfl_blueprint.route("/nfl/stats/")
 def nfl_stats():
     all_teams = nflteam
-    return "nfl stats"
+    sort_by_offensive_yds = nfl_off_yds("OffensiveYards")
+    teamseason1 = [x for x in teamseason if x["SeasonType"] == 1]
+    return render_template(
+        "nfl_stats.html", 
+        all_teams=all_teams, 
+        teamseason=teamseason1,
+        # sort_by_offensive_yds=sort_by_offensive_yds
+        )
 
 @nfl_blueprint.route("/nfl/team/home/<path:team>/")
 def nfl_team_home(team):
