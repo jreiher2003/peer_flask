@@ -2,7 +2,7 @@ import json
 import datetime
 from app import app, db
 from forms import CreateNflBet
-from flask import Blueprint, render_template, url_for
+from flask import Blueprint, render_template, url_for, request
 from slugify import slugify
 from .utils import team_rush_avg, team_pass_avg, \
 opp_team_rush_avg, opp_team_pass_avg, team_off_avg, \
@@ -69,9 +69,19 @@ def nfl_create_bet(game_key):
         all_teams=all_teams
         )
 
-@nfl_blueprint.route("/nfl/confirm/")
+@nfl_blueprint.route("/nfl/confirm/", methods=["GET","POST"])
 def nfl_confirm_bet():
     all_teams = nflteam
+    game_key = request.form["game_key"]
+    over_under = request.form["over_under"]
+    home_team = request.form["home_team"]
+    home_ml = request.form["home_ml"]
+    home_ps = request.form["home_ps"]
+    away_team = request.form["away_team"]
+    away_ml = request.form["away_ml"]
+    away_ps = request.form["away_ps"]
+    amount = request.form["amount"]
+    print game_key, over_under, home_team, home_ml, home_ps, away_team, away_ml, away_ps, amount
     return "nfl confim"
 
 @nfl_blueprint.route("/nfl/scores/")

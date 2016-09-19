@@ -16,31 +16,102 @@ $('#bet_tabs').on('click', 'a[data-toggle="tab"]', function(e) {
 });
 
 $(document).ready(function(){
-    $("#form-container").submit(function() {
-    var $ptext = $("#ptext");
+    $("#form-container").submit(function(e) {
+    e.preventDefault();
 
     var gameKey = $("form#form-container").find("input#game_key").val();
-    console.log(gameKey);
+    if (gameKey) {
+      console.log(gameKey);
+    } else {
+      gameKey = ""
+      console.log(gameKey)
+    }
     // var values = $(this).serialize();
     var overUnder = $("div#totals.tab-pane.active").find("input#over_under").val();
-    console.log(overUnder);
+    if (overUnder) {
+      console.log(overUnder);
+    } else {
+      overUnder = "";
+      console.log(gameKey);
+    }
 
     var homeTeam = $("div#home.tab-pane.active").find("input#home_team").val();
-    console.log(homeTeam);
+    if (homeTeam) {
+      console.log(homeTeam);
+    } else {
+      homeTeam = ""
+      console.log(homeTeam);
+    }
     var homePS = $("div#home_spread1.tab-pane.active").find("input#home_ps").val();
-    console.log(homePS);
+    if (homePS) {
+      console.log(homePS);
+    } else {
+      homePS = "";
+      console.log(homePS);
+    }
     var homeML = $("div#home_ml.tab-pane.active").find("input#home_ml").val();
+    if (homeML) {
     console.log(homeML);
+    } else {
+      homeML = "";
+      console.log(homeML);
+    }
     
     var awayTeam = $("div#away.tab-pane.active").find("input#away_team").val();
-    console.log(awayTeam);
+    if (awayTeam) {
+      console.log(awayTeam);
+    } else {
+      awayTeam = ""
+      console.log(awayTeam);
+    }
     var awayPS = $("div#away_spread1.tab-pane.active").find("input#away_ps").val();
-    console.log(awayPS);
+    if (awayPS) {
+      console.log(awayPS);
+    } else {
+      awayPS = "";
+      console.log(awayPS);
+    }
     var awayML = $("div#away_ml.tab-pane.active").find("input#away_ml").val();
-    console.log(awayML);
+    if (awayML) {
+      console.log(awayML);
+    } else {
+      awayML = "";
+      console.log(awayML);
+    }
     var amount = $("#amount").val();
-    console.log(amount);
-    
+    if (amount) {
+      console.log(amount);
+    } else {
+      amount = "";
+      console.log(amount);
+    }
+    var $ptext = $("#ptext");
+    $.ajax({
+      type: "POST",
+      url: "/nfl/confirm/",
+      data: {
+        "game_key": gameKey,
+        "over_under": overUnder,
+        "home_team": homeTeam,
+        "home_ml": homeML,
+        "home_ps": homePS,
+        "away_team": awayTeam,
+        "away_ml": awayML,
+        "away_ps": awayPS,
+        "amount": amount
+      },
+      success: function(data) {
+        if (data) {
+          $ptext.text("Bet is submitting " + gameKey + "Redirecting...");
+          setTimeout(function() {
+            window.location.href = "/nfl/board/";
+          }, 3000);
+        } else {
+            $ptext.text("Failed to make a server-side call");
+        }
+      }
+    });
+    // return false;
     });
 });
 
