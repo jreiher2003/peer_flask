@@ -12,9 +12,9 @@
             5. Check to make sure its what u want<br>
             6. Creat bet
             <h1>Create-A-Bet</h1>
-            <form id="form-container">
+            <form id="form-container" method="POST" action="">
                 {{ form.csrf_token }}
-                {{ form.game_key(value=nfl_game.GameKey) }}
+                {{ form.game_key(id="game_key",value=nfl_game.GameKey) }}
                 <div class="form-group">
                     <label for="pickteam">Which do you want to bet on {{ nfl_game.HomeTeam }} or {{ nfl_game.AwayTeam }} or the game Total? {{ nfl_game.GameKey }} on this day {{ nfl_game.Date }}</label>
                     <!-- Nav tabs -->
@@ -39,7 +39,7 @@
                         {{ form.away_team.label }}
                         {{ form.away_team(id="away_team", class="form-control", readonly=True,value=nfl_game.AwayTeam) }}
                         <label for="bet-group">What type of Bet do you want to make?</label>
-                        <ul class="nav nav-tabs" id="home_spread">
+                        <ul class="nav nav-tabs" id="away_spread">
                             <li><a href="#away_spread1" data-toggle="tab">Away Spread</a></li>
                             <li><a href="#away_ml" data-toggle="tab">Away Money Line</a></li>
                         </ul>
@@ -83,8 +83,8 @@
                 </div>
                 <input type="submit">
             </form>
-            <div id="ptext"></div>
         </div>
     </div>
 </div>
+<div id="ptext"></div>
 {% endblock content %}

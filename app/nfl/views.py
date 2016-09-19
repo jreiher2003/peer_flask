@@ -57,7 +57,7 @@ def nfl_create_broad():
     all_teams = nflteam
     return "create reg"
 
-@nfl_blueprint.route("/nfl/board/create/<path:game_key>/")
+@nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])
 def nfl_create_bet(game_key):
     all_teams = nflteam
     form = CreateNflBet()
