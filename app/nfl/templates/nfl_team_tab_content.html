@@ -1,9 +1,8 @@
 <form action="" method="get" enctype="multipart/form-data">
-    <select id="goto1">
+    <select>
         <option value="">Select Season</option>
         <option value="{{ url_for('nfl.nfl_team_home', sid=1,team=team) }}">Regular Season</option>
         <option value="{{ url_for('nfl.nfl_team_home', sid=2,team=team) }}">Pre-Season</option>
-       
     </select>
 </form>
 <div class="tabbable">

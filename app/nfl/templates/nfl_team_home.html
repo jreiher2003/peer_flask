@@ -15,14 +15,5 @@ $("ul.nav-tabs a").click(function (e) {
      $(this).tab('show');
 });
 </script>
-<script>
-$(document).ready(function() {
-    $("#goto1").change(function() {
-        if ($(this).val() != '') {
-            console.log($(this).val())
-            window.location.href=$(this).val()
-        }
-    });
-});
-</script>
+
 {% endblock %}

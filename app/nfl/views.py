@@ -100,6 +100,7 @@ def nfl_team_home(sid,team):
     team_schedule = [x for x in team_schedule1 if x["SeasonType"] == sid]
     team_score1 = [x for x in score if x["SeasonType"] == sid]
     team_score = [x for x in team_score1 if x["AwayTeam"] == nfl_team_key or x["HomeTeam"] == nfl_team_key]
+
     team_rush_rank = [team_rush_avg(x["RushingYards"],x["Team"]) for x in team_season_stats if x["SeasonType"] == 1][0]
     team_pass_rank = [team_pass_avg(x["PassingYards"],x["Team"]) for x in team_season_stats if x["SeasonType"] == 1][0]
     opp_team_rush_rank = [opp_team_rush_avg(x["OpponentRushingYards"],x["Team"]) for x in team_season_stats if x["SeasonType"] == 1][0]
