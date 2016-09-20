@@ -15,7 +15,7 @@ class NflBet(db.Model):
     away_ml = db.Column(db.Integer)
     away_ps = db.Column(db.Integer)
     amount = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id))
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id,ondelete='CASCADE'))
     users = db.relationship(Users)
     date_created = db.Column(db.DateTime(),  default=datetime.datetime.now())
     date_modified = db.Column(db.DateTime,  default=datetime.datetime.now(),

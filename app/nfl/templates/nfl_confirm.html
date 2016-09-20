@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block content %}
-confirm
+{{ game }}<br><br><br>
+confirm this is gamekey {{ game_key }}<br> {{ nfl_bet }}<br>
+{{ nfl_bet.home_team }}<br>{{ nfl_bet.home_ps }}<br>{{ nfl_bet.amount }}<br>{{ nfl_bet.user_id }}<br>{{ nfl_bet.game_key }}<br>
 {% endblock %}

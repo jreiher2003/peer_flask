@@ -89,6 +89,19 @@ def nfl_confirm_bet():
         away_ml = request.form["away_ml"]
         away_ps = request.form["away_ps"]
         amount = request.form["amount"]
+        create_bet = NflBet(
+            game_key=game_key,
+            over_under=over_under,
+            home_team=home_team,
+            home_ml=home_ml,
+            home_ps=home_ps,
+            away_team=away_team,
+            away_ml=away_ml,
+            away_ps=away_ps,
+            amount=amount,
+            user_id=current_user.id)
+        db.session.add(create_bet)
+        db.session.commit()
         lst = [game_key, over_under, home_team, home_ml, home_ps, away_team, away_ml, away_ps, amount]
         print [entry for entry in lst if entry != ""]
     return json.dumps({
@@ -105,7 +118,9 @@ def nfl_confirm_bet():
 @nfl_blueprint.route("/nfl/confirm/<path:game_key>/", methods=["GET"])
 @login_required
 def nfl_confirm_redirect(game_key):
-    return "confirm page redirect %s" % game_key
+    game = [x for x in schedule if x["GameKey"] == game_key]
+    nfl_bet = NflBet.query.filter_by(game_key=game_key,user_id=current_user.id).one()
+    return render_template("nfl_confirm.html", game=game, game_key=game_key, nfl_bet=nfl_bet)
 
 @nfl_blueprint.route("/nfl/scores/")
 def nfl_scores():

@@ -29,6 +29,6 @@ from app.users.models import Users, Role, UserRoles, Profile
 from app.users.forms import ExtendedConfirmRegisterForm
 
 user_datastore = SQLAlchemyUserDatastore(db, Users, Role)
-security = Security(app, user_datastore,register_form=ExtendedConfirmRegisterForm)
+security = Security(app, user_datastore, register_form=ExtendedConfirmRegisterForm)
 
 

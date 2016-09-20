@@ -1,5 +1,6 @@
 import datetime
 from app import db
+# from app.nfl.models import NflBet
 from flask_security import UserMixin, RoleMixin 
 
 
@@ -20,7 +21,7 @@ class Users(db.Model, UserMixin):
     current_login_at = db.Column(db.DateTime())
     current_login_ip = db.Column(db.String(45))
     login_count = db.Column(db.Integer)
-    profile = db.relationship("Profile")
+    #profile = db.relationship("Profile")
     roles = db.relationship('Role', secondary='user_roles',
             backref=db.backref('users', lazy='dynamic'))
     
@@ -62,5 +63,5 @@ class Profile(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     avatar = db.Column(db.String)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship("Users")
