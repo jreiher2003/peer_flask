@@ -104,10 +104,11 @@ def nfl_confirm_bet():
             user_id=current_user.id)
         db.session.add(create_bet)
         db.session.commit()
-        lst = [game_key, over_under, home_team, home_ml, home_ps, away_team, away_ml, away_ps, amount]
+        lst = [game_key, bet_key, over_under, home_team, home_ml, home_ps, away_team, away_ml, away_ps, amount]
         print [entry for entry in lst if entry != ""]
     return json.dumps({
         "game_key":game_key,
+        "bet_key": bet_key,
         "over_under":over_under,
         "home_team":home_team,
         "home_ml":home_ml,
@@ -193,8 +194,6 @@ def nfl_team_schedule(team):
 def nfl_team_stats(team):
     all_teams = nflteam
     return "stats"
-
-
 
 
 

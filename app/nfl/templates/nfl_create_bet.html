@@ -15,7 +15,7 @@
             <form id="form-container" method="POST" action="">
                 {{ form.csrf_token }}
                 {{ form.game_key(id="game_key",value=nfl_game.GameKey) }}
-                {{ form.bet_key(id='bet_key', value=5) }}
+                {{ form.bet_key(id='bet_key') }}
                 <div class="form-group">
                     <label for="pickteam">Which do you want to bet on {{ nfl_game.HomeTeam }} or {{ nfl_game.AwayTeam }} or the game Total? {{ nfl_game.GameKey }} on this day {{ nfl_game.Date }}</label>
                     <!-- Nav tabs -->

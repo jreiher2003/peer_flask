@@ -14,6 +14,19 @@ $('#bet_tabs').on('click', 'a[data-toggle="tab"]', function(e) {
         // console.log($('.tab-content.' + $link.attr('href').replace('#','') + ' .tab-pane:first').addClass('active'));
       }
 });
+function makeid()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 10; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+function hashCode(s){
+  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
+}
 
 $(document).ready(function(){
     $("#form-container").submit(function(e) {
@@ -26,11 +39,7 @@ $(document).ready(function(){
       gameKey = ""
       console.log(gameKey)
     }
-    var betKey = $("form#form-container").find("input#bet_key").val();
-    betKey++;
-    $("form#form-container").find("input#bet_key").val(betKey);
-
-
+    
     var overUnder = $("div#totals.tab-pane.active").find("input#over_under").val();
     if (overUnder) {
       console.log(overUnder);
@@ -89,6 +98,10 @@ $(document).ready(function(){
       amount = "";
       console.log(amount);
     }
+    var salt = makeid();
+    console.log(salt);
+    var betKey = hashCode(gameKey+overUnder+homeTeam+homeML+homePS+awayTeam+awayML+awayPS+amount+salt);
+    console.log(betKey);
     var $ptext = $("#ptext");
     $.ajax({
       type: "POST",
