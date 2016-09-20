@@ -1,4 +1,5 @@
 from app.users.models import Users, Role, UserRoles,Profile
+from app.nfl.models import NflBet
 from app import app, db, user_datastore 
 from flask_security.utils import encrypt_password
 # bcrypt.generate_password_hash
@@ -68,9 +69,17 @@ def create_users():
         
         db.session.commit()
 
+def create_bet():
+    bet1 = NflBet(game_key="201610206", home_team="CHI", home_ps="-3", amount="20", user_id=1)
+    db.session.add(bet1)
+    db.session.commit()
+
+
 if __name__ == "__main__":
     db.drop_all()
     print "Just Dropped all tables"
     db.create_all()
     create_users()
     print "users created"
+    create_bet()
+    print "bets created"

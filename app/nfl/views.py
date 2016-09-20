@@ -1,8 +1,11 @@
 import json
 import datetime
 from app import app, db
+from app.users.models import Users, Role, UserRoles, Profile
+from .models import NflBet
 from forms import CreateNflBet
 from flask import Blueprint, render_template, url_for, request, redirect,flash
+from flask_security import login_required, roles_required, current_user
 from slugify import slugify
 from .utils import team_rush_avg, team_pass_avg, \
 opp_team_rush_avg, opp_team_pass_avg, team_off_avg, \
@@ -53,27 +56,16 @@ def nfl_public_board():
     return render_template("nfl_public_board.html", all_teams=all_teams)
 
 @nfl_blueprint.route("/nfl/create/")
+@login_required
 def nfl_create_broad():
     all_teams = nflteam
     return "create reg"
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])
-# @nfl_blueprint.route("/nfl/board/create/", methods=["GET","POST"])
+@login_required
 def nfl_create_bet(game_key):
     all_teams = nflteam
     form = CreateNflBet()
-    # if request.method == "POST":
-    # game_key = request.form["game_key"]
-    # over_under = request.form["over_under"]
-    # home_team = request.form["home_team"]
-    # home_ml = request.form["home_ml"]
-    # home_ps = request.form["home_ps"]
-    # away_team = request.form["away_team"]
-    # away_ml = request.form["away_ml"]
-    # away_ps = request.form["away_ps"]
-    # amount = request.form["amount"]
-    # print game_key, over_under, home_team, home_ml, home_ps, away_team, away_ml, away_ps, amount
-        # return redirect(url_for('nfl_confirm_bet'))
     nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
     return render_template(
         "nfl_create_bet.html",
@@ -82,21 +74,38 @@ def nfl_create_bet(game_key):
         all_teams=all_teams
         )
 
-@nfl_blueprint.route("/nfl/confirm/", methods=["GET","POST"])
+@nfl_blueprint.route("/nfl/confirm/", methods=["POST"])
+@login_required
 def nfl_confirm_bet():
     all_teams = nflteam
-    game_key = request.form["game_key"]
-    over_under = request.form["over_under"]
-    home_team = request.form["home_team"]
-    home_ml = request.form["home_ml"]
-    home_ps = request.form["home_ps"]
-    away_team = request.form["away_team"]
-    away_ml = request.form["away_ml"]
-    away_ps = request.form["away_ps"]
-    amount = request.form["amount"]
-    lst = [game_key, over_under, home_team, home_ml, home_ps, away_team, away_ml, away_ps, amount]
-    print [entry for entry in lst if entry != ""]
-    return render_template("nfl_confirm.html")
+    form = CreateNflBet()
+    if request.method == "POST":
+        game_key = request.form["game_key"]
+        over_under = request.form["over_under"]
+        home_team = request.form["home_team"]
+        home_ml = request.form["home_ml"]
+        home_ps = request.form["home_ps"]
+        away_team = request.form["away_team"]
+        away_ml = request.form["away_ml"]
+        away_ps = request.form["away_ps"]
+        amount = request.form["amount"]
+        lst = [game_key, over_under, home_team, home_ml, home_ps, away_team, away_ml, away_ps, amount]
+        print [entry for entry in lst if entry != ""]
+    return json.dumps({
+        "game_key":game_key,
+        "over_under":over_under,
+        "home_team":home_team,
+        "home_ml":home_ml,
+        "home_ps":home_ps,
+        "away_team":away_team,
+        "away_ml":away_ml,
+        "away_ps":away_ps,
+        "amount":amount})
+
+@nfl_blueprint.route("/nfl/confirm/<path:game_key>/", methods=["GET"])
+@login_required
+def nfl_confirm_redirect(game_key):
+    return "confirm page redirect %s" % game_key
 
 @nfl_blueprint.route("/nfl/scores/")
 def nfl_scores():
