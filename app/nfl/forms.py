@@ -3,6 +3,7 @@ from wtforms import TextField, IntegerField, RadioField, HiddenField
 # , choices=[('home', 'HomeTeam'), ('away', 'AwayTeam')]
 class CreateNflBet(Form):
     game_key = HiddenField("Game Key")
+    bet_key = HiddenField("Bet Key")
     away_team = TextField("Away Team")
     home_team = TextField("Home Team")
     over_under = IntegerField("Over/Under")

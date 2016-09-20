@@ -70,7 +70,7 @@ def create_users():
         db.session.commit()
 
 def create_bet():
-    bet1 = NflBet(game_key="201610321", home_team="NE", home_ps="1.0", amount="20", user_id=1)
+    bet1 = NflBet(bet_key=1,game_key="201610321", home_team="NE", home_ps="1.0", amount="20", user_id=1)
     db.session.add(bet1)
     db.session.commit()
 

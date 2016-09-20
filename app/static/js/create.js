@@ -26,7 +26,11 @@ $(document).ready(function(){
       gameKey = ""
       console.log(gameKey)
     }
-    // var values = $(this).serialize();
+    var betKey = $("form#form-container").find("input#bet_key").val();
+    betKey++;
+    $("form#form-container").find("input#bet_key").val(betKey);
+
+
     var overUnder = $("div#totals.tab-pane.active").find("input#over_under").val();
     if (overUnder) {
       console.log(overUnder);
@@ -92,6 +96,7 @@ $(document).ready(function(){
       // data: $("#form-container").serialize(),
       data: {
         "game_key": gameKey,
+        "bet_key" : betKey,
         "over_under": overUnder,
         "home_team": homeTeam,
         "home_ml": homeML,
@@ -111,7 +116,7 @@ $(document).ready(function(){
         if (data) {
           $ptext.text("Bet is submitting " + gameKey + "Redirecting...");
           setTimeout(function() {
-            window.location.href = "/nfl/confirm/"+gameKey+"/";
+            window.location.href = "/nfl/confirm/"+gameKey+"/"+betKey+"/";
           }, 3000);
         } else {
             $ptext.text("Failed to make a server-side call");

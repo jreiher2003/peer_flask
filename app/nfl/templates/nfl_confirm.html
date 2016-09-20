@@ -2,6 +2,13 @@
 {% block title %}{% endblock %}
 {% block content %}
 {{ game }}<br><br><br>
-confirm this is gamekey {{ game_key }}<br> {{ nfl_bet }}<br>
-{{ nfl_bet.home_team }}<br>{{ nfl_bet.home_ps }}<br>{{ nfl_bet.amount }}<br>{{ nfl_bet.user_id }}<br>{{ nfl_bet.game_key }}<br>
+confirm this is gamekey {{ game_key }}<br> {{ nfl_bet }}<br><br>
+{{ nfl_bet.over_under }}<br><br>
+{{ nfl_bet.away_team }}<br>
+{{ nfl_bet.away_ps }}<br>
+{{ nfl_bet.away_ml }}<br><br>
+{{ nfl_bet.home_team }}<br>
+{{ nfl_bet.home_ps }}<br><br>
+{{ nfl_bet.amount }}<br><br>
+{{ nfl_bet.user_id }}<br>{{ nfl_bet.game_key }}<br>{{ nfl_bet.bet_key }}<br>
 {% endblock %}
