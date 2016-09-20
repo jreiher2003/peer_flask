@@ -89,6 +89,7 @@ $(document).ready(function(){
     $.ajax({
       type: "POST",
       url: "/nfl/confirm/",
+      // data: $("#form-container").serialize(),
       data: {
         "game_key": gameKey,
         "over_under": overUnder,
@@ -100,11 +101,17 @@ $(document).ready(function(){
         "away_ps": awayPS,
         "amount": amount
       },
-      success: function(data) {
+      // success: function(response) {
+      //       },
+      //       error: function(error) {
+      //           console.log(error);
+      //       }
+      success: function(response,data) {
+        console.log(response, data);
         if (data) {
           $ptext.text("Bet is submitting " + gameKey + "Redirecting...");
           setTimeout(function() {
-            window.location.href = "/nfl/board/";
+            window.location.href = "/nfl/confirm/"+gameKey+"/";
           }, 3000);
         } else {
             $ptext.text("Failed to make a server-side call");
