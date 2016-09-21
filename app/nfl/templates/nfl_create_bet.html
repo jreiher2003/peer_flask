@@ -46,8 +46,17 @@
                         </ul>
                     </div>
                     <div class="tab-pane" id="totals">
-                        {{ form.over_under.label }}
-                        {{ form.over_under(id="over_under", class="form-control", value=nfl_game.OverUnder,type="number", min="-50",max="60", step="0.5") }}  
+                        <div class="form-group">
+                            {{ form.over_under.label }}
+                            {{ form.over_under(id="over_under", class="form-control", value=nfl_game.OverUnder,type="number", min="-50",max="60", step="0.5") }}  
+                        </div>
+                        <span class="error bg-danger">
+                            {% if form.over_under.errors %}
+                                {% for error in form.over_under.errors %}
+                                    <div class="bg-danger">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </span>
                     </div>
                 </div>
                 <div class="tab-content">
@@ -82,10 +91,17 @@
                     {{ form.amount.label }}
                     {{ form.amount(id="amount", placeholder="$20.00", class="form-control")}}
                 </div>
+                <span class="error bg-danger">
+                    {% if form.amount.errors %}
+                        {% for error in form.amount.errors %}
+                            <div class="bg-danger">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </span>
                 <input type="submit">
             </form>
+            <div id="ptext"></div>
         </div>
     </div>
 </div>
-<div id="ptext"></div>
 {% endblock content %}

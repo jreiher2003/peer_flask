@@ -80,8 +80,8 @@ def nfl_create_bet(game_key):
 def nfl_confirm_bet():
     all_teams = nflteam
     form = CreateNflBet()
+    
     if request.method == "POST":
-        # csrf_token = request.form["csrf_token"]
         game_key = request.form["game_key"]
         bet_key = request.form["bet_key"]
         over_under = request.form["over_under"]
@@ -92,8 +92,8 @@ def nfl_confirm_bet():
         away_ml = request.form["away_ml"]
         away_ps = request.form["away_ps"]
         amount = request.form["amount"]
+        
         create_bet = NflBet(
-            # csrf_token=csrf_token,
             game_key=game_key,
             bet_key=bet_key,
             over_under=over_under,
@@ -107,10 +107,10 @@ def nfl_confirm_bet():
             user_id=current_user.id)
         db.session.add(create_bet)
         db.session.commit()
+        # flash("just made a bet")
         lst = [game_key, bet_key, over_under, home_team, home_ml, home_ps, away_team, away_ml, away_ps, amount]
         print [entry for entry in lst if entry != ""]
     return json.dumps({
-        # "csrf_token": csrf_token,
         "game_key":game_key,
         "bet_key": bet_key,
         "over_under":over_under,
@@ -127,6 +127,7 @@ def nfl_confirm_bet():
 def nfl_confirm_redirect(game_key,bet_key):
     game = [x for x in schedule if x["GameKey"] == game_key]
     nfl_bet = NflBet.query.filter_by(bet_key=bet_key,game_key=game_key,user_id=current_user.id).one()
+    # flash("just made a bet")
     return render_template("nfl_confirm.html", game=game, game_key=game_key, nfl_bet=nfl_bet)
 
 @nfl_blueprint.route("/nfl/scores/")
