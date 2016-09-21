@@ -53,7 +53,8 @@ def nfl_schedule():
 @nfl_blueprint.route("/nfl/board/")
 def nfl_public_board():
     all_teams = nflteam
-    return render_template("nfl_public_board.html", all_teams=all_teams)
+    nfl_board = NflBet.query.all()
+    return render_template("nfl_public_board.html", all_teams=all_teams, nfl_board=nfl_board)
 
 @nfl_blueprint.route("/nfl/create/")
 @login_required
@@ -80,6 +81,7 @@ def nfl_confirm_bet():
     all_teams = nflteam
     form = CreateNflBet()
     if request.method == "POST":
+        # csrf_token = request.form["csrf_token"]
         game_key = request.form["game_key"]
         bet_key = request.form["bet_key"]
         over_under = request.form["over_under"]
@@ -91,6 +93,7 @@ def nfl_confirm_bet():
         away_ps = request.form["away_ps"]
         amount = request.form["amount"]
         create_bet = NflBet(
+            # csrf_token=csrf_token,
             game_key=game_key,
             bet_key=bet_key,
             over_under=over_under,
@@ -107,6 +110,7 @@ def nfl_confirm_bet():
         lst = [game_key, bet_key, over_under, home_team, home_ml, home_ps, away_team, away_ml, away_ps, amount]
         print [entry for entry in lst if entry != ""]
     return json.dumps({
+        # "csrf_token": csrf_token,
         "game_key":game_key,
         "bet_key": bet_key,
         "over_under":over_under,

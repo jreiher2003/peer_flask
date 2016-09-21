@@ -32,6 +32,14 @@ $(document).ready(function(){
     $("#form-container").submit(function(e) {
     e.preventDefault();
 
+    // var csrfToken = $("form#form-container").find("input#csrf_token").val();
+    // if (csrfToken) {
+    //   console.log(csrfToken);
+    // } else {
+    //   csrfToken = ""
+    //   console.log(csrfToken)
+    // }
+
     var gameKey = $("form#form-container").find("input#game_key").val();
     if (gameKey) {
       console.log(gameKey);
@@ -108,6 +116,7 @@ $(document).ready(function(){
       url: "/nfl/confirm/",
       // data: $("#form-container").serialize(),
       data: {
+        // "csrf_token": csrfToken,
         "game_key": gameKey,
         "bet_key" : betKey,
         "over_under": overUnder,
