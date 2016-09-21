@@ -110,11 +110,13 @@ $(document).ready(function(){
     console.log(salt);
     var betKey = Math.abs(hashCode(gameKey+overUnder+homeTeam+homeML+homePS+awayTeam+awayML+awayPS+amount+salt));
     console.log(betKey);
+
     var $ptext = $("#ptext");
+
     $.ajax({
       type: "POST",
       beforeSend: function (request) {
-        request.setRequestHeader("X_CSRF_TOKEN": csrfToken);
+        request.setRequestHeader("X_CSRF_TOKEN", csrfToken);
     },
       url: "/nfl/confirm/",
       data: {
