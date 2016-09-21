@@ -32,7 +32,7 @@ $(document).ready(function(){
     $("#form-container").submit(function(e) {
     e.preventDefault();
 
-    // var csrfToken = $("form#form-container").find("input#csrf_token").val();
+    var csrfToken = $("form#form-container").find("input#csrf_token").val();
     // if (csrfToken) {
     //   console.log(csrfToken);
     // } else {
@@ -113,8 +113,10 @@ $(document).ready(function(){
     var $ptext = $("#ptext");
     $.ajax({
       type: "POST",
+      beforeSend: function (request) {
+        request.setRequestHeader("X_CSRF_TOKEN": csrfToken);
+    },
       url: "/nfl/confirm/",
-      // data: $("#form-container").serialize(),
       data: {
         // "csrf_token": csrfToken,
         "game_key": gameKey,
@@ -128,22 +130,19 @@ $(document).ready(function(){
         "away_ps": awayPS,
         "amount": amount
       },
-      // success: function(response) {
-      //       },
-      //       error: function(error) {
-      //           console.log(error);
-      //       }
       success: function(response,data) {
         console.log(response, data);
         if (data) {
           $ptext.text("Bet is submitting " + gameKey + "Redirecting...");
           setTimeout(function() {
             window.location.href = "/nfl/confirm/"+gameKey+"/"+betKey+"/";
-          }, 3000);
+          }, 2000);
         } else {
             $ptext.text("Failed to make a server-side call");
         }
-      }
+      }, error: function(error) {
+              console.log(error);
+            }
     });
     // return false;
     });
