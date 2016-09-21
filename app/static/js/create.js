@@ -108,7 +108,7 @@ $(document).ready(function(){
     }
     var salt = makeid();
     console.log(salt);
-    var betKey = hashCode(gameKey+overUnder+homeTeam+homeML+homePS+awayTeam+awayML+awayPS+amount+salt);
+    var betKey = Math.abs(hashCode(gameKey+overUnder+homeTeam+homeML+homePS+awayTeam+awayML+awayPS+amount+salt));
     console.log(betKey);
     var $ptext = $("#ptext");
     $.ajax({
