@@ -1,5 +1,8 @@
 import json
 import datetime
+import random
+from string import hexdigits
+
 with open('sports/Schedule.2016.json') as data_file:    
         data = json.load(data_file)
 with open('sports/Standing.2016.json') as data_file1:    
@@ -10,6 +13,9 @@ with open('sports/Stadium.2016.json') as data_file3:
         stadium = json.load(data_file3)
 with open('sports/TeamSeason.2016.json') as data_file4:    
         teamseason = json.load(data_file4)
+
+def make_salt(length=10):
+    return "".join(random.choice(hexdigits) for x in xrange(length))
 
 def today_date():
     t = datetime.time()

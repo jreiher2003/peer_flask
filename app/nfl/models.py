@@ -8,7 +8,7 @@ class NflBet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     game_key = db.Column(db.Integer)
     bet_key = db.Column(db.Integer, unique=True)
-    over_under = db.Column(db.Integer)
+    over_under = db.Column(db.Float)
     home_team = db.Column(db.String(25))
     home_ml = db.Column(db.Integer)
     home_ps = db.Column(db.Integer)
