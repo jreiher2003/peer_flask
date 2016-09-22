@@ -22,6 +22,7 @@ class BaseConfig(object):
     SECURITY_TRACKABLE = True
     SECURITY_CONFIRM_URL = True
     SECURITY_SEND_REGISTER_EMAIL = True 
+    SECURITY_USER_IDENTITY_ATTRIBUTES = ("username","email")
     # SECURITY_BLUEPRINT_NAME = "security"
     SECURITY_PASSWORD_HASH = "bcrypt"
     SECURITY_PASSWORD_SALT = 'something_super_secret_change_in_production'
