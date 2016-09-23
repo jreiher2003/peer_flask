@@ -31,7 +31,16 @@
                     <div class="tab-pane" id="home">
                         <form id="form-home" method="POST" action="{{ url_for('nfl.post_home_team', game_key=nfl_game.GameKey) }}">
                             {{ form_h.csrf_token }}
-                            {{ form_h.game_key(id="game_key",value=nfl_game.GameKey) }}
+                            <div class="form-group">
+                                {{ form_h.game_key(id="game_key",value=nfl_game.GameKey) }}
+                            </div>
+                            <span class="error bg-danger">
+                                {% if form_h.game_key.errors %}
+                                    {% for error in form_h.game_key.errors %}
+                                        <div class="bg-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </span>
                             <div class="form-group">
                                 {{ form_h.home_team.label }}
                                 {{ form_h.home_team(id="home_team", class="form-control", readonly=True,value=nfl_game.HomeTeam) }}
@@ -77,7 +86,16 @@
                     <div class="tab-pane" id="away">
                         <form id="form-away" method="POST" action="{{ url_for('nfl.post_away_team', game_key=nfl_game.GameKey) }}">
                             {{ form_a.csrf_token }}
-                            {{ form_a.game_key(id="game_key",value=nfl_game.GameKey) }}
+                            <div class="form-group">
+                                {{ form_a.game_key(id="game_key",value=nfl_game.GameKey) }}
+                            </div>
+                            <span class="error bg-danger">
+                                {% if form_a.game_key.errors %}
+                                    {% for error in form_a.game_key.errors %}
+                                        <div class="bg-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </span>
                             <div class="form-group">
                                 {{ form_a.away_team.label }}
                                 {{ form_a.away_team(id="away_team", class="form-control", readonly=True, value=nfl_game.AwayTeam) }}
@@ -89,7 +107,7 @@
                                     {% endfor %}
                                 {% endif %}
                             </span>
-                            <label for="bet-group">What type of Bet do you want to make?</label>
+                            
                             <div class="form-group">
                              {{ form_a.point_spread.label }}
                                 {% if nfl_game.PointSpread > 0 %}
@@ -122,7 +140,16 @@
                     <div class="tab-pane" id="totals">
                         <form id="form-over" method="POST" action="{{ url_for('nfl.post_over_under', game_key=nfl_game.GameKey) }}">
                             {{ form_o.csrf_token }}
-                            {{ form_o.game_key(id="game_key",value=nfl_game.GameKey) }}
+                            <div class="form-group">
+                                {{ form_o.game_key(id="game_key",value=nfl_game.GameKey) }}
+                            </div>
+                            <span class="error bg-danger">
+                                {% if form_o.game_key.errors %}
+                                    {% for error in form_o.game_key.errors %}
+                                        <div class="bg-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </span>
                             
                             <div class="form-group">
                                 {{ form_o.over_under.label }}

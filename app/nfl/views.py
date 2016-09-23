@@ -73,20 +73,29 @@ def nfl_create_broad():
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/over_under/", methods=["POST"])
 def post_over_under(game_key):
     salt = make_salt()
+    all_teams = nflteam
+    nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
     form_o = OverUnderForm()
-    if form_o.validate_on_submit() and form_o.submit_o.data:
-        game_key = request.form["game_key"]
+    form_a = AwayTeamForm()
+    form_h = HomeTeamForm() 
+    if form_o.validate_on_submit():
+        game_key_form = request.form["game_key"]
         over_under = request.form["over_under"]
         amount = request.form["amount"]
         bet_key= ""
-        bet_key += hashlib.md5(game_key+over_under+amount+salt).hexdigest()
-        bet_o = OverUnderBet(game_key=game_key,over_under=over_under,amount=amount,bet_key=bet_key,user_id=current_user.id)
+        bet_key += hashlib.md5(game_key_form+over_under+amount+salt).hexdigest()
+        bet_o = OverUnderBet(game_key=game_key_form,over_under=over_under,amount=amount,bet_key=bet_key,user_id=current_user.id)
         db.session.add(bet_o)
         db.session.commit()
-        flash("just made a bet")
-        print bet_key,over_under,amount
         return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
-    return "there is an over under error"
+    return render_template(
+        "nfl_create_bet.html",
+        form_o=form_o,
+        form_h=form_h,
+        form_a=form_a, 
+        nfl_game=nfl_game, 
+        all_teams=all_teams
+        )
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/home_team/", methods=["POST"])
 def post_home_team(game_key):
