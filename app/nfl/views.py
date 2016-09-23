@@ -3,8 +3,8 @@ import datetime
 import hashlib
 from app import app, db
 from app.users.models import Users, Role, UserRoles, Profile
-from .models import NflBet
-from forms import CreateNflBet
+from .models import OverUnderBet, HomeTeamBet, AwayTeamBet
+from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash
 from flask_security import login_required, roles_required, current_user
 from slugify import slugify
@@ -54,7 +54,7 @@ def nfl_schedule():
 @nfl_blueprint.route("/nfl/board/")
 def nfl_public_board():
     all_teams = nflteam
-    nfl_board = NflBet.query.all()
+    nfl_board = OverUnderBet.query.all()
     return render_template("nfl_public_board.html", all_teams=all_teams, nfl_board=nfl_board)
 
 @nfl_blueprint.route("/nfl/create/")
@@ -70,14 +70,16 @@ def nfl_create_bet(game_key):
     print salt + "\n"
     all_teams = nflteam
     nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
-    form = CreateNflBet()
-    if form.validate_on_submit():
+    form_o = OverUnderForm()
+    form_h = HomeTeamForm()
+    form_a = AwayTeamForm()
+    if form_o.validate_on_submit():
         game_key = request.form["game_key"]
         over_under = request.form["over_under"]
         amount = request.form["amount"]
         bet_key= ""
         bet_key += hashlib.md5(game_key+over_under+amount+salt).hexdigest()
-        bet_in = NflBet(game_key=game_key,over_under=over_under,amount=amount,bet_key=bet_key)
+        bet_in = OverUnderBet(game_key=game_key,over_under=over_under,amount=amount,bet_key=bet_key,user_id=current_user.id)
         db.session.add(bet_in)
         db.session.commit()
         flash("just made a bet")
@@ -86,7 +88,9 @@ def nfl_create_bet(game_key):
 
     return render_template(
         "nfl_create_bet.html",
-        form=form, 
+        form_o=form_o,
+        form_h=form_h,
+        form_a=form_a, 
         nfl_game=nfl_game, 
         all_teams=all_teams
         )
@@ -95,8 +99,8 @@ def nfl_create_bet(game_key):
 @login_required
 def nfl_confirm_bet(bet_key):
     all_teams = nflteam
-    nfl_bet = NflBet.query.filter_by(bet_key=bet_key).one()
-    form = CreateNflBet()
+    nfl_bet = OverUnderBet.query.filter_by(bet_key=bet_key).one()
+    # form = CreateNflBet()
     return render_template('nfl_confirm.html', nfl_bet=nfl_bet)
     
     

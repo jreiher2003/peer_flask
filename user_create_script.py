@@ -1,5 +1,5 @@
 from app.users.models import Users, Role, UserRoles,Profile
-from app.nfl.models import NflBet
+from app.nfl.models import OverUnderBet, HomeTeamBet, AwayTeamBet
 from app import app, db, user_datastore 
 from flask_security.utils import encrypt_password
 # bcrypt.generate_password_hash
@@ -70,8 +70,12 @@ def create_users():
         db.session.commit()
 
 def create_bet():
-    bet1 = NflBet(bet_key=1,game_key="201610321", home_team="NE", home_ps="1.0", amount="20", user_id=1)
+    bet1 = OverUnderBet(bet_key=1,game_key=201610321, over_under=40.0, amount=20, user_id=1)
+    bet2 = HomeTeamBet(bet_key=2, game_key=201611111, home_team="HOU", home_ps=-3,amount=40,user_id=1)
+    bet3 = AwayTeamBet(bet_key=2, game_key=201611111, away_team="NE", away_ps=3,amount=20,user_id=1)
     db.session.add(bet1)
+    db.session.add(bet2)
+    db.session.add(bet3)
     db.session.commit()
 
 
