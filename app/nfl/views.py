@@ -63,29 +63,87 @@ def nfl_create_broad():
     all_teams = nflteam
     return "create reg"
 
-@nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])
-@login_required
-def nfl_create_bet(game_key):
+@nfl_blueprint.route("/nfl/board/create/<path:game_key>/over_under/", methods=["POST"])
+def post_over_under(game_key):
     salt = make_salt()
-    print salt + "\n"
-    all_teams = nflteam
-    nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
     form_o = OverUnderForm()
-    form_h = HomeTeamForm()
-    form_a = AwayTeamForm()
-    if form_o.validate_on_submit():
+    if form_o.validate_on_submit() and form_o.submit_o.data:
         game_key = request.form["game_key"]
         over_under = request.form["over_under"]
         amount = request.form["amount"]
         bet_key= ""
         bet_key += hashlib.md5(game_key+over_under+amount+salt).hexdigest()
-        bet_in = OverUnderBet(game_key=game_key,over_under=over_under,amount=amount,bet_key=bet_key,user_id=current_user.id)
-        db.session.add(bet_in)
+        bet_o = OverUnderBet(game_key=game_key,over_under=over_under,amount=amount,bet_key=bet_key,user_id=current_user.id)
+        db.session.add(bet_o)
         db.session.commit()
         flash("just made a bet")
         print bet_key,over_under,amount
         return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
+    return "there is an over under error"
 
+@nfl_blueprint.route("/nfl/board/create/<path:game_key>/home_team/", methods=["POST"])
+def post_home_team(game_key):
+    salt = make_salt()
+    all_teams = nflteam
+    nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
+    form_o = OverUnderForm()
+    form_a = AwayTeamForm()
+    form_h = HomeTeamForm()
+    if form_h.validate_on_submit():
+        game_key = request.form["game_key"]
+        home_team = request.form["home_team"]
+        home_ps = request.form["point_spread"]
+        amount = request.form["amount"]
+        bet_key = ""
+        bet_key += hashlib.md5(game_key+home_team+home_ps+amount+salt).hexdigest()
+        bet_h = HomeTeamBet(game_key=game_key,home_team=home_team,home_ps=home_ps,amount=amount,bet_key=bet_key,user_id=current_user.id)
+        db.session.add(bet_h)
+        db.session.commit()
+        return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
+    return render_template(
+        "nfl_create_bet.html",
+        form_o=form_o,
+        form_h=form_h,
+        form_a=form_a, 
+        nfl_game=nfl_game, 
+        all_teams=all_teams
+        )
+@nfl_blueprint.route("/nfl/board/create/<path:game_key>/away_team/", methods=["POST"])
+def post_away_team(game_key):
+    salt = make_salt()
+    all_teams = nflteam
+    nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
+    form_o = OverUnderForm()
+    form_a = AwayTeamForm()
+    form_h = HomeTeamForm()
+    if form_a.validate_on_submit():
+        game_key = request.form["game_key"]
+        away_team = request.form["away_team"]
+        away_ps = request.form["point_spread"]
+        amount = request.form["amount"]
+        bet_key = ""
+        bet_key += hashlib.md5(game_key+away_team+away_ps+amount+salt).hexdigest()
+        bet_h = AwayTeamBet(game_key=game_key,away_team=away_team,away_ps=away_ps,amount=amount,bet_key=bet_key,user_id=current_user.id)
+        db.session.add(bet_h)
+        db.session.commit()
+        return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
+    return render_template(
+        "nfl_create_bet.html",
+        form_o=form_o,
+        form_h=form_h,
+        form_a=form_a, 
+        nfl_game=nfl_game, 
+        all_teams=all_teams
+        )
+
+@nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])
+@login_required
+def nfl_create_bet(game_key):
+    all_teams = nflteam
+    nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
+    form_o = OverUnderForm()
+    form_h = HomeTeamForm()
+    form_a = AwayTeamForm()
     return render_template(
         "nfl_create_bet.html",
         form_o=form_o,
@@ -99,7 +157,19 @@ def nfl_create_bet(game_key):
 @login_required
 def nfl_confirm_bet(bet_key):
     all_teams = nflteam
-    nfl_bet = OverUnderBet.query.filter_by(bet_key=bet_key).one()
+    try:
+        nfl_bet = OverUnderBet.query.filter_by(bet_key=bet_key).one()
+    except:
+        pass
+    try:
+        nfl_bet = HomeTeamBet.query.filter_by(bet_key=bet_key).one()
+    except:
+        pass
+    try:
+        nfl_bet = AwayTeamBet.query.filter_by(bet_key=bet_key).one()
+    except:
+        pass
+
     # form = CreateNflBet()
     return render_template('nfl_confirm.html', nfl_bet=nfl_bet)
     

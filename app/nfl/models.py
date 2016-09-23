@@ -10,7 +10,7 @@ class OverUnderBet(db.Model):
     game_key = db.Column(db.Integer)
     bet_key = db.Column(db.Integer, unique=True)
     over_under = db.Column(db.Float)
-    amount = db.Column(db.Integer)
+    amount = db.Column(db.String)
     bet_taken = db.Column(db.Boolean, default=False)
     taken_by = db.Column(db.Integer) # other player id 
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id,ondelete='CASCADE'))
@@ -29,7 +29,7 @@ class HomeTeamBet(db.Model):
     home_team = db.Column(db.String(25))
     home_ps = db.Column(db.Integer)
     home_ml = db.Column(db.Integer)
-    amount = db.Column(db.Integer)
+    amount = db.Column(db.String)
     bet_taken = db.Column(db.Boolean)
     taken_by = db.Column(db.Integer) # other player id 
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id,ondelete='CASCADE'))
@@ -48,7 +48,7 @@ class AwayTeamBet(db.Model):
     away_team = db.Column(db.String(25))
     away_ps = db.Column(db.Integer)
     away_ml = db.Column(db.Integer)
-    amount = db.Column(db.Integer)
+    amount = db.Column(db.String)
     bet_taken = db.Column(db.Boolean)
     taken_by = db.Column(db.Integer) # other player id 
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id,ondelete='CASCADE'))

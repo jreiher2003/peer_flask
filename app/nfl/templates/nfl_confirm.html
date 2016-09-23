@@ -1,38 +1,38 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block content %}
-{{ game }}<br><br><br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            {{ game }}<br><br><br>
 
-confirm this is gamekey {{ game_key }}<br> {{ nfl_bet }}<br><br>
-{% if nfl_bet.over_under != None %}
-    {{ nfl_bet.over_under }}<br><br>
-{% endif %}
+            confirm this is gamekey {{ game_key }}<br> {{ nfl_bet }}<br><br>
 
-{% if nfl_bet.over_under != None %}
-    {{ nfl_bet.away_team }}<br>
-{% else %}
-    <br>
-{% endif %}
+                {{ nfl_bet.over_under }}<br>
 
-{% if nfl_bet.over_under != None %}
-    {{ nfl_bet.away_ps }}<br>
-{% endif %}
 
-{% if nfl_bet.over_under != None %}
-    {{ nfl_bet.away_ml }}<br><br>
-{% endif %}
 
-{% if nfl_bet.over_under != None %}
-    {{ nfl_bet.home_team }}<br>
-{% endif %}
+                {{ nfl_bet.away_team }}<br>
 
-{% if nfl_bet.over_under != None %}
-    {{ nfl_bet.home_ps }}<br><br>
-{% endif %}
 
-{% if nfl_bet.over_under != None %}
-    {{ nfl_bet.amount }}<br><br>
-{% endif %}
 
-    {{ nfl_bet.user_id }}<br>{{ nfl_bet.game_key }}<br>{{ nfl_bet.bet_key }}<br>
+                {{ nfl_bet.away_ps }}<br>
+
+
+
+                {{ nfl_bet.home_team }}<br>
+
+
+
+                {{ nfl_bet.home_ps }}<br><br>
+
+
+
+                {{ nfl_bet.amount }}<br><br>
+
+
+                {{ nfl_bet.user_id }}<br>{{ nfl_bet.game_key }}<br>{{ nfl_bet.bet_key }}<br>
+        </div>
+    </div>
+</div>
 {% endblock %}
