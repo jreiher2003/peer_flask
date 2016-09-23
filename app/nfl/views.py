@@ -54,8 +54,15 @@ def nfl_schedule():
 @nfl_blueprint.route("/nfl/board/")
 def nfl_public_board():
     all_teams = nflteam
-    nfl_board = OverUnderBet.query.all()
-    return render_template("nfl_public_board.html", all_teams=all_teams, nfl_board=nfl_board)
+    over_under = db.session.query(OverUnderBet).order_by("game_key").all()
+    home_team = db.session.query(HomeTeamBet).order_by("game_key").all()
+    away_team = db.session.query(AwayTeamBet).order_by("game_key").all()
+    return render_template(
+        "nfl_public_board.html", 
+        all_teams=all_teams, 
+        over_under=over_under, 
+        home_team=home_team,
+        away_team=away_team)
 
 @nfl_blueprint.route("/nfl/create/")
 @login_required
@@ -169,19 +176,15 @@ def nfl_confirm_bet(bet_key):
         nfl_bet = AwayTeamBet.query.filter_by(bet_key=bet_key).one()
     except:
         pass
-
-    # form = CreateNflBet()
     return render_template('nfl_confirm.html', nfl_bet=nfl_bet)
     
-    
-
-@nfl_blueprint.route("/nfl/confirm/<path:game_key>/<path:bet_key>/", methods=["GET"])
-@login_required
-def nfl_confirm_redirect(game_key,bet_key):
-    game = [x for x in schedule if x["GameKey"] == game_key]
-    nfl_bet = NflBet.query.filter_by(bet_key=bet_key,game_key=game_key,user_id=current_user.id).one()
-    # flash("just made a bet")
-    return render_template("nfl_confirm.html", game=game, game_key=game_key, nfl_bet=nfl_bet)
+# @nfl_blueprint.route("/nfl/confirm/<path:game_key>/<path:bet_key>/", methods=["GET"])
+# @login_required
+# def nfl_confirm_redirect(game_key,bet_key):
+#     game = [x for x in schedule if x["GameKey"] == game_key]
+#     nfl_bet = NflBet.query.filter_by(bet_key=bet_key,game_key=game_key,user_id=current_user.id).one()
+#     # flash("just made a bet")
+#     return render_template("nfl_confirm.html", game=game, game_key=game_key, nfl_bet=nfl_bet)
 
 @nfl_blueprint.route("/nfl/scores/")
 def nfl_scores():
