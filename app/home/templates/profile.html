@@ -5,5 +5,11 @@ Profile page <br>
 {{ user.id }}<br>
 {{ user.username }}<br>
 {{ user.email }}<br>
-{{ user.profile.avatar }}
+{{ user.profile.avatar }}<br>
+
+<h4>site privileges</h4> 
+{% for role in user.roles %}
+    {{ role.name }}<br>
+{% endfor %}
+
 {% endblock %}
