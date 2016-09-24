@@ -82,10 +82,11 @@ def post_over_under(game_key):
     if form_o.validate_on_submit():
         game_key_form = request.form["game_key"] 
         over_under = request.form["over_under"]
+        total = request.form["total"]
         amount = request.form["amount"]
         bet_key= ""
-        bet_key += hashlib.md5(game_key_form+over_under+amount+salt).hexdigest()
-        bet_o = OverUnderBet(game_key=game_key_form,over_under=over_under,amount=amount,bet_key=bet_key,user_id=current_user.id)
+        bet_key += hashlib.md5(game_key_form+total+over_under+amount+salt).hexdigest()
+        bet_o = OverUnderBet(game_key=game_key_form,over_under=over_under,total=total,amount=amount,bet_key=bet_key,user_id=current_user.id)
         db.session.add(bet_o)
         db.session.commit()
         return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))

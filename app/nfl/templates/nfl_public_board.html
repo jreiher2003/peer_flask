@@ -6,7 +6,7 @@
         <div class="col-md-12">
            Over Under<br><br>
             {% for bet in over_under %}
-                <p>{{ bet.id }} {{ bet.game_key }} {{ bet.over_under }} {{ bet.amount }} {{ bet.user_id }} {{ bet.bet_created }}</p>
+                <p>{{ bet.users.username }} {{ bet.users.profile.avatar }} {{ bet.id }} {{ bet.game_key }} {{ bet.over_under }} {{ bet.amount }} {{ bet.user_id }} {{ bet.bet_created }}</p>
             {% endfor %}
         </div>
     </div>

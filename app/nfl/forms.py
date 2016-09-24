@@ -1,6 +1,6 @@
 import json
 from flask_wtf import Form 
-from wtforms import TextField, IntegerField, RadioField, HiddenField, FloatField, SubmitField
+from wtforms import TextField, IntegerField, RadioField, HiddenField, FloatField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, ValidationError
 
 with open('sports/Team.2016.json') as data_file2:    
@@ -20,8 +20,10 @@ def validate_gamekey(form, field):
     
 class OverUnderForm(Form):
     game_key = HiddenField("Game Key", validators=[DataRequired(), validate_gamekey])
-    over_under = FloatField("Over/Under", validators=[NumberRange(min=-100, max=100, message="Over/Under bet must be inbetween -100 and 100 for it to be valid.")])#
+    total = FloatField("Over/Under", validators=[NumberRange(min=25, max=70, message="Over/Under bet must be inbetween 25 and 70 for it to be valid.")])#
     amount = TextField("Bet Amount", validators=[DataRequired(), NumberRange(min=0, message="All amounts must be positive")])#
+    over_under = RadioField("Pick One", choices=[("o", "Over"), ("u","Under")], validators=[DataRequired()])
+    
     submit_o = SubmitField("Bet Over/Under")
 
 class HomeTeamForm(Form):

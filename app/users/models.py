@@ -1,6 +1,7 @@
 import datetime
 from app import db
-# from app.nfl.models import NflBet
+# from app.nfl import models as nfl_models
+# from nfl_models import OverUnderBet, HomeTeamBet, AwayTeamBet
 from flask_security import UserMixin, RoleMixin 
 
 
@@ -24,6 +25,9 @@ class Users(db.Model, UserMixin):
     profile = db.relationship('Profile', uselist=False)
     roles = db.relationship('Role', secondary='user_roles',
             backref=db.backref('users', lazy='dynamic'))
+    over_under = db.relationship("OverUnderBet")
+    home_team = db.relationship("HomeTeamBet")
+    away_team = db.relationship("AwayTeamBet")
     
     def __repr__(self):
         return "<username-{}".format(self.username)

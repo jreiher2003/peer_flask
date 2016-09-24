@@ -9,16 +9,17 @@ class OverUnderBet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     game_key = db.Column(db.Integer)
     bet_key = db.Column(db.Integer, unique=True)
-    over_under = db.Column(db.Float)
+    over_under = db.Column(db.String)
+    total = db.Column(db.Float)
     amount = db.Column(db.String)
     bet_taken = db.Column(db.Boolean, default=False)
     taken_by = db.Column(db.Integer) # other player id 
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id,ondelete='CASCADE'))
-    users = db.relationship(Users)
     bet_created = db.Column(db.DateTime(),  default=datetime.datetime.now())
     bet_modified = db.Column(db.DateTime,  default=datetime.datetime.now(),
                                        onupdate=datetime.datetime.now())
     bet_taken = db.Column(db.DateTime())
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    users = db.relationship(Users, back_populates="over_under")
 
 class HomeTeamBet(db.Model):
     __tablename__ = "home_team_bet"
@@ -32,12 +33,12 @@ class HomeTeamBet(db.Model):
     amount = db.Column(db.String)
     bet_taken = db.Column(db.Boolean)
     taken_by = db.Column(db.Integer) # other player id 
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id,ondelete='CASCADE'))
-    users = db.relationship(Users)
     bet_created = db.Column(db.DateTime(),  default=datetime.datetime.now())
     bet_modified = db.Column(db.DateTime,  default=datetime.datetime.now(),
                                        onupdate=datetime.datetime.now())
     bet_taken = db.Column(db.DateTime())
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    users = db.relationship(Users, back_populates="home_team")
 
     def home_ps_format(self):
         return "+" + str(self.home_ps) if self.home_ps > 0 else str(self.home_ps)
@@ -54,12 +55,12 @@ class AwayTeamBet(db.Model):
     amount = db.Column(db.String)
     bet_taken = db.Column(db.Boolean)
     taken_by = db.Column(db.Integer) # other player id 
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id,ondelete='CASCADE'))
-    users = db.relationship(Users)
     bet_created = db.Column(db.DateTime(),  default=datetime.datetime.now())
     bet_modified = db.Column(db.DateTime,  default=datetime.datetime.now(),
                                        onupdate=datetime.datetime.now())
     bet_taken = db.Column(db.DateTime())
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    users = db.relationship(Users, back_populates="away_team")
 
     def away_ps_format(self):
         return "+" + str(self.away_ps) if self.away_ps > 0 else str(self.away_ps)

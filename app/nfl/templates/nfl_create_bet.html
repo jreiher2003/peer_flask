@@ -150,14 +150,19 @@
                                     {% endfor %}
                                 {% endif %}
                             </span>
+
+                            <div class="form-group">
+                                {{ form_o.over_under.label }} 
+                                {{ form_o.over_under }}
+                            </div>
                             
                             <div class="form-group">
-                                {{ form_o.over_under.label }}
-                                {{ form_o.over_under(id="over_under", class="form-control", value=nfl_game.OverUnder) }}  
+                                {{ form_o.total.label }}
+                                {{ form_o.total(id="total", class="form-control", value=nfl_game.OverUnder) }}  
                             </div>
                             <span class="error bg-danger">
-                                {% if form_o.over_under.errors %}
-                                    {% for error in form_o.over_under.errors %}
+                                {% if form_o.total.errors %}
+                                    {% for error in form_o.total.errors %}
                                         <div class="bg-danger">{{ error }}</div>
                                     {% endfor %}
                                 {% endif %}
