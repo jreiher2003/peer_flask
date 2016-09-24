@@ -5,7 +5,7 @@ from app import app, db
 from app.users.models import Users, Role, UserRoles, Profile
 from .models import OverUnderBet, HomeTeamBet, AwayTeamBet
 from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
-from flask import Blueprint, render_template, url_for, request, redirect,flash
+from flask import Blueprint, render_template, url_for, request, redirect,flash, abort
 from flask_security import login_required, roles_required, current_user
 from slugify import slugify
 from .utils import team_rush_avg, team_pass_avg, \
@@ -77,9 +77,10 @@ def post_over_under(game_key):
     nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
     form_o = OverUnderForm()
     form_a = AwayTeamForm()
-    form_h = HomeTeamForm() 
+    form_h = HomeTeamForm()
+    game_key_url=game_key
     if form_o.validate_on_submit():
-        game_key_form = request.form["game_key"]
+        game_key_form = request.form["game_key"] 
         over_under = request.form["over_under"]
         amount = request.form["amount"]
         bet_key= ""
