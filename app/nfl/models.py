@@ -39,6 +39,9 @@ class HomeTeamBet(db.Model):
                                        onupdate=datetime.datetime.now())
     bet_taken = db.Column(db.DateTime())
 
+    def home_ps_format(self):
+        return "+" + str(self.home_ps) if self.home_ps > 0 else str(self.home_ps)
+
 class AwayTeamBet(db.Model):
     __tablename__ = "away_team_bet"
 
@@ -57,3 +60,6 @@ class AwayTeamBet(db.Model):
     bet_modified = db.Column(db.DateTime,  default=datetime.datetime.now(),
                                        onupdate=datetime.datetime.now())
     bet_taken = db.Column(db.DateTime())
+
+    def away_ps_format(self):
+        return "+" + str(self.away_ps) if self.away_ps > 0 else str(self.away_ps)

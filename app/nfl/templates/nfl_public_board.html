@@ -14,7 +14,7 @@
         <div class="col-md-12">
            Home Team<br><br>
             {% for bet in home_team %}
-                <p>{{ bet.id }} {{ bet.game_key }} {{ bet.home_team }} {{ bet.home_ps }} {{ bet.amount }} {{ bet.user_id }} {{ bet.bet_created }}</p>
+                <p>{{ bet.id }} {{ bet.game_key }} {{ bet.home_team }} {{ bet.home_ps }} {{ bet.amount }} {{ bet.user_id }} {{ bet.bet_created }} {{ bet.home_ps_format() }}</p>
             {% endfor %}
         </div>
     </div>
@@ -22,7 +22,7 @@
         <div class="col-md-12">
            Away Team<br><br>
             {% for bet in away_team %}
-                <p>{{ bet.id }} {{ bet.game_key }} {{ bet.away_team }} {{ bet.away_ps }} {{ bet.amount }} {{ bet.user_id }} {{ bet.bet_created }}</p>
+                <p>{{ bet.id }} {{ bet.game_key }} {{ bet.away_team }} {{ bet.away_ps }} {{ bet.amount }} {{ bet.user_id }} {{ bet.bet_created }} {{ bet.away_ps_format() }}</p>
             {% endfor %}
         </div>
     </div>
