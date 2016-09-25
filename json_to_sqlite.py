@@ -12,7 +12,7 @@ score = json.load(open("sports/Score.2016.json"))
 
 def connect():
     """Connect to the sqlite database.  Returns a database connection."""
-    conn = sqlite3.connect("nfl_odds.db")
+    conn = sqlite3.connect("app/peer.db")
     c = conn.cursor()
     return conn, c
 
