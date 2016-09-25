@@ -20,7 +20,12 @@ img {
                       
                     </div>
                     <div class="col-md-4">
-                        <p>{{ bet.game_key }}</p>
+                        {% for game in schedule %}
+                            
+                                {{ game.HomeTeam }}vs{{ game.AwayTeam }}
+                            
+                        {% endfor %}
+                            <p>{{ bet.game_key }}</p>
                         <p>{{ bet.format_bet_created }}</p>
                           <p>{{ bet.id }}</p>
                     </div>

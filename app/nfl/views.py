@@ -63,7 +63,7 @@ def nfl_public_board():
         over_under=over_under, 
         home_team=home_team,
         away_team=away_team,
-        )
+        schedule=schedule)
 
 @nfl_blueprint.route("/nfl/create/")
 @login_required
