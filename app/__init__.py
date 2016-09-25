@@ -24,6 +24,7 @@ app.jinja_env.filters["datetimefilter"] = datetimefilter
 app.jinja_env.filters["urlify"] = urlify
 
 from app.users.models import Users, Role, UserRoles, Profile
+from app.nfl.models import OverUnderBet, HomeTeamBet, AwayTeamBet
 # Setup Flask-Security
 #https://pythonhosted.org/Flask-Security/api.html user_datastore api docs ie create_role, create_user
 from app.users.forms import ExtendedConfirmRegisterForm
