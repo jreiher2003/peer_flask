@@ -1,12 +1,35 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
+{% block style %}
+img {
+    border-radius: 50%;
+    height: 40px;
+}
+{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10 col-md-offset-1">
            Over Under<br><br>
             {% for bet in over_under %}
-                <p>{{ bet.users.username }} {{ bet.users.profile.avatar }} {{ bet.id }} {{ bet.game_key }} {{ bet.over_under }} {{ bet.amount }} {{ bet.user_id }} {{ bet.bet_created }}</p>
+            <div class="thumbnail">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><img src="{{ bet.users.profile.avatar }}"></p>
+                        <p>{{ bet.users.username }}</p>
+                      
+                    </div>
+                    <div class="col-md-4">
+                        <p>{{ bet.game_key }}</p>
+                        <p>{{ bet.format_bet_created }}</p>
+                          <p>{{ bet.id }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        {{ bet.over_under }}{{ bet.total }} {{ bet.amount }} {{ bet.user_id }} 
+                    </div>
+                
+                </div>
+            </div>
             {% endfor %}
         </div>
     </div>

@@ -21,6 +21,10 @@ class OverUnderBet(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="over_under")
 
+    @property 
+    def format_bet_created(self):
+        return "{dt:%Y-%m-%d}".format(dt=self.bet_created)
+
 class HomeTeamBet(db.Model):
     __tablename__ = "home_team_bet"
 
