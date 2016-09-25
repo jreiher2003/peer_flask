@@ -25,6 +25,9 @@ def today_date():
 def today_and_now():
     return datetime.datetime.now()
 
+def yesterday():
+    return datetime.datetime.now() - datetime.timedelta(days=1)
+
 ## OFFENSIVE STATS by TEAM
 def team_rush_avg(rush_yds, team):
     team_rush_avg = []

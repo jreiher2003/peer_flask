@@ -1,16 +1,18 @@
 import json
 import datetime
+from datetime import date
 import hashlib
 from app import app, db
 from app.users.models import Users, Role, UserRoles, Profile
 from .models import OverUnderBet, HomeTeamBet, AwayTeamBet
+from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore
 from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash, abort
 from flask_security import login_required, roles_required, current_user
 from slugify import slugify
 from .utils import team_rush_avg, team_pass_avg, \
 opp_team_rush_avg, opp_team_pass_avg, team_off_avg, \
-team_def_avg, today_date,today_and_now, nfl_off_yds, make_salt
+team_def_avg, today_date,today_and_now, nfl_off_yds, make_salt, yesterday
 
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
@@ -30,30 +32,34 @@ with open('sports/TeamGame.2016.json') as data_file5:
 with open('sports/Score.2016.json') as data_file6:    
         score = json.load(data_file6)
 
+def all_nfl_teams():
+    return NFLTeam.query.all()
 
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")
 def nfl_home():
-    all_teams = nflteam
+    all_teams = all_nfl_teams()
     return render_template("nfl_home.html", all_teams=all_teams)
 
 @nfl_blueprint.route("/nfl/schedule/")
 def nfl_schedule():
-    all_teams = nflteam
+    all_teams = all_nfl_teams()
     dt = today_date()
-    dn = today_and_now()
+    # j = join(NFLSchedule, NFLScore, onclause=NFLSchedule.GameKey == NFLScore.GameKey)
+    # nfl_s = db.session.query(NFLSchedule, NFLScore).join(NFLScore, NFLSchedule.GameKey == NFLScore.GameKey).all()
+    yesterday1 = yesterday()
+    sch = NFLSchedule.query.filter(db.and_(NFLSchedule.SeasonType == 1), (NFLSchedule.PointSpread != None)).all()
     return render_template(
         "nfl_schedule.html", 
         all_teams=all_teams, 
-        data=schedule, 
-        dt=dt, 
-        dn=dn, 
-        teamgame=teamgame
+        data=sch, 
+        dt=dt,
+        yesterday=yesterday1
         )
 
 @nfl_blueprint.route("/nfl/board/")
 def nfl_public_board():
-    all_teams = nflteam
+    all_teams = all_nfl_teams()
     over_under = db.session.query(OverUnderBet).order_by("game_key").all()
     home_team = db.session.query(HomeTeamBet).order_by("game_key").all()
     away_team = db.session.query(AwayTeamBet).order_by("game_key").all()
@@ -68,13 +74,13 @@ def nfl_public_board():
 @nfl_blueprint.route("/nfl/create/")
 @login_required
 def nfl_create_broad():
-    all_teams = nflteam
+    all_teams = all_nfl_teams()
     return "create reg"
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/over_under/", methods=["POST"])
 def post_over_under(game_key):
+    all_teams = all_nfl_teams()
     salt = make_salt()
-    all_teams = nflteam
     nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
     form_o = OverUnderForm()
     form_a = AwayTeamForm()
@@ -102,8 +108,8 @@ def post_over_under(game_key):
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/home_team/", methods=["POST"])
 def post_home_team(game_key):
+    all_teams = all_nfl_teams()
     salt = make_salt()
-    all_teams = nflteam
     nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
     form_o = OverUnderForm()
     form_a = AwayTeamForm()
@@ -129,8 +135,8 @@ def post_home_team(game_key):
         )
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/away_team/", methods=["POST"])
 def post_away_team(game_key):
+    all_teams = all_nfl_teams()
     salt = make_salt()
-    all_teams = nflteam
     nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
     form_o = OverUnderForm()
     form_a = AwayTeamForm()
@@ -158,7 +164,7 @@ def post_away_team(game_key):
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])
 @login_required
 def nfl_create_bet(game_key):
-    all_teams = nflteam
+    all_teams = all_nfl_teams()
     nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
     form_o = OverUnderForm()
     form_h = HomeTeamForm()
@@ -175,7 +181,7 @@ def nfl_create_bet(game_key):
 @nfl_blueprint.route("/nfl/confirm/<path:bet_key>/", methods=["GET","POST"])
 @login_required
 def nfl_confirm_bet(bet_key):
-    all_teams = nflteam
+    all_teams = all_nfl_teams()
     try:
         nfl_bet = OverUnderBet.query.filter_by(bet_key=bet_key).one()
     except:
@@ -188,7 +194,7 @@ def nfl_confirm_bet(bet_key):
         nfl_bet = AwayTeamBet.query.filter_by(bet_key=bet_key).one()
     except:
         pass
-    return render_template('nfl_confirm.html', nfl_bet=nfl_bet)
+    return render_template('nfl_confirm.html', nfl_bet=nfl_bet, all_teams=all_teams)
     
 # @nfl_blueprint.route("/nfl/confirm/<path:game_key>/<path:bet_key>/", methods=["GET"])
 # @login_required
@@ -200,24 +206,25 @@ def nfl_confirm_bet(bet_key):
 
 @nfl_blueprint.route("/nfl/scores/")
 def nfl_scores():
-    all_teams = nflteam
+    all_teams = all_nfl_teams()
     return "nfl scores"
 
 @nfl_blueprint.route("/nfl/standings/")
 def nfl_standings():
-    all_teams = nflteam
-    return render_template("nfl standings.html", standing=standing, all_teams=all_teams)
+    all_teams = all_nfl_teams()
+    st = NFLStandings.query.all()
+    return render_template("nfl standings.html", standing=st, all_teams=all_teams)
 
 @nfl_blueprint.route("/nfl/stats/<int:sid>/")
 def nfl_stats(sid):
-    all_teams = nflteam
+    all_teams = all_nfl_teams()
     teamseason1 = [x for x in teamseason if x["SeasonType"] == sid]
     return render_template("nfl_stats.html", all_teams=all_teams, teamseason=teamseason1,)
 
 @nfl_blueprint.route("/nfl/team/home/<int:sid>/<path:team>/")
 def nfl_team_home(sid,team):
+    all_teams = all_nfl_teams()
     dt = today_date()
-    all_teams = nflteam
     nfl_team = [x for x in nflteam if slugify(x["FullName"]) == team]
     nfl_team_key = [x["Key"] for x in nfl_team][0]
     team_season_stats = [x for x in teamseason if x["Team"] == nfl_team_key]
@@ -260,12 +267,12 @@ def nfl_team_home(sid,team):
 
 @nfl_blueprint.route("/nfl/team/schedule/<path:team>/")
 def nfl_team_schedule(team):
-    all_teams = nflteam
+    all_teams = all_nfl_teams()
     return "schedule"
 
 @nfl_blueprint.route("/nfl/team/stats/<path:team>/")
 def nfl_team_stats(team):
-    all_teams = nflteam
+    all_teams = all_nfl_teams()
     return "stats"
 
 

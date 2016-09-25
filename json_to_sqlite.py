@@ -27,7 +27,7 @@ def close():
 ##### create schedule ########################
 ###############################################
 def create_schedule():
-    cs = c.execute("""CREATE TABLE IF NOT EXISTS schedule (id INTEGER PRIMARY KEY, Week INTEGER, AwayTeamMoneyLine INTEGER, StadiumID INTEGER, GameKey TEXT, Canceled BOOLEAN, Season INTEGER, HomeTeam TEXT, ForecastWindSpeed INTEGER, OverUnder NUMERIC, GeoLong REAL, ForecastDescription INTEGER, AwayTeam TEXT, ForecastTempLow INTEGER, PointSpread NUMERIC, ForecastWindChill INTEGER, ForecastTempHigh INTEGER, Date NUMERIC, GeoLat REAL, SeasonType INTEGER, Channel NULL, HomeTeamMoneyLine TEXT)""")
+    cs = c.execute("""CREATE TABLE IF NOT EXISTS schedule (id INTEGER PRIMARY KEY, Week INTEGER, AwayTeamMoneyLine INTEGER, StadiumID INTEGER, GameKey TEXT, Canceled BOOLEAN, Season INTEGER, HomeTeam TEXT, ForecastWindSpeed INTEGER, OverUnder NUMERIC, GeoLong REAL, ForecastDescription INTEGER, AwayTeam TEXT, ForecastTempLow INTEGER, PointSpread NUMERIC, ForecastWindChill INTEGER, ForecastTempHigh INTEGER, Date TEXT, GeoLat REAL, SeasonType INTEGER, Channel NULL, HomeTeamMoneyLine TEXT)""")
     print "schedule created"
     return cs
 
@@ -91,7 +91,7 @@ def populate_standing():
 ########## populate score table ######################
 ######################################################
 def create_score():
-    cs = c.execute("""CREATE TABLE IF NOT EXISTS score (id INTEGER PRIMARY KEY, GameKey TEXT, SeasonType INTEGER, Season INTEGER, Week INTEGER, Date NUMERIC, AwayTeam TEXT, HomeTeam TEXT, AwayScore INTEGER, HomeScore INTEGER, Channel TEXT, PointSpread INTEGER, OverUnder NUMERIC, Quarter TEXT, TimeRemaining NULL, Possession NULL, Down NULL, Distance NULL, YardLine NULL, YardLineTerritory NULL, RedZone NULL, AwayScoreQuarter1 INTEGER, AwayScoreQuarter2 INTEGER, AwayScoreQuarter3 INTEGER, AwayScoreQuarter4 INTEGER, AwayScoreOvertime INTEGER, HomeScoreQuarter1 INTEGER, HomeScoreQuarter2 INTEGER, HomeScoreQuarter3 INTEGER, HomeScoreQuarter4 INTEGER,
+    cs = c.execute("""CREATE TABLE IF NOT EXISTS score (id INTEGER PRIMARY KEY, GameKey TEXT, SeasonType INTEGER, Season INTEGER, Week INTEGER, Date TEXT, AwayTeam TEXT, HomeTeam TEXT, AwayScore INTEGER, HomeScore INTEGER, Channel TEXT, PointSpread INTEGER, OverUnder NUMERIC, Quarter TEXT, TimeRemaining NULL, Possession NULL, Down NULL, Distance NULL, YardLine NULL, YardLineTerritory NULL, RedZone NULL, AwayScoreQuarter1 INTEGER, AwayScoreQuarter2 INTEGER, AwayScoreQuarter3 INTEGER, AwayScoreQuarter4 INTEGER, AwayScoreOvertime INTEGER, HomeScoreQuarter1 INTEGER, HomeScoreQuarter2 INTEGER, HomeScoreQuarter3 INTEGER, HomeScoreQuarter4 INTEGER,
         HomeScoreOvertime INTEGER, HasStarted BOOLEAN, IsInProgress BOOLEAN, IsOver BOOLEAN, Has1stQuarterStarted BOOLEAN,Has2ndQuarterStarted BOOLEAN, Has3rdQuarterStarted BOOLEAN, Has4thQuarterStarted BOOLEAN, IsOvertime BOOLEAN, DownAndDistance NULL, QuarterDescription TEXT, StadiumID INTEGER, LastUpdated NUMERIC, GeoLat REAL, GeoLong REAL, ForecastTempLow INTEGER, ForecastTempHigh INTEGER, ForecastDescription TEXT, ForecastWindChill INTEGER, ForecastWindSpeed INTEGER, AwayTeamMoneyLine INTEGER, HomeTeamMoneyLine INTEGER, Canceled BOOLEAN, Closed BOOLEAN, LastPlay NULL)""")
     print "create score table"
     return cs

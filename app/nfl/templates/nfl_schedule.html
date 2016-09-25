@@ -34,11 +34,11 @@
                         <th>Bet</th>
                     </tr> 
                 </thead> 
-                <tbody>
+                <tbody><!--  and -->
                 {% for d in data %}
-                    {% if d.Date|dateify > dt and d.PointSpread != None %}
+                    {% if d.Date|dateify > yesterday %}
                     <tr>
-                        <td>{{ d.Date|datetimefilter }}</td>
+                        <td>{{ d.Date|datetimefilter }}<br>Week: {{ d.Week }}</td>
                         <td>{{ d.GameKey }}</td>
                         <td>{{ d.AwayTeam }}<br>{{ d.HomeTeam }}</td>
                         {% if d.PointSpread > 0 %}
@@ -76,6 +76,8 @@
                     {% endif %}
                 </span>
             </div> #}-->
+           
+
         </div>
     </div>
 </div>
