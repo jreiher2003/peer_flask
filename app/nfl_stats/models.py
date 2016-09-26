@@ -1,3 +1,6 @@
+from datetime import datetime
+from dateutil.parser import parse
+from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 from app import db
 
 class NFLSchedule(db.Model):
@@ -24,6 +27,41 @@ class NFLSchedule(db.Model):
     ForecastWindSpeed = db.Column(db.Integer)
     AwayTeamMoneyLine = db.Column(db.Integer)
     HomeTeamMoneyLine = db.Column(db.Integer)
+
+    @property 
+    def away_pointspread(self):
+        if self.PointSpread > 0:
+            return self.PointSpread * -1
+    @property 
+    def home_pointspread(self):
+        if self.PointSpread < 0:
+            return self.PointSpread
+
+    @property 
+    def even_pointspread(self):
+        if self.PointSpread == 0.0:
+            return "even"
+
+    @property 
+    def away_ml(self):
+        if self.AwayTeamMoneyLine > 0:
+            return "+%s" % (self.AwayTeamMoneyLine)
+        else:
+            return self.AwayTeamMoneyLine
+        
+    @property 
+    def home_ml(self):
+        if self.HomeTeamMoneyLine > 0:
+            return "+%s" % (self.HomeTeamMoneyLine)
+        else:
+            return self.HomeTeamMoneyLine
+
+    @hybrid_property 
+    def d_date(self):
+        # "9/8/2016 8:30:00 PM"
+        return datetime.strptime(self.Date, '%m/%d/%Y %I:%M:%f %p')
+
+
 
 class NFLStandings(db.Model):
     __tablename__ = "standing"

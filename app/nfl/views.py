@@ -2,6 +2,7 @@ import json
 import datetime
 from datetime import date
 import hashlib
+from dateutil.parser import parse as parse_date
 from app import app, db
 from app.users.models import Users, Role, UserRoles, Profile
 from .models import OverUnderBet, HomeTeamBet, AwayTeamBet
@@ -47,6 +48,7 @@ def nfl_schedule():
     dt = today_date()
     # j = join(NFLSchedule, NFLScore, onclause=NFLSchedule.GameKey == NFLScore.GameKey)
     # nfl_s = db.session.query(NFLSchedule, NFLScore).join(NFLScore, NFLSchedule.GameKey == NFLScore.GameKey).all()
+    # ,(NFLSchedule.date_compare > dt)).
     yesterday1 = yesterday()
     sch = NFLSchedule.query.filter(db.and_(NFLSchedule.SeasonType == 1), (NFLSchedule.PointSpread != None)).all()
     return render_template(

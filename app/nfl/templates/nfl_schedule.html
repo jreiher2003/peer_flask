@@ -9,75 +9,59 @@
   padding : 4px;
   border-color : #000000
 }
-.create {
-    <!-- background-color: blue; -->
-}
-.board {
-    <!-- background-color: red; -->
-}
-
-
+.middlerow { 
+     border-top: none !important; 
+ }
 {% endblock %}
 {% block content %}
-
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <table class="table">
-                <thead> 
+            <table class="table table-border">
+                <thead class="thead-inverse"> 
                     <tr> 
-                        <th>Date</th> 
+                        <th>Date Week: 3</th>  
                         <th>Game Number</th> 
                         <th>Game</th>
                         <th>Spread</th>
                         <th>ML</th>
                         <th>Bet</th>
-                    </tr> 
-                </thead> 
-                <tbody><!--  and -->
-                {% for d in data %}
-                    {% if d.Date|dateify > yesterday %}
-                    <tr>
-                        <td>{{ d.Date|datetimefilter }}<br>Week: {{ d.Week }}</td>
-                        <td>{{ d.GameKey }}</td>
-                        <td>{{ d.AwayTeam }}<br>{{ d.HomeTeam }}</td>
-                        {% if d.PointSpread > 0 %}
-                            <td>{{ d.PointSpread * -1 }}<br>{{ d.OverUnder }}</td>
-                        {% elif d.PointSpread == 0.0 %}
-                            <td>{{ d.OverUnder }}<br>even</td>
-                        {% else %}
-                            <td>{{ d.OverUnder }}<br>{{ d.PointSpread }}</td>
-                        {% endif %}
-                        {% if d.AwayTeamMoneyLine > 0 %}
-                            <td>+{{ d.AwayTeamMoneyLine }}<br>{{ d.HomeTeamMoneyLine }}</td>
-                        {% elif d.HomeTeamMoneyLine > 0 %}
-                            <td>{{ d.AwayTeamMoneyLine }}<br>+{{ d.HomeTeamMoneyLine }}</td>
-                        {% else %}
-                            <td>{{ d.AwayTeamMoneyLine }}<br>{{ d.HomeTeamMoneyLine }}</td>
-                        {% endif %}
-                        <td><a class="board button" href="{{ url_for('nfl.nfl_public_board') }}">Board</a><a class="create button" href="{{ url_for('nfl.nfl_create_bet', game_key=d.GameKey) }}">Create</a></td>
                     </tr>
+                </thead> 
+                <tbody>
+                {% for d in data %}
+                    {% if d.d_date > dt %}
+                    <tr>
+                        <td rowspan="2">{{ d.Date|datetimefilter }}</td>
+                        <td rowspan="2">{{ d.GameKey }}</td>
+                        <td>{{ d.AwayTeam }}</td>
+                        {% if d.PointSpread > 0 %}
+                            <td>{{ d.away_pointspread }}</td>
+                        {% elif d.PointSpread == 0.0 %}
+                            <td>{{ d.OverUnder }}</td>
+                        {% else %}
+                            <td>{{ d.OverUnder }}</td>
+                        {% endif %}
+                        <td>{{ d.away_ml }}</td>
+                        <td><a class="board button" href="{{ url_for('nfl.nfl_public_board') }}">Board</a></td>
+                    </tr>
+                    <tr>
+                        <td class="middlerow">{{ d.HomeTeam }}</td>
+                         {% if d.PointSpread > 0 %}
+                            <td class="middlerow">{{ d.OverUnder }}</td>
+                        {% elif d.PointSpread == 0.0 %}
+                            <td class="middlerow">{{ d.even_pointspread }}</td>
+                        {% else %}
+                            <td class="middlerow">{{ d.home_pointspread }}</td>
+                        {% endif %}
+                        <td class="middlerow">{{ d.home_ml }}</td>
+                        <td class="middlerow"><a class="create button" href="{{ url_for('nfl.nfl_create_bet', game_key=d.GameKey) }}">Create</a>
+                    </tr>
+
                      {% endif %}
                 {% endfor %}
                 </tbody>
             </table>
-            <!-- {#<div class="pagination">
-                <span class="step-links">
-                    {% if data.has_previous %}
-                        <a href="?page={{ data.previous_page_number }}">previous</a>
-                    {% endif %}
-
-                    <span class="current">
-                        Page {{ data.number }} of {{ data.paginator.num_pages }}.
-                    </span>
-
-                    {% if data.has_next %}
-                        <a href="?page={{ data.next_page_number }}">next</a>
-                    {% endif %}
-                </span>
-            </div> #}-->
-           
-
         </div>
     </div>
 </div>
