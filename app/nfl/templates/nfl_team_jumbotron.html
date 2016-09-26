@@ -2,8 +2,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-            <!-- {#{% for standing in standing %}#} -->
-
                 {{ jj.StadiumID }} | {{ tt.StadiumID }}<br>
                 {{ jj.City }}<br>
                 {{ jj.Name }}<br>
@@ -16,9 +14,6 @@
                 Defensive Scheme: {{ jj.DefensiveScheme }} | Defensive Coordinator:  {{ jj.DefensiveCoordinator }}<br>
                 Special Teams Coach: {{ jj.SpecialTeamsCoach }}<br>
                 {{ ss.Wins }}-{{ ss.Losses }} Overall | {{ ss.DivisionWins }}-{{ ss.DivisionLosses }} {{ jj.Conference }} {{ jj.Division }}
-
-
-
             </div>
             <div class="col-md-6">
                 <table class="table">
@@ -43,7 +38,6 @@
                             <td>{{ tss.OpponentRushingYards }}({{ opp_team_rush_rank }}th)</td>
                             <td>{{ tss.OpponentPassingYards }}({{ opp_team_pass_rank }}th)</td>
                         </tr>
-                          
                     </tbody>
                 </table>
             </div>
@@ -58,11 +52,6 @@
                         {% endfor %}
                     </select>
                 </form>
-                <!--{# {% for nfl in nfl_team %}
-                <a href="{{ url_for('nfl.nfl_team_home', team=nfl.FullName|urlify) }}">home</a>
-                <a href="{{ url_for('nfl.nfl_team_schedule', team=nfl.FullName|urlify) }}">schedule</a>
-                <a href="{{ url_for('nfl.nfl_team_stats', team=nfl.FullName|urlify) }}">stats</a>
-                {% endfor %} #}-->
             </div>
         </div>
     </div>
