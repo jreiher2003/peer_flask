@@ -3,21 +3,21 @@
         <div class="row">
             <div class="col-md-6">
             <!-- {#{% for standing in standing %}#} -->
-{% for nfl,stadium,standing in nfl_stadium_standing %}
-                {{ nfl.StadiumID }} | {{ stadium.StadiumID }}<br>
-                {{ nfl.City }}<br>
-                {{ nfl.Name }}<br>
-                {{ nfl.Conference }} | {{ nfl.Division }}<br>
-                Home Town: {{ stadium.City }}, {{ stadium.State }}<br>
-                Stadium: {{ stadium.Name }} | capacity: {{ stadium.Capacity }}<br>
-                Head Coach: {{ nfl.HeadCoach }}<br>
-                Bye Week: {{ nfl.ByeWeek }}<br>
-                Offensive Scheme: {{ nfl.OffensiveScheme }} | Offensive Coordinator: {{ nfl.OffensiveCoordinator }}<br>
-                Defensive Scheme: {{ nfl.DefensiveScheme }} | Defensive Coordinator:  {{ nfl.DefensiveCoordinator }}<br>
-                Special Teams Coach: {{ nfl.SpecialTeamsCoach }}<br>
-                {{ standing.Wins }}-{{ standing.Losses }} Overall | {{ standing.DivisionWins }}-{{ standing.DivisionLosses }} {{ nfl.Conference }} {{ nfl.Division }}
- 
-{% endfor %}
+
+                {{ jj.StadiumID }} | {{ tt.StadiumID }}<br>
+                {{ jj.City }}<br>
+                {{ jj.Name }}<br>
+                {{ jj.Conference }} | {{ jj.Division }}<br>
+                Home Town: {{ tt.City }}, {{ tt.State }}<br>
+                Stadium: {{ tt.Name }} | capacity: {{ tt.Capacity }}<br>
+                Head Coach: {{ jj.HeadCoach }}<br>
+                Bye Week: {{ jj.ByeWeek }}<br>
+                Offensive Scheme: {{ jj.OffensiveScheme }} | Offensive Coordinator: {{ jj.OffensiveCoordinator }}<br>
+                Defensive Scheme: {{ jj.DefensiveScheme }} | Defensive Coordinator:  {{ jj.DefensiveCoordinator }}<br>
+                Special Teams Coach: {{ jj.SpecialTeamsCoach }}<br>
+                {{ ss.Wins }}-{{ ss.Losses }} Overall | {{ ss.DivisionWins }}-{{ ss.DivisionLosses }} {{ jj.Conference }} {{ jj.Division }}
+
+
 
             </div>
             <div class="col-md-6">
@@ -31,22 +31,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for team in team_season_stats %}
-                            {% if team.SeasonType == 1 %}
                         <tr>
                             <td>offense</td>
                             <td>{{ team_off_rank }}th</td>
-                            <td>{{ team.RushingYards }}({{ team_rush_rank }}th)</td>
-                            <td>{{ team.PassingYards }}({{ team_pass_rank }}th)</td>
+                            <td>{{ tss.RushingYards }}({{ team_rush_rank }}th)</td>
+                            <td>{{ tss.PassingYards }}({{ team_pass_rank }}th)</td>
                         </tr>
                         <tr>
                             <td>defense</td>
                             <td>{{ team_def_rank }}th</td>
-                            <td>{{ team.OpponentRushingYards }}({{ opp_team_rush_rank }}th)</td>
-                            <td>{{ team.OpponentPassingYards }}({{ opp_team_pass_rank }}th)</td>
+                            <td>{{ tss.OpponentRushingYards }}({{ opp_team_rush_rank }}th)</td>
+                            <td>{{ tss.OpponentPassingYards }}({{ opp_team_pass_rank }}th)</td>
                         </tr>
-                            {% endif %}
-                        {% endfor %}
+                          
                     </tbody>
                 </table>
             </div>
@@ -57,7 +54,7 @@
                     <select id="goto">
                         <option value="">Select Team</option>
                         {% for team in all_teams %}
-                        <option value="{{ url_for('nfl.nfl_team_home', sid=1,team=team.FullName|urlify) }}">{{ team.FullName }}</option>
+                        <option value="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</option>
                         {% endfor %}
                     </select>
                 </form>
