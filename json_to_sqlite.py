@@ -27,7 +27,7 @@ def close():
 ##### create schedule ########################
 ###############################################
 def create_schedule():
-    cs = c.execute("""CREATE TABLE IF NOT EXISTS schedule (id INTEGER PRIMARY KEY, Week INTEGER, AwayTeamMoneyLine INTEGER, StadiumID INTEGER, GameKey TEXT, Canceled BOOLEAN, Season INTEGER, HomeTeam TEXT, ForecastWindSpeed INTEGER, OverUnder NUMERIC, GeoLong REAL, ForecastDescription INTEGER, AwayTeam TEXT, ForecastTempLow INTEGER, PointSpread NUMERIC, ForecastWindChill INTEGER, ForecastTempHigh INTEGER, Date TEXT, GeoLat REAL, SeasonType INTEGER, Channel NULL, HomeTeamMoneyLine TEXT)""")
+    cs = c.execute("""CREATE TABLE IF NOT EXISTS schedule (id INTEGER PRIMARY KEY, Week INTEGER, AwayTeamMoneyLine INTEGER, StadiumID INTEGER, GameKey TEXT, Canceled BOOLEAN, Season INTEGER, HomeTeam TEXT, ForecastWindSpeed INTEGER, OverUnder NUMERIC, GeoLong REAL, ForecastDescription INTEGER, AwayTeam TEXT, ForecastTempLow INTEGER, PointSpread NUMERIC, ForecastWindChill INTEGER, ForecastTempHigh INTEGER, Date TEXT, GeoLat REAL, SeasonType INTEGER, Channel NULL, HomeTeamMoneyLine INTEGER)""")
     print "schedule created"
     return cs
 
