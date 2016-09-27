@@ -77,7 +77,6 @@ def post_over_under(game_key):
         print home
         away = request.form["away"]
         print away
-        # if nfl_game1.HomeTeam == home and nfl_game1.AwayTeam == away:
         print nfl_game.AwayTeam 
         print nfl_game.HomeTeam 
         print nfl_game.GameKey
