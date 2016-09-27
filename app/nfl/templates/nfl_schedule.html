@@ -30,7 +30,7 @@
                 </thead> 
                 <tbody>
                 {% for d in data %}
-                    <!-- {#{% if d.d_date > dt %}#} -->
+                    {% if d.d_date > dt %}
                     <tr>
                         <td rowspan="2">{{ d.Date|datetimefilter }}</td>
                         <td rowspan="2">{{ d.GameKey }}</td>
@@ -58,7 +58,7 @@
                         <td class="middlerow"><a class="create button" href="{{ url_for('nfl.nfl_create_bet', game_key=d.GameKey) }}">Create</a>
                     </tr>
 
-                     <!-- {#{% endif %}#} -->
+                     {% endif %}
                 {% endfor %}
                 </tbody>
             </table>
