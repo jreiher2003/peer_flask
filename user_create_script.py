@@ -70,10 +70,10 @@ def create_users():
         db.session.commit()
 
 def create_bet():
-    bet1 = OverUnderBet(bet_key=1, game_key=201610321, over_under="o", vs="ATL vs NO", total=40.5, amount=20, user_id=1)
-    bet4 = OverUnderBet(bet_key=4, game_key=201610233, over_under="u", vs="CHI vs DAL",total=40.5, amount=10, user_id=1)
-    bet2 = HomeTeamBet(bet_key=2, game_key=201611111, home_team="HOU", home_ps=-3,amount=40,user_id=1)
-    bet3 = AwayTeamBet(bet_key=3, game_key=201611111, away_team="NE", away_ps=3,amount=20,user_id=1)
+    bet1 = OverUnderBet(bet_key=1, game_key=201610321, over_under="o", vs="ATL vs @NO", total=40.5, amount=20, user_id=1)
+    bet4 = OverUnderBet(bet_key=4, game_key=201610233, over_under="u", vs="CHI vs @DAL",total=40.5, amount=10, user_id=1)
+    bet2 = HomeTeamBet(bet_key=2, game_key=201611111, home_team="HOU", vs="@JAX vs IND",home_ps=-3,amount=40,user_id=1)
+    bet3 = AwayTeamBet(bet_key=3, game_key=201611111, away_team="NE", vs="@JAX vs IND",away_ps=3,amount=20,user_id=1)
     db.session.add(bet1)
     db.session.add(bet2)
     db.session.add(bet3)
@@ -87,5 +87,6 @@ if __name__ == "__main__":
     db.create_all()
     create_users()
     print "users created"
+   
     create_bet()
     print "bets created"
