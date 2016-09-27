@@ -30,12 +30,23 @@ class NFLSchedule(db.Model):
     HomeTeamMoneyLine = db.Column(db.Integer)
 
     @property 
+    def OverUnder_(self):
+        if self.OverUnder == None:
+            return "N/A"
+        else:
+            return self.OverUnder
+
+    @property 
     def away_pointspread(self):
-        if self.PointSpread > 0:
+        if self.PointSpread == None:
+            return "N/A"
+        elif self.PointSpread > 0:
             return self.PointSpread * -1
     @property 
     def home_pointspread(self):
-        if self.PointSpread < 0:
+        if self.PointSpread == None:
+            return "N/A"
+        elif self.PointSpread < 0:
             return self.PointSpread
 
     @property 
@@ -45,14 +56,18 @@ class NFLSchedule(db.Model):
 
     @property 
     def away_ml(self):
-        if self.AwayTeamMoneyLine > 0:
+        if self.AwayTeamMoneyLine == None:
+            return "N/A"
+        elif self.AwayTeamMoneyLine > 0:
             return "+%s" % (self.AwayTeamMoneyLine)
         else:
             return self.AwayTeamMoneyLine
         
     @property 
     def home_ml(self):
-        if self.HomeTeamMoneyLine > 0:
+        if self.HomeTeamMoneyLine == None:
+            return "N/A"
+        elif self.HomeTeamMoneyLine > 0:
             return "+%s" % (self.HomeTeamMoneyLine)
         else:
             return self.HomeTeamMoneyLine

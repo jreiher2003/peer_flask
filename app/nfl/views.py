@@ -72,14 +72,8 @@ def post_over_under(game_key):
     form_h = HomeTeamForm()
     if form_o.validate_on_submit():
         game_key_form = request.form["game_key"]
-        print game_key_form 
         home = request.form["home_"]
-        print home
         away = request.form["away_"]
-        print away
-        print nfl_game.AwayTeam 
-        print nfl_game.HomeTeam 
-        print nfl_game.GameKey
         over_under = request.form["over_under"]
         total = request.form["total"]
         amount = request.form["amount"]
@@ -93,7 +87,6 @@ def post_over_under(game_key):
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
             return render_template("nfl_error.html")
-        
     return render_template(
         "nfl_create_bet.html",
         form_o=form_o,
@@ -159,10 +152,14 @@ def post_away_team(game_key):
         amount = request.form["amount"]
         bet_key = ""
         bet_key += hashlib.md5(game_key+home+away+away_team+away_ps+amount+salt).hexdigest()
-        bet_h = AwayTeamBet(game_key=game_key,away_team=away_team,vs=away+" vs "+"@"+home,away_ps=away_ps,amount=amount,bet_key=bet_key,user_id=current_user.id)
-        db.session.add(bet_h)
-        db.session.commit()
-        return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
+        if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
+            bet_h = AwayTeamBet(game_key=game_key,away_team=away_team,vs=away+" vs "+"@"+home,away_ps=away_ps,amount=amount,bet_key=bet_key,user_id=current_user.id)
+            db.session.add(bet_h)
+            db.session.commit()
+            return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
+        else:
+            flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
+            return render_template("nfl_error.html")
     return render_template(
         "nfl_create_bet.html",
         form_o=form_o,
