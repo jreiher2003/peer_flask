@@ -18,21 +18,6 @@ team_def_avg, today_date,today_and_now, make_salt, yesterday
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 
-with open('sports/Schedule.2016.json') as data_file:    
-        schedule = json.load(data_file)
-with open('sports/Standing.2016.json') as data_file1:    
-        standing = json.load(data_file1)
-with open('sports/Team.2016.json') as data_file2:    
-        nflteam = json.load(data_file2)
-with open('sports/Stadium.2016.json') as data_file3:    
-        stadium = json.load(data_file3)
-with open('sports/TeamSeason.2016.json') as data_file4:    
-        teamseason = json.load(data_file4)
-with open('sports/TeamGame.2016.json') as data_file5:    
-        teamgame = json.load(data_file5)
-with open('sports/Score.2016.json') as data_file6:    
-        score = json.load(data_file6)
-
 def all_nfl_teams():
     return NFLTeam.query.all()
 
@@ -45,10 +30,7 @@ def nfl_home():
 @nfl_blueprint.route("/nfl/schedule/")
 def nfl_schedule():
     all_teams = all_nfl_teams()
-    dt = today_date()
-    # j = join(NFLSchedule, NFLScore, onclause=NFLSchedule.GameKey == NFLScore.GameKey)
-    # nfl_s = db.session.query(NFLSchedule, NFLScore).join(NFLScore, NFLSchedule.GameKey == NFLScore.GameKey).all()
-    # ,(NFLSchedule.date_compare > dt)).
+    dt = datetime.datetime.today()
     yesterday1 = yesterday()
     sch = NFLSchedule.query.filter(db.and_(NFLSchedule.SeasonType == 1), (NFLSchedule.PointSpread != None)).all()
     return render_template(
@@ -56,7 +38,6 @@ def nfl_schedule():
         all_teams=all_teams, 
         data=sch, 
         dt=dt,
-        yesterday=yesterday1
         )
 
 @nfl_blueprint.route("/nfl/board/")
@@ -71,7 +52,7 @@ def nfl_public_board():
         over_under=over_under, 
         home_team=home_team,
         away_team=away_team,
-        schedule=schedule)
+        )
 
 @nfl_blueprint.route("/nfl/create/")
 @login_required
@@ -83,36 +64,52 @@ def nfl_create_broad():
 def post_over_under(game_key):
     all_teams = all_nfl_teams()
     salt = make_salt()
-    nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
+    nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
+    h_team = nfl_game.HomeTeam 
+    a_team = nfl_game.AwayTeam
     form_o = OverUnderForm()
     form_a = AwayTeamForm()
     form_h = HomeTeamForm()
-    game_key_url=game_key
     if form_o.validate_on_submit():
-        game_key_form = request.form["game_key"] 
+        game_key_form = request.form["game_key"]
+        print game_key_form 
+        home = request.form["home"]
+        print home
+        away = request.form["away"]
+        print away
+        # if nfl_game1.HomeTeam == home and nfl_game1.AwayTeam == away:
+        print nfl_game.AwayTeam 
+        print nfl_game.HomeTeam 
+        print nfl_game.GameKey
         over_under = request.form["over_under"]
         total = request.form["total"]
         amount = request.form["amount"]
         bet_key= ""
-        bet_key += hashlib.md5(game_key_form+total+over_under+amount+salt).hexdigest()
-        bet_o = OverUnderBet(game_key=game_key_form,over_under=over_under,total=total,amount=amount,bet_key=bet_key,user_id=current_user.id)
-        db.session.add(bet_o)
-        db.session.commit()
-        return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
+        bet_key += hashlib.md5(total+over_under+amount+salt).hexdigest()
+        if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
+            bet_o = OverUnderBet(game_key=game_key_form,over_under=over_under,vs=home + " vs " +away,total=total,amount=amount,bet_key=bet_key,user_id=current_user.id)
+            db.session.add(bet_o)
+            db.session.commit()
+            return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
+        else:
+            return "yo problem"
+        
     return render_template(
         "nfl_create_bet.html",
         form_o=form_o,
         form_h=form_h,
         form_a=form_a, 
         nfl_game=nfl_game, 
-        all_teams=all_teams
+        all_teams=all_teams,
+        h_team=h_team,
+        a_team=a_team
         )
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/home_team/", methods=["POST"])
 def post_home_team(game_key):
     all_teams = all_nfl_teams()
     salt = make_salt()
-    nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
+    nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
     form_o = OverUnderForm()
     form_a = AwayTeamForm()
     form_h = HomeTeamForm()
@@ -139,7 +136,7 @@ def post_home_team(game_key):
 def post_away_team(game_key):
     all_teams = all_nfl_teams()
     salt = make_salt()
-    nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
+    nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
     form_o = OverUnderForm()
     form_a = AwayTeamForm()
     form_h = HomeTeamForm()
@@ -167,8 +164,9 @@ def post_away_team(game_key):
 @login_required
 def nfl_create_bet(game_key):
     all_teams = all_nfl_teams()
-    # nfl_game = [d for d in schedule if d['GameKey'] == game_key][0]
     nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
+    h_team = nfl_game.HomeTeam 
+    a_team = nfl_game.AwayTeam
     form_o = OverUnderForm()
     form_h = HomeTeamForm()
     form_a = AwayTeamForm()
@@ -178,7 +176,9 @@ def nfl_create_bet(game_key):
         form_h=form_h,
         form_a=form_a, 
         nfl_game=nfl_game, 
-        all_teams=all_teams
+        all_teams=all_teams,
+        h_team=h_team,
+        a_team=a_team,
         )
 
 @nfl_blueprint.route("/nfl/confirm/<path:bet_key>/", methods=["GET","POST"])

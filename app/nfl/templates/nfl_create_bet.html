@@ -87,7 +87,7 @@
                         <form id="form-away" method="POST" action="{{ url_for('nfl.post_away_team', game_key=nfl_game.GameKey) }}">
                             {{ form_a.csrf_token }}
                             <div class="form-group">
-                                {{ form_a.game_key(id="game_key",value=nfl_game.GameKey) }}
+                                {{ form_a.game_key(value=nfl_game.GameKey) }}
                             </div>
                             <span class="error bg-danger">
                                 {% if form_a.game_key.errors %}
@@ -141,24 +141,49 @@
                         <form id="form-over" method="POST" action="{{ url_for('nfl.post_over_under', game_key=nfl_game.GameKey) }}">
                             {{ form_o.csrf_token }}
                             <div class="form-group">
-                                {{ form_o.game_key(id="game_key",value=nfl_game.GameKey) }}
+                                {{ form_o.game_key(value=nfl_game.GameKey) }}
                             </div>
                             <span class="error bg-danger">
                                 {% if form_o.game_key.errors %}
-                                    {% for error in form_.game_key.errors %}
+                                    {% for error in form_o.game_key.errors %}
                                         <div class="bg-danger">{{ error }}</div>
                                     {% endfor %}
                                 {% endif %}
                             </span>
-
+                            <div class="form-group">
+                                {{ form_o.away(value=a_team) }}
+                            </div>
+                            <span class="error bg-danger">
+                                {% if form_o.away.errors %}
+                                    {% for error in form_o.away.errors %}
+                                        <div class="bg-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </span>
+                            <div class="form-group">
+                                {{ form_o.home(value=h_team) }}
+                            </div>
+                            <span class="error bg-danger">
+                                {% if form_o.home.errors %}
+                                    {% for error in form_o.home.errors %}
+                                        <div class="bg-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </span>
                             <div class="form-group">
                                 {{ form_o.over_under.label }} 
                                 {{ form_o.over_under }}
                             </div>
-                            
+                            <span class="error bg-danger">
+                                {% if form_o.over_under.errors %}
+                                    {% for error in form_o.over_under.errors %}
+                                        <div class="bg-danger">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </span>
                             <div class="form-group">
                                 {{ form_o.total.label }}
-                                {{ form_o.total(id="total", class="form-control", value=nfl_game.OverUnder) }}  
+                                {{ form_o.total(class="form-control", value=nfl_game.OverUnder) }}  
                             </div>
                             <span class="error bg-danger">
                                 {% if form_o.total.errors %}
@@ -169,7 +194,7 @@
                             </span>
                             <div class="form-group">
                                 {{ form_o.amount.label }}
-                                {{ form_o.amount(id="amount", placeholder="$20.00", class="form-control")}}
+                                {{ form_o.amount(placeholder="$20.00", class="form-control")}}
                             </div>
                             <span class="error bg-danger">
                                 {% if form_o.amount.errors %}

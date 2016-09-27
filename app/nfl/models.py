@@ -12,6 +12,7 @@ class OverUnderBet(db.Model):
     over_under = db.Column(db.String)
     total = db.Column(db.Float)
     amount = db.Column(db.String)
+    vs = db.Column(db.String)
     bet_taken = db.Column(db.Boolean, default=False)
     taken_by = db.Column(db.Integer) # other player id 
     bet_created = db.Column(db.DateTime(),  default=datetime.datetime.now())
