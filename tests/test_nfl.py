@@ -17,14 +17,14 @@ class TestNflCase(BaseTestCase):
         response = self.client.get("/nfl/board/")
         self.assertEqual(response.status_code, 200)
 
-    def test_nfl_picked_bet(self):
-        response = self.client.get("/nfl/confirm/")
+    def test_nfl_schedule(self):
+        response = self.client.get("/nfl/schedule/")
         self.assertEqual(response.status_code, 200)
 
-    # def test_nfl_picked_bet(self):
-    #     response = self.client.get("/nfl/board/confirm/11111111")
-    #     self.assertEqual(response.status_code, 200)
+    def test_nfl_stats(self):
+        response = self.client.get("/nfl/stats/1/")
+        self.assertEqual(response.status_code, 200)
 
-    def test_nfl_create_bet(self):
-        response = self.client.get("/nfl/create/")
+    def test_nfl_home_team(self):
+        response = self.client.get("/nfl/team/home/1/BAL/baltimore-ravens/")
         self.assertEqual(response.status_code, 200)
