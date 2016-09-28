@@ -24,9 +24,9 @@
                     {% if nfl_bet.over_under %}
                        <h4 class="text-center">{{ nfl_bet.over_under }}{{ nfl_bet.total}}</h4>
                     {% elif nfl_bet.away_team %}
-                        <h4 class="text-center">{{ nfl_bet.away_team }}  {{ nfl_bet.away_ps }} {{ nfl_bet.away_ps_format() }}</h4>
+                        <h4 class="text-center">{{ nfl_bet.away_team }}  {{ nfl_bet.away_ps_format() }}</h4>
                     {% elif nfl_bet.home_team %}
-                        <h4 class="text-center">{{ nfl_bet.home_team }} {{ nfl_bet.home_ps }} {{ nfl_bet.home_ps_format() }}</h4>
+                        <h4 class="text-center">{{ nfl_bet.home_team }} {{ nfl_bet.home_ps_format() }}</h4>
                     {% endif %}
                        <h4 class="text-center"> amount: ${{ nfl_bet.amount }}</h4>
                 </h4>

@@ -1,3 +1,4 @@
+from dateutil.parser import parse as parse_date
 from app.users.models import Users, Role, UserRoles,Profile
 from app.nfl.models import OverUnderBet, HomeTeamBet, AwayTeamBet
 from app import app, db, user_datastore 
@@ -70,10 +71,10 @@ def create_users():
         db.session.commit()
 
 def create_bet():
-    bet1 = OverUnderBet(bet_key=1, game_key=201610321, over_under="o", vs="ATL vs @NO", total=40.5, amount=20, user_id=1)
-    bet4 = OverUnderBet(bet_key=4, game_key=201610233, over_under="u", vs="CHI vs @DAL",total=40.5, amount=10, user_id=1)
-    bet2 = HomeTeamBet(bet_key=2, game_key=201611111, home_team="HOU", vs="@JAX vs IND",home_ps=-3,amount=40,user_id=1)
-    bet3 = AwayTeamBet(bet_key=3, game_key=201611111, away_team="NE", vs="@JAX vs IND",away_ps=3,amount=20,user_id=1)
+    bet1 = OverUnderBet(bet_key=1, game_key=201610110, game_date=parse_date("9/8/2016 8:30:00 PM"), over_under="o", vs="CAR vs @DEN", total=40.5, amount=20, user_id=1)
+    bet4 = OverUnderBet(bet_key=4, game_key=201610115, game_date=parse_date("9/11/2016 1:00:00 PM"), over_under="u", vs="GB vs @JAX",total=47, amount=10, user_id=1)
+    bet2 = HomeTeamBet(bet_key=2, game_key=201610110, game_date=parse_date("9/8/2016 8:30:00 PM"), home_team="DEN", vs="CAR vs @DEN",home_ps=-3,amount=40,user_id=1)
+    bet3 = AwayTeamBet(bet_key=3, game_key=201610115, game_date=parse_date("9/11/2016 1:00:00 PM"), away_team="GB", vs="GB vs @JAX",away_ps=-3.5,amount=20,user_id=1)
     db.session.add(bet1)
     db.session.add(bet2)
     db.session.add(bet3)
