@@ -17,13 +17,14 @@ tr {
               <thead>
                 <tr>
                     <th>user</th>
-                    <th>game</th>
-                    <th>total</th>
-                    <th>amount</th>
+                    <th><a href="/nfl/board/?sort_on=vs">game</a></th>
+                    <th><a href="/nfl/board/?sort_on=total">total</a></th>
+                    <th><a href="/nfl/board/?sort_on=amount">amount</a></th>
                 </tr>
               </thead>
               <tbody>
-                    {% for bet in over_under %}
+                    {% set sort_on = request.args.sort_on|default('vs') %}
+                    {% for bet in over_under|sort(attribute=sort_on)|reverse %}
                         <tr> 
                             <td><img src="{{ bet.users.profile.avatar }}">
                                 {{ bet.users.username }} {{ bet.user_id }} </td>

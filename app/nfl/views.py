@@ -42,8 +42,9 @@ def nfl_schedule():
 
 @nfl_blueprint.route("/nfl/board/")
 def nfl_public_board():
+    var = "vs"
     all_teams = all_nfl_teams()
-    over_under = db.session.query(OverUnderBet).order_by("game_key").all()
+    over_under = db.session.query(OverUnderBet).order_by("vs desc").all()
     home_team = db.session.query(HomeTeamBet).order_by("game_key").all()
     away_team = db.session.query(AwayTeamBet).order_by("game_key").all()
     return render_template(
