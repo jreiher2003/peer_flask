@@ -32,7 +32,7 @@
                 {% for d in data %}
                     {% if d.d_date > dt %}
                     <tr>
-                        <td rowspan="2">{{ d.Date|datetimefilter }}</td>
+                        <td rowspan="2">{{ d.Date|dateify|game_time }}<br>{{ d.Date|dateify|game_date }}</td>
                         <td rowspan="2">{{ d.GameKey }}</td>
                         <td>{{ d.AwayTeam }}</td>
                         {% if d.PointSpread > 0 %}

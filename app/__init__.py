@@ -18,10 +18,13 @@ app.register_blueprint(home_blueprint)
 from app.nfl.views import nfl_blueprint
 app.register_blueprint(nfl_blueprint) 
 
-from temp_filters import dateify, datetimefilter, urlify
+from temp_filters import dateify, datetimefilter, urlify, datetimefilter_f, game_time, game_date
 app.jinja_env.filters["dateify"] = dateify
 app.jinja_env.filters["datetimefilter"] = datetimefilter
 app.jinja_env.filters["urlify"] = urlify
+app.jinja_env.filters["datetimefilter_f"] = datetimefilter_f
+app.jinja_env.filters["game_time"] = game_time
+app.jinja_env.filters["game_date"] = game_date
 
 from app.users.models import Users, Role, UserRoles, Profile
 from app.nfl.models import OverUnderBet, HomeTeamBet, AwayTeamBet

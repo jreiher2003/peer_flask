@@ -76,7 +76,7 @@ def post_over_under(game_key):
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
             bet_o = OverUnderBet(
                 game_key=game_key_form, 
-                game_date=nfl_game.Date, 
+                game_date=parse_date(nfl_game.Date), 
                 over_under=over_under,
                 vs=away+" vs "+"@"+home,
                 total=total,
@@ -122,7 +122,7 @@ def post_home_team(game_key):
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
             bet_h = HomeTeamBet(
                 game_key=game_key_form,
-                game_date=nfl_game.Date,
+                game_date=parse_date(nfl_game.Date),
                 home_team=home_team,
                 home_ps=home_ps,
                 vs=away+" vs "+"@"+home,
@@ -165,7 +165,7 @@ def post_away_team(game_key):
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
             bet_h = AwayTeamBet(
                 game_key=game_key_form,
-                game_date=nfl_game.Date,
+                game_date=parse_date(nfl_game.Date),
                 away_team=away_team,
                 vs=away+" vs "+"@"+home,
                 away_ps=away_ps,
