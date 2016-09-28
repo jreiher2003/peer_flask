@@ -42,12 +42,17 @@ class NFLSchedule(db.Model):
             return "N/A"
         elif self.PointSpread > 0:
             return self.PointSpread * -1
+        else:
+            return self.PointSpread 
+
     @property 
     def home_pointspread(self):
         if self.PointSpread == None:
             return "N/A"
         elif self.PointSpread < 0:
             return self.PointSpread
+        else:
+            return self.PointSpread * -1
 
     @property 
     def even_pointspread(self):
