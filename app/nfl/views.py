@@ -54,12 +54,6 @@ def nfl_public_board():
         away_team=away_team,
         )
 
-@nfl_blueprint.route("/nfl/create/")
-@login_required
-def nfl_create_broad():
-    all_teams = all_nfl_teams()
-    return "create reg"
-
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/over_under/", methods=["POST"])
 def post_over_under(game_key):
     all_teams = all_nfl_teams()
@@ -144,16 +138,16 @@ def post_away_team(game_key):
     form_a = AwayTeamForm()
     form_h = HomeTeamForm()
     if form_a.validate_on_submit():
-        game_key = request.form["game_key"]
+        game_key_form = request.form["game_key"]
         home = request.form["home_"]
         away = request.form["away_"]
         away_team = request.form["away_team"]
         away_ps = request.form["point_spread"]
         amount = request.form["amount"]
         bet_key = ""
-        bet_key += hashlib.md5(game_key+home+away+away_team+away_ps+amount+salt).hexdigest()
+        bet_key += hashlib.md5(game_key_form+home+away+away_team+away_ps+amount+salt).hexdigest()
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_h = AwayTeamBet(game_key=game_key,away_team=away_team,vs=away+" vs "+"@"+home,away_ps=away_ps,amount=amount,bet_key=bet_key,user_id=current_user.id)
+            bet_h = AwayTeamBet(game_key=game_key_form,away_team=away_team,vs=away+" vs "+"@"+home,away_ps=away_ps,amount=amount,bet_key=bet_key,user_id=current_user.id)
             db.session.add(bet_h)
             db.session.commit()
             return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
@@ -208,18 +202,16 @@ def nfl_confirm_bet(bet_key):
         pass
     return render_template('nfl_confirm.html', nfl_bet=nfl_bet, all_teams=all_teams)
     
-# @nfl_blueprint.route("/nfl/confirm/<path:game_key>/<path:bet_key>/", methods=["GET"])
-# @login_required
-# def nfl_confirm_redirect(game_key,bet_key):
-#     game = [x for x in schedule if x["GameKey"] == game_key]
-#     nfl_bet = NflBet.query.filter_by(bet_key=bet_key,game_key=game_key,user_id=current_user.id).one()
-#     # flash("just made a bet")
-#     return render_template("nfl_confirm.html", game=game, game_key=game_key, nfl_bet=nfl_bet)
-
-@nfl_blueprint.route("/nfl/scores/")
-def nfl_scores():
+@nfl_blueprint.route("/nfl/bet/<path:bet_key>/edit/")
+def nfl_edit_bet(bet_key):
     all_teams = all_nfl_teams()
-    return "nfl scores"
+    return "bet edit %s" % bet_key
+
+@nfl_blueprint.route("/nfl/bet/<path:bet_key>/delete/")
+@login_required
+def nfl_delete_bet(bet_key):
+    all_teams = all_nfl_teams()
+    return "delete bet %s" % bet_key
 
 @nfl_blueprint.route("/nfl/standings/")
 def nfl_standings():
