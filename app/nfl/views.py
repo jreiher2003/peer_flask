@@ -240,7 +240,11 @@ def nfl_standings():
 def nfl_stats(sid):
     all_teams = all_nfl_teams()
     teamseason1 = NFLTeamSeason.query.filter_by(SeasonType=sid).all()
-    return render_template("nfl_stats.html", all_teams=all_teams, teamseason=teamseason1,)
+    return render_template(
+        "nfl_stats.html", 
+        all_teams=all_teams, 
+        teamseason=teamseason1,
+        )
 
 @nfl_blueprint.route("/nfl/team/home/<int:sid>/<path:key>/<path:team>/")
 def nfl_team_home(sid,key,team):

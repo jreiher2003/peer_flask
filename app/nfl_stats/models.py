@@ -453,6 +453,18 @@ class NFLTeamSeason(db.Model):
     TwoPointConversionReturns = db.Column(db.Integer)
     OpponentTwoPointConversionReturns = db.Column(db.Integer)
 
-    # @property 
-    # def rushing_rank(self):
-    #     return func.rank(self.RushingYards)
+    @property 
+    def passing_per_game(self):
+        return (self.PassingYards / self.Games)
+
+    @property 
+    def rushing_yards_per_game(self):
+        return (self.RushingYards / self.Games)
+
+    @property 
+    def offensive_yards_per_game(self):
+        return (self.OffensiveYards / self.Games)
+
+    @property 
+    def score_per_game(self):
+        return (self.Score / self.Games)
