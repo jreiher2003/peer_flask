@@ -454,6 +454,9 @@ class NFLTeamSeason(db.Model):
     TwoPointConversionReturns = db.Column(db.Integer)
     OpponentTwoPointConversionReturns = db.Column(db.Integer)
 
+    ######################################################
+    ####### total offensive ##############################
+    ######################################################
     @property 
     def passing_per_game(self):
         return round((self.PassingYards / self.Games),1)
@@ -485,4 +488,33 @@ class NFLTeamSeason(db.Model):
     @property 
     def opponent_score_per_game(self):
         return round((self.OpponentScore / self.Games),1)
+
+    ##############################################################
+    ########### total passing offense ############################
+    ##############################################################
+    @property 
+    def net_passing_yrd_per_game(self):
+        return round((self.PassingYards / self.Games),1)
+
+    ##############################################################
+    ########## total rushing offense #############################
+    ##############################################################
+    @property 
+    def net_rushing_yrd_per_game(self):
+        return round((self.RushingYards/self.Games),1)
+
+    ##############################################################
+    ############### total receiving offence ######################
+    ##############################################################
+    @property 
+    def net_receiving_yrd(self):
+        return round((self.PassingYards+self.OpponentSackYards),1)
+
+    @property 
+    def avg_yrd_per_catch(self):
+        return round(((self.PassingYards+self.OpponentSackYards)/self.PassingCompletions),1)
+
+    @property 
+    def receiving_yrd_per_game(self):
+        return round(((self.PassingYards+self.OpponentSackYards)/self.Games),1)
 

@@ -35,9 +35,15 @@
                         <div class="tab-pane" id="total_offense">
                             {% include "team_stat_tables/nfl_team_total_offense_stats.html" %}
                         </div>
-                        <div class="tab-pane" id="passing_offense">po</div>
-                        <div class="tab-pane" id="rushing_offense">ro</div>
-                        <div class="tab-pane" id="receving_offense">reco</div>
+                        <div class="tab-pane" id="passing_offense">
+                            {% include "team_stat_tables/nfl_team_total_passing_stats.html" %}
+                        </div>
+                        <div class="tab-pane" id="rushing_offense">
+                            {% include "team_stat_tables/nfl_team_total_rushing_stats.html" %}
+                        </div>
+                        <div class="tab-pane" id="receiving_offense">
+                            {% include "team_stat_tables/nfl_team_total_receiving_stats.html" %}
+                        </div>
                         <div class="tab-pane" id="first_downs">fd</div>
                         <div class="tab-pane" id="trd_down_conversions">3rd dc</div>
                         <div class="tab-pane" id="fth_down_conversions">4th dc</div>

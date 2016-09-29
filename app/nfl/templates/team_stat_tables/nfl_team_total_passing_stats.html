@@ -1,0 +1,39 @@
+<table id="offense_passing_season_stats" class="table tablesorter focus-highlight tablesorter-blue" cellspacing="1">
+    <thead>
+        <h4>NFL Team Total Passing Stats</h4>
+        <tr>
+            <th>RK</th>
+            <th><a>TEAM<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>ATT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>COMP<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>PCT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDS<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDS/A<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>TD<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>INT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>SACK<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDSL<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>RATE<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>Net YDS/G<i class="fa fa-fw fa-sort"></i></a></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in teamseason %}
+        <tr>
+            <td></td>
+            <td>{{ t.Team }}</td>
+            <td>{{ t.PassingAttempts }}</td>
+            <td>{{ t.PassingCompletions }}</td>
+            <td>{{ t.CompletionPercentage }}</td>
+            <td>{{ t.PassingYards }}</td>
+            <td>{{ t.PassingYardsPerAttempt }}</td>
+            <td>{{ t.PassingTouchdowns }}</td>
+            <td>{{ t.PassingInterceptions }}</td>
+            <td>{{ t.OpponentSacks }}</td>
+            <td>{{ t.OpponentSackYards }}</td>
+            <td>{{ t.PasserRating }}</td>
+            <td>{{ t.net_passing_yrd_per_game }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

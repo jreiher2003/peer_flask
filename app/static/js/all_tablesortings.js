@@ -10,6 +10,15 @@ $(function() {
   $("#offense_season_stats").tablesorter({
     theme: 'blue'
   });
+  $('#offense_passing_season_stats').tablesorter({
+        theme: 'blue'
+    });
+  $('#offense_rushing_season_stats').tablesorter({
+        theme: 'blue'
+    });
+  $('#offense_receiving_season_stats').tablesorter({
+        theme: 'blue'
+    });
    
     $('#defense_season_stats').tablesorter({
         theme: 'blue'

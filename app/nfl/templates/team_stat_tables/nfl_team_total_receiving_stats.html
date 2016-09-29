@@ -1,0 +1,28 @@
+<table id="offense_receiving_season_stats" class="table tablesorter focus-highlight tablesorter-blue" cellspacing="1">
+    <thead>
+        <h4>NFL Team Total Receiving Stats</h4>
+        <tr>
+            <th>RK</th>
+            <th><a>TEAM<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>REC<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDS<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>AVG<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>TD<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDS/G<i class="fa fa-fw fa-sort"></i></a></th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in teamseason %}
+        <tr>
+            <td></td>
+            <td>{{ t.Team }}</td>
+            <td>{{ t.PassingCompletions }}</td>
+            <td>{{ t.net_receiving_yrd }}</td>
+            <td>{{ t.avg_yrd_per_catch }}</td>
+            <td>{{ t.PassingTouchdowns }}</td>
+            <td>{{ t.receiving_yrd_per_game }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
