@@ -13,28 +13,60 @@ tr {
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-           <table class="table">
-              <thead>
-                <tr>
-                    <th>user</th>
-                    <th><a href="/nfl/board/?sort_on=vs">game</a></th>
-                    <th><a href="/nfl/board/?sort_on=total">total</a></th>
-                    <th><a href="/nfl/board/?sort_on=amount">amount</a></th>
-                </tr>
-              </thead>
-              <tbody>
-                    {% set sort_on = request.args.sort_on|default('vs') %}
-                    {% for bet in over_under|sort(attribute=sort_on)|reverse %}
+            <div id="wrapper">
+               <table id="keywords" class="table">
+                  <thead>
+                    <tr>
+                        <th>user</th>
+                        <th>game date</th>
+                        <th>game</th>
+                        <th>total</th>
+                        <th>amount</th>
+                        <th>bet this</th>
+                    </tr>
+                   </thead>
+                   <tbody>
+                    {% for bet in over_under %}
                         <tr> 
                             <td><img src="{{ bet.users.profile.avatar }}">
                                 {{ bet.users.username }} {{ bet.user_id }} </td>
+                            <td>{{ bet.game_date }}</td>
                             <td>{{ bet.vs }}</td>
                             <td>{{ bet.over_under }}{{ bet.total }}</td>
                             <td>{{ bet.amount }}</td>
+                            <td><a href="">bet</a></td>
                         </tr>
                     {% endfor %}
-                </tbody>
-           </table>
+                    </tbody>
+               </table>
+               <table id="keywords1" class="table">
+                  <thead>
+                    <tr>
+                        <th>user</th>
+                        <th>game date</th>
+                        <th>game</th>
+                        <th>team</th>
+                        <th>spread</th>
+                        <th>amount</th>
+                        <th>bet this</th>
+                    </tr>
+                   </thead>
+                   <tbody>
+                    {% for bet in away_team %}
+                        <tr> 
+                            <td><img src="{{ bet.users.profile.avatar }}">
+                                {{ bet.users.username }} {{ bet.user_id }} </td>
+                            <td>{{ bet.game_date }}</td>
+                            <td>{{ bet.vs }}</td>
+                            <td>{{ bet.away_team }}</td>
+                            <td>{{ bet.away_ps_format() }}
+                            <td>{{ bet.amount }}</td>
+                            <td><a href="">bet</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+               </table>
+           </div>
         </div>
     </div>
     <div class="row">

@@ -44,9 +44,9 @@ def nfl_schedule():
 def nfl_public_board():
     var = "vs"
     all_teams = all_nfl_teams()
-    over_under = db.session.query(OverUnderBet).order_by("vs desc").all()
-    home_team = db.session.query(HomeTeamBet).order_by("game_key").all()
-    away_team = db.session.query(AwayTeamBet).order_by("game_key").all()
+    over_under = db.session.query(OverUnderBet).all()
+    home_team = db.session.query(HomeTeamBet).all()
+    away_team = db.session.query(AwayTeamBet).all()
     return render_template(
         "nfl_public_board.html", 
         all_teams=all_teams, 
@@ -293,6 +293,8 @@ def nfl_team_schedule(team):
 def nfl_team_stats(team):
     all_teams = all_nfl_teams()
     return "stats"
+
+
 
 
 

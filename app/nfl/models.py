@@ -38,7 +38,7 @@ class HomeTeamBet(db.Model):
     vs = db.Column(db.String)
     home_ps = db.Column(db.Integer)
     home_ml = db.Column(db.Integer)
-    amount = db.Column(db.Numeric)
+    amount = db.Column(db.Numeric(12,2))
     bet_taken = db.Column(db.Boolean)
     taken_by = db.Column(db.Integer) # other player id 
     bet_created = db.Column(db.DateTime,  default=datetime.datetime.now())
@@ -62,7 +62,7 @@ class AwayTeamBet(db.Model):
     vs = db.Column(db.String)
     away_ps = db.Column(db.Integer)
     away_ml = db.Column(db.Integer)
-    amount = db.Column(db.Numeric)
+    amount = db.Column(db.Numeric(12,2))
     bet_taken = db.Column(db.Boolean)
     taken_by = db.Column(db.Integer) # other player id 
     bet_created = db.Column(db.DateTime,  default=datetime.datetime.now())
