@@ -236,6 +236,7 @@ def nfl_standings():
     st = NFLStandings.query.all()
     return render_template("nfl standings.html", standing=st, all_teams=all_teams)
 
+
 @nfl_blueprint.route("/nfl/stats/<int:sid>/")
 def nfl_stats(sid):
     all_teams = all_nfl_teams()
