@@ -2,12 +2,7 @@ $(document).ready(function(){
   $(function(){
     $('#public__board').tablesorter(); 
   });
-  // $(function(){
-  //   $('#offense_season_stats').tablesorter(); 
-  // });
-  $(function(){
-    $('#defense_season_stats').tablesorter(); 
-  });
+  
 });
 
 $(function() {
@@ -32,22 +27,6 @@ $(function() {
       });
   }
 
-// store the currently selected tab in the hash value
-    $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
-      var id = $(e.target).attr("href").substr(1);
-      console.log("id " + id);
-      window.location.hash = id;
-    });
-
-    // on load of the page: switch to the currently selected tab
-    var hash = window.location.hash;
-    console.log("hash " +hash)
-    $('#offense_season_stats a[href="' + hash + '"]').tab('show');
-
-     // on load of the page: switch to the currently selected tab
-    var hash = window.location.hash;
-    console.log("hash " +hash)
-    $('#defense_season_stats a[href="' + hash + '"]').tab('show');
 
 
 });
