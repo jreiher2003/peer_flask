@@ -5,49 +5,80 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-10">
-            <table id="passing_season_stats" class="table table-hover tablesorter" cellspacing="1">
-                <form action="" method="get" enctype="multipart/form-data">
-                    <select id="goto">
-                        <option>Season</option>
-                        <option value="{{ url_for('nfl.nfl_stats', sid=1) }}">Regular Season</option>
-                        <option value="{{ url_for('nfl.nfl_stats', sid=2) }}">Pre-Season</option>
-                    </select>
-                </form>
-                <thead>
-                    <h3>Passing</h3>
-                    <tr>
-                        <td>RK</td>
-                        <td><a>TEAM<i class="fa fa-fw fa-sort"></i></a></td>
-                        <td><a>YDS<i class="fa fa-fw fa-sort"></i></a></td>
-                        <td><a>YDS/G<i class="fa fa-fw fa-sort"></i></a></td>
-                        <td><a>PASS<i class="fa fa-fw fa-sort"></i></a></td>
-                        <td><a>P YDS/G<i class="fa fa-fw fa-sort"></i></a></td>
-                        <td><a>RUSH<i class="fa fa-fw fa-sort"></i></a></td>
-                        <td><a>R YDS/G<i class="fa fa-fw fa-sort"></i></a></td>
-                        <td><a>PTS<i class="fa fa-fw fa-sort"></i></a></td>
-                        <td><a>PTS/G<i class="fa fa-fw fa-sort"></i></a></td>
-                    </tr>
-                </thead>
-                <tbody>
-                   
-                    {% for t in teamseason %}
-                    <tr>
-                        <td></td>
-                        <td>{{ t.Team }}</td>
-                        <td>{{ t.OffensiveYards }}</td>
-                        <td>{{ t.offensive_yards_per_game }}</td>
-                        <td>{{ t.PassingYards }}</td>
-                        <td>{{ t.passing_per_game }}</td>
-                        <td>{{ t.RushingYards }}</td>
-                        <td>{{ t.rushing_yards_per_game }}</td>
-                        <td>{{ t.Score }}</td>
-                        <td>{{ t.score_per_game }}</td>
-                    </tr>
-                        
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="col-md-12">
+            <form action="" method="get" enctype="multipart/form-data">
+                <select id="goto">
+                    <option>Season</option>
+                    <option value="{{ url_for('nfl.nfl_stats', sid=1) }}">Regular Season</option>
+                    <option value="{{ url_for('nfl.nfl_stats', sid=2) }}">Pre-Season</option>
+                </select>
+            </form>
+            <ul class="nav nav-tabs" id="stat_tabs">
+                <li><a href="#offense" data-toggle="tab">Offense</a></li>
+                <li><a href="#defense" data-toggle="tab">Defense</a></li>
+                <li><a href="#special_teams" data-toggle="tab">Special Teams</a></li>
+            </ul>
+                
+            <!-- <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane" id="offense">
+                    <ul class="nav nav-tabs" id="offensive_stats">
+                        <li><a href="#total_offense" data-toggle="tab">Total Offense</a></li>
+                        <li><a href="#passing_offense" data-toggle="tab">Passing Offense</a></li>
+                        <li><a href="#rushing_offense" data-toggle="tab">Rushing Offense</a></li>
+                        <li><a href="#receiving_offense" data-toggle="tab">Receiving Offense</a></li>
+                        <li><a href="#first_downs" data-toggle="tab">First Downs</a></li>
+                        <li><a href="#trd_down_conversions" data-toggle="tab">3rd Down Conversions</a></li>
+                        <li><a href="#fth_down_conversions" data-toggle="tab">4th Down Conversions</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="total_offense">
+                            {% include "team_stat_tables/nfl_team_total_offense_stats.html" %}
+                        </div>
+                        <div class="tab-pane" id="passing_offense">po</div>
+                        <div class="tab-pane" id="rushing_offense">ro</div>
+                        <div class="tab-pane" id="receving_offense">reco</div>
+                        <div class="tab-pane" id="first_downs">fd</div>
+                        <div class="tab-pane" id="trd_down_conversions">3rd dc</div>
+                        <div class="tab-pane" id="fth_down_conversions">4th dc</div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="defense">
+                    <ul class="nav nav-tabs" id="defensive_stats">
+                        <li><a href="#total_defense" data-toggle="tab">Total Defense</a></li>
+                        <li><a href="#passing_defense" data-toggle="tab">Passing Defense</a></li>
+                        <li><a href="#rushing_defense" data-toggle="tab">Rushing Defense</a></li>
+                        <li><a href="#receiving_defense" data-toggle="tab">Receiving Defense</a></li>
+                        <li><a href="#opponent_first_downs" data-toggle="tab">Opponent First Downs</a></li>
+                        <li><a href="#opponent_3rd_down_conversions" data-toggle="tab">Opponent 3rd Down Conversions</a></li>
+                        <li><a href="#opponent_4th_down_conversions" data-toggle="tab">Opponent 4th Down Conversions</a></li>
+                        <li><a href="#sacks" data-toggle="tab">Sacks</a></li>
+                        <li><a href="#interceptions" data-toggle="tab">Interceptions</a></li>
+                        <li><a href="#fumbles_forced" data-toggle="tab">Fumbles Forced</a></li>
+                    <ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="total_defense">
+                            <br><br><br><br>
+                            {% include "team_stat_tables/nfl_team_total_defensive_stats.html" %}
+                        </div>
+                        <div class="tab-pane" id="passing_defense">psd</div>
+                        <div class="tab-pane" id="rushing_defense">rrd</div>
+                        <div class="tab-pane" id="receiving_defense">rd</div>
+                        <div class="tab-pane" id="opponent_first_downs_defense">ofd</div>
+                        <div class="tab-pane" id="opponent_3rd_down_conversions">3rd</div>
+                        <div class="tab-pane" id="opponent_4th_down_conversions">4th</div>
+                        <div class="tab-pane" id="sacks">sac</div>
+                        <div class="tab-pane" id="interceptions">int</div>
+                        <div class="tab-pane" id="fumbles_forced">ff</div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="special_teams">
+                
+                </div>
+
+            </div>
+
+
         </div>
     </div>
 </div>

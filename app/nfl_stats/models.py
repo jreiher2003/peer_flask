@@ -1,3 +1,4 @@
+from __future__ import division
 from datetime import datetime
 from dateutil.parser import parse
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
@@ -455,16 +456,33 @@ class NFLTeamSeason(db.Model):
 
     @property 
     def passing_per_game(self):
-        return (self.PassingYards / self.Games)
+        return round((self.PassingYards / self.Games),1)
 
     @property 
     def rushing_yards_per_game(self):
-        return (self.RushingYards / self.Games)
+        return round((self.RushingYards / self.Games),1)
 
     @property 
     def offensive_yards_per_game(self):
-        return (self.OffensiveYards / self.Games)
+        return round((self.OffensiveYards / self.Games),1)
 
     @property 
     def score_per_game(self):
-        return (self.Score / self.Games)
+        return round((self.Score / self.Games),1)
+
+    @property 
+    def opponent_passing_per_game(self):
+        return round((self.OpponentPassingYards / self.Games),1)
+
+    @property 
+    def opponent_rushing_yards_per_game(self):
+        return round((self.OpponentRushingYards / self.Games),1)
+
+    @property 
+    def opponent_offensive_yards_per_game(self):
+        return round((self.OpponentOffensiveYards / self.Games),1)
+
+    @property 
+    def opponent_score_per_game(self):
+        return round((self.OpponentScore / self.Games),1)
+

@@ -1,0 +1,34 @@
+<table id="offense_season_stats" class="table table-hover tablesorter" cellspacing="1">
+    <thead>
+        <h3>NFL Team Total Offense Stats</h3>
+        <tr>
+            <td>RK</td>
+            <td><a>TEAM<i class="fa fa-fw fa-sort"></i></a></td>
+            <td><a>YDS<i class="fa fa-fw fa-sort"></i></a></td>
+            <td><a>YDS/G<i class="fa fa-fw fa-sort"></i></a></td>
+            <td><a>PASS<i class="fa fa-fw fa-sort"></i></a></td>
+            <td><a>P YDS/G<i class="fa fa-fw fa-sort"></i></a></td>
+            <td><a>RUSH<i class="fa fa-fw fa-sort"></i></a></td>
+            <td><a>R YDS/G<i class="fa fa-fw fa-sort"></i></a></td>
+            <td><a>PTS<i class="fa fa-fw fa-sort"></i></a></td>
+            <td><a>PTS/G<i class="fa fa-fw fa-sort"></i></a></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in teamseason %}
+        <tr>
+            <td></td>
+            <td>{{ t.Team }}</td>
+            <td>{{ t.OffensiveYards }}</td>
+            <td>{{ t.offensive_yards_per_game }}</td>
+            <td>{{ t.PassingYards }}</td>
+            <td>{{ t.passing_per_game }}</td>
+            <td>{{ t.RushingYards }}</td>
+            <td>{{ t.rushing_yards_per_game }}</td>
+            <td>{{ t.Score }}</td>
+            <td>{{ t.score_per_game }}</td>
+        </tr>
+            
+        {% endfor %}
+    </tbody>
+</table>

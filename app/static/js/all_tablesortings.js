@@ -3,6 +3,9 @@ $(document).ready(function(){
     $('#public__board').tablesorter(); 
   });
   $(function(){
-    $('#passing_season_stats').tablesorter(); 
+    $('#offense_season_stats').tablesorter(); 
+  });
+  $(function(){
+    $('#defense_season_stats').tablesorter(); 
   });
 });
