@@ -18,19 +18,12 @@
             <h5 class="text-center">Check to see if everything is correct</h5>
             <h5 class="text-center">If everything is good you don't have to do anything</h5>
             <div class="thumbnail">
-
                 <p class="text-center"><img src="{{ nfl_bet.users.profile.avatar }}" width="40"/> {{ nfl_bet.users.username }}</p>
                 <h3 class="text-center">{{ nfl_bet.vs }}</h3>
                 <p class="text-center">{{ nfl_bet.game_date|game_time }} {{ nfl_bet.game_date|game_date }}</p>
-                
-                    {% if nfl_bet.over_under %}
-                       <h4 class="text-center">{{ nfl_bet.over_under }}{{ nfl_bet.total}}</h4>
-                    {% elif nfl_bet.away_team %}
-                        <h4 class="text-center">{{ nfl_bet.away_team }}  {{ nfl_bet.away_ps_format() }}</h4>
-                    {% elif nfl_bet.home_team %}
-                        <h4 class="text-center">{{ nfl_bet.home_team }} {{ nfl_bet.home_ps_format() }}</h4>
-                    {% endif %}
-                       <h4 class="text-center"> amount: ${{ nfl_bet.amount }}</h4>
+                <h4 class="text-center">{{ nfl_bet.over_under }}{{ nfl_bet.total_format() }}</h4>
+                <h4 class="text-center">{{ nfl_bet.team }}  {{ nfl_bet.ps_format() }}</h4>
+                <h4 class="text-center"> amount: ${{ nfl_bet.amount }}</h4>
                 </h4>
                 <div class="caption">
                     <div class="col-md-4 text-center"><a href="{{ url_for('nfl.nfl_public_board') }}">board</a></div>
@@ -44,17 +37,15 @@
 
 
            
-            confirm this is gamekey {{ nfl_bet.game_key }}<br><br>
-                vs: {{ nfl_bet.vs }}<br>
-                over/under: {{ nfl_bet.over_under }}{{ nfl_bet.total}}
-                away_team: {{ nfl_bet.away_team }}<br>
-                away ps: {{ nfl_bet.away_ps }}<br>
-                home_team: {{ nfl_bet.home_team }}<br>
-                home ps: {{ nfl_bet.home_ps }}<br>
-                home ps fm: {{ nfl_bet.home_ps_format }}<br>
-                amount: {{ nfl_bet.amount }}<br><br>
-                user_id: {{ nfl_bet.user_id }}<br>
-                gamekey: {{ nfl_bet.bet_key }}<br>
-                username: {{ nfl_bet.users.username }}<br> 
-                avatar: {{ nfl_bet.users.profile.avatar }}
+game_key {{ nfl_bet.game_key }}<br>
+vs: {{ nfl_bet.vs }}<br>
+over/under: {{ nfl_bet.over_under }}{{ nfl_bet.total}}<br>
+team: {{ nfl_bet.team }}<br>
+ps: {{ nfl_bet.ps }}<br>
+ps fm: {{ nfl_bet.ps_format() }}<br>
+amount: {{ nfl_bet.amount }}<br>
+user_id: {{ nfl_bet.user_id }}<br>
+bet_key: {{ nfl_bet.bet_key }}<br>
+username: {{ nfl_bet.users.username }}<br> 
+avatar: {{ nfl_bet.users.profile.avatar }}
 {% endblock %}

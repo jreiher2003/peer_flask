@@ -25,9 +25,8 @@ class Users(db.Model, UserMixin):
     profile = db.relationship('Profile', uselist=False)
     roles = db.relationship('Role', secondary='user_roles',
             backref=db.backref('users', lazy='dynamic'))
-    over_under = db.relationship("OverUnderBet")
-    home_team = db.relationship("HomeTeamBet")
-    away_team = db.relationship("AwayTeamBet")
+    nflbet = db.relationship("NFLBet")
+   
     
     def __repr__(self):
         return "<username-{}".format(self.username)

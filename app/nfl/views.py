@@ -5,7 +5,7 @@ import hashlib
 from dateutil.parser import parse as parse_date
 from app import app, db
 from app.users.models import Users, Role, UserRoles, Profile
-from .models import OverUnderBet, HomeTeamBet, AwayTeamBet
+from .models import NFLBet
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
 from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash, abort
@@ -42,17 +42,17 @@ def nfl_schedule():
 
 @nfl_blueprint.route("/nfl/board/")
 def nfl_public_board():
-    var = "vs"
+   
     all_teams = all_nfl_teams()
-    over_under = db.session.query(OverUnderBet).all()
-    home_team = db.session.query(HomeTeamBet).all()
-    away_team = db.session.query(AwayTeamBet).all()
+    over_under = db.session.query(NFLBet).all()
+    # home_team = db.session.query(HomeTeamBet).all()
+    # away_team = db.session.query(AwayTeamBet).all()
     return render_template(
         "nfl_public_board.html", 
         all_teams=all_teams, 
         over_under=over_under, 
-        home_team=home_team,
-        away_team=away_team,
+        # home_team=home_team,
+        # away_team=away_team,
         )
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/over_under/", methods=["POST"])
@@ -75,7 +75,7 @@ def post_over_under(game_key):
         bet_key= ""
         bet_key += hashlib.md5(game_key_form+home+away+total+over_under+amount+salt).hexdigest()
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_o = OverUnderBet(
+            bet_o = NFLBet(
                 game_key=game_key_form, 
                 game_date=parse_date(nfl_game.Date), 
                 over_under=over_under,
@@ -121,11 +121,11 @@ def post_home_team(game_key):
         bet_key = ""
         bet_key += hashlib.md5(game_key_form+home+away+home_team+home_ps+amount+salt).hexdigest()
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_h = HomeTeamBet(
+            bet_h = NFLBet(
                 game_key=game_key_form,
                 game_date=parse_date(nfl_game.Date),
-                home_team=home_team,
-                home_ps=home_ps,
+                team=home_team,
+                ps=home_ps,
                 vs=away+" vs "+"@"+home,
                 amount=amount,
                 bet_key=bet_key,
@@ -164,12 +164,12 @@ def post_away_team(game_key):
         bet_key = ""
         bet_key += hashlib.md5(game_key_form+home+away+away_team+away_ps+amount+salt).hexdigest()
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_h = AwayTeamBet(
+            bet_h = NFLBet(
                 game_key=game_key_form,
                 game_date=parse_date(nfl_game.Date),
-                away_team=away_team,
+                team=away_team,
                 vs=away+" vs "+"@"+home,
-                away_ps=away_ps,
+                ps=away_ps,
                 amount=amount,
                 bet_key=bet_key,
                 user_id=current_user.id)
@@ -214,15 +214,7 @@ def nfl_create_bet(game_key):
 def nfl_confirm_bet(bet_key):
     all_teams = all_nfl_teams()
     try:
-        nfl_bet = OverUnderBet.query.filter_by(bet_key=bet_key).one()
-    except:
-        pass
-    try:
-        nfl_bet = HomeTeamBet.query.filter_by(bet_key=bet_key).one()
-    except:
-        pass
-    try:
-        nfl_bet = AwayTeamBet.query.filter_by(bet_key=bet_key).one()
+        nfl_bet = NFLBet.query.filter_by(bet_key=bet_key).one()
     except:
         pass
     return render_template('nfl_confirm.html', nfl_bet=nfl_bet, all_teams=all_teams)

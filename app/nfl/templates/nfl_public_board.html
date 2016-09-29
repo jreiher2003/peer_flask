@@ -20,6 +20,8 @@ tr {
                         <th><a>user<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>game date<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>game<i class="fa fa-fw fa-sort"></i></a></th>
+                        <th><a>team<i class="fa fa-fw fa-sort"></i></a></th>
+                        <th><a>spread<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>total<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>amount<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>bet this<i class="fa fa-fw fa-sort"></i></a></th>
@@ -30,36 +32,11 @@ tr {
                         <tr> 
                             <td><img src="{{ bet.users.profile.avatar }}">
                                 {{ bet.users.username }} {{ bet.user_id }} </td>
-                            <td>{{ bet.game_date }}</td>
+                            <td>{{ bet.game_date|game_date }}<br>{{ bet.game_date|game_time }}</td>
                             <td>{{ bet.vs }}</td>
-                            <td>{{ bet.over_under }}{{ bet.total }}</td>
-                            <td>{{ bet.amount }}</td>
-                            <td><a href="">bet</a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-               </table>
-               <table id="keywords1" class="table">
-                  <thead>
-                    <tr>
-                        <th>user</th>
-                        <th>game date</th>
-                        <th>game</th>
-                        <th>team</th>
-                        <th>spread</th>
-                        <th>amount</th>
-                        <th>bet this</th>
-                    </tr>
-                   </thead>
-                   <tbody>
-                    {% for bet in away_team %}
-                        <tr> 
-                            <td><img src="{{ bet.users.profile.avatar }}">
-                                {{ bet.users.username }} {{ bet.user_id }} </td>
-                            <td>{{ bet.game_date }}</td>
-                            <td>{{ bet.vs }}</td>
-                            <td>{{ bet.away_team }}</td>
-                            <td>{{ bet.away_ps_format() }}
+                            <td>{{ bet.team }}</td>
+                            <td>{{ bet.ps_format() }}</td>
+                            <td>{{ bet.over_under }}{{ bet.total_format() }}</td>
                             <td>{{ bet.amount }}</td>
                             <td><a href="">bet</a></td>
                         </tr>
@@ -67,22 +44,6 @@ tr {
                     </tbody>
                </table>
            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-           Home Team<br><br>
-            {% for bet in home_team %}
-                <p>{{ bet.id }} {{ bet.game_key }} {{ bet.home_team }} {{ bet.home_ps }} {{ bet.amount }} {{ bet.user_id }} {{ bet.bet_created }} {{ bet.home_ps_format() }}</p>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-           Away Team<br><br>
-            {% for bet in away_team %}
-                <p>{{ bet.id }} {{ bet.game_key }} {{ bet.away_team }} {{ bet.away_ps }} {{ bet.amount }} {{ bet.user_id }} {{ bet.bet_created }} {{ bet.away_ps_format() }}</p>
-            {% endfor %}
         </div>
     </div>
 </div>
