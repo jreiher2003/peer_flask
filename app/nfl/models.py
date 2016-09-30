@@ -14,6 +14,8 @@ class NFLBet(db.Model):
     total = db.Column(db.Integer)
     amount = db.Column(db.Numeric(12,2))
     vs = db.Column(db.String)
+    home_team = db.Column(db.String)
+    away_team = db.Column(db.String)
     team = db.Column(db.String, default=" ")
     ps = db.Column(db.Integer)
     ml = db.Column(db.Integer)
