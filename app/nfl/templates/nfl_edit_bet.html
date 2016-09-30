@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Edit This Bet{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="thumbnail">
+                <p class="text-center"><img src="{{ nfl_bet.users.profile.avatar }}" width="40"/> {{ nfl_bet.users.username }}</p>
+                <h3 class="text-center">{{ nfl_bet.vs }}</h3>
+                <p class="text-center">{{ nfl_bet.game_date|game_time }} {{ nfl_bet.game_date|game_date }}</p>
+                <h4 class="text-center">{{ nfl_bet.over_under }}{{ nfl_bet.total_format() }}</h4>
+                <h4 class="text-center">{{ nfl_bet.team }}  {{ nfl_bet.ps_format() }}</h4>
+                <h4 class="text-center"> amount: ${{ nfl_bet.amount }}</h4>
+                </h4>
+                <div class="caption">
+                    <div class="row">
+                        <div class="col-md-4 text-center"><a href="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl_bet.bet_key) }}">edit</a></div>
+                        <div class="col-md-4 text-center"><a href="{{ url_for('nfl.nfl_delete_bet', bet_key=nfl_bet.bet_key) }}">delete</a></div>
+                        <div class="col-md-4 text-center"><a href="{{ url_for('nfl.nfl_public_board') }}">cancel</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
