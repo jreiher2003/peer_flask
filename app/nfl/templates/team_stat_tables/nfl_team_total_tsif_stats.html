@@ -1,0 +1,49 @@
+<table id="defense_tsif_season_stats" class="table tablesorter focus-highlight tablesorter-blue" cellspacing="1">
+    <thead>
+        <br><br>
+        <h4>NFL Team Total Tackles Sacks Interceptions Fumbles Stats</h4>
+        <tr>
+            <th colspan="2"></th>
+            <th colspan="4">Tackles</th>
+            <th colspan="3">Sacks</th>
+            <th colspan="3">Interceptions</th>
+            <th colspan="2">Fumbles</th>
+        </tr>
+        <tr>
+            <th>RK</th>
+            <th><a>TEAM<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>SOLO<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>AST<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>TOTAL<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>SACK<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDSL<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>PD<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>INT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDS<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>TD<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>FF<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>REC<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>TD<i class="fa fa-fw fa-sort"></i></a></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in teamseason %}
+        <tr>
+            <td></td>
+            <td>{{ t.Team }}</td>
+            <td>{{ t.SoloTackles }}</td>
+            <td>{{ t.AssistedTackles }}</td>
+            <td>{{ t.SoloTackles + t.AssistedTackles }}</td>
+            <td>{{ t.Sacks }}</td>
+            <td>{{ t.SackYards }}</td>
+            <td>{{ t.PassesDefended }}</td>
+            <td>{{ t.InterceptionReturns }}</td>
+            <td>{{ t.InterceptionReturnYards }}</td>
+            <td>{{ t.InterceptionReturnTouchdowns }}</td>
+            <td>{{ t.FumblesForced }}</td>
+            <td>{{ t.FumblesRecovered }}</td>
+            <td>{{ t.FumbleReturnTouchdowns }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

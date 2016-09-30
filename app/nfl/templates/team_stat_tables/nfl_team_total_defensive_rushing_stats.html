@@ -1,0 +1,29 @@
+<table id="defense_rushing_season_stats" class="table tablesorter focus-highlight tablesorter-blue" cellspacing="1">
+    <thead>
+        <br><br>
+        <h4>NFL Team Total Rushing Stats</h4>
+        <tr>
+            <th>RK</th>
+            <th><a>TEAM<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>ATT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDS<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDS/A<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>TD<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>Net YDS/G<i class="fa fa-fw fa-sort"></i></a></th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in teamseason %}
+        <tr>
+            <td></td>
+            <td>{{ t.Team }}</td>
+            <td>{{ t.OpponentRushingAttempts }}</td>
+            <td>{{ t.OpponentRushingYards }}</td>
+            <td>{{ t.OpponentRushingYardsPerAttempt }}</td>
+            <td>{{ t.OpponentRushingTouchdowns }}</td>
+            <td>{{ t.opponent_net_rushing_yrd_per_game }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

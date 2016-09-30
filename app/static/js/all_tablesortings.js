@@ -19,10 +19,30 @@ $(function() {
   $('#offense_receiving_season_stats').tablesorter({
         theme: 'blue'
     });
+  $('#offense_downs_season_stats').tablesorter({
+        theme: 'blue'
+    });
+  
+  
    
     $('#defense_season_stats').tablesorter({
         theme: 'blue'
     }); 
+    $('#defense_passing_season_stats').tablesorter({
+        theme: 'blue'
+    });
+    $('#defense_rushing_season_stats').tablesorter({
+        theme: 'blue'
+    });
+    $('#defense_receiving_season_stats').tablesorter({
+        theme: 'blue'
+    });
+    $('#defense_downs_season_stats').tablesorter({
+        theme: 'blue'
+    });
+    $('#defense_tsif_season_stats').tablesorter({
+        theme: 'blue'
+    });
  
 
   // Make table cell focusable

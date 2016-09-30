@@ -27,9 +27,8 @@
                         <li><a href="#passing_offense" data-toggle="tab">Passing Offense</a></li>
                         <li><a href="#rushing_offense" data-toggle="tab">Rushing Offense</a></li>
                         <li><a href="#receiving_offense" data-toggle="tab">Receiving Offense</a></li>
-                        <li><a href="#first_downs" data-toggle="tab">First Downs</a></li>
-                        <li><a href="#trd_down_conversions" data-toggle="tab">3rd Down Conversions</a></li>
-                        <li><a href="#fth_down_conversions" data-toggle="tab">4th Down Conversions</a></li>
+                        <li><a href="#downs" data-toggle="tab">Downs</a></li>
+                       
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane" id="total_offense">
@@ -44,9 +43,9 @@
                         <div class="tab-pane" id="receiving_offense">
                             {% include "team_stat_tables/nfl_team_total_receiving_stats.html" %}
                         </div>
-                        <div class="tab-pane" id="first_downs">fd</div>
-                        <div class="tab-pane" id="trd_down_conversions">3rd dc</div>
-                        <div class="tab-pane" id="fth_down_conversions">4th dc</div>
+                        <div class="tab-pane" id="downs">
+                            {% include "team_stat_tables/nfl_team_total_downs_stats.html" %}
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane" id="defense">
@@ -55,27 +54,31 @@
                         <li><a href="#passing_defense" data-toggle="tab">Passing Defense</a></li>
                         <li><a href="#rushing_defense" data-toggle="tab">Rushing Defense</a></li>
                         <li><a href="#receiving_defense" data-toggle="tab">Receiving Defense</a></li>
-                        <li><a href="#opponent_first_downs" data-toggle="tab">Opponent First Downs</a></li>
-                        <li><a href="#opponent_3rd_down_conversions" data-toggle="tab">Opponent 3rd Down Conversions</a></li>
-                        <li><a href="#opponent_4th_down_conversions" data-toggle="tab">Opponent 4th Down Conversions</a></li>
-                        <li><a href="#sacks" data-toggle="tab">Sacks</a></li>
-                        <li><a href="#interceptions" data-toggle="tab">Interceptions</a></li>
-                        <li><a href="#fumbles_forced" data-toggle="tab">Fumbles Forced</a></li>
+                        <li><a href="#downs_defense" data-toggle="tab">Opponent Downs</a></li>
+                        
+                        <li><a href="#sacks" data-toggle="tab">Tackles/Sacks/Interceptions/Fumbles</a></li>
+                        
                     <ul>
                     <div class="tab-content">
                         <div class="tab-pane" id="total_defense">
-                            <br><br><br><br>
                             {% include "team_stat_tables/nfl_team_total_defensive_stats.html" %}
                         </div>
-                        <div class="tab-pane" id="passing_defense">psd</div>
-                        <div class="tab-pane" id="rushing_defense">rrd</div>
-                        <div class="tab-pane" id="receiving_defense">rd</div>
-                        <div class="tab-pane" id="opponent_first_downs_defense">ofd</div>
-                        <div class="tab-pane" id="opponent_3rd_down_conversions">3rd</div>
-                        <div class="tab-pane" id="opponent_4th_down_conversions">4th</div>
-                        <div class="tab-pane" id="sacks">sac</div>
-                        <div class="tab-pane" id="interceptions">int</div>
-                        <div class="tab-pane" id="fumbles_forced">ff</div>
+                        <div class="tab-pane" id="passing_defense">
+                            {% include "team_stat_tables/nfl_team_total_defensive_passing_stats.html" %}
+                        </div>
+                        <div class="tab-pane" id="rushing_defense">
+                            {% include "team_stat_tables/nfl_team_total_defensive_rushing_stats.html" %}
+                        </div>
+                        <div class="tab-pane" id="receiving_defense">
+                            {% include "team_stat_tables/nfl_team_total_defensive_receiving_stats.html" %}
+                        </div>
+                        <div class="tab-pane" id="downs_defense">
+                            {% include "team_stat_tables/nfl_team_total_defensive_downs_stats.html" %}
+                        </div>
+                        <div class="tab-pane" id="sacks">
+                            {% include "team_stat_tables/nfl_team_total_tsif_stats.html" %}
+                        </div>
+    
                     </div>
                 </div>
                 <div class="tab-pane" id="special_teams">

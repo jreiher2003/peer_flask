@@ -490,21 +490,30 @@ class NFLTeamSeason(db.Model):
         return round((self.OpponentScore / self.Games),1)
 
     ##############################################################
-    ########### total passing offense ############################
+    ########### total passing offense \ defence ##################
     ##############################################################
     @property 
     def net_passing_yrd_per_game(self):
         return round((self.PassingYards / self.Games),1)
 
+    @property 
+    def opponent_net_passing_yrd_per_game(self):
+        return round((self.OpponentPassingYards / self.Games),1)
+
     ##############################################################
-    ########## total rushing offense #############################
+    ########## total rushing offense/defence #####################
     ##############################################################
     @property 
     def net_rushing_yrd_per_game(self):
         return round((self.RushingYards/self.Games),1)
 
+    @property 
+    def opponent_net_rushing_yrd_per_game(self):
+        return round((self.OpponentRushingYards/self.Games),1)
+
+
     ##############################################################
-    ############### total receiving offence ######################
+    ############### total receiving offence/defence ##############
     ##############################################################
     @property 
     def net_receiving_yrd(self):
@@ -517,4 +526,16 @@ class NFLTeamSeason(db.Model):
     @property 
     def receiving_yrd_per_game(self):
         return round(((self.PassingYards+self.OpponentSackYards)/self.Games),1)
+
+    @property 
+    def opponent_net_receiving_yrd(self):
+        return round((self.OpponentPassingYards+self.SackYards),1)
+
+    @property 
+    def opponent_avg_yrd_per_catch(self):
+        return round(((self.OpponentPassingYards+self.SackYards)/self.OpponentPassingCompletions),1)
+
+    @property 
+    def opponent_receiving_yrd_per_game(self):
+        return round(((self.OpponentPassingYards+self.SackYards)/self.Games),1)
 

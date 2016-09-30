@@ -1,0 +1,49 @@
+<table id="defense_downs_season_stats" class="table tablesorter focus-highlight tablesorter-blue" cellspacing="1">
+    <thead>
+        <br><br>
+        <h4>NFL Team Total Defence Downs Stats</h4>
+        <tr>
+            <th colspan="2"></th>
+            <th colspan="4">First Downs</th>
+            <th colspan="3">Thrid Downs</th>
+            <th colspan="3">Fourth Downs</th>
+            <th colspan="2">Penalties</th>
+        </tr>
+        <tr>
+            <th>RK</th>
+            <th><a>TEAM<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>TOTAL<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>RUSH<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>PASS<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>PEN<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>MADE<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>ATT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>PCT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>MADE<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>ATT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>PCT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>TOTAL<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDS<i class="fa fa-fw fa-sort"></i></a></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in teamseason %}
+        <tr>
+            <td></td>
+            <td>{{ t.Team }}</td>
+            <td>{{ t.OpponentFirstDowns }}</td>
+            <td>{{ t.OpponentFirstDownsByRushing }}</td>
+            <td>{{ t.OpponentFirstDownsByPassing }}</td>
+            <td>{{ t.OpponentFirstDownsByPenalty }}</td>
+            <td>{{ t.OpponentThirdDownConversions }}</td>
+            <td>{{ t.OpponentThirdDownAttempts }}</td>
+            <td>{{ t.OpponentThirdDownPercentage }}</td>
+            <td>{{ t.OpponentFourthDownConversions }}</td>
+            <td>{{ t.OpponentFourthDownAttempts }}</td>
+            <td>{{ t.OpponentFourthDownPercentage }}</td>
+            <td>{{ t.OpponentPenalties }}</td>
+            <td>{{ t.OpponentPenaltyYards }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
