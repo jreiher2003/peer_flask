@@ -41,6 +41,12 @@ tr {
                             <td>{{ bet.over_under }}{{ bet.total_format() }}</td>
                             <td>{{ bet.amount }}</td>
                             <td><a href="">bet</a></td>
+                            {% if current_user.id == bet.user_id %}
+                                <td>
+                                    <a href="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}">delete</a><br>
+                                    <a href="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}">edit</a>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>

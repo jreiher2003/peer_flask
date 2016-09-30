@@ -1,14 +1,14 @@
 <ul class="dropdown-menu">
 <div class="row">
 <div class="col-md-6">
-    <h2 class="text-center">AFC</h2>
+    <h2 class="text-center nav__league">AFC</h2>
     <div class="row">
       <div class="col-md-6">
         <h3 class="text-center">East</h3>
          {% for team in all_teams %}
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "East" %}
-                  <li><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}{{ team.Conference }}</a></li>
+                  <li class="nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
                   <li class="divider"></li>
                 {% endif %}
               {% endif %}
@@ -17,7 +17,7 @@
          {% for team in all_teams %}
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "South" %}
-                  <li><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}{{ team.Conference }}</a></li>
+                  <li class="nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
                   <li class="divider"></li>
                 {% endif %}
               {% endif %}
@@ -28,16 +28,16 @@
          {% for team in all_teams %}
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "North" %}
-                  <li><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}{{ team.Conference }}</a></li>
+                  <li class="nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
                   <li class="divider"></li>
                 {% endif %}
               {% endif %}
           {% endfor %}
-          <h3 class="text-center">West</h3>
+          <h3 class="text-center nav__team">West</h3>
          {% for team in all_teams %}
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "West" %}
-                  <li><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}{{ team.Conference }}</a></li>
+                  <li class="nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
                   <li class="divider"></li>
                 {% endif %}
               {% endif %}
@@ -48,14 +48,14 @@
        
 
 <div class="col-md-6">
-    <h2 class="text-center">NFC</h2>
+    <h2 class="text-center nav__league">NFC</h2>
     <div class="row">
       <div class="col-md-6">
         <h3 class="text-center">East</h3>
          {% for team in all_teams %}
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "East" %}
-                  <li><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}{{ team.Conference }}</a></li>
+                  <li class="nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
                   <li class="divider"></li>
                 {% endif %}
               {% endif %}
@@ -64,7 +64,7 @@
          {% for team in all_teams %}
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "South" %}
-                  <li><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}{{ team.Conference }}</a></li>
+                  <li class="nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
                   <li class="divider"></li>
                 {% endif %}
               {% endif %}
@@ -75,7 +75,7 @@
          {% for team in all_teams %}
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "North" %}
-                  <li><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}{{ team.Conference }}</a></li>
+                  <li class="nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
                   <li class="divider"></li>
                 {% endif %}
               {% endif %}
@@ -84,7 +84,7 @@
          {% for team in all_teams %}
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "West" %}
-                  <li><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}{{ team.Conference }}</a></li>
+                  <li class="nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
                   <li class="divider"></li>
                 {% endif %}
               {% endif %}

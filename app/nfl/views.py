@@ -222,13 +222,21 @@ def nfl_confirm_bet(bet_key):
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/edit/")
 def nfl_edit_bet(bet_key):
     all_teams = all_nfl_teams()
+    nfl_bet = NFLBet.query.filter_by(bet_key=bet_key).one()
     return "bet edit %s" % bet_key
 
-@nfl_blueprint.route("/nfl/bet/<path:bet_key>/delete/")
+@nfl_blueprint.route("/nfl/bet/<path:bet_key>/delete/", methods=["GET","POST"])
 @login_required
 def nfl_delete_bet(bet_key):
     all_teams = all_nfl_teams()
-    return "delete bet %s" % bet_key
+    nfl_bet = NFLBet.query.filter_by(bet_key=bet_key).one()
+    form = OverUnderForm(obj=nfl_bet)
+    if request.method == "POST":
+        db.session.delete(nfl_bet)
+        db.session.commit()
+        flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl_bet.users.username,nfl_bet.vs,nfl_bet.amount), "danger")
+        return redirect(url_for("nfl.nfl_public_board"))
+    return render_template("nfl_delete_bet.html", nfl_bet=nfl_bet, form=form, all_teams=all_teams)
 
 @nfl_blueprint.route("/nfl/standings/")
 def nfl_standings():

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Delete This Bet{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="thumbnail">
+                <h3 class="text-center">Are you sure you want to delete this bet?</h3>
+                <p class="text-center">{{ nfl_bet.bet_key }}</p>
+                <p class="text-center">{{ nfl_bet.vs }}</p>
+                <p class="text-center"> {{ nfl_bet.over_under }}{{ nfl_bet.total_format() }} for ${{ nfl_bet.amount }}</p>
+                <p class="text-center">{{ nfl_bet.game_date|game_time }} {{ nfl_bet.game_date|game_date }}</p>
+                <form class="text-center" method="post" action="">
+                    {{ form.csrf_token }}
+                    <input class="btn btn-danger" type="submit" value="Delete Item">
+                    <a class="btn btn-default" href="{{ url_for('nfl.nfl_public_board') }}">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
