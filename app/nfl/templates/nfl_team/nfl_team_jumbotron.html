@@ -21,22 +21,22 @@
                         <tr>
                             <th>Team Ranking</th>
                             <th>Overall </th>
-                            <th>Rushing</th>
-                            <th>Passing</th>
+                            <th>Rushing / Rank</th>
+                            <th>Passing / Rank</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>offense</td>
-                            <td>{{ team_off_rank }}th</td>
-                            <td>{{ tss.RushingYards }}({{ team_rush_rank }}th)</td>
-                            <td>{{ tss.PassingYards }}({{ team_pass_rank }}th)</td>
+                            <td>{{ team_off_rank }}</td>
+                            <td>{{ tss.RushingYards }}  ({{ team_rush_rank }})</td>
+                            <td>{{ tss.PassingYards }}  ({{ team_pass_rank }})</td>
                         </tr>
                         <tr>
                             <td>defense</td>
-                            <td>{{ team_def_rank }}th</td>
-                            <td>{{ tss.OpponentRushingYards }}({{ opp_team_rush_rank }}th)</td>
-                            <td>{{ tss.OpponentPassingYards }}({{ opp_team_pass_rank }}th)</td>
+                            <td>{{ team_def_rank }}</td>
+                            <td>{{ tss.OpponentRushingYards }}  ({{ opp_team_rush_rank }})</td>
+                            <td>{{ tss.OpponentPassingYards }}  ({{ opp_team_pass_rank }})</td>
                         </tr>
                     </tbody>
                 </table>

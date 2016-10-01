@@ -1,0 +1,84 @@
+<div class="row">
+        {% if team_score %}
+        {% for score in team_score %}
+        <div class="col-md-12 team_schedule thumbnail">
+            <div class="row">
+                <div class="col-md-4">
+                    {{ score.AwayTeam }}<br>
+                    {{ score.AwayScore }}
+                </div>
+                <div class="col-md-4">
+                    <table class="table table-condensed">
+                        <thead>
+                             {{ score.QuarterDescription }}, Week: {{ score.Week }},{{ score.PointSpread }}, {{ score.AwayTeamMoneyLine }}, {{ score.OverUnder }} stadium: {{ score.StadiumID }} date: {{ score.Date }}
+                            <tr>
+                                <th></th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                {% if score.IsOvertime == true %}
+                                    <th>OT</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ score.AwayTeam }}</td>
+                                <td>{{ score.AwayScoreQuarter1 }}</td>
+                                <td>{{ score.AwayScoreQuarter2 }}</td> 
+                                <td>{{ score.AwayScoreQuarter3 }}</td>
+                                <td>{{ score.AwayScoreQuarter4 }}</td>
+                                {% if score.IsOvertime == true %}
+                                <td>{{ score.AwayScoreOvertime }}</td>
+                                {% endif %}
+                            </tr> 
+                            <tr>
+                                <td>{{ score.HomeTeam }}</td>
+                                <td>{{ score.HomeScoreQuarter1 }}</td>
+                                <td>{{ score.HomeScoreQuarter2 }}</td> 
+                                <td>{{ score.HomeScoreQuarter3 }}</td>
+                                <td>{{ score.HomeScoreQuarter4 }}</td>
+                                {% if score.IsOvertime == true %}
+                                <td>{{ score.HomeScoreOvertime }}</td>
+                                {% endif %}
+                            </tr>  
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    {{ score.HomeTeam }}<br>
+                    {{ score.HomeScore }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="row">
+        {% for team in ts %}
+        {% if team.Date|dateify > dt %}
+        <div class="col-md-12 team_schedule thumbnail">
+            <div class="row">
+                <div class="col-md-4">
+                    Away: {{ team.AwayTeam }}<br>
+                    ML: {{ team.AwayTeamMoneyLine }}<br>
+                </div>
+                <div class="col-md-4">
+                    Week: {{ team.Week }}<br>
+                    Date: {{ team.Date }}<br>
+                    Over/Under: {{ team.OverUnder }}<br>
+                    Pointspread: {{ team.PointSpread }}<br>
+                    Stadium: {{ team.StadiumID }}<br>
+                    Forcast: {{ team.ForecastDescription }}
+                </div>
+                <div class="col-md-4">
+                    Home:{{ team.HomeTeam }}<br>
+                    ML: {{ team.HomeTeamMoneyLine }}<br>
+                </div>
+            </div>
+
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>

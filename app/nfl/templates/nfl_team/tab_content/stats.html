@@ -1,0 +1,355 @@
+<ul class="nav nav-tabs" id="stats_tabs">
+    <li class="active"><a href="#team" data-toggle="tab">Team</a></li>
+    <li><a href="#player" data-toggle="tab">Player</a></li>
+</ul>
+<!--stats tab content-->
+<div class="tab-content">
+    <div id="team" class="tab-pane active">
+        <h4>Passing</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Team</td>
+                    <td>ATT</td>
+                    <td>COMP</td>
+                    <td>PCT</td>
+                    <td>YDS</td>
+                    <td>AVG</td>
+                    <td>P YDS/G</td>
+                    <td>TD</td>
+                    <td>INT</td>
+                    <td>SACK</td>
+                    <td>YDSL</td>
+                    <td>RATE</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ts in team_season_stats %}
+                    
+                <tr>
+                    <td>{{ ts.Team }}</td>
+                    <td>{{ ts.PassingAttempts }}</td>
+                    <td>{{ ts.PassingCompletions }}</td>
+                    <td>{{ ts.CompletionPercentage }}</td>
+                    <td>{{ ts.PassingYards }}</td>
+                    <td>{{ ts.PassingYardsPerAttempt }}</td>
+                    <td>{{ ts.PassingYards / ts.Games }}</td>
+                    <td>{{ ts.PassingTouchdowns }}</td>
+                    <td>{{ ts.PassingInterceptions }}</td>
+                    <td>{{ ts.TimesSacked }}</td>
+                    <td>{{ ts.TimesSackedYards }}</td>
+                    <td>{{ ts.PasserRating }}</td>
+                </tr>
+                <tr>
+                    <td>Opponents</td>
+                    <td>{{ ts.OpponentPassingAttempts }}</td>
+                    <td>{{ ts.OpponentPassingCompletions }}</td>
+                    <td>{{ ts.OpponentCompletionPercentage }}</td>
+                    <td>{{ ts.OpponentPassingYards }}</td>
+                    <td>{{ ts.OpponentPassingYardsPerAttempt }}</td>
+                    <td>{{ ts.OpponentPassingYards / ts.Games }}</td>
+                    <td>{{ ts.OpponentPassingTouchdowns }}</td>
+                    <td>{{ ts.OpponentPassingInterceptions }}</td>
+                    <td>{{ ts.OpponentTimesSacked }}</td>
+                    <td>{{ ts.OpponentTimesSackedYards }}</td>
+                    <td>{{ ts.OpponentPasserRating }}</td>
+                </tr>
+                    
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4>Rushing</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Team</td>
+                    <td>ATT</td>
+                    <td>YDS</td>
+                    <td>AVG</td>
+                    <td>TD</td>
+                    <td>R YDS/G</td>
+                    <td>1stDN</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ts in team_season_stats %}
+                    
+                <tr>
+                    <td>{{ ts.Team }}</td>
+                    <td>{{ ts.RushingAttempts }}</td>
+                    <td>{{ ts.RushingYards }}</td>
+                    <td>{{ ts.RushingYardsPerAttempt }}</td>
+                    <td>{{ ts.RushingTouchdowns }}</td>
+                    <td>{{ ts.RushingAttempts / ts.Games }}</td>
+                    <td>{{ ts.FirstDownsByRushing }}</td>
+                </tr>
+                <tr>
+                    <td>Opponents</td>
+                    <td>{{ ts.OpponentRushingAttempts }}</td>
+                    <td>{{ ts.OpponentRushingYards }}</td>
+                    <td>{{ ts.OpponentRushingYardsPerAttempt }}</td>
+                    <td>{{ ts.OpponentRushingTouchdowns }}</td>
+                    <td>{{ ts.OpponentRushingYards / ts.Games }}</td>
+                    <td>{{ ts.OpponentFirstDownsByRushing }}</td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4>Defense</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Team</td>                
+                    <td>SOLO</td>
+                    <td>AST</td>
+                    <td>TOT</td>             
+                    <td>SACK</td>
+                    <td>YDSL</td>
+                    <td>TLOSS</td>
+                    <td>PD</td>
+                    <td>INT</td>
+                    <td>YDS</td>
+                    <td>TD</td>
+                    <td>FF</td>
+                    <td>REC</td>
+                    <td>TD</td>
+                    <td>BK</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ts in team_season_stats %}
+                    
+                <tr>
+                    <td>{{ ts.Team }}</td>
+                    <td>{{ ts.SoloTackles }}</td>
+                    <td>{{ ts.AssistedTackles }}</td>
+                    <td>{{ ts.SoloTackles + ts.AssistedTackles }}</td>
+                    <td>{{ ts.Sacks }}</td>
+                    <td>{{ ts.SackYards }}</td>
+                    <td>{{ ts.TacklesForLoss }}</td>
+                    <td>{{ ts.PassesDefended }}</td>
+                    <td>{{ ts.InterceptionReturns }}</td>
+                    <td>{{ ts.InterceptionReturnYards }}</td>
+                    <td>{{ ts.InterceptionReturnTouchdowns }}</td>
+                    <td>{{ ts.FumblesForced }}</td>
+                    <td>{{ ts.FumblesRecovered }}</td>
+                    <td>{{ ts.FumbleReturnTouchdowns }}</td>
+                    <td>{{ ts.BlockedKicks }}</td>
+                </tr>
+                <tr>
+                    <td>Opponents</td>
+                    <td>{{ ts.OpponentSoloTackles }}</td>
+                    <td>{{ ts.OpponentAssistedTackles  }}</td>
+                    <td>{{ ts.OpponentSoloTackles + ts.OpponentAssistedTackles }}</td>
+                    <td>{{ ts.OpponentSacks }}</td>
+                    <td>{{ ts.OpponentSackYards }}</td>
+                    <td>{{ ts.OpponentTacklesForLoss }}</td>
+                    <td>{{ ts.OpponentPassesDefended }}</td>
+                    <td>{{ ts.OpponentInterceptionReturns }}</td>
+                    <td>{{ ts.OpponentInterceptionReturnYards }}</td>
+                    <td>{{ ts.OpponentInterceptionReturnTouchdowns }}</td>
+                    <td>{{ ts.OpponentFumblesForced }}</td>
+                    <td>{{ ts.OpponentFumblesRecovered }}</td>
+                    <td>{{ ts.OpponentFumbleReturnTouchdowns }}</td>
+                    <td>{{ ts.OpponentBlockedKicks }}</td>
+                </tr>
+                    
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4>Downs</h4>
+        <table class="table">
+            <thead>               
+                <tr>
+                    <td>Team</td>               
+                    <td>Total</td>
+                    <td>RUSH</td>
+                    <td>PASS</td>
+                    <td>PEN</td>
+                    <td>3rd MADE</td>            
+                    <td>3rd ATT</td>
+                    <td>3rd PTC</td>
+                    <td>4th MADE</td>
+                    <td>4th ATT</td>
+                    <td>4th PTC</td> 
+                    <td>TOTAL PEN</td>
+                    <td>TP YDS</td>                     
+                </tr>
+            </thead>
+            <tbody>
+                {% for ts in team_season_stats %}
+                    
+                <tr>
+                    <td>{{ ts.Team }}</td>
+                    <td>{{ ts.FirstDowns }}</td>
+                    <td>{{ ts.FirstDownsByRushing }}</td>
+                    <td>{{ ts.FirstDownsByPassing }}</td>
+                    <td>{{ ts.FirstDownsByPenalty }}</td>
+                    <td>{{ ts.ThirdDownConversions }}</td>
+                    <td>{{ ts.ThirdDownAttempts }}</td>
+                    <td>{{ ts.ThirdDownPercentage }}</td>
+                    <td>{{ ts.FourthDownConversions }}</td>
+                    <td>{{ ts.FourthDownAttempts }}</td>
+                    <td>{{ ts.FourthDownPercentage }}</td>
+                    <td>{{ ts.Penalties }}</td>
+                    <td>{{ ts.PenaltyYards }}</td>
+                </tr>
+                <tr>
+                    <td>Opponents</td>
+                    <td>{{ ts.OpponentFirstDowns }}</td>
+                    <td>{{ ts.OpponentFirstDownsByRushing }}</td>
+                    <td>{{ ts.OpponentFirstDownsByPassing }}</td>
+                    <td>{{ ts.OpponentFirstDownsByPenalty }}</td>
+                    <td>{{ ts.OpponentThirdDownConversions }}</td>
+                    <td>{{ ts.OpponentThirdDownAttempts }}</td>
+                    <td>{{ ts.OpponentThirdDownPercentage }}</td>
+                    <td>{{ ts.OpponentFourthDownConversions }}</td>
+                    <td>{{ ts.OpponentFourthDownAttempts }}</td>
+                    <td>{{ ts.OpponentFourthDownPercentage }}</td>
+                    <td>{{ ts.OpponentPenalties }}</td>
+                    <td>{{ ts.OpponentPenaltyYards }}</td>
+                </tr>
+                    
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4>Returning</h4>
+        <table class="table">
+            <thead>               
+                <tr>
+                    <td>Team</td>               
+                    <td>ATT</td>
+                    <td>YDS</td>
+                    <td>AVG</td>
+                    <td>LONG</td>
+                    <td>TD</td>            
+                    <td>RET</td>
+                    <td>RETY</td>
+                    <td>AVG</td>
+                    <td>LONG</td>
+                    <td>TD</td>                      
+                </tr>
+            </thead>
+            <tbody>
+                {% for ts in team_season_stats %}
+                    
+                <tr>
+                    <td>{{ ts.Team }}</td>
+                    <td>{{ ts.KickReturns }}</td>
+                    <td>{{ ts.KickReturnYards }}</td>
+                    <td>{{ ts.KickReturnAverage }}</td>
+                    <td>{{ ts.KickReturnLong }}</td>
+                    <td>{{ ts.KickReturnTouchdowns }}</td>
+                    <td>{{ ts.PuntReturns }}</td>
+                    <td>{{ ts.PuntReturnYards }}</td>
+                    <td>{{ ts.PuntReturnAverage }}</td>
+                    <td>{{ ts.PuntReturnLong }}</td>
+                    <td>{{ ts.PuntReturnTouchdowns }}</td>
+                </tr>
+                <tr>
+                    <td>Opponents</td>
+                    <td>{{ ts.OpponentKickReturns }}</td>
+                    <td>{{ ts.OpponentKickReturnYards }}</td>
+                    <td>{{ ts.OpponentKickReturnAverage }}</td>
+                    <td>{{ ts.OpponentKickReturnLong }}</td>
+                    <td>{{ ts.OpponentKickReturnTouchdowns }}</td>
+                    <td>{{ ts.OpponentPuntReturns }}</td>
+                    <td>{{ ts.OpponentPuntReturnYards }}</td>
+                    <td>{{ ts.OpponentPuntReturnAverage }}</td>
+                    <td>{{ ts.OpponentPuntReturnLong }}</td>
+                    <td>{{ ts.OpponentPuntReturnTouchdowns }}</td>
+                </tr>
+                   
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4>Kicking</h4>
+        <table class="table">
+            <thead>               
+                <tr>
+                    <td>Team</td>               
+                    <td>FGM</td>
+                    <td>FGA</td>
+                    <td>PCT</td>
+                    <td>XPM</td>
+                    <td>XPA</td>
+                    <td>PCT</td>                              
+                </tr>
+            </thead>
+            <tbody>
+                {% for ts in team_season_stats %}
+                    
+                <tr>
+                    <td>{{ ts.Team }}</td>
+                    <td>{{ ts.FieldGoalsMade }}</td>
+                    <td>{{ ts.FieldGoalAttempts }}</td>
+                    <td>{{ ts.FieldGoalPercentage }}</td>
+                    <td>{{ ts.ExtraPointKickingConversions }}</td>
+                    <td>{{ ts.ExtraPointKickingAttempts }}</td>
+                    <td>{{ ts.ExtraPointPercentage }}</td>
+                </tr>
+                <tr>
+                    <td>Opponents</td>
+                    <td>{{ ts.OpponentFieldGoalsMade }}</td>
+                    <td>{{ ts.OpponentFieldGoalAttempts }}</td>
+                    <td>{{ ts.OpponentFieldGoalPercentage }}</td>
+                    <td>{{ ts.OpponentExtraPointKickingConversions }}</td>
+                    <td>{{ ts.OpponentExtraPointKickingAttempts }}</td>
+                    <td>{{ ts.OpponentExtraPointPercentage }}</td>
+                </tr>
+                   
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4>Punting</h4>
+        <table class="table">
+            <thead>               
+                <tr>
+                    <td>Team</td>               
+                    <td>PUNTS</td>
+                    <td>YDS</td>
+                    <td>AVG</td>
+                    <td>NET</td>
+                    <td>BP</td>
+                    <td>RET</td>
+                    <td>RETY</td> 
+                    <td>AVG</td>                             
+                </tr>
+            </thead>
+            <tbody>
+                {% for ts in team_season_stats %}
+                    
+                <tr>
+                    <td>{{ ts.Team }}</td>
+                    <td>{{ ts.Punts }}</td>
+                    <td>{{ ts.PuntYards }}</td>
+                    <td>{{ ts.PuntAverage }}</td>
+                    <td>{{ ts.PuntNetAverage }}</td>
+                    <td>{{ ts.PuntsHadBlocked }}</td>
+                    <td>{{ ts.OpponentPuntReturns }}</td>
+                    <td>{{ ts.OpponentPuntReturnYards }}</td>
+                    <td>{{ ts.OpponentPuntReturnAverage }}</td>
+                </tr>
+                <tr>
+                    <td>Opponents</td>
+                    <td>{{ ts.OpponentPunts }}</td>
+                    <td>{{ ts.OpponentPuntYards }}</td>
+                    <td>{{ ts.OpponentPuntAverage }}</td>
+                    <td>{{ ts.OpponentPuntNetAverage }}</td>
+                    <td>{{ ts.OpponentPuntsHadBlocked }}</td>
+                    <td>{{ ts.PuntReturns }}</td>
+                    <td>{{ ts.PuntReturnYards }}</td>
+                    <td>{{ ts.PuntReturnAverage }}</td>
+                </tr>
+                    
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+        
+    <div id="player" class="tab-pane">
+        <h2>Player</h2>
+        no player stats now
+    </div>
+</div>

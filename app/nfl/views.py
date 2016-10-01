@@ -27,6 +27,12 @@ def nfl_home():
     all_teams = all_nfl_teams()
     return render_template("nfl_home.html", all_teams=all_teams)
 
+@nfl_blueprint.route("/nfl/standings/")
+def nfl_standings():
+    all_teams = all_nfl_teams()
+    st = NFLStandings.query.all()
+    return render_template("nfl standings.html", standing=st, all_teams=all_teams)
+
 @nfl_blueprint.route("/nfl/schedule/")
 def nfl_schedule():
     all_teams = all_nfl_teams()
@@ -38,6 +44,16 @@ def nfl_schedule():
         all_teams=all_teams, 
         data=sch, 
         dt=dt,
+        )
+
+@nfl_blueprint.route("/nfl/stats/<int:sid>/")
+def nfl_stats(sid):
+    all_teams = all_nfl_teams()
+    teamseason1 = NFLTeamSeason.query.filter_by(SeasonType=sid).all()
+    return render_template(
+        "nfl_stats.html", 
+        all_teams=all_teams, 
+        teamseason=teamseason1,
         )
 
 @nfl_blueprint.route("/nfl/board/")
@@ -224,22 +240,6 @@ def nfl_delete_bet(bet_key):
         return redirect(url_for("nfl.nfl_public_board"))
     return render_template("nfl_delete_bet.html", nfl_bet=nfl_bet, form=form, all_teams=all_teams)
 
-@nfl_blueprint.route("/nfl/standings/")
-def nfl_standings():
-    all_teams = all_nfl_teams()
-    st = NFLStandings.query.all()
-    return render_template("nfl standings.html", standing=st, all_teams=all_teams)
-
-
-@nfl_blueprint.route("/nfl/stats/<int:sid>/")
-def nfl_stats(sid):
-    all_teams = all_nfl_teams()
-    teamseason1 = NFLTeamSeason.query.filter_by(SeasonType=sid).all()
-    return render_template(
-        "nfl_stats.html", 
-        all_teams=all_teams, 
-        teamseason=teamseason1,
-        )
 
 @nfl_blueprint.route("/nfl/team/home/<int:sid>/<path:key>/<path:team>/")
 def nfl_team_home(sid,key,team):
@@ -258,7 +258,7 @@ def nfl_team_home(sid,key,team):
     team_off_rank = team_off_avg(tss.OffensiveYards,tss.Team)
     team_def_rank = team_def_avg(tss.OpponentOffensiveYards,tss.Team) 
     return render_template(
-        "nfl_team_home.html",
+        "nfl_team/nfl_team_home.html",
         all_teams=all_teams,
         team_rush_rank=team_rush_rank,
         team_pass_rank=team_pass_rank,
