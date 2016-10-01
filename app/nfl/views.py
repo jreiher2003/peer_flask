@@ -248,7 +248,7 @@ def nfl_team_home(sid,key,team):
     jj = NFLTeam.query.filter_by(Key=key).one()
     tt = NFLStadium.query.filter_by(StadiumID=jj.StadiumID).one() 
     ss = NFLStandings.query.filter_by(Team=key).one()
-    tss = NFLTeamSeason.query.filter_by(Team=key, SeasonType=1).one()
+    tss = NFLTeamSeason.query.filter_by(Team=key, SeasonType=sid).one()
     ts = NFLSchedule.query.filter_by(SeasonType=sid).filter((NFLSchedule.AwayTeam==key) | (NFLSchedule.HomeTeam==key))
     team_score = NFLScore.query.filter_by(SeasonType=sid).filter((NFLScore.AwayTeam==key) | (NFLScore.HomeTeam==key))
     team_rush_rank = team_rush_avg(tss.RushingYards,tss.Team) 

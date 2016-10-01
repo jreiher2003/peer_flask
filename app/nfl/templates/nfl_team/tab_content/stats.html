@@ -24,38 +24,38 @@
                 </tr>
             </thead>
             <tbody>
-                {% for ts in team_season_stats %}
+               
                     
                 <tr>
-                    <td>{{ ts.Team }}</td>
-                    <td>{{ ts.PassingAttempts }}</td>
-                    <td>{{ ts.PassingCompletions }}</td>
-                    <td>{{ ts.CompletionPercentage }}</td>
-                    <td>{{ ts.PassingYards }}</td>
-                    <td>{{ ts.PassingYardsPerAttempt }}</td>
-                    <td>{{ ts.PassingYards / ts.Games }}</td>
-                    <td>{{ ts.PassingTouchdowns }}</td>
-                    <td>{{ ts.PassingInterceptions }}</td>
-                    <td>{{ ts.TimesSacked }}</td>
-                    <td>{{ ts.TimesSackedYards }}</td>
-                    <td>{{ ts.PasserRating }}</td>
+                    <td>{{ tss.Team }}</td>
+                    <td>{{ tss.PassingAttempts }}</td>
+                    <td>{{ tss.PassingCompletions }}</td>
+                    <td>{{ tss.CompletionPercentage }}</td>
+                    <td>{{ tss.PassingYards }}</td>
+                    <td>{{ tss.PassingYardsPerAttempt }}</td>
+                    <td>{{ tss.PassingYards / tss.Games }}</td>
+                    <td>{{ tss.PassingTouchdowns }}</td>
+                    <td>{{ tss.PassingInterceptions }}</td>
+                    <td>{{ tss.TimesSacked }}</td>
+                    <td>{{ tss.TimesSackedYards }}</td>
+                    <td>{{ tss.PasserRating }}</td>
                 </tr>
                 <tr>
                     <td>Opponents</td>
-                    <td>{{ ts.OpponentPassingAttempts }}</td>
-                    <td>{{ ts.OpponentPassingCompletions }}</td>
-                    <td>{{ ts.OpponentCompletionPercentage }}</td>
-                    <td>{{ ts.OpponentPassingYards }}</td>
-                    <td>{{ ts.OpponentPassingYardsPerAttempt }}</td>
-                    <td>{{ ts.OpponentPassingYards / ts.Games }}</td>
-                    <td>{{ ts.OpponentPassingTouchdowns }}</td>
-                    <td>{{ ts.OpponentPassingInterceptions }}</td>
-                    <td>{{ ts.OpponentTimesSacked }}</td>
-                    <td>{{ ts.OpponentTimesSackedYards }}</td>
-                    <td>{{ ts.OpponentPasserRating }}</td>
+                    <td>{{ tss.OpponentPassingAttempts }}</td>
+                    <td>{{ tss.OpponentPassingCompletions }}</td>
+                    <td>{{ tss.OpponentCompletionPercentage }}</td>
+                    <td>{{ tss.OpponentPassingYards }}</td>
+                    <td>{{ tss.OpponentPassingYardsPerAttempt }}</td>
+                    <td>{{ tss.OpponentPassingYards / tss.Games }}</td>
+                    <td>{{ tss.OpponentPassingTouchdowns }}</td>
+                    <td>{{ tss.OpponentPassingInterceptions }}</td>
+                    <td>{{ tss.OpponentTimesSacked }}</td>
+                    <td>{{ tss.OpponentTimesSackedYards }}</td>
+                    <td>{{ tss.OpponentPasserRating }}</td>
                 </tr>
                     
-                {% endfor %}
+               
             </tbody>
         </table>
         <h4>Rushing</h4>
@@ -72,28 +72,28 @@
                 </tr>
             </thead>
             <tbody>
-                {% for ts in team_season_stats %}
+                
                     
                 <tr>
-                    <td>{{ ts.Team }}</td>
-                    <td>{{ ts.RushingAttempts }}</td>
-                    <td>{{ ts.RushingYards }}</td>
-                    <td>{{ ts.RushingYardsPerAttempt }}</td>
-                    <td>{{ ts.RushingTouchdowns }}</td>
-                    <td>{{ ts.RushingAttempts / ts.Games }}</td>
-                    <td>{{ ts.FirstDownsByRushing }}</td>
+                    <td>{{ tss.Team }}</td>
+                    <td>{{ tss.RushingAttempts }}</td>
+                    <td>{{ tss.RushingYards }}</td>
+                    <td>{{ tss.RushingYardsPerAttempt }}</td>
+                    <td>{{ tss.RushingTouchdowns }}</td>
+                    <td>{{ tss.RushingAttempts / tss.Games }}</td>
+                    <td>{{ tss.FirstDownsByRushing }}</td>
                 </tr>
                 <tr>
                     <td>Opponents</td>
-                    <td>{{ ts.OpponentRushingAttempts }}</td>
-                    <td>{{ ts.OpponentRushingYards }}</td>
-                    <td>{{ ts.OpponentRushingYardsPerAttempt }}</td>
-                    <td>{{ ts.OpponentRushingTouchdowns }}</td>
-                    <td>{{ ts.OpponentRushingYards / ts.Games }}</td>
-                    <td>{{ ts.OpponentFirstDownsByRushing }}</td>
+                    <td>{{ tss.OpponentRushingAttempts }}</td>
+                    <td>{{ tss.OpponentRushingYards }}</td>
+                    <td>{{ tss.OpponentRushingYardsPerAttempt }}</td>
+                    <td>{{ tss.OpponentRushingTouchdowns }}</td>
+                    <td>{{ tss.OpponentRushingYards / tss.Games }}</td>
+                    <td>{{ tss.OpponentFirstDownsByRushing }}</td>
                 </tr>
 
-                {% endfor %}
+               
             </tbody>
         </table>
         <h4>Defense</h4>
@@ -118,44 +118,44 @@
                 </tr>
             </thead>
             <tbody>
-                {% for ts in team_season_stats %}
+               
                     
                 <tr>
-                    <td>{{ ts.Team }}</td>
-                    <td>{{ ts.SoloTackles }}</td>
-                    <td>{{ ts.AssistedTackles }}</td>
-                    <td>{{ ts.SoloTackles + ts.AssistedTackles }}</td>
-                    <td>{{ ts.Sacks }}</td>
-                    <td>{{ ts.SackYards }}</td>
-                    <td>{{ ts.TacklesForLoss }}</td>
-                    <td>{{ ts.PassesDefended }}</td>
-                    <td>{{ ts.InterceptionReturns }}</td>
-                    <td>{{ ts.InterceptionReturnYards }}</td>
-                    <td>{{ ts.InterceptionReturnTouchdowns }}</td>
-                    <td>{{ ts.FumblesForced }}</td>
-                    <td>{{ ts.FumblesRecovered }}</td>
-                    <td>{{ ts.FumbleReturnTouchdowns }}</td>
-                    <td>{{ ts.BlockedKicks }}</td>
+                    <td>{{ tss.Team }}</td>
+                    <td>{{ tss.SoloTackles }}</td>
+                    <td>{{ tss.AssistedTackles }}</td>
+                    <td>{{ tss.SoloTackles + tss.AssistedTackles }}</td>
+                    <td>{{ tss.Sacks }}</td>
+                    <td>{{ tss.SackYards }}</td>
+                    <td>{{ tss.TacklesForLoss }}</td>
+                    <td>{{ tss.PassesDefended }}</td>
+                    <td>{{ tss.InterceptionReturns }}</td>
+                    <td>{{ tss.InterceptionReturnYards }}</td>
+                    <td>{{ tss.InterceptionReturnTouchdowns }}</td>
+                    <td>{{ tss.FumblesForced }}</td>
+                    <td>{{ tss.FumblesRecovered }}</td>
+                    <td>{{ tss.FumbleReturnTouchdowns }}</td>
+                    <td>{{ tss.BlockedKicks }}</td>
                 </tr>
                 <tr>
                     <td>Opponents</td>
-                    <td>{{ ts.OpponentSoloTackles }}</td>
-                    <td>{{ ts.OpponentAssistedTackles  }}</td>
-                    <td>{{ ts.OpponentSoloTackles + ts.OpponentAssistedTackles }}</td>
-                    <td>{{ ts.OpponentSacks }}</td>
-                    <td>{{ ts.OpponentSackYards }}</td>
-                    <td>{{ ts.OpponentTacklesForLoss }}</td>
-                    <td>{{ ts.OpponentPassesDefended }}</td>
-                    <td>{{ ts.OpponentInterceptionReturns }}</td>
-                    <td>{{ ts.OpponentInterceptionReturnYards }}</td>
-                    <td>{{ ts.OpponentInterceptionReturnTouchdowns }}</td>
-                    <td>{{ ts.OpponentFumblesForced }}</td>
-                    <td>{{ ts.OpponentFumblesRecovered }}</td>
-                    <td>{{ ts.OpponentFumbleReturnTouchdowns }}</td>
-                    <td>{{ ts.OpponentBlockedKicks }}</td>
+                    <td>{{ tss.OpponentSoloTackles }}</td>
+                    <td>{{ tss.OpponentAssistedTackles  }}</td>
+                    <td>{{ tss.OpponentSoloTackles + tss.OpponentAssistedTackles }}</td>
+                    <td>{{ tss.OpponentSacks }}</td>
+                    <td>{{ tss.OpponentSackYards }}</td>
+                    <td>{{ tss.OpponentTacklesForLoss }}</td>
+                    <td>{{ tss.OpponentPassesDefended }}</td>
+                    <td>{{ tss.OpponentInterceptionReturns }}</td>
+                    <td>{{ tss.OpponentInterceptionReturnYards }}</td>
+                    <td>{{ tss.OpponentInterceptionReturnTouchdowns }}</td>
+                    <td>{{ tss.OpponentFumblesForced }}</td>
+                    <td>{{ tss.OpponentFumblesRecovered }}</td>
+                    <td>{{ tss.OpponentFumbleReturnTouchdowns }}</td>
+                    <td>{{ tss.OpponentBlockedKicks }}</td>
                 </tr>
                     
-                {% endfor %}
+                
             </tbody>
         </table>
         <h4>Downs</h4>
@@ -178,40 +178,40 @@
                 </tr>
             </thead>
             <tbody>
-                {% for ts in team_season_stats %}
+               
                     
                 <tr>
-                    <td>{{ ts.Team }}</td>
-                    <td>{{ ts.FirstDowns }}</td>
-                    <td>{{ ts.FirstDownsByRushing }}</td>
-                    <td>{{ ts.FirstDownsByPassing }}</td>
-                    <td>{{ ts.FirstDownsByPenalty }}</td>
-                    <td>{{ ts.ThirdDownConversions }}</td>
-                    <td>{{ ts.ThirdDownAttempts }}</td>
-                    <td>{{ ts.ThirdDownPercentage }}</td>
-                    <td>{{ ts.FourthDownConversions }}</td>
-                    <td>{{ ts.FourthDownAttempts }}</td>
-                    <td>{{ ts.FourthDownPercentage }}</td>
-                    <td>{{ ts.Penalties }}</td>
-                    <td>{{ ts.PenaltyYards }}</td>
+                    <td>{{ tss.Team }}</td>
+                    <td>{{ tss.FirstDowns }}</td>
+                    <td>{{ tss.FirstDownsByRushing }}</td>
+                    <td>{{ tss.FirstDownsByPassing }}</td>
+                    <td>{{ tss.FirstDownsByPenalty }}</td>
+                    <td>{{ tss.ThirdDownConversions }}</td>
+                    <td>{{ tss.ThirdDownAttempts }}</td>
+                    <td>{{ tss.ThirdDownPercentage }}</td>
+                    <td>{{ tss.FourthDownConversions }}</td>
+                    <td>{{ tss.FourthDownAttempts }}</td>
+                    <td>{{ tss.FourthDownPercentage }}</td>
+                    <td>{{ tss.Penalties }}</td>
+                    <td>{{ tss.PenaltyYards }}</td>
                 </tr>
                 <tr>
                     <td>Opponents</td>
-                    <td>{{ ts.OpponentFirstDowns }}</td>
-                    <td>{{ ts.OpponentFirstDownsByRushing }}</td>
-                    <td>{{ ts.OpponentFirstDownsByPassing }}</td>
-                    <td>{{ ts.OpponentFirstDownsByPenalty }}</td>
-                    <td>{{ ts.OpponentThirdDownConversions }}</td>
-                    <td>{{ ts.OpponentThirdDownAttempts }}</td>
-                    <td>{{ ts.OpponentThirdDownPercentage }}</td>
-                    <td>{{ ts.OpponentFourthDownConversions }}</td>
-                    <td>{{ ts.OpponentFourthDownAttempts }}</td>
-                    <td>{{ ts.OpponentFourthDownPercentage }}</td>
-                    <td>{{ ts.OpponentPenalties }}</td>
-                    <td>{{ ts.OpponentPenaltyYards }}</td>
+                    <td>{{ tss.OpponentFirstDowns }}</td>
+                    <td>{{ tss.OpponentFirstDownsByRushing }}</td>
+                    <td>{{ tss.OpponentFirstDownsByPassing }}</td>
+                    <td>{{ tss.OpponentFirstDownsByPenalty }}</td>
+                    <td>{{ tss.OpponentThirdDownConversions }}</td>
+                    <td>{{ tss.OpponentThirdDownAttempts }}</td>
+                    <td>{{ tss.OpponentThirdDownPercentage }}</td>
+                    <td>{{ tss.OpponentFourthDownConversions }}</td>
+                    <td>{{ tss.OpponentFourthDownAttempts }}</td>
+                    <td>{{ tss.OpponentFourthDownPercentage }}</td>
+                    <td>{{ tss.OpponentPenalties }}</td>
+                    <td>{{ tss.OpponentPenaltyYards }}</td>
                 </tr>
                     
-                {% endfor %}
+             
             </tbody>
         </table>
         <h4>Returning</h4>
@@ -232,36 +232,36 @@
                 </tr>
             </thead>
             <tbody>
-                {% for ts in team_season_stats %}
+               
                     
                 <tr>
-                    <td>{{ ts.Team }}</td>
-                    <td>{{ ts.KickReturns }}</td>
-                    <td>{{ ts.KickReturnYards }}</td>
-                    <td>{{ ts.KickReturnAverage }}</td>
-                    <td>{{ ts.KickReturnLong }}</td>
-                    <td>{{ ts.KickReturnTouchdowns }}</td>
-                    <td>{{ ts.PuntReturns }}</td>
-                    <td>{{ ts.PuntReturnYards }}</td>
-                    <td>{{ ts.PuntReturnAverage }}</td>
-                    <td>{{ ts.PuntReturnLong }}</td>
-                    <td>{{ ts.PuntReturnTouchdowns }}</td>
+                    <td>{{ tss.Team }}</td>
+                    <td>{{ tss.KickReturns }}</td>
+                    <td>{{ tss.KickReturnYards }}</td>
+                    <td>{{ tss.KickReturnAverage }}</td>
+                    <td>{{ tss.KickReturnLong }}</td>
+                    <td>{{ tss.KickReturnTouchdowns }}</td>
+                    <td>{{ tss.PuntReturns }}</td>
+                    <td>{{ tss.PuntReturnYards }}</td>
+                    <td>{{ tss.PuntReturnAverage }}</td>
+                    <td>{{ tss.PuntReturnLong }}</td>
+                    <td>{{ tss.PuntReturnTouchdowns }}</td>
                 </tr>
                 <tr>
                     <td>Opponents</td>
-                    <td>{{ ts.OpponentKickReturns }}</td>
-                    <td>{{ ts.OpponentKickReturnYards }}</td>
-                    <td>{{ ts.OpponentKickReturnAverage }}</td>
-                    <td>{{ ts.OpponentKickReturnLong }}</td>
-                    <td>{{ ts.OpponentKickReturnTouchdowns }}</td>
-                    <td>{{ ts.OpponentPuntReturns }}</td>
-                    <td>{{ ts.OpponentPuntReturnYards }}</td>
-                    <td>{{ ts.OpponentPuntReturnAverage }}</td>
-                    <td>{{ ts.OpponentPuntReturnLong }}</td>
-                    <td>{{ ts.OpponentPuntReturnTouchdowns }}</td>
+                    <td>{{ tss.OpponentKickReturns }}</td>
+                    <td>{{ tss.OpponentKickReturnYards }}</td>
+                    <td>{{ tss.OpponentKickReturnAverage }}</td>
+                    <td>{{ tss.OpponentKickReturnLong }}</td>
+                    <td>{{ tss.OpponentKickReturnTouchdowns }}</td>
+                    <td>{{ tss.OpponentPuntReturns }}</td>
+                    <td>{{ tss.OpponentPuntReturnYards }}</td>
+                    <td>{{ tss.OpponentPuntReturnAverage }}</td>
+                    <td>{{ tss.OpponentPuntReturnLong }}</td>
+                    <td>{{ tss.OpponentPuntReturnTouchdowns }}</td>
                 </tr>
                    
-                {% endfor %}
+               
             </tbody>
         </table>
         <h4>Kicking</h4>
@@ -278,28 +278,28 @@
                 </tr>
             </thead>
             <tbody>
-                {% for ts in team_season_stats %}
+                
                     
                 <tr>
-                    <td>{{ ts.Team }}</td>
-                    <td>{{ ts.FieldGoalsMade }}</td>
-                    <td>{{ ts.FieldGoalAttempts }}</td>
-                    <td>{{ ts.FieldGoalPercentage }}</td>
-                    <td>{{ ts.ExtraPointKickingConversions }}</td>
-                    <td>{{ ts.ExtraPointKickingAttempts }}</td>
-                    <td>{{ ts.ExtraPointPercentage }}</td>
+                    <td>{{ tss.Team }}</td>
+                    <td>{{ tss.FieldGoalsMade }}</td>
+                    <td>{{ tss.FieldGoalAttempts }}</td>
+                    <td>{{ tss.FieldGoalPercentage }}</td>
+                    <td>{{ tss.ExtraPointKickingConversions }}</td>
+                    <td>{{ tss.ExtraPointKickingAttempts }}</td>
+                    <td>{{ tss.ExtraPointPercentage }}</td>
                 </tr>
                 <tr>
                     <td>Opponents</td>
-                    <td>{{ ts.OpponentFieldGoalsMade }}</td>
-                    <td>{{ ts.OpponentFieldGoalAttempts }}</td>
-                    <td>{{ ts.OpponentFieldGoalPercentage }}</td>
-                    <td>{{ ts.OpponentExtraPointKickingConversions }}</td>
-                    <td>{{ ts.OpponentExtraPointKickingAttempts }}</td>
-                    <td>{{ ts.OpponentExtraPointPercentage }}</td>
+                    <td>{{ tss.OpponentFieldGoalsMade }}</td>
+                    <td>{{ tss.OpponentFieldGoalAttempts }}</td>
+                    <td>{{ tss.OpponentFieldGoalPercentage }}</td>
+                    <td>{{ tss.OpponentExtraPointKickingConversions }}</td>
+                    <td>{{ tss.OpponentExtraPointKickingAttempts }}</td>
+                    <td>{{ tss.OpponentExtraPointPercentage }}</td>
                 </tr>
                    
-                {% endfor %}
+              
             </tbody>
         </table>
         <h4>Punting</h4>
@@ -318,32 +318,31 @@
                 </tr>
             </thead>
             <tbody>
-                {% for ts in team_season_stats %}
+               
                     
                 <tr>
-                    <td>{{ ts.Team }}</td>
-                    <td>{{ ts.Punts }}</td>
-                    <td>{{ ts.PuntYards }}</td>
-                    <td>{{ ts.PuntAverage }}</td>
-                    <td>{{ ts.PuntNetAverage }}</td>
-                    <td>{{ ts.PuntsHadBlocked }}</td>
-                    <td>{{ ts.OpponentPuntReturns }}</td>
-                    <td>{{ ts.OpponentPuntReturnYards }}</td>
-                    <td>{{ ts.OpponentPuntReturnAverage }}</td>
+                    <td>{{ tss.Team }}</td>
+                    <td>{{ tss.Punts }}</td>
+                    <td>{{ tss.PuntYards }}</td>
+                    <td>{{ tss.PuntAverage }}</td>
+                    <td>{{ tss.PuntNetAverage }}</td>
+                    <td>{{ tss.PuntsHadBlocked }}</td>
+                    <td>{{ tss.OpponentPuntReturns }}</td>
+                    <td>{{ tss.OpponentPuntReturnYards }}</td>
+                    <td>{{ tss.OpponentPuntReturnAverage }}</td>
                 </tr>
                 <tr>
                     <td>Opponents</td>
-                    <td>{{ ts.OpponentPunts }}</td>
-                    <td>{{ ts.OpponentPuntYards }}</td>
-                    <td>{{ ts.OpponentPuntAverage }}</td>
-                    <td>{{ ts.OpponentPuntNetAverage }}</td>
-                    <td>{{ ts.OpponentPuntsHadBlocked }}</td>
-                    <td>{{ ts.PuntReturns }}</td>
-                    <td>{{ ts.PuntReturnYards }}</td>
-                    <td>{{ ts.PuntReturnAverage }}</td>
+                    <td>{{ tss.OpponentPunts }}</td>
+                    <td>{{ tss.OpponentPuntYards }}</td>
+                    <td>{{ tss.OpponentPuntAverage }}</td>
+                    <td>{{ tss.OpponentPuntNetAverage }}</td>
+                    <td>{{ tss.OpponentPuntsHadBlocked }}</td>
+                    <td>{{ tss.PuntReturns }}</td>
+                    <td>{{ tss.PuntReturnYards }}</td>
+                    <td>{{ tss.PuntReturnAverage }}</td>
                 </tr>
-                    
-                {% endfor %}
+                 
             </tbody>
         </table>
     </div>
