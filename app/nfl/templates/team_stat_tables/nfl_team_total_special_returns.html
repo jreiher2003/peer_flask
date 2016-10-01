@@ -1,0 +1,41 @@
+<table id="special_returns_season_stats" class="table tablesorter focus-highlight tablesorter-blue" cellspacing="1">
+    <thead>       
+        <tr>
+            <th colspan="2"></th>
+            <th colspan="5">Kickoffs</th>
+            <th colspan="5">Punts</th>
+        </tr>
+        <tr>
+            <th>RK</th>
+            <th><a>TEAM<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>ATT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDS<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>AVG<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>LONG<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>TD<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>ATT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDS<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>AVG<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>LONG<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>TD<i class="fa fa-fw fa-sort"></i></a></th> 
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in teamseason %}
+        <tr>
+            <td></td>
+            <td>{{ t.Team }}</td>
+            <td>{{ t.KickReturns }}</td>
+            <td>{{ t.KickReturnYards }}</td>
+            <td>{{ t.KickReturnAverage }}</td>
+            <td>{{ t.KickReturnLong }}</td>
+            <td>{{ t.KickReturnTouchdowns }}</td>
+            <td>{{ t.PuntReturns }}</td>
+            <td>{{ t.PuntReturnYards }}</td>
+            <td>{{ t.PuntReturnAverage }}</td>
+            <td>{{ t.PuntReturnLong }}</td>
+            <td>{{ t.PuntReturnTouchdowns }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

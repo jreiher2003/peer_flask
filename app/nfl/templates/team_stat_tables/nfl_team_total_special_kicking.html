@@ -1,0 +1,34 @@
+<table id="special_kicking_season_stats" class="table tablesorter focus-highlight tablesorter-blue" cellspacing="1">
+    <thead>       
+        <tr>
+            <th colspan="2"></th>
+            <th colspan="4">FIELD GOALS</th>
+            <th colspan="2">EXTRA POINTS</th>
+        </tr>
+        <tr>
+            <th>RK</th>
+            <th><a>TEAM<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>FGM<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>FGA<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>PCT<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>XPM<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>XPA<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>PCT<i class="fa fa-fw fa-sort"></i></a></th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in teamseason %}
+        <tr>
+            <td></td>
+            <td>{{ t.Team }}</td>
+            <td>{{ t.FieldGoalsMade }}</td>
+            <td>{{ t.FieldGoalAttempts }}</td>
+            <td>{{ t.FieldGoalPercentage }}</td>
+            <td>{{ t.ExtraPointKickingConversions }}</td>
+            <td>{{ t.ExtraPointKickingAttempts }}</td>
+            <td>{{ t.ExtraPointPercentage }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

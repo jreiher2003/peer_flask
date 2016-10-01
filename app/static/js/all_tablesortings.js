@@ -43,6 +43,16 @@ $(function() {
     $('#defense_tsif_season_stats').tablesorter({
         theme: 'blue'
     });
+
+    $('#special_kicking_season_stats').tablesorter({
+        theme: 'blue'
+    });
+    $('#special_punting_season_stats').tablesorter({
+        theme: 'blue'
+    });
+    $('#special_returns_season_stats').tablesorter({
+        theme: 'blue'
+    });
  
 
   // Make table cell focusable

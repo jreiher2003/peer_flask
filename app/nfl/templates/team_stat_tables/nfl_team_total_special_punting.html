@@ -1,0 +1,36 @@
+<table id="special_punting_season_stats" class="table tablesorter focus-highlight tablesorter-blue" cellspacing="1">
+    <thead>       
+        <tr>
+            <th colspan="2"></th>
+            <th colspan="8">Punting</th>
+        </tr>
+        <tr>
+            <th>RK</th>
+            <th><a>TEAM<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>PUNTS<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>YDS<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>AVG<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>NET<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>BP<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>RET<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>RETY<i class="fa fa-fw fa-sort"></i></a></th>
+            <th><a>AVG<i class="fa fa-fw fa-sort"></i></a></th> 
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in teamseason %}
+        <tr>
+            <td></td>
+            <td>{{ t.Team }}</td>
+            <td>{{ t.Punts }}</td>
+            <td>{{ t.PuntYards }}</td>
+            <td>{{ t.PuntAverage }}</td>
+            <td>{{ t.PuntNetYards }}</td>
+            <td>{{ t.PuntsHadBlocked }}</td>
+            <td>{{ t.OpponentPuntReturns }}</td>
+            <td>{{ t.OpponentPuntReturnYards }}</td>
+            <td>{{ t.OpponentPuntReturnAverage }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
