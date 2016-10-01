@@ -31,7 +31,7 @@ def nfl_home():
 def nfl_standings():
     all_teams = all_nfl_teams()
     st = NFLStandings.query.all()
-    return render_template("nfl standings.html", standing=st, all_teams=all_teams)
+    return render_template("nfl_standings/nfl standings.html", standing=st, all_teams=all_teams)
 
 @nfl_blueprint.route("/nfl/schedule/")
 def nfl_schedule():

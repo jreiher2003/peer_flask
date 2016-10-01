@@ -76,16 +76,28 @@
                             {% include "team_stat_tables/nfl_team_total_defensive_downs_stats.html" %}
                         </div>
                         <div class="tab-pane" id="sacks">
-                            {% include "team_stat_tables/nfl_team_total_tsif_stats.html" %}
+                            {% include "team_stat_tables/nfl_team_total_defensive_tsif_stats.html" %}
                         </div>
     
                     </div>
                 </div>
                 <div class="tab-pane" id="special_teams">
-                
-                </div>
+                    <ul class="nav nav-tabs" id="special_teams_stats">
+                        <li><a href="#field_goals" data-toggle="tab">Field Goals</a></li>
+                        <li><a href="#extra_points" data-toggle="tab">Extra Points</a></li>
+                        <li><a href="#punting" data-toggle="tab">Punting</a></li>
+                        <li><a href="#kickoff_returns" data-toggle="tab">Kickoff Returns</a></li>
+                        <li><a href="#punt_returns" data-toggle="tab">Punt Returns</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="field_goals">field goals</div>
+                        <div class="tab-pane" id="extra_points">extrapoints</div>
+                        <div class="tab-pane" id="punting">punting</div>
+                        <div class="tab-pane" id="kickoff_returns">Kickoff Returns</div>
+                        <div class="tab-pane" id="punt_returns">Punt Returns</div>
+                    </div>
 
-            </div>
+                </div>
 
 
         </div>
