@@ -11,4 +11,10 @@ $(document).ready(function() {
             window.location.href=$(this).val()
         }
     });
+    $("#goto_stats").change(function() {
+        if ($(this).val() != '') {
+            console.log($(this).val())
+            window.location.href=$(this).val()
+        }
+    });
 });
