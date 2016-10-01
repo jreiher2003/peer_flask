@@ -29,7 +29,7 @@
                 <!-- <!-- Tab panes -->
                 <div class="tab-content">
                     <div class="tab-pane" id="home">
-                        <form id="form-home" method="POST" action="{{ url_for('nfl.post_home_team', game_key=nfl_game.GameKey) }}">
+                        <form id="form-home" method="POST" action="{{ url_for('nfl.nfl_create_bet', game_key=nfl_game.GameKey) }}">
                             {{ form_h.csrf_token }}
                             <div class="form-group">
                                 {{ form_h.game_key(value=nfl_game.GameKey) }}
@@ -105,7 +105,7 @@
                     </div> <!-- end tab-pane home -->
 
                     <div class="tab-pane" id="away">
-                        <form id="form-away" method="POST" action="{{ url_for('nfl.post_away_team', game_key=nfl_game.GameKey) }}">
+                        <form id="form-away" method="POST" action="{{ url_for('nfl.nfl_create_bet', game_key=nfl_game.GameKey) }}">
                             {{ form_a.csrf_token }}
                             <div class="form-group">
                                 {{ form_a.game_key(value=nfl_game.GameKey) }}
@@ -180,7 +180,7 @@
                     </div> <!-- end tab-pane away -->
 
                     <div class="tab-pane" id="totals">
-                        <form id="form-over" method="POST" action="{{ url_for('nfl.post_over_under', game_key=nfl_game.GameKey) }}">
+                        <form id="form-over" method="POST" action="{{ url_for('nfl.nfl_create_bet', game_key=nfl_game.GameKey) }}">
                             {{ form_o.csrf_token }}
                             <div class="form-group">
                                 {{ form_o.game_key(value=nfl_game.GameKey) }}

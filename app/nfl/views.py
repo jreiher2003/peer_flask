@@ -50,14 +50,17 @@ def nfl_public_board():
         over_under=over_under, 
         )
 
-@nfl_blueprint.route("/nfl/board/create/<path:game_key>/over_under/", methods=["POST"])
-def post_over_under(game_key):
+@nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])
+@login_required
+def nfl_create_bet(game_key):
     all_teams = all_nfl_teams()
     salt = make_salt()
     nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
+    h_team = nfl_game.HomeTeam 
+    a_team = nfl_game.AwayTeam
     form_o = OverUnderForm()
-    form_a = AwayTeamForm()
     form_h = HomeTeamForm()
+    form_a = AwayTeamForm()
     if form_o.validate_on_submit():
         game_key_form = request.form["game_key"]
         home = request.form["home_"]
@@ -85,67 +88,8 @@ def post_over_under(game_key):
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
             return render_template("nfl_error.html")
-    return render_template(
-        "nfl_create_bet.html",
-        form_o=form_o,
-        form_h=form_h,
-        form_a=form_a, 
-        nfl_game=nfl_game, 
-        all_teams=all_teams,
-        )
 
-@nfl_blueprint.route("/nfl/board/create/<path:game_key>/home_team/", methods=["POST"])
-def post_home_team(game_key):
-    all_teams = all_nfl_teams()
-    salt = make_salt()
-    nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
-    form_o = OverUnderForm()
-    form_a = AwayTeamForm()
-    form_h = HomeTeamForm()
-    if form_h.validate_on_submit():
-        game_key_form = request.form["game_key"]
-        home = request.form["home_"]
-        away = request.form["away_"]
-        hometeam = request.form["home_team"]
-        home_ps = request.form["point_spread"]
-        amount = request.form["amount"]
-        bet_key = ""
-        bet_key += hashlib.md5(game_key_form+home+away+hometeam+home_ps+amount+salt).hexdigest()
-        if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_h = NFLBet(
-                game_key=game_key_form,
-                game_date=parse_date(nfl_game.Date),
-                home_team = home,
-                away_team = away,
-                team=hometeam,
-                ps=home_ps,
-                vs=away+" vs "+"@"+home,
-                amount=amount,
-                bet_key=bet_key,
-                user_id=current_user.id)
-            db.session.add(bet_h)
-            db.session.commit()
-            return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
-        else:
-            flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
-            return render_template("nfl_error.html")
-    return render_template(
-        "nfl_create_bet.html",
-        form_o=form_o,
-        form_h=form_h,
-        form_a=form_a, 
-        nfl_game=nfl_game, 
-        all_teams=all_teams
-        )
-@nfl_blueprint.route("/nfl/board/create/<path:game_key>/away_team/", methods=["POST"])
-def post_away_team(game_key):
-    all_teams = all_nfl_teams()
-    salt = make_salt()
-    nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
-    form_o = OverUnderForm()
-    form_a = AwayTeamForm()
-    form_h = HomeTeamForm()
-    if form_a.validate_on_submit():
+    elif form_a.validate_on_submit():
         game_key_form = request.form["game_key"]
         home = request.form["home_"]
         away = request.form["away_"]
@@ -172,25 +116,34 @@ def post_away_team(game_key):
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
             return render_template("nfl_error.html")
-    return render_template(
-        "nfl_create_bet.html",
-        form_o=form_o,
-        form_h=form_h,
-        form_a=form_a, 
-        nfl_game=nfl_game, 
-        all_teams=all_teams
-        )
 
-@nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])
-@login_required
-def nfl_create_bet(game_key):
-    all_teams = all_nfl_teams()
-    nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
-    h_team = nfl_game.HomeTeam 
-    a_team = nfl_game.AwayTeam
-    form_o = OverUnderForm()
-    form_h = HomeTeamForm()
-    form_a = AwayTeamForm()
+    elif form_h.validate_on_submit():
+        game_key_form = request.form["game_key"]
+        home = request.form["home_"]
+        away = request.form["away_"]
+        hometeam = request.form["home_team"]
+        home_ps = request.form["point_spread"]
+        amount = request.form["amount"]
+        bet_key = ""
+        bet_key += hashlib.md5(game_key_form+home+away+hometeam+home_ps+amount+salt).hexdigest()
+        if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
+            bet_h = NFLBet(
+                game_key=game_key_form,
+                game_date=parse_date(nfl_game.Date),
+                home_team = home,
+                away_team = away,
+                team=hometeam,
+                ps=home_ps,
+                vs=away+" vs "+"@"+home,
+                amount=amount,
+                bet_key=bet_key,
+                user_id=current_user.id)
+            db.session.add(bet_h)
+            db.session.commit()
+            return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
+        else:
+            flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
+            return render_template("nfl_error.html")
     return render_template(
         "nfl_create_bet.html",
         form_o=form_o,
