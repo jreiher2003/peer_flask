@@ -6,10 +6,10 @@
     <div class="row">
         <div class="col-md-12">
             <form action="" method="get" enctype="multipart/form-data">
-                <select>
+                <select id="goto_season">
                     <option value="">Select Season</option>
-                    <option value="{{ url_for('nfl.nfl_team_home', sid=1, key=key, team=team) }}">Regular Season</option>
-                    <option value="{{ url_for('nfl.nfl_team_home', sid=2, key=key, team=team) }}">Pre-Season</option>
+                    <option value="{{ url_for('nfl.nfl_team_home', sid=1, key=jj.Key, team=jj.FullName|urlify) }}">Regular Season</option>
+                    <option value="{{ url_for('nfl.nfl_team_home', sid=2, key=jj.Key, team=jj.FullName|urlify) }}">Pre-Season</option>
                 </select>
             </form>
             {% include "nfl_team/nfl_team_tab_content.html" %}

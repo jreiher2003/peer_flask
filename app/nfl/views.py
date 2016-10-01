@@ -251,12 +251,12 @@ def nfl_team_home(sid,key,team):
     tss = NFLTeamSeason.query.filter_by(Team=key, SeasonType=sid).one()
     ts = NFLSchedule.query.filter_by(SeasonType=sid).filter((NFLSchedule.AwayTeam==key) | (NFLSchedule.HomeTeam==key))
     team_score = NFLScore.query.filter_by(SeasonType=sid).filter((NFLScore.AwayTeam==key) | (NFLScore.HomeTeam==key))
-    team_rush_rank = team_rush_avg(tss.RushingYards,tss.Team) 
-    team_pass_rank = team_pass_avg(tss.PassingYards,tss.Team) 
-    opp_team_rush_rank = opp_team_rush_avg(tss.OpponentRushingYards,tss.Team) 
-    opp_team_pass_rank = opp_team_pass_avg(tss.OpponentPassingYards,tss.Team) 
-    team_off_rank = team_off_avg(tss.OffensiveYards,tss.Team)
-    team_def_rank = team_def_avg(tss.OpponentOffensiveYards,tss.Team) 
+    team_rush_rank = team_rush_avg(tss.RushingYards,tss.Team, sid) 
+    team_pass_rank = team_pass_avg(tss.PassingYards,tss.Team, sid) 
+    opp_team_rush_rank = opp_team_rush_avg(tss.OpponentRushingYards,tss.Team, sid) 
+    opp_team_pass_rank = opp_team_pass_avg(tss.OpponentPassingYards,tss.Team, sid) 
+    team_off_rank = team_off_avg(tss.OffensiveYards,tss.Team, sid)
+    team_def_rank = team_def_avg(tss.OpponentOffensiveYards,tss.Team, sid) 
     return render_template(
         "nfl_team/nfl_team_home.html",
         all_teams=all_teams,

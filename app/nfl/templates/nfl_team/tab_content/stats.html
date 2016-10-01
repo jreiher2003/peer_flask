@@ -33,7 +33,7 @@
                     <td>{{ tss.CompletionPercentage }}</td>
                     <td>{{ tss.PassingYards }}</td>
                     <td>{{ tss.PassingYardsPerAttempt }}</td>
-                    <td>{{ tss.PassingYards / tss.Games }}</td>
+                    <td>{{ tss.net_passing_yrd_per_game }}</td>
                     <td>{{ tss.PassingTouchdowns }}</td>
                     <td>{{ tss.PassingInterceptions }}</td>
                     <td>{{ tss.TimesSacked }}</td>
@@ -47,7 +47,7 @@
                     <td>{{ tss.OpponentCompletionPercentage }}</td>
                     <td>{{ tss.OpponentPassingYards }}</td>
                     <td>{{ tss.OpponentPassingYardsPerAttempt }}</td>
-                    <td>{{ tss.OpponentPassingYards / tss.Games }}</td>
+                    <td>{{ tss.opponent_net_passing_yrd_per_game }}</td>
                     <td>{{ tss.OpponentPassingTouchdowns }}</td>
                     <td>{{ tss.OpponentPassingInterceptions }}</td>
                     <td>{{ tss.OpponentTimesSacked }}</td>
@@ -80,7 +80,7 @@
                     <td>{{ tss.RushingYards }}</td>
                     <td>{{ tss.RushingYardsPerAttempt }}</td>
                     <td>{{ tss.RushingTouchdowns }}</td>
-                    <td>{{ tss.RushingAttempts / tss.Games }}</td>
+                    <td>{{ tss.net_rushing_yrd_per_game }}</td>
                     <td>{{ tss.FirstDownsByRushing }}</td>
                 </tr>
                 <tr>
@@ -89,7 +89,7 @@
                     <td>{{ tss.OpponentRushingYards }}</td>
                     <td>{{ tss.OpponentRushingYardsPerAttempt }}</td>
                     <td>{{ tss.OpponentRushingTouchdowns }}</td>
-                    <td>{{ tss.OpponentRushingYards / tss.Games }}</td>
+                    <td>{{ tss.opponent_net_rushing_yrd_per_game }}</td>
                     <td>{{ tss.OpponentFirstDownsByRushing }}</td>
                 </tr>
 
