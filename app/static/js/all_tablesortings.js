@@ -1,26 +1,30 @@
 $(document).ready(function(){
-  $(function(){
-    $('#public__board').tablesorter(); 
-  });
-  
+    $('#public__board').tablesorter({
+      debug: true,
+    }).tablesorterPager({container: $("#pager")}) 
 });
 
-$(function() {
+$(document).ready(function() {
   // call the tablesorter plugin
   $("#offense_season_stats").tablesorter({
-    theme: 'blue'
+    debug: true,
+    theme: 'blue',
   });
   $('#offense_passing_season_stats').tablesorter({
-        theme: 'blue'
+        debug: true,
+        theme: 'blue',
     });
   $('#offense_rushing_season_stats').tablesorter({
-        theme: 'blue'
+        debug: true,
+        theme: 'blue',
     });
   $('#offense_receiving_season_stats').tablesorter({
-        theme: 'blue'
+        debug: true,
+        theme: 'blue',
     });
   $('#offense_downs_season_stats').tablesorter({
-        theme: 'blue'
+        debug: true,
+        theme: 'blue',
     });
   
   
