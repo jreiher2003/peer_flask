@@ -20,7 +20,7 @@ def datetimefilter_f(value):
 
 @app.template_filter() 
 def game_time(value):
-    return '{dt:%A} - {dt:%I:%M %p}'.format(dt=value)
+    return '{dt:%I:%M %p}'.format(dt=value)
 
 @app.template_filter() 
 def game_day(value):

@@ -36,8 +36,7 @@ def nfl_standings():
 @nfl_blueprint.route("/nfl/schedule/")
 def nfl_schedule():
     all_teams = all_nfl_teams()
-    dt = datetime.datetime.today()
-    yesterday1 = yesterday()
+    dt = datetime.datetime.now()
     sch = NFLSchedule.query.filter(db.and_(NFLSchedule.SeasonType == 1), (NFLSchedule.PointSpread != None)).all()
     return render_template(
         "nfl_schedule.html", 
@@ -59,11 +58,13 @@ def nfl_stats(sid):
 @nfl_blueprint.route("/nfl/board/")
 def nfl_public_board():
     all_teams = all_nfl_teams()
-    over_under = db.session.query(NFLBet).all()
+    dt = datetime.datetime.now()
+    all_bets = db.session.query(NFLBet).all()
     return render_template(
         "nfl_public_board.html", 
         all_teams=all_teams, 
-        over_under=over_under, 
+        dt=dt,
+        all_bets=all_bets, 
         )
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])

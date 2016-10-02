@@ -18,8 +18,8 @@ tr {
                   <thead>
                     <tr>
                         <th><a>user<i class="fa fa-fw fa-sort"></i></a></th>
-                        <th><a>game date<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>game day<i class="fa fa-fw fa-sort"></i></a></th>
+                        <th><a>game time<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>game<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>team<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>spread<i class="fa fa-fw fa-sort"></i></a></th>
@@ -29,25 +29,28 @@ tr {
                     </tr>
                    </thead>
                    <tbody>
-                    {% for bet in over_under %}
+                    {% for bet in all_bets %}
+                        {% if bet.game_date > dt %}
                         <tr> 
                             <td><img src="{{ bet.users.profile.avatar }}">
                                 {{ bet.users.username }} {{ bet.user_id }} </td>
-                            <td>{{ bet.game_date|game_date }}</td>
+                            <td>{{ bet.game_date|game_date }}<br>{{ bet.game_date|game_day }}</td>
                             <td>{{ bet.game_date|game_time }}</td>
                             <td>{{ bet.vs }}</td>
                             <td>{{ bet.team }}</td>
                             <td>{{ bet.ps_format() }}</td>
                             <td>{{ bet.over_under }}{{ bet.total_format() }}</td>
                             <td>{{ bet.amount }}</td>
-                            <td><a href="">bet</a></td>
                             {% if current_user.id == bet.user_id %}
                                 <td>
                                     <a href="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}">delete</a><br>
                                     <a href="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}">edit</a>
                                 </td>
+                            {% else %}
+                                <td><a href="">bet</a></td>
                             {% endif %}
                         </tr>
+                        {% endif %}
                     {% endfor %}
                     </tbody>
                </table>
