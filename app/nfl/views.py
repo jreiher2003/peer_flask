@@ -245,7 +245,8 @@ def nfl_delete_bet(bet_key):
 @nfl_blueprint.route("/nfl/team/home/<int:sid>/<path:key>/<path:team>/")
 def nfl_team_home(sid,key,team):
     all_teams = all_nfl_teams()
-    dt = today_date()
+    dt = today_and_now()
+    dt_plus_2h = dt - datetime.timedelta(hours=3)
     jj = NFLTeam.query.filter_by(Key=key).one()
     tt = NFLStadium.query.filter_by(StadiumID=jj.StadiumID).one() 
     ss = NFLStandings.query.filter_by(Team=key).one()
@@ -268,6 +269,7 @@ def nfl_team_home(sid,key,team):
         team_off_rank=team_off_rank,
         team_def_rank=team_def_rank,
         team_score=team_score,
+        dt_plus_2h=dt_plus_2h,
         dt=dt,
         tt=tt,
         jj=jj,

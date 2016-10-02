@@ -54,10 +54,14 @@
         </div>
         {% endfor %}
         {% endif %}
+       
+    <!-- <div class="col-md-12 team_schedule thumbnail text-center">GAME CURRENTLY IN PROGRESS...</div> -->
+
     </div>
     <div class="row">
         {% for team in ts %}
-        {% if team.Date|dateify > dt %}
+        {% if team.Date|dateify > dt_plus_2h %}
+       
         <div class="col-md-12 team_schedule thumbnail">
             <div class="row">
                 <div class="col-md-4">
