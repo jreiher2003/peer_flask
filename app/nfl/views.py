@@ -246,7 +246,7 @@ def nfl_delete_bet(bet_key):
 def nfl_team_home(sid,key,team):
     all_teams = all_nfl_teams()
     dt = today_and_now()
-    dt_plus_2h = dt - datetime.timedelta(hours=3)
+    dt_plus_2h = dt - datetime.timedelta(hours=4)
     jj = NFLTeam.query.filter_by(Key=key).one()
     tt = NFLStadium.query.filter_by(StadiumID=jj.StadiumID).one() 
     ss = NFLStandings.query.filter_by(Team=key).one()

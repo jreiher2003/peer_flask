@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 {% block title %}NFL Teams{% endblock %}
+{% block style %}
+
+td,th {
+    text-align: center;
+}
+{% endblock %}
 {% block content %}
 {% include "nfl_team/nfl_team_jumbotron.html" %}
 <div class="container">
