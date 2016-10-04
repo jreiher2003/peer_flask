@@ -12,4 +12,34 @@ Profile page <br>
     {{ role.name }}<br>
 {% endfor %}
 
+<h4>Pending Bets</h4>
+{% if pending_bets %}
+    {% for bets in pending_bets %}
+        {% if bets.user_id == current_user.id %}
+            user_id of creator of bet: {{ bets.user_id }}<br>
+            {{ bets.game_key }}<br>
+            {{ bets.bet_key }}<br>
+            {{ bets.vs }}<br>
+            {{ bets.total }}<br>
+            {{ bets.over_under }}<br>
+            creator team: {{ bets.team }}<br>
+            creator ps: {{ bets.ps }}<br>
+            {{ bets.bet_taken }}<br>
+            bet taken by: {{ bets.taken_by }}<br>
+            amount: {{ bets.amount }}<br>
+        {% elif bets.taken_by == current_user.id %}
+            {{ bets.nfl_take_bet.game_key }}<br>
+            {{ bets.nfl_take_bet.bet_key }}<br>
+            {{ bets.nfl_take_bet.total }}<br>
+            {{ bets.nfl_take_bet.over_under }}<br>
+            {{ bets.nfl_take_bet.ps }}<br>
+            {{ bets.nfl_take_bet.team }}<br>
+            {{ bets.users.username }}<br>
+            {{ bets.nfl_take_bet.users.username }}
+        {% endif %}
+    {% endfor %}
+{% else %}
+<p>No pending bets at this time</p>
+{% endif %}
+
 {% endblock %}

@@ -20,13 +20,15 @@ class NFLcreateBet(db.Model):
     ps = db.Column(db.Integer)
     ml = db.Column(db.Integer)
     bet_taken = db.Column(db.Boolean, default=False)
+    bet_graded = db.Column(db.Boolean, default=False)
     taken_by = db.Column(db.Integer) # other player id 
     bet_created = db.Column(db.DateTime,  default=datetime.datetime.now())
     bet_modified = db.Column(db.DateTime,  default=datetime.datetime.now(), onupdate=datetime.datetime.now())
-    bet_taken = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_create_bet")
     nfl_take_bet = db.relationship("NFLtakeBet", uselist=False, back_populates="nfl_create_bet")
+    # nfl_bet_graded = db.relationship("NFLtakeBet", uselist=False, back_populates="nfl_create_bet")
+    
 
     def ps_format(self):
         if self.ps == None:
@@ -74,8 +76,33 @@ class NFLcreateBet(db.Model):
 
 class NFLtakeBet(db.Model):
     __tablename__ = 'nfl_take_bet'
+
     id = db.Column(db.Integer, primary_key=True)
+    
+    game_key = db.Column(db.Integer)
+    bet_key = db.Column(db.Integer, unique=True)
+    over_under = db.Column(db.String, default=" ")
+    total = db.Column(db.Integer)
+    team = db.Column(db.String, default=" ")
+    ps = db.Column(db.Integer)
+    ml = db.Column(db.Integer)
+
+    created = db.Column(db.DateTime,  default=datetime.datetime.now())
     nfl_create_bet_id = db.Column(db.Integer, db.ForeignKey('nfl_create_bet.id'))
     nfl_create_bet = db.relationship("NFLcreateBet", back_populates="nfl_take_bet")
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_take_bet")
+
+# class NFLBetGraded(db.Model):
+#     __tablename__ = 'nfl_bet_graded'
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     nfl_create_bet_id = db.Column(db.Integer, db.ForeignKey('nfl_create_bet.id'))
+#     nfl_create_bet = db.relationship("NFLcreateBet", back_populates="nfl_bet_graded")
+#     nfl_score_id = db.Column(db.Integer, db.ForeignKey('score.id'))
+#     nfl_score = db.relationship("NFLScore", back_populates="nfl_bet_graded")
+
+#     @property 
+#     def total_score(self):
+#         return self.nfl_score.AwayScore + self.nfl_score.HomeScore
+

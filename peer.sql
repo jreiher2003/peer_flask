@@ -1,74 +1,88 @@
 DROP TABLE IF EXISTS users;
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER NOT NULL, 
-    username VARCHAR(50) NOT NULL, 
-    email VARCHAR(255) NOT NULL, 
-    password VARCHAR(255) NOT NULL, 
-    active BOOLEAN, 
-    confirmed_at DATETIME, 
-    date_created DATETIME, 
-    date_modified DATETIME, 
-    last_login_at DATETIME, 
-    last_login_ip VARCHAR(45), 
-    current_login_at DATETIME, 
-    current_login_ip VARCHAR(45), 
-    login_count INTEGER, 
-    PRIMARY KEY (id), 
-    UNIQUE (username), 
-    UNIQUE (email), 
-    CHECK (active IN (0, 1))
-);
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER NOT NULL, 
+    username VARCHAR(50) NOT NULL, 
+    email VARCHAR(255) NOT NULL, 
+    password VARCHAR(255) NOT NULL, 
+    active BOOLEAN, 
+    confirmed_at DATETIME, 
+    date_created DATETIME, 
+    date_modified DATETIME, 
+    last_login_at DATETIME, 
+    last_login_ip VARCHAR(45), 
+    current_login_at DATETIME, 
+    current_login_ip VARCHAR(45), 
+    login_count INTEGER, 
+    PRIMARY KEY (id), 
+    UNIQUE (username), 
+    UNIQUE (email), 
+    CHECK (active IN (0, 1))
+);
+
 DROP TABLE IF EXISTS role;
-CREATE TABLE IF NOT EXISTS role (
-    id INTEGER NOT NULL, 
-    name VARCHAR(50), 
-    description VARCHAR(255), 
-    PRIMARY KEY (id), 
-    UNIQUE (name)
-);
+CREATE TABLE IF NOT EXISTS role (
+    id INTEGER NOT NULL, 
+    name VARCHAR(50), 
+    description VARCHAR(255), 
+    PRIMARY KEY (id), 
+    UNIQUE (name)
+);
+
 DROP TABLE IF EXISTS user_roles;
 CREATE TABLE IF NOT EXISTS user_roles (
-    id INTEGER NOT NULL, 
-    user_id INTEGER, 
-    role_id INTEGER, 
-    PRIMARY KEY (id), 
-    FOREIGN KEY(user_id) REFERENCES users (id) ON DELETE CASCADE, 
-    FOREIGN KEY(role_id) REFERENCES role (id) ON DELETE CASCADE
-);
+    id INTEGER NOT NULL, 
+    user_id INTEGER, 
+    role_id INTEGER, 
+    PRIMARY KEY (id), 
+    FOREIGN KEY(user_id) REFERENCES users (id) ON DELETE CASCADE, 
+    FOREIGN KEY(role_id) REFERENCES role (id) ON DELETE CASCADE
+);
+
 DROP TABLE IF EXISTS profile;
-CREATE TABLE IF NOT EXISTS profile (
-    id INTEGER NOT NULL, 
-    avatar VARCHAR, 
-    user_id INTEGER, 
-    PRIMARY KEY (id), 
-    FOREIGN KEY(user_id) REFERENCES users (id) ON DELETE CASCADE
-);
+CREATE TABLE IF NOT EXISTS profile (
+    id INTEGER NOT NULL, 
+    avatar VARCHAR, 
+    user_id INTEGER, 
+    PRIMARY KEY (id), 
+    FOREIGN KEY(user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
 
 
 
 
 DROP TABLE IF EXISTS nfl_bet;
-CREATE TABLE IF NOT EXISTS nfl_bet (
+CREATE TABLE IF NOT EXISTS nfl_bet (
+    id INTEGER NOT NULL, 
+    game_key INTEGER, 
+    bet_key INTEGER, 
+    game_date DATETIME, 
+    over_under VARCHAR, 
+    total INTEGER, 
+    amount NUMERIC(12, 2), 
+    vs VARCHAR, 
+    home_team VARCHAR, 
+    away_team VARCHAR, 
+    team VARCHAR, 
+    ps INTEGER, 
+    ml INTEGER, 
+    taken_by INTEGER, 
+    bet_created DATETIME, 
+    bet_modified DATETIME, 
+    bet_taken DATETIME, 
+    user_id INTEGER, 
+    PRIMARY KEY (id), 
+    UNIQUE (bet_key), 
+    FOREIGN KEY(user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS nfl_take_bet;
+CREATE TABLE IF NOT EXISTS nfl_take_bet (
     id INTEGER NOT NULL, 
-    game_key INTEGER, 
-    bet_key INTEGER, 
-    game_date DATETIME, 
-    over_under VARCHAR, 
-    total INTEGER, 
-    amount NUMERIC(12, 2), 
-    vs VARCHAR, 
-    home_team VARCHAR, 
-    away_team VARCHAR, 
-    team VARCHAR, 
-    ps INTEGER, 
-    ml INTEGER, 
-    taken_by INTEGER, 
-    bet_created DATETIME, 
-    bet_modified DATETIME, 
-    bet_taken DATETIME, 
+    nfl_create_bet_id INTEGER, 
     user_id INTEGER, 
     PRIMARY KEY (id), 
-    UNIQUE (bet_key), 
+    FOREIGN KEY(nfl_create_bet_id) REFERENCES nfl_create_bet (id), 
     FOREIGN KEY(user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 

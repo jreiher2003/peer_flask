@@ -183,6 +183,8 @@ class NFLScore(db.Model):
     ForecastWindSpeed = db.Column(db.Integer)
     AwayTeamMoneyLine = db.Column(db.Integer)
     HomeTeamMoneyLine = db.Column(db.Integer)
+
+    # nfl_bet_graded = db.relationship("NFLBetGraded", uselist=False, back_populates="nfl_score")
     
 
 class NFLTeamSeason(db.Model):

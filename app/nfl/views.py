@@ -5,7 +5,7 @@ import hashlib
 from dateutil.parser import parse as parse_date
 from app import app, db
 from app.users.models import Users, Role, UserRoles, Profile
-from .models import NFLcreateBet
+from .models import NFLcreateBet, NFLtakeBet
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
 from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash, abort
@@ -59,7 +59,7 @@ def nfl_stats(sid):
 def nfl_public_board():
     all_teams = all_nfl_teams()
     dt = datetime.datetime.now()
-    all_bets = db.session.query(NFLcreateBet).all()
+    all_bets = NFLcreateBet.query.filter_by(bet_taken=False).all()
     return render_template(
         "nfl_public_board.html", 
         all_teams=all_teams, 
@@ -246,7 +246,32 @@ def nfl_delete_bet(bet_key):
 def nfl_bet(bet_key):
     all_teams = all_nfl_teams()
     nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
+    if request.method == "POST":
+        print current_user.id
+        nfl_bet.bet_taken = True
+        nfl_bet.taken_by = current_user.id 
+        take = NFLtakeBet(
+            user_id=current_user.id, 
+            nfl_create_bet_id=nfl_bet.id,
+            game_key = nfl_bet.game_key,
+            bet_key = nfl_bet.bet_key,
+            over_under = nfl_bet.opposite_over_under(),
+            total = nfl_bet.total,
+            team = nfl_bet.opposite_team,
+            ps = nfl_bet.opposite_ps
+            )
+        db.session.add(take)
+        db.session.add(nfl_bet)
+        db.session.commit()
+        flash("%s, You have action" % current_user.username,  "success")
+        return redirect(url_for("nfl.nfl_confirm_take_bet", bet_key=bet_key))
     return render_template("nfl_bet.html", all_teams=all_teams, nfl_bet=nfl_bet)
+
+@nfl_blueprint.route("/nfl/bet/confirm/<path:bet_key>/live/")
+def nfl_confirm_take_bet(bet_key):
+    nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
+    live_bet = NFLtakeBet.query.filter_by(nfl_create_bet_id=nfl_bet.id, user_id=current_user.id).one()
+    return render_template("nfl_confirm_take_bet.html", live_bet=live_bet)
 
 
 @nfl_blueprint.route("/nfl/team/home/<int:sid>/<path:key>/<path:team>/")
