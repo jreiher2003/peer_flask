@@ -5,7 +5,7 @@ import hashlib
 from dateutil.parser import parse as parse_date
 from app import app, db
 from app.users.models import Users, Role, UserRoles, Profile
-from .models import NFLBet
+from .models import NFLcreateBet
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
 from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash, abort
@@ -59,7 +59,7 @@ def nfl_stats(sid):
 def nfl_public_board():
     all_teams = all_nfl_teams()
     dt = datetime.datetime.now()
-    all_bets = db.session.query(NFLBet).all()
+    all_bets = db.session.query(NFLcreateBet).all()
     return render_template(
         "nfl_public_board.html", 
         all_teams=all_teams, 
@@ -88,7 +88,7 @@ def nfl_create_bet(game_key):
         bet_key= ""
         bet_key += hashlib.md5(game_key_form+home+away+total+over_under+amount+salt).hexdigest()
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_o = NFLBet(
+            bet_o = NFLcreateBet(
                 game_key=game_key_form, 
                 game_date=parse_date(nfl_game.Date), 
                 over_under=over_under,
@@ -116,7 +116,7 @@ def nfl_create_bet(game_key):
         bet_key = ""
         bet_key += hashlib.md5(game_key_form+home+away+awayteam+away_ps+amount+salt).hexdigest()
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_h = NFLBet(
+            bet_h = NFLcreateBet(
                 game_key=game_key_form,
                 game_date=parse_date(nfl_game.Date),
                 team=awayteam,
@@ -144,7 +144,7 @@ def nfl_create_bet(game_key):
         bet_key = ""
         bet_key += hashlib.md5(game_key_form+home+away+hometeam+home_ps+amount+salt).hexdigest()
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_h = NFLBet(
+            bet_h = NFLcreateBet(
                 game_key=game_key_form,
                 game_date=parse_date(nfl_game.Date),
                 home_team = home,
@@ -177,7 +177,7 @@ def nfl_create_bet(game_key):
 def nfl_confirm_bet(bet_key):
     all_teams = all_nfl_teams()
     try:
-        nfl_bet = NFLBet.query.filter_by(bet_key=bet_key).one()
+        nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
     except:
         pass
     return render_template('nfl_confirm.html', nfl_bet=nfl_bet, all_teams=all_teams)
@@ -185,7 +185,7 @@ def nfl_confirm_bet(bet_key):
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/edit/", methods=["GET","POST"])
 def nfl_edit_bet(bet_key):
     all_teams = all_nfl_teams()
-    nfl_bet = NFLBet.query.filter_by(bet_key=bet_key).one()
+    nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
     a_team = nfl_bet.vs.split("vs")[0].strip()
     h_team = nfl_bet.vs.split("@")[1].strip()
     if nfl_bet.over_under == "u" or nfl_bet.over_under == "o" and nfl_bet.total:
@@ -232,7 +232,7 @@ def nfl_edit_bet(bet_key):
 @login_required
 def nfl_delete_bet(bet_key):
     all_teams = all_nfl_teams()
-    nfl_bet = NFLBet.query.filter_by(bet_key=bet_key).one()
+    nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
     form = OverUnderForm()
     if request.method == "POST":
         db.session.delete(nfl_bet)
@@ -240,6 +240,13 @@ def nfl_delete_bet(bet_key):
         flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl_bet.users.username,nfl_bet.vs,nfl_bet.amount), "danger")
         return redirect(url_for("nfl.nfl_public_board"))
     return render_template("nfl_delete_bet.html", nfl_bet=nfl_bet, form=form, all_teams=all_teams)
+
+
+@nfl_blueprint.route("/nfl/bet/<path:bet_key>/", methods=["GET","POST"])
+def nfl_bet(bet_key):
+    all_teams = all_nfl_teams()
+    nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
+    return render_template("nfl_bet.html", all_teams=all_teams, nfl_bet=nfl_bet)
 
 
 @nfl_blueprint.route("/nfl/team/home/<int:sid>/<path:key>/<path:team>/")
@@ -277,6 +284,7 @@ def nfl_team_home(sid,key,team):
         tss=tss,
         ts=ts
         )
+
 
 @nfl_blueprint.route("/nfl/team/schedule/<path:team>/")
 def nfl_team_schedule(team):

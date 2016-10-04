@@ -61,7 +61,7 @@ i {
                                     <a href="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}">edit</a>
                                 </td>
                             {% else %}
-                                <td><a href="">bet</a></td>
+                                <td><a href="{{ url_for('nfl.nfl_bet', bet_key=bet.bet_key) }}">bet</a></td>
                             {% endif %}
                         </tr>
                         {% endif %}

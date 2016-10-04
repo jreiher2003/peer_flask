@@ -28,7 +28,7 @@ app.jinja_env.filters["game_date"] = game_date
 app.jinja_env.filters["game_day"] = game_day
 
 from app.users.models import Users, Role, UserRoles, Profile
-from app.nfl.models import NFLBet
+from app.nfl.models import NFLcreateBet
 # Setup Flask-Security
 #https://pythonhosted.org/Flask-Security/api.html user_datastore api docs ie create_role, create_user
 from app.users.forms import ExtendedConfirmRegisterForm

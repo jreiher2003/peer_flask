@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block style %}
+.vs {
+    margin-top:125px;
+}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="row">
+                <div class="col-md-5">
+                    <h3 class="text-center">Opponent</h3>
+                    <div class="thumbnail">
+                        <p class="text-center"><img src="{{ nfl_bet.users.profile.avatar }}" width="40"/> {{ nfl_bet.users.username }}</p>
+                        <h3 class="text-center">{{ nfl_bet.vs }}</h3>
+                        <p class="text-center">{{ nfl_bet.game_date|game_time }} {{ nfl_bet.game_date|game_date }}</p>
+                        <h4 class="text-center">{{ nfl_bet.over_under }}{{ nfl_bet.total_format() }}</h4>
+                        <h4 class="text-center">{{ nfl_bet.team }}  {{ nfl_bet.ps_format() }}</h4>
+                        <h4 class="text-center"> risk: ${{ nfl_bet.amount }}<br>
+                                                 win: ${{ nfl_bet.amount_win() }}
+                         </h4>
+                        
+                        <div class="caption">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"><h1 class="text-center vs">VS</h1></div>
+                <div class="col-md-5">
+                    <h3 class="text-center">You</h3>
+                    <div class="thumbnail">
+                        <p class="text-center"><img src="{{ current_user.profile.avatar }}" width="40"/> {{ current_user.username }}</p>
+                        <h3 class="text-center">{{ nfl_bet.vs }}</h3>
+                        <p class="text-center">{{ nfl_bet.game_date|game_time }} {{ nfl_bet.game_date|game_date }}</p>
+                        <h4 class="text-center">{{ nfl_bet.opposite_over_under() }}{{ nfl_bet.total_format() }}</h4>
+                        <h4 class="text-center">{{ nfl_bet.opposite_team }}  {{ nfl_bet.opposite_ps }}</h4>
+                        <h4 class="text-center"> risk: ${{ nfl_bet.amount }}<br>
+                                                 win: ${{ nfl_bet.amount_win() }}
+                        </h4>
+                        
+                        <div class="caption">
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <input type="submit" class="form-control btn btn-success btn-block" value="bet this opponent">
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

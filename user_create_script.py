@@ -1,6 +1,6 @@
 from dateutil.parser import parse as parse_date
 from app.users.models import Users, Role, UserRoles,Profile
-from app.nfl.models import NFLBet
+from app.nfl.models import NFLcreateBet, NFLtakeBet
 from app import app, db, user_datastore 
 from flask_security.utils import encrypt_password
 # bcrypt.generate_password_hash
@@ -71,14 +71,16 @@ def create_users():
         db.session.commit()
 
 def create_bet():
-    bet1 = NFLBet(bet_key=1, game_key=201610415, game_date=parse_date("10/2/2016 9:30:00 AM"), away_team="IND", home_team="JAX", over_under="o", vs="IND vs @JAX", total=49, amount=20, user_id=1)
-    bet4 = NFLBet(bet_key=4, game_key=201610413, game_date=parse_date("10/2/2016 1:00:00 PM"), away_team="TEN", home_team="HOU", over_under="u", vs="TEN vs @HOU", total=40.5, amount=10, user_id=2)
-    bet2 = NFLBet(bet_key=2, game_key=201610435, game_date=parse_date("10/2/2016 1:00:00 PM"), away_team="CLE", home_team="WAS", team="WAS", vs="CLE vs @WAS",ps=-7.5,amount=40,user_id=3)
-    bet3 = NFLBet(bet_key=3, game_key=201610424, game_date=parse_date("10/2/2016 1:00:00 PM"), away_team="SEA", home_team="NYJ", team="SEA", vs="SEA vs @NYJ", ps=-2.5, amount=20,user_id=4)
+    bet1 = NFLcreateBet(bet_key=1, game_key=201610415, game_date=parse_date("10/2/2016 9:30:00 AM"), away_team="IND", home_team="JAX", over_under="o", vs="IND vs @JAX", total=49, amount=20, user_id=1)
+    bet4 = NFLcreateBet(bet_key=4, game_key=201610413, game_date=parse_date("10/2/2016 1:00:00 PM"), away_team="TEN", home_team="HOU", over_under="u", vs="TEN vs @HOU", total=40.5, amount=10, user_id=2)
+    bet2 = NFLcreateBet(bet_key=2, game_key=201610435, game_date=parse_date("10/2/2016 1:00:00 PM"), away_team="CLE", home_team="WAS", team="WAS", vs="CLE vs @WAS",ps=-7.5,amount=40,user_id=3)
+    bet3 = NFLcreateBet(bet_key=3, game_key=201610424, game_date=parse_date("10/2/2016 1:00:00 PM"), away_team="SEA", home_team="NYJ", team="SEA", vs="SEA vs @NYJ", ps=-2.5, amount=20,user_id=4)
+    take1 = NFLtakeBet(id=1, nfl_create_bet_id=1, user_id=2)
     db.session.add(bet1)
     db.session.add(bet2)
     db.session.add(bet3)
     db.session.add(bet4)
+    db.session.add(take1)
     db.session.commit()
 
 

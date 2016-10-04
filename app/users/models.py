@@ -15,8 +15,7 @@ class Users(db.Model, UserMixin):
     active = db.Column(db.Boolean(), default=False)
     confirmed_at = db.Column(db.DateTime())
     date_created = db.Column(db.DateTime(),  default=datetime.datetime.now())
-    date_modified = db.Column(db.DateTime,  default=datetime.datetime.now(),
-                                       onupdate=datetime.datetime.now())
+    date_modified = db.Column(db.DateTime,  default=datetime.datetime.now(), onupdate=datetime.datetime.now())
     last_login_at = db.Column(db.DateTime())
     last_login_ip = db.Column(db.String(45))
     current_login_at = db.Column(db.DateTime())
@@ -25,7 +24,8 @@ class Users(db.Model, UserMixin):
     profile = db.relationship('Profile', uselist=False)
     roles = db.relationship('Role', secondary='user_roles',
             backref=db.backref('users', lazy='dynamic'))
-    nflbet = db.relationship("NFLBet")
+    nfl_create_bet = db.relationship("NFLcreateBet")
+    nfl_take_bet = db.relationship("NFLtakeBet")
    
     
     def __repr__(self):
