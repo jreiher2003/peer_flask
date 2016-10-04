@@ -25,8 +25,8 @@ Profile page <br>
             creator team: {{ bets.team }}<br>
             creator ps: {{ bets.ps }}<br>
             {{ bets.bet_taken }}<br>
-            bet taken by: {{ bets.taken_by }}<br>
-            amount: {{ bets.amount }}<br>
+            bet taken by: {{ bets.taken_by }}{{ bets.nfl_take_bet.users.username }}<br>
+            amount: {{ bets.amount }}<br><br><hr>
         {% elif bets.taken_by == current_user.id %}
             {{ bets.nfl_take_bet.game_key }}<br>
             {{ bets.nfl_take_bet.bet_key }}<br>
@@ -34,8 +34,8 @@ Profile page <br>
             {{ bets.nfl_take_bet.over_under }}<br>
             {{ bets.nfl_take_bet.ps }}<br>
             {{ bets.nfl_take_bet.team }}<br>
-            {{ bets.users.username }}<br>
-            {{ bets.nfl_take_bet.users.username }}
+            {{ bets.amount }}<br>
+            {{ bets.nfl_take_bet.users.username }}<br><br><hr>
         {% endif %}
     {% endfor %}
 {% else %}

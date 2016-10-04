@@ -107,6 +107,7 @@ class NFLStandings(db.Model):
     DivisionLosses = db.Column(db.Integer)
     ConferenceWins = db.Column(db.Integer)
     ConferenceLosses = db.Column(db.Integer)
+    
 
 class NFLTeam(db.Model):
     __tablename__ = "team"
@@ -183,6 +184,22 @@ class NFLScore(db.Model):
     ForecastWindSpeed = db.Column(db.Integer)
     AwayTeamMoneyLine = db.Column(db.Integer)
     HomeTeamMoneyLine = db.Column(db.Integer)
+
+    def home_cover_line(self):
+        if self.PointSpread < 0:
+            if (self.HomeScore + self.PointSpread) > self.AwayScore:
+                return True
+
+    def away_cover_line(self):
+        if self.PointSpread > 0:
+            if (self.AwayScore + (self.PointSpread*-1)) > self.HomeScore:
+                return True
+
+    def cover_total(self):
+        if self.AwayScore + self.HomeScore > self.OverUnder:
+            return "over covered"
+        return "under covered"
+    
 
     # nfl_bet_graded = db.relationship("NFLBetGraded", uselist=False, back_populates="nfl_score")
     

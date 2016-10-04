@@ -1,6 +1,6 @@
 from dateutil.parser import parse as parse_date
 from app.users.models import Users, Role, UserRoles,Profile
-from app.nfl.models import NFLcreateBet, NFLtakeBet
+from app.nfl.models import NFLcreateBet, NFLtakeBet, NFLBetGraded
 from app import app, db, user_datastore 
 from flask_security.utils import encrypt_password
 # bcrypt.generate_password_hash
@@ -71,19 +71,22 @@ def create_users():
         db.session.commit()
 
 def create_bet():
-    bet1 = NFLcreateBet(bet_key=1, game_key=201610531, game_date=parse_date("10/6/2016 8:25:00 PM"), away_team="ARI", home_team="SF", over_under="o", vs="ARI vs @SF", total=42.5, amount=20, user_id=1, bet_taken=False)
-    bet4 = NFLcreateBet(bet_key=4, game_key=201610508, game_date=parse_date("10/9/2016 1:00:00 PM"), away_team="NE", home_team="CLE", over_under="u", vs="NE vs @CLE", total=46.5, amount=10, user_id=2, bet_taken=False)
-    bet2 = NFLcreateBet(bet_key=2, game_key=201610511, game_date=parse_date("10/9/2016 1:00:00 PM"), away_team="PHI", home_team="DET", team="DET", vs="PHI vs @DET",ps=3,amount=40,user_id=3, bet_taken=False)
-    bet3 = NFLcreateBet(bet_key=3, game_key=201610514, game_date=parse_date("10/9/2016 1:00:00 PM"), away_team="CHI", home_team="IND", team="CHI", vs="CHI vs @IND", ps=-4.5, amount=20,user_id=4, bet_taken=False)
-    bet4 = NFLcreateBet(bet_key=5, game_key=201610519, game_date=parse_date("10/9/2016 1:00:00 PM"), away_team="TEN", home_team="MIA", team="MIA", vs="TEN vs @MIA", ps=-3.5, amount=20, user_id=1, bet_taken=False)
-    # take1 = NFLtakeBet(id=1, nfl_create_bet_id=1, user_id=2)
+    # bet1 = NFLcreateBet(bet_key=1, game_key=201610531, game_date=parse_date("10/6/2016 8:25:00 PM"), away_team="ARI", home_team="SF", over_under="o", vs="ARI vs @SF", total=42.5, amount=20, user_id=1, bet_taken=False)
+    # bet4 = NFLcreateBet(bet_key=4, game_key=201610508, game_date=parse_date("10/9/2016 1:00:00 PM"), away_team="NE", home_team="CLE", over_under="u", vs="NE vs @CLE", total=46.5, amount=10, user_id=2, bet_taken=False)
+    # bet2 = NFLcreateBet(bet_key=2, game_key=201610511, game_date=parse_date("10/9/2016 1:00:00 PM"), away_team="PHI", home_team="DET", team="DET", vs="PHI vs @DET",ps=3,amount=40,user_id=3, bet_taken=False)
+    # bet3 = NFLcreateBet(bet_key=3, game_key=201610514, game_date=parse_date("10/9/2016 1:00:00 PM"), away_team="CHI", home_team="IND", team="CHI", vs="CHI vs @IND", ps=-4.5, amount=20,user_id=4, bet_taken=False)
+    # bet4 = NFLcreateBet(bet_key=5, game_key=201610519, game_date=parse_date("10/9/2016 1:00:00 PM"), away_team="TEN", home_team="MIA", team="MIA", vs="TEN vs @MIA", ps=-3.5, amount=20, user_id=1, bet_taken=False)
+    bet5 = NFLcreateBet(id=5, bet_key=6, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="o", vs="NYG vs @MIN",total=42.5, amount=20, user_id=1,bet_taken=True)
+    take1 = NFLtakeBet(id=1, bet_key=6, game_key=201610420, nfl_create_bet_id=5, user_id=2, over_under="u", total=42.5, amount=20)
     # take2 = NFLtakeBet(id=2, nfl_create_bet_id=5, user_id=2)
-    
-    db.session.add(bet1)
-    db.session.add(bet2)
-    db.session.add(bet3)
-    db.session.add(bet4)
-    # db.session.add(take1)
+    grade = NFLBetGraded(bet_key=6, game_key=201610420,home_team="MIN", away_team="NYG", home_team_score=24, away_team_score=10,total_score=34, total=42.5, home_ps=-3.5, away_ps=3.5)
+    # db.session.add(bet1)
+    # db.session.add(bet2)
+    # db.session.add(bet3)
+    # db.session.add(bet4)
+    db.session.add(bet5)
+    db.session.add(take1)
+    db.session.add(grade)
     db.session.commit()
 
 
