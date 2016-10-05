@@ -29,8 +29,6 @@ class NFLcreateBet(db.Model):
     users = db.relationship(Users, back_populates="nfl_create_bet")
     nfl_take_bet = db.relationship("NFLtakeBet", uselist=False, back_populates="nfl_create_bet")
    
-    
-
     def ps_format(self):
         if self.ps == None:
             return ""

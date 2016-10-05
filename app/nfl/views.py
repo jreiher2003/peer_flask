@@ -243,7 +243,7 @@ def nfl_delete_bet(bet_key):
     return render_template("nfl_delete_bet.html", nfl_bet=nfl_bet, form=form, all_teams=all_teams)
 
 
-@nfl_blueprint.route("/nfl/bet/<path:bet_key>/", methods=["GET","POST"])
+@nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/", methods=["GET","POST"])
 def nfl_bet(bet_key):
     all_teams = all_nfl_teams()
     nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
@@ -253,13 +253,18 @@ def nfl_bet(bet_key):
         nfl_bet.taken_by = current_user.id 
         take = NFLtakeBet(
             user_id=current_user.id, 
-            nfl_create_bet_id=nfl_bet.id,
-            game_key = nfl_bet.game_key,
             bet_key = nfl_bet.bet_key,
+            game_key = nfl_bet.game_key,
+            game_date = nfl_bet.game_date,
+            away_team = nfl_bet.away_team,
+            home_team = nfl_bet.home_team,
+            vs = nfl_bet.vs,
             over_under = nfl_bet.opposite_over_under(),
             total = nfl_bet.total,
+            amount = nfl_bet.amount,
+            nfl_create_bet_id=nfl_bet.id,
             team = nfl_bet.opposite_team,
-            ps = nfl_bet.opposite_ps
+            ps = nfl_bet.opposite_ps,
             )
         db.session.add(take)
         db.session.add(nfl_bet)
