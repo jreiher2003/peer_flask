@@ -100,15 +100,17 @@ class NFLBetGraded(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     game_key = db.Column(db.Integer)
-    bet_key = db.Column(db.Integer)
+    week = db.Column(db.String)
+    game_date = db.column(db.DateTime)
     home_team = db.Column(db.String)
     away_team = db.Column(db.String)
-    home_team_score = db.Column(db.Integer)
-    away_team_score = db.Column(db.Integer)
+    home_score = db.Column(db.Integer)
+    away_score = db.Column(db.Integer)
     total_score = db.Column(db.Integer)
-    total = db.Column(db.Integer)
-    home_ps = db.Column(db.Integer)
-    away_ps = db.Column(db.Integer)
+    over_under = db.Column(db.Integer)
+    ps = db.Column(db.Integer)
+    cover_total = db.Column(db.String)
+    cover_side = db.Column(db.String)
     # user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
 
 
