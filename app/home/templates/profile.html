@@ -1,45 +1,62 @@
 {% extends "base.html" %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-Profile page <br>
-{{ user.id }}<br>
-{{ user.username }}<br>
-{{ user.email }}<br>
-{{ user.profile.avatar }}<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Bets Created <small>{{ user.profile.bets_created }}</small></h4>
+            <h4>Bets Taken <small>{{ user.profile.bets_taken }}</small></h4>
+            <h4>Bets Won <small>{{ user.profile.wins }}</small></h4>
+            <h4>Bets Lost <small>{{ user.profile.losses }}</small></h4>
+            <h1>Profile page</h1>
+            <div class="thumbnail">
+                {{ user.id }}
+                {{ user.username }}
+                {{ user.email }}
+                {{ user.profile.avatar }}
+            </div>
 
-<h4>site privileges</h4> 
-{% for role in user.roles %}
-    {{ role.name }}<br>
-{% endfor %}
+            <h4>site privileges</h4> 
+            <div class="thumbnail">
+            {% for role in user.roles %}
+                {{ role.name }}
+            {% endfor %}
+            </div>
 
-<h4>Pending Bets</h4>
-{% if pending_bets %}
-    {% for bets in pending_bets %}
-        {% if bets.user_id == current_user.id %}
-            user_id of creator of bet: {{ bets.user_id }}<br>
-            {{ bets.game_key }}<br>
-            {{ bets.bet_key }}<br>
-            {{ bets.vs }}<br>
-            {{ bets.total }}<br>
-            {{ bets.over_under }}<br>
-            creator team: {{ bets.team }}<br>
-            creator ps: {{ bets.ps }}<br>
-            {{ bets.bet_taken }}<br>
-            bet taken by: {{ bets.taken_by }}{{ bets.nfl_take_bet.users.username }}<br>
-            amount: {{ bets.amount }}<br><br><hr>
-        {% elif bets.taken_by == current_user.id %}
-            {{ bets.nfl_take_bet.game_key }}<br>
-            {{ bets.nfl_take_bet.bet_key }}<br>
-            {{ bets.nfl_take_bet.total }}<br>
-            {{ bets.nfl_take_bet.over_under }}<br>
-            {{ bets.nfl_take_bet.ps }}<br>
-            {{ bets.nfl_take_bet.team }}<br>
-            {{ bets.amount }}<br>
-            {{ bets.nfl_take_bet.users.username }}<br><br><hr>
-        {% endif %}
-    {% endfor %}
-{% else %}
-<p>No pending bets at this time</p>
-{% endif %}
+            <h4><u>Pending Bets</u></h4>
+            {% if pending_bets %}
+                {% for b in pending_bets %}
+                    {% if b.user_id == current_user.id %}
+                        <b>Game Key: </b>{{ b.game_key }}, 
+                        <b>Bet Key: </b>{{ b.bet_key }},
+                        <b>Game Date: </b>{{ b.game_date }}, 
+                        {{ b.vs }}
+                        <b>Bet Creator: </b> {{ b.users.username }},
+                        {{ b.over_under }}{{ b.total_format() }}
+                        {{ b.ps_format() }},
+                        {{ b.team }}<br>
+                        <b>vs: </b>{{ b.taken_by }}{{ b.nfl_take_bet.users.username }}<br>
+                        <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win() }}<br><hr>
+                    {% elif b.taken_by == current_user.id %}
+                        <b>Game Key: </b>{{ b.nfl_take_bet.game_key }}, 
+                        <b>Bet Key: </b>{{ b.nfl_take_bet.bet_key }},
+                        <b>Game Date: </b>{{ b.nfl_take_bet.game_date }},
+                        {{ b.vs }}, 
+                        <b>Bet Taker: </b>{{ b.nfl_take_bet.users.username }},
+                        {{ b.nfl_take_bet.over_under }}{{ b.nfl_take_bet.total_format() }}
+                        {{ b.nfl_take_bet.ps_format() }},
+                        {{ b.nfl_take_bet.team }}<br>
+                        <b>vs: </b>{{ b.users.username }}<br>
+                        <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win() }}<br><hr>
+
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+            <p>No pending bets at this time</p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
 
 {% endblock %}

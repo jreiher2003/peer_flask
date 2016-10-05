@@ -6,29 +6,17 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            check your pending bets in your profile
-
-            {{ live_bet }}<br>
-            takebet pk:{{ live_bet.id }}<br>
-            create bet pk:{{ live_bet.nfl_create_bet_id }}<br>
-            current user_id: {{ live_bet.user_id }}<br>
-            <br><br>
-            game_key: {{ live_bet.nfl_create_bet.game_key }}<br>
-            game date: {{ live_bet.nfl_create_bet.game_date }}<br>
-            over_under: {{ live_bet.nfl_create_bet.over_under }}<br>
-            amount: {{ live_bet.nfl_create_bet.amount }}<br>
-            total: {{ live_bet.nfl_create_bet.total }}<br>
-            vs: {{ live_bet.nfl_create_bet.vs }}<br>
-            home team: {{ live_bet.nfl_create_bet.home_team }}<br>
-            away team: {{ live_bet.nfl_create_bet.away_team }}<br>
-            team for: {{ live_bet.nfl_create_bet.team }}<br>
-            point spread: {{ live_bet.nfl_create_bet.ps }}<br>
+            <p>check your pending bets in your profile</p>
             <h2>Your bet</h2>
+            {{ live_bet.users.username }}<br>
+            {{ live_bet.game_key }}<br>
+            {{ live_bet.bet_key }}<br>
+            {{ live_bet.game_date }}<br>
             {{ live_bet.nfl_create_bet.vs }}<br>
-            {{ live_bet.nfl_create_bet.opposite_team }}<br>
-            {{ live_bet.nfl_create_bet.opposite_ps }}<br>
+            {{ live_bet.nfl_create_bet.opposite_team }} {{ live_bet.nfl_create_bet.opposite_ps }}<br>
             {{ live_bet.nfl_create_bet.opposite_over_under() }}{{ live_bet.nfl_create_bet.total_format() }}<br>
-            {{ live_bet.nfl_create_bet.amount }}<br>
+            <b>risk: </b>{{ live_bet.nfl_create_bet.amount }} / <b>win: </b>{{ nfl_bet.amount_win() }}<br>
+            <b>vs: </b>{{ nfl_bet.users.username }}
         </div>
     </div>
 </div>

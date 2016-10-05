@@ -76,8 +76,12 @@ def create_bet():
     # bet2 = NFLcreateBet(bet_key=2, game_key=201610511, game_date=parse_date("10/9/2016 1:00:00 PM"), away_team="PHI", home_team="DET", team="DET", vs="PHI vs @DET",ps=3,amount=40,user_id=3, bet_taken=False)
     # bet3 = NFLcreateBet(bet_key=3, game_key=201610514, game_date=parse_date("10/9/2016 1:00:00 PM"), away_team="CHI", home_team="IND", team="CHI", vs="CHI vs @IND", ps=-4.5, amount=20,user_id=4, bet_taken=False)
     # bet4 = NFLcreateBet(bet_key=5, game_key=201610519, game_date=parse_date("10/9/2016 1:00:00 PM"), away_team="TEN", home_team="MIA", team="MIA", vs="TEN vs @MIA", ps=-3.5, amount=20, user_id=1, bet_taken=False)
-    bet5 = NFLcreateBet(id=5, bet_key=6, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="o", vs="NYG vs @MIN", total=42.5, amount=20, user_id=1, bet_taken=True)
+    bet5 = NFLcreateBet(id=5, bet_key=6, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="o", vs="NYG vs @MIN", total=42.5, amount=20, user_id=1, taken_by=2, bet_taken=True)
+    profile1 = Profile.query.filter_by(user_id=1).one()
+    profile1.bets_created += 1
     take1 = NFLtakeBet(id=1, bet_key=6, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="u", vs="NYG vs @MIN", total=42.5, amount=20, user_id=2, nfl_create_bet_id=5)
+    profile2 = Profile.query.filter_by(user_id=2).one()
+    profile2.bets_taken += 1
     # take2 = NFLtakeBet(id=2, nfl_create_bet_id=5, user_id=2)
     grade = NFLBetGraded(bet_key=6, game_key=201610420,home_team="MIN", away_team="NYG", home_team_score=24, away_team_score=10,total_score=34, total=42.5, home_ps=-3.5, away_ps=3.5)
     # db.session.add(bet1)
@@ -87,6 +91,8 @@ def create_bet():
     db.session.add(bet5)
     db.session.add(take1)
     db.session.add(grade)
+    db.session.add(profile1)
+    db.session.add(profile2)
     db.session.commit()
 
 

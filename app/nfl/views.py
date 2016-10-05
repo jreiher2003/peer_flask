@@ -73,6 +73,7 @@ def nfl_public_board():
 def nfl_create_bet(game_key):
     all_teams = all_nfl_teams()
     salt = make_salt()
+    profile1 = Profile.query.filter_by(user_id=current_user.id).one()
     nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
     h_team = nfl_game.HomeTeam 
     a_team = nfl_game.AwayTeam
@@ -99,7 +100,11 @@ def nfl_create_bet(game_key):
                 total=total,
                 amount=amount,
                 bet_key=bet_key,
-                user_id=current_user.id)
+                user_id=current_user.id
+                )
+            
+            profile1.bets_created += 1
+            db.session.add(profile1)
             db.session.add(bet_o)
             db.session.commit()
             return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
@@ -129,6 +134,8 @@ def nfl_create_bet(game_key):
                 bet_key=bet_key,
                 user_id=current_user.id)
             db.session.add(bet_h)
+            profile1.bets_created += 1
+            db.session.add(profile1)
             db.session.commit()
             return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
         else:
@@ -157,6 +164,8 @@ def nfl_create_bet(game_key):
                 bet_key=bet_key,
                 user_id=current_user.id)
             db.session.add(bet_h)
+            profile1.bets_created += 1
+            db.session.add(profile1)
             db.session.commit()
             return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
         else:
@@ -246,6 +255,7 @@ def nfl_delete_bet(bet_key):
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/", methods=["GET","POST"])
 def nfl_bet(bet_key):
     all_teams = all_nfl_teams()
+    profile = Profile.query.filter_by(user_id=current_user.id).one()
     nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
     if request.method == "POST":
         print current_user.id
@@ -266,6 +276,8 @@ def nfl_bet(bet_key):
             team = nfl_bet.opposite_team,
             ps = nfl_bet.opposite_ps,
             )
+        profile.bets_taken += 1
+        db.session.add(profile)
         db.session.add(take)
         db.session.add(nfl_bet)
         db.session.commit()
@@ -277,7 +289,7 @@ def nfl_bet(bet_key):
 def nfl_confirm_take_bet(bet_key):
     nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
     live_bet = NFLtakeBet.query.filter_by(nfl_create_bet_id=nfl_bet.id, user_id=current_user.id).one()
-    return render_template("nfl_confirm_take_bet.html", live_bet=live_bet)
+    return render_template("nfl_confirm_take_bet.html", live_bet=live_bet, nfl_bet=nfl_bet)
 
 
 @nfl_blueprint.route("/nfl/team/home/<int:sid>/<path:key>/<path:team>/")

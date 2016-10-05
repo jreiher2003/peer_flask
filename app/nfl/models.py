@@ -30,12 +30,9 @@ class NFLcreateBet(db.Model):
     nfl_take_bet = db.relationship("NFLtakeBet", uselist=False, back_populates="nfl_create_bet")
    
     def ps_format(self):
-        if self.ps == None:
-            return ""
-        elif self.ps > 0:
-            return "+" + str(self.ps)
-        else:
-            return self.ps
+        if self.ps == None: return ""
+        elif self.ps > 0: return "+" + str(self.ps)
+        else: return self.ps
 
     def total_format(self):
         return "" if self.total == None else self.total
@@ -46,29 +43,20 @@ class NFLcreateBet(db.Model):
 
     @property 
     def opposite_team(self):
-        if self.ps == None:
-            return ""
-        elif self.team == self.home_team:
-            return self.away_team 
-        else:
-            return self.home_team 
+        if self.ps == None: return ""
+        elif self.team == self.home_team: return self.away_team 
+        else: return self.home_team 
 
     @property 
     def opposite_ps(self):
-        if self.ps == None:
-            return ""
-        elif self.ps < 0:
-            return str(self.ps).replace("-", "+")
-        else:
-            return "-"+str(self.ps)
+        if self.ps == None: return ""
+        elif self.ps < 0: return str(self.ps).replace("-", "+")
+        else: return "-"+str(self.ps)
 
     def opposite_over_under(self):
-        if self.total == None:
-            return ""
-        elif self.over_under == "u":
-            return "o"
-        else:
-            return "u"
+        if self.total == None: return ""
+        elif self.over_under == "u": return "o"
+        else: return "u"
 
     def amount_win(self):
         return float(self.amount) * .9
@@ -98,6 +86,13 @@ class NFLtakeBet(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_take_bet")
 
+    def ps_format(self):
+        if self.ps == "": return ""
+        elif self.ps > 0: return "+" + str(self.ps)
+        else: return self.ps
+
+    def total_format(self):
+        return "" if self.total == None else self.total
 
 
 class NFLBetGraded(db.Model):
