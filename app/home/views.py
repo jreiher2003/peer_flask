@@ -3,7 +3,7 @@ from dateutil.parser import parse as parse_date
 from app import app, db 
 from flask import request
 from flask_security import login_required, roles_required, current_user
-from app.users.models import Users 
+from app.users.models import Users, Profile 
 from app.nfl_stats.models import NFLTeam,NFLScore
 from app.nfl.models import NFLcreateBet,NFLBetGraded,NFLtakeBet
 
@@ -84,6 +84,34 @@ def grade_tb():
     db.session.add(c)
     db.session.commit()
 
+def count_wins_losses():
+    users1 = Users.query.all()
+    users = [r for r in users1] # list of all users id
+    for u in users:
+        count_wins_c = NFLcreateBet.query.filter_by(user_id=u.id,win=True).count()
+        count_losses_c = NFLcreateBet.query.filter_by(user_id=u.id,win=False).count()
+        count_wins_t = NFLtakeBet.query.filter_by(user_id=u.id,win=True).count()
+        count_losses_t = NFLtakeBet.query.filter_by(user_id=u.id,win=False).count()
+        u.profile.wins = (count_wins_c + count_wins_t)
+        u.profile.losses = (count_losses_c + count_losses_t)  
+    db.session.add(u)
+    db.session.commit()
+
+def pay_winners_from_losers():
+    users1 = Users.query.all()
+    users = [r for r in users1] # list of all users id
+    for u in users:
+        money = NFLcreateBet.query.filter_by(user_id=u.id,bet_taken=True,paid=False).all()
+        for m in money:
+            print m.amount,m.win,m.lose,u.username,u.profile.d_amount, m.taken_by
+            if m.win == True:
+                print "player %s gets paid from player %s this amount %s" % (m.user_id, m.taken_by, m.amount)
+            if m.win == False:
+                print "player %s gets paid from player %s this amount %s" % (m.taken_by, m.user_id, m.amount)
+
+
+    
+
 
 @home_blueprint.route("/", methods=["GET","POST"])
 def home():
@@ -96,18 +124,11 @@ def profile():
     all_teams = all_nfl_teams()
     grade_cb()
     grade_tb()
+    count_wins_losses()
+    pay_winners_from_losers()
     user = Users.query.filter_by(id=current_user.id).one()
     pending_bets = NFLcreateBet.query.filter((NFLcreateBet.user_id==user.id) | (NFLcreateBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
-    count_wins1 = NFLcreateBet.query.filter_by(user_id=current_user.id,win=True).count()
-    count_losses1 = NFLcreateBet.query.filter_by(user_id=current_user.id,win=False).count()
-    # count_wins = NFLtakeBet.query.filter_by(user_id=current_user.id,win=True).count()
-    # count_losses = NFLtakeBet.query.filter_by(user_id=current_user.id,win=False).count()
-    user.profile.wins = count_wins1
-    user.profile.losses = count_losses1
-    # user.profile.wins = count_wins
-    # user.profile.losses = count_losses
-    db.session.add(user)
-    db.session.commit()
+    
     return render_template("profile.html", user=user, pending_bets=pending_bets, all_teams=all_teams)
 
 @home_blueprint.route("/admin/")

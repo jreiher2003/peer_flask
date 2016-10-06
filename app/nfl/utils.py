@@ -69,13 +69,5 @@ def team_def_avg(pass_yds, team, sid):
 # def nfl_off_yds(col_to_sort):
 #     return sorted(teamseason, key=lambda k: int(k[col_to_sort]), reverse=True)
 
-def graded_bet():
-    # t = NFLcreateBet.query.filter_by(bet_taken=True).all()
-    j = db.session.query(NFLtakeBet).all()
-    for game in j:
-        print game.game_key
-    # for game in t:
-        # q = NFLScore.query.filter_by(game_key=game.game_key).all()
-        # print game.game_key
     
              

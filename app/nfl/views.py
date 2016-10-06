@@ -13,7 +13,7 @@ from flask_security import login_required, roles_required, current_user
 from slugify import slugify
 from .utils import team_rush_avg, team_pass_avg, \
 opp_team_rush_avg, opp_team_pass_avg, team_off_avg, \
-team_def_avg, today_date,today_and_now, make_salt, yesterday, graded_bet
+team_def_avg, today_date,today_and_now, make_salt, yesterday
 
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
@@ -24,7 +24,6 @@ def all_nfl_teams():
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")
 def nfl_home():
-    print graded_bet()
     all_teams = all_nfl_teams()
     return render_template("nfl_home.html", all_teams=all_teams)
 
