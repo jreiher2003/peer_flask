@@ -76,5 +76,5 @@ class Profile(db.Model):
     bets_taken = db.Column(db.Integer, default=0)
     wins = db.Column(db.Integer, default=0)
     losses = db.Column(db.Integer, default=0)
-    d_amount = db.Column(db.Integer, default=0)
+    d_amount = db.Column(db.Numeric(12,2))
     # users = db.relationship("Users", back_populates="Profile")

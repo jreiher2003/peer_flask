@@ -8,6 +8,7 @@
             <h4>Bets Taken <small>{{ user.profile.bets_taken }}</small></h4>
             <h4>Bets Won <small>{{ user.profile.wins }}</small></h4>
             <h4>Bets Lost <small>{{ user.profile.losses }}</small></h4>
+            <h4>Funds: <small>${{ user.profile.d_amount }}</small></h4>
             <h1>Profile page</h1>
             <div class="thumbnail">
                 {{ user.id }}
@@ -53,6 +54,40 @@
                 {% endfor %}
             {% else %}
             <p>No pending bets at this time</p>
+            {% endif %}
+
+            <h4><u>Graded Bets</u></h4>
+            {% if graded_bets %}
+            {% for b in graded_bets %}
+                    {% if b.user_id == current_user.id %}
+                        <b>Game Key: </b>{{ b.game_key }}, 
+                        <b>Bet Key: </b>{{ b.bet_key }},
+                        <b>Game Date: </b>{{ b.game_date }}, 
+                        {{ b.vs }}
+                        <b>Bet Creator: </b> {{ b.users.username }},
+                        {{ b.over_under }}{{ b.total_format() }}
+                        {{ b.ps_format() }},
+                        {{ b.team }}<br>
+                        <b>vs: </b>{{ b.taken_by }}{{ b.nfl_take_bet.users.username }}<br>
+                        <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win() }}<br>
+                        {% if b.win==True %}Win +{{ b.amount_win() }}{% elif b.win == False %}Lose -{{ b.amount }}{% endif %}<hr>
+                    {% elif b.taken_by == current_user.id %}
+                        <b>Game Key: </b>{{ b.nfl_take_bet.game_key }}, 
+                        <b>Bet Key: </b>{{ b.nfl_take_bet.bet_key }},
+                        <b>Game Date: </b>{{ b.nfl_take_bet.game_date }},
+                        {{ b.vs }}, 
+                        <b>Bet Taker: </b>{{ b.nfl_take_bet.users.username }},
+                        {{ b.nfl_take_bet.over_under }}{{ b.nfl_take_bet.total_format() }}
+                        {{ b.nfl_take_bet.ps_format() }},
+                        {{ b.nfl_take_bet.team }}<br>
+                        <b>vs: </b>{{ b.users.username }}<br>
+                        <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win() }}<br>
+                        {% if b.win == False %}Win +{{ b.amount_win() }}{% elif b.win == True %}Lose -{{ b.amount }}{% endif %}<hr>
+
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+            <p>No graded bets at this time</p>
             {% endif %}
 
         </div>

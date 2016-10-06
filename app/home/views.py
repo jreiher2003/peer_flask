@@ -99,16 +99,31 @@ def count_wins_losses():
 
 def pay_winners_from_losers():
     users1 = Users.query.all()
-    users = [r for r in users1] # list of all users id
+    users = list(users1) # list of all users id
     for u in users:
-        money = NFLcreateBet.query.filter_by(user_id=u.id,bet_taken=True,paid=False).all()
-        for m in money:
-            print m.amount,m.win,m.lose,u.username,u.profile.d_amount, m.taken_by
-            if m.win == True:
-                print "player %s gets paid from player %s this amount %s" % (m.user_id, m.taken_by, m.amount)
-            if m.win == False:
-                print "player %s gets paid from player %s this amount %s" % (m.taken_by, m.user_id, m.amount)
-
+        money1 = NFLcreateBet.query.filter_by(user_id=u.id,bet_taken=True,paid=False).all()
+        money = list(money1)
+        if money:
+            for m in money:
+                # print m.amount,m.win,m.lose,u.username,u.profile.d_amount, m.taken_by
+                c_profile = Profile.query.filter_by(user_id=m.user_id).one()
+                t_profile = Profile.query.filter_by(user_id=m.taken_by).one()
+                if m.win == True:
+                    print "player %s gets paid from player %s this amount %s" % (m.user_id, m.taken_by, m.amount)
+                    c_profile.d_amount += int("%.15g" % m.amount_win())
+                    t_profile.d_amount -= m.amount 
+                    m.paid = True 
+                if m.win == False:
+                    print "player %s gets paid from player %s this amount %s" % (m.taken_by, m.user_id, m.amount)
+                    t_profile.d_amount += int("%.15g" % m.amount_win())
+                    c_profile.d_amount -= m.amount 
+                    m.paid = True 
+                db.session.add(c_profile)
+                db.session.add(t_profile)
+            db.session.add(m)
+            db.session.commit()
+        else:
+            print "all bets are paid"
 
     
 
@@ -128,8 +143,9 @@ def profile():
     pay_winners_from_losers()
     user = Users.query.filter_by(id=current_user.id).one()
     pending_bets = NFLcreateBet.query.filter((NFLcreateBet.user_id==user.id) | (NFLcreateBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
+    graded_bets = NFLcreateBet.query.filter((NFLcreateBet.user_id==user.id) | (NFLcreateBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).all()
     
-    return render_template("profile.html", user=user, pending_bets=pending_bets, all_teams=all_teams)
+    return render_template("profile.html", user=user, all_teams=all_teams, pending_bets=pending_bets, graded_bets=graded_bets)
 
 @home_blueprint.route("/admin/")
 @roles_required("admin")

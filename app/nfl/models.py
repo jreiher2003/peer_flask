@@ -83,7 +83,7 @@ class NFLtakeBet(db.Model):
     bet_graded = db.Column(db.Boolean, default=False)
     win = db.Column(db.Boolean)
     lose = db.Column(db.Boolean)
-    paid = db.Column(db.Boolean, default=False)
+    # paid = db.Column(db.Boolean, default=False)
     created = db.Column(db.DateTime,  default=datetime.datetime.now())
     nfl_create_bet_id = db.Column(db.Integer, db.ForeignKey('nfl_create_bet.id'))
     nfl_create_bet = db.relationship("NFLcreateBet", back_populates="nfl_take_bet")
