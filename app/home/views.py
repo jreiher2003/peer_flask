@@ -5,7 +5,7 @@ from flask import request
 from flask_security import login_required, roles_required, current_user
 from app.users.models import Users 
 from app.nfl_stats.models import NFLTeam,NFLScore
-from app.nfl.models import NFLcreateBet,NFLBetGraded
+from app.nfl.models import NFLcreateBet,NFLBetGraded,NFLtakeBet
 
 from flask import Blueprint, render_template
 
@@ -23,6 +23,67 @@ def graded_bets():
         db.session.add(grade)
         db.session.commit()
 
+def grade_cb():
+    graded_bets()
+    graded1 = NFLBetGraded.query.all()
+    cb1 = NFLcreateBet.query.all()
+    cb = [r for r in cb1]
+    grd = [r for r in graded1]
+    for g in grd:
+        for c in cb:
+            if g.game_key == c.game_key:
+                if c.over_under == "u" or c.over_under == "o":
+                    if c.over_under == g.cover_total:
+                        c.win = True
+                        c.lose = False
+                        c.bet_graded = True
+                    else:
+                        c.lose = True
+                        c.win = False
+                        c.bet_graded = True
+
+                if c.ps != None:
+                    if c.team == g.cover_side:
+                        c.win = True
+                        c.lose = False
+                        c.bet_graded = True
+                    else:
+                        c.lose = True
+                        c.win = False 
+                        c.bet_graded = True
+    db.session.add(c)
+    db.session.commit()
+
+def grade_tb():
+    graded_bets()
+    graded1 = NFLBetGraded.query.all()
+    cb1 = NFLtakeBet.query.all()
+    cb = [r for r in cb1]
+    grd = [r for r in graded1]
+    for g in grd:
+        for c in cb:
+            if g.game_key == c.game_key:
+                if c.over_under == "u" or c.over_under == "o":
+                    if c.over_under == g.cover_total:
+                        c.win = True
+                        c.lose = False
+                        c.bet_graded = True
+                    else:
+                        c.lose = True
+                        c.win = False
+                        c.bet_graded = True
+                if c.ps != None:
+                    if c.team == g.cover_side:
+                        c.win = True
+                        c.lose = False
+                        c.bet_graded = True
+                    else:
+                        c.lose = True
+                        c.win = False 
+                        c.bet_graded = True
+    db.session.add(c)
+    db.session.commit()
+
 
 @home_blueprint.route("/", methods=["GET","POST"])
 def home():
@@ -33,10 +94,20 @@ def home():
 @login_required
 def profile():
     all_teams = all_nfl_teams()
-    graded_bets()
+    grade_cb()
+    grade_tb()
     user = Users.query.filter_by(id=current_user.id).one()
     pending_bets = NFLcreateBet.query.filter((NFLcreateBet.user_id==user.id) | (NFLcreateBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
-    
+    count_wins1 = NFLcreateBet.query.filter_by(user_id=current_user.id,win=True).count()
+    count_losses1 = NFLcreateBet.query.filter_by(user_id=current_user.id,win=False).count()
+    # count_wins = NFLtakeBet.query.filter_by(user_id=current_user.id,win=True).count()
+    # count_losses = NFLtakeBet.query.filter_by(user_id=current_user.id,win=False).count()
+    user.profile.wins = count_wins1
+    user.profile.losses = count_losses1
+    # user.profile.wins = count_wins
+    # user.profile.losses = count_losses
+    db.session.add(user)
+    db.session.commit()
     return render_template("profile.html", user=user, pending_bets=pending_bets, all_teams=all_teams)
 
 @home_blueprint.route("/admin/")

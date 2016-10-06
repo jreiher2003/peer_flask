@@ -157,8 +157,8 @@ class NFLScore(db.Model):
     HomeTeam = db.Column(db.String)
     AwayScore = db.Column(db.Integer)
     HomeScore = db.Column(db.Integer)
-    PointSpread = db.Column(db.Float)
-    OverUnder = db.Column(db.Float)
+    PointSpread = db.Column(db.Integer)
+    OverUnder = db.Column(db.Integer)
     AwayScoreQuarter1 = db.Column(db.Integer)
     AwayScoreQuarter2 = db.Column(db.Integer)
     AwayScoreQuarter3 = db.Column(db.Integer)
@@ -196,11 +196,9 @@ class NFLScore(db.Model):
             else:return self.HomeTeam
 
     def cover_total(self):
-        if self.AwayScore + self.HomeScore == self.OverUnder:
-            return "push"
-        elif self.AwayScore + self.HomeScore > self.OverUnder:
-            return "o"
-        return "u"
+        if self.AwayScore + self.HomeScore == self.OverUnder: return "push"
+        elif self.AwayScore + self.HomeScore > self.OverUnder: return "o"
+        else: return "u"
     
 
     # nfl_bet_graded = db.relationship("NFLBetGraded", uselist=False, back_populates="nfl_score")

@@ -72,20 +72,25 @@ def create_users():
         db.session.commit()
 
 def create_bet():
-    bet5 = NFLcreateBet(id=5, bet_key=6, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="o", vs="NYG vs @MIN", total=42.5, amount=20, user_id=1, taken_by=2, bet_taken=True)
+    bet1 = NFLcreateBet(id=1, bet_key=1, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="o", vs="NYG vs @MIN", total=42.5, amount=20, user_id=1, taken_by=2, bet_taken=True)
     profile1 = Profile.query.filter_by(user_id=1).one()
     profile1.bets_created += 1
-    take1 = NFLtakeBet(id=1, bet_key=6, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="u", vs="NYG vs @MIN", total=42.5, amount=20, user_id=2, nfl_create_bet_id=5)
+    take1 = NFLtakeBet(id=1, bet_key=1, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="u", vs="NYG vs @MIN", total=42.5, amount=20, user_id=2, nfl_create_bet_id=1)
     profile2 = Profile.query.filter_by(user_id=2).one()
     profile2.bets_taken += 1
-    
-    # db.session.add(bet1)
-    # db.session.add(bet2)
-    # db.session.add(bet3)
-    # db.session.add(bet4)
-    db.session.add(bet5)
+    profile1.bets_taken += 1
+
+    bet2 = NFLcreateBet(id=2, bet_key=2, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=-3.5, team="MIN", amount=10, user_id=1, taken_by=2, bet_taken=True)
+    profile1.bets_created += 1
+   
+    take2 = NFLtakeBet(id=2, bet_key=2, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=10, user_id=2, nfl_create_bet_id=2)
+    profile2.bets_taken += 1
+    profile1.bets_taken += 1
+
+    db.session.add(bet1)
     db.session.add(take1)
-    # db.session.add(grade)
+    db.session.add(bet2)
+    db.session.add(take2)
     db.session.add(profile1)
     db.session.add(profile2)
     db.session.commit()

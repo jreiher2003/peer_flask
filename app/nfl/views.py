@@ -257,6 +257,7 @@ def nfl_bet(bet_key):
     all_teams = all_nfl_teams()
     profile = Profile.query.filter_by(user_id=current_user.id).one()
     nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
+    profile_bet_creator = Profile.query.filter_by(user_id=nfl_bet.users.id).one() 
     if request.method == "POST":
         print current_user.id
         nfl_bet.bet_taken = True
@@ -276,8 +277,10 @@ def nfl_bet(bet_key):
             team = nfl_bet.opposite_team,
             ps = nfl_bet.opposite_ps,
             )
+        profile_bet_creator.bets_taken += 1
         profile.bets_taken += 1
         db.session.add(profile)
+        db.session.add(profile_bet_creator)
         db.session.add(take)
         db.session.add(nfl_bet)
         db.session.commit()
