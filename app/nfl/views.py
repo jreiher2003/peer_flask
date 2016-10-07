@@ -37,7 +37,7 @@ def nfl_standings():
 def nfl_schedule():
     all_teams = all_nfl_teams()
     dt = datetime.datetime.now()
-    sch = NFLSchedule.query.filter(db.and_(NFLSchedule.SeasonType == 1), (NFLSchedule.PointSpread != None)).all()
+    sch = NFLSchedule.query.filter(NFLSchedule.SeasonType == 1, NFLSchedule.PointSpread != None).all()
     return render_template(
         "nfl_schedule.html", 
         all_teams=all_teams, 
