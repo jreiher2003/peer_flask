@@ -21,8 +21,13 @@
                 <p class="text-center"><img src="{{ nfl_bet.users.profile.avatar }}" width="40"/> {{ nfl_bet.users.username }}</p>
                 <h3 class="text-center">{{ nfl_bet.vs }}</h3>
                 <p class="text-center">{{ nfl_bet.game_date|game_time }} {{ nfl_bet.game_date|game_date }}</p>
-                <!-- {#<h4 class="text-center">{{ nfl_bet.over_under }}{{ nfl_bet.total_format() }}</h4>#} -->
-                <!-- {#<h4 class="text-center">{{ nfl_bet.team }}  {{ nfl_bet.ps_format() }}</h4>#} -->
+                {% if nfl_bet.total %}
+                    <h4 class="text-center">{{ nfl_bet.over_under }}{{ nfl_bet.total_format() }}</h4>
+                {% elif nfl_bet.ps %}
+                <h4 class="text-center">{{ nfl_bet.team }}  {{ nfl_bet.ps_format() }}</h4>
+                {% elif nfl_bet.ml %}
+                <h4 class="text-center">{{ nfl_bet.team }}  {{ nfl_bet.ml }}</h4>
+                {% endif %}
                 <h4 class="text-center"> amount: ${{ nfl_bet.amount }}</h4>
                 </h4>
                 <div class="caption">
