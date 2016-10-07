@@ -21,7 +21,6 @@ class Base(db.Model):
     paid = db.Column(db.Boolean, default=False)
     bet_created = db.Column(db.DateTime,  default=datetime.datetime.utcnow)
     bet_modified = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
-    nfl_create_ou_bet = db.relationship("NFLcreateOverUnderBet")
     nfl_create_side_bet = db.relationship("NFLcreateSideBet")
 
     def ps_format(self):
@@ -65,7 +64,6 @@ class NFLcreateBet(Base):
     team = db.Column(db.String, default=" ")
     ps = db.Column(db.Integer)
     ml = db.Column(db.Integer)
-    
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_create_bet")
     nfl_take_bet = db.relationship("NFLtakeBet", uselist=False, back_populates="nfl_create_bet")
@@ -74,7 +72,6 @@ class NFLcreateOverUnderBet(Base):
     __tablename__ = "nfl_create_ou_bet"
 
     id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
-    base = db.relationship(Base, back_populates="nfl_create_ou_bet")
     over_under = db.Column(db.String)
     total = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))

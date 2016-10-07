@@ -202,47 +202,50 @@ def nfl_confirm_bet(bet_key):
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/edit/", methods=["GET","POST"])
 def nfl_edit_bet(bet_key):
     all_teams = all_nfl_teams()
-    nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
-    a_team = nfl_bet.vs.split("vs")[0].strip()
-    h_team = nfl_bet.vs.split("@")[1].strip()
-    if nfl_bet.over_under == "u" or nfl_bet.over_under == "o" and nfl_bet.total:
-        form = OverUnderForm(obj=nfl_bet)
+    nfl_ou = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one_or_none()
+    if nfl_ou is not None:
+        a_team = nfl_ou.vs.split("vs")[0].strip()
+        h_team = nfl_ou.vs.split("@")[1].strip()
+        form = OverUnderForm(obj=nfl_ou)
         if form.validate_on_submit():
-            nfl_bet.amount = form.amount.data
-            nfl_bet.over_under = form.over_under.data
-            nfl_bet.total =  form.total.data
-            db.session.add(nfl_bet)
+            nfl_ou.amount = form.amount.data
+            nfl_ou.over_under = form.over_under.data
+            nfl_ou.total =  form.total.data
+            db.session.add(nfl_ou)
             db.session.commit()
-            flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl_bet.users.username,nfl_bet.vs,nfl_bet.bet_key),"info")
+            flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl_ou.users.username,nfl_ou.vs,nfl_ou.bet_key),"info")
             return redirect(url_for("nfl.nfl_public_board"))
-
-    elif nfl_bet.ps and nfl_bet.team == nfl_bet.home_team:
-        form = HomeTeamForm(obj=nfl_bet)
-        if form.validate_on_submit():
-            nfl_bet.amount = form.amount.data
-            nfl_bet.ps = form.point_spread.data
-            db.session.add(nfl_bet)
-            db.session.commit()
-            flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl_bet.users.username,nfl_bet.vs,nfl_bet.bet_key),"info")
-            return redirect(url_for("nfl.nfl_public_board"))
-
-    elif nfl_bet.ps and nfl_bet.team == nfl_bet.away_team:
-        form = AwayTeamForm(obj=nfl_bet)
-        if form.validate_on_submit():
-            nfl_bet.amount = form.amount.data
-            nfl_bet.ps = form.point_spread.data
-            db.session.add(nfl_bet)
-            db.session.commit()
-            flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl_bet.users.username,nfl_bet.vs,nfl_bet.bet_key),"info")
-            return redirect(url_for("nfl.nfl_public_board"))
-
+    nfl_sb = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one_or_none()
+    if nfl_sb is not None:
+        a_team = nfl_sb.vs.split("vs")[0].strip()
+        h_team = nfl_sb.vs.split("@")[1].strip()
+        if nfl_sb.ps and nfl_sb.team == nfl_sb.home_team:
+            form = HomeTeamForm(obj=nfl_sb)
+            if form.validate_on_submit():
+                nfl_sb.amount = form.amount.data
+                nfl_sb.ps = form.point_spread.data
+                db.session.add(nfl_sb)
+                db.session.commit()
+                flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl_sb.users.username,nfl_sb.vs,nfl_sb.bet_key),"info")
+                return redirect(url_for("nfl.nfl_public_board"))
+        elif nfl_sb.ps and nfl_sb.team == nfl_sb.away_team:
+            form = AwayTeamForm(obj=nfl_sb)
+            if form.validate_on_submit():
+                nfl_sb.amount = form.amount.data
+                nfl_sb.ps = form.point_spread.data
+                db.session.add(nfl_sb)
+                db.session.commit()
+                flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl_sb.users.username,nfl_sb.vs,nfl_sb.bet_key),"info")
+                return redirect(url_for("nfl.nfl_public_board"))
     return render_template(
         "nfl_edit_bet.html", 
         all_teams=all_teams,
-        nfl_bet=nfl_bet,
+        nfl_ou=nfl_ou,
+        nfl_sb=nfl_sb,
         h_team=h_team,
         a_team=a_team,
-        form = form
+        form = form,
+        bet_key=bet_key
         )
 
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/delete/", methods=["GET","POST"])
