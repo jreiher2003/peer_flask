@@ -3,34 +3,27 @@ from app import db
 from app.users.models import Users, Role, UserRoles, Profile
 
 
-class NFLcreateBet(db.Model):
-    __tablename__ = "nfl_create_bet"
-
+class Base(db.Model):
+    __tablename__ = "base"
     id = db.Column(db.Integer, primary_key=True)
     game_key = db.Column(db.Integer)
-    bet_key = db.Column(db.Integer, unique=True)
+    bet_key = db.Column(db.Integer, unique=True) 
     game_date = db.Column(db.DateTime)
     vs = db.Column(db.String)
     home_team = db.Column(db.String)
     away_team = db.Column(db.String)
-    over_under = db.Column(db.String, default=" ")
-    total = db.Column(db.Integer)
-    amount = db.Column(db.Integer)
-    team = db.Column(db.String, default=" ")
-    ps = db.Column(db.Integer)
-    ml = db.Column(db.Integer)
-    bet_taken = db.Column(db.Boolean, default=False)
-    bet_graded = db.Column(db.Boolean, default=False)
     win = db.Column(db.Boolean)
     lose = db.Column(db.Boolean)
-    paid = db.Column(db.Boolean, default=False)
+    amount = db.Column(db.Integer)
+    bet_taken = db.Column(db.Boolean, default=False)
+    bet_graded = db.Column(db.Boolean, default=False)
     taken_by = db.Column(db.Integer) # other player id 
-    bet_created = db.Column(db.DateTime,  default=datetime.datetime.now())
-    bet_modified = db.Column(db.DateTime,  default=datetime.datetime.now(), onupdate=datetime.datetime.now())
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
-    users = db.relationship(Users, back_populates="nfl_create_bet")
-    nfl_take_bet = db.relationship("NFLtakeBet", uselist=False, back_populates="nfl_create_bet")
-   
+    paid = db.Column(db.Boolean, default=False)
+    bet_created = db.Column(db.DateTime,  default=datetime.datetime.utcnow)
+    bet_modified = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    nfl_create_ou_bet = db.relationship("NFLcreateOverUnderBet")
+    nfl_create_side_bet = db.relationship("NFLcreateSideBet")
+
     def ps_format(self):
         if self.ps == None: return ""
         elif self.ps > 0: return "+" + str(self.ps)
@@ -62,6 +55,49 @@ class NFLcreateBet(db.Model):
 
     def amount_win(self):
         return round(float(self.amount) * .9,2)
+
+class NFLcreateBet(Base):
+    __tablename__ = "nfl_create_bet"
+
+    id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
+    over_under = db.Column(db.String, default=" ")
+    total = db.Column(db.Integer)
+    team = db.Column(db.String, default=" ")
+    ps = db.Column(db.Integer)
+    ml = db.Column(db.Integer)
+    
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    users = db.relationship(Users, back_populates="nfl_create_bet")
+    nfl_take_bet = db.relationship("NFLtakeBet", uselist=False, back_populates="nfl_create_bet")
+
+class NFLcreateOverUnderBet(Base):
+    __tablename__ = "nfl_create_ou_bet"
+
+    id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
+    base = db.relationship(Base, back_populates="nfl_create_ou_bet")
+    over_under = db.Column(db.String)
+    total = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    users = db.relationship(Users, back_populates="nfl_create_ou_bet")
+
+class NFLcreateSideBet(Base):
+    __tablename__ = "nfl_create_side_bet"
+
+    id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
+    team = db.Column(db.String)
+    ps = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    users = db.relationship(Users, back_populates="nfl_create_side_bet")
+
+class NFLcreateMLBet(Base):
+    __tablename__ = "nfl_create_ml_bet"
+
+    id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
+    team = db.Column(db.String)
+    ml = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    users = db.relationship(Users, back_populates="nfl_create_ml_bet")
+   
 
 class NFLtakeBet(db.Model):
     __tablename__ = 'nfl_take_bet'

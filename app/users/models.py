@@ -13,12 +13,12 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False, default='')
     active = db.Column(db.Boolean(), default=False)
-    confirmed_at = db.Column(db.DateTime())
-    date_created = db.Column(db.DateTime(),  default=datetime.datetime.now())
-    date_modified = db.Column(db.DateTime,  default=datetime.datetime.now(), onupdate=datetime.datetime.now())
-    last_login_at = db.Column(db.DateTime())
+    confirmed_at = db.Column(db.DateTime)
+    date_created = db.Column(db.DateTime,  default=datetime.datetime.utcnow)
+    date_modified = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    last_login_at = db.Column(db.DateTime)
     last_login_ip = db.Column(db.String(45))
-    current_login_at = db.Column(db.DateTime())
+    current_login_at = db.Column(db.DateTime)
     current_login_ip = db.Column(db.String(45))
     login_count = db.Column(db.Integer)
     profile = db.relationship('Profile', uselist=False)
@@ -26,6 +26,10 @@ class Users(db.Model, UserMixin):
             backref=db.backref('users', lazy='dynamic'))
     nfl_create_bet = db.relationship("NFLcreateBet")
     nfl_take_bet = db.relationship("NFLtakeBet")
+    nfl_create_ou_bet = db.relationship("NFLcreateOverUnderBet")
+    nfl_create_side_bet = db.relationship("NFLcreateSideBet")
+    nfl_create_ml_bet = db.relationship("NFLcreateMLBet")
+
    
     
     def __repr__(self):

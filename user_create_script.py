@@ -1,6 +1,6 @@
 from dateutil.parser import parse as parse_date
 from app.users.models import Users, Role, UserRoles,Profile
-from app.nfl.models import NFLcreateBet, NFLtakeBet, NFLBetGraded
+from app.nfl.models import NFLcreateBet, NFLtakeBet, NFLBetGraded, NFLcreateOverUnderBet, NFLcreateSideBet,NFLcreateMLBet
 from app.nfl_stats.models import NFLScore
 from app import app, db, user_datastore 
 from flask_security.utils import encrypt_password
@@ -87,12 +87,7 @@ def create_bet():
     profile2.bets_taken += 1
     profile1.bets_taken += 1
 
-    db.session.add(bet1)
-    db.session.add(take1)
-    db.session.add(bet2)
-    db.session.add(take2)
-    db.session.add(profile1)
-    db.session.add(profile2)
+    db.session.add_all([bet1,take1,bet2,take2,profile1,profile2])
     db.session.commit()
 
 def create_bet1():
@@ -111,14 +106,15 @@ def create_bet1():
     profile4.bets_taken += 1
     profile3.bets_taken += 1
 
-    db.session.add(bet1)
-    db.session.add(take1)
-    db.session.add(bet2)
-    db.session.add(take2)
-    db.session.add(profile3)
-    db.session.add(profile4)
+    db.session.add_all([bet1,take1,bet2,take2,profile3,profile4])
     db.session.commit()
 
+def create_bet2():
+    bet1 = NFLcreateOverUnderBet(id=5, bet_key=5, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="o", vs="NYG vs @MIN", total=42.5, amount=20, user_id=3, bet_taken=False)
+    bet2 = NFLcreateSideBet(id=6, bet_key=6, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=10, user_id=3, bet_taken=False)
+    bet3 = NFLcreateMLBet(id=7,bet_key=7, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ml=125, team="NYG", amount=10, user_id=3, bet_taken=False)
+    db.session.add_all([bet1,bet2,bet3])
+    db.session.commit()
 
 
 
@@ -130,7 +126,7 @@ if __name__ == "__main__":
     print "users created"
    
     create_bet()
-    create_bet1()
+    create_bet2()
     print "bets created"
     # graded_bets()
     # print "graded bets table populated"

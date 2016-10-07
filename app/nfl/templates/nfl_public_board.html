@@ -43,16 +43,17 @@ i {
                     </tr>
                    </thead>
                    <tbody>
-                    {% for bet in all_bets %}
-                        {% if bet.game_date > dt %}
+                    {% if tb %}
+                        {% for bet in tb %}
+                            {% if bet.game_date > dt %}
                         <tr> 
-                            <td><img src="{{ bet.users.profile.avatar }}">
+                             <td><img src="{{ bet.users.profile.avatar }}">
                                 {{ bet.users.username }} {{ bet.user_id }} </td>
                             <td>{{ bet.game_date|game_date }}<br>{{ bet.game_date|game_day }}</td>
                             <td>{{ bet.game_date|game_time }}</td>
                             <td>{{ bet.vs }}</td>
                             <td>{{ bet.team }}</td>
-                            <td>{{ bet.ps_format() }}</td>
+                            <td>{#{{ bet.ps_format() }}#}</td>
                             <td>{{ bet.over_under }}{{ bet.total_format() }}</td>
                             <td>{{ bet.amount }}</td>
                             {% if current_user.id == bet.user_id %}
@@ -62,10 +63,38 @@ i {
                                 </td>
                             {% else %}
                                 <td><a href="{{ url_for('nfl.nfl_bet', bet_key=bet.bet_key) }}">bet</a></td>
-                            {% endif %}
+                            {% endif %} 
                         </tr>
-                        {% endif %}
-                    {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if sb %}
+                        {% for bet in sb %}
+                            {% if bet.game_date > dt %}
+                        <tr> 
+                             <td><img src="{{ bet.users.profile.avatar }}">
+                                {{ bet.users.username }} {{ bet.user_id }} </td>
+                            <td>{{ bet.game_date|game_date }}<br>{{ bet.game_date|game_day }}</td>
+                            <td>{{ bet.game_date|game_time }}</td>
+                            <td>{{ bet.vs }}</td>
+                            <td>{{ bet.team }}</td>
+                            <td>{{ bet.ps_format() }}</td>
+                            <td></td>
+                            <td>{{ bet.amount }}</td>
+                            {% if current_user.id == bet.user_id %}
+                                <td>
+                                    <a href="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}">delete</a><br>
+                                    <a href="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}">edit</a>
+                                </td>
+                            {% else %}
+                                <td><a href="{{ url_for('nfl.nfl_bet', bet_key=bet.bet_key) }}">bet</a></td>
+                            {% endif %} 
+                        </tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                   
                     </tbody>
                </table>
            </div><!-- end wrapper -->
@@ -85,6 +114,20 @@ i {
                     </form>
                 </div>
 
+{% for bet in tb %}
+{{ bet.over_under }}
+{% endfor %}
+
+
+<br><br><br>
+{% for bet in sb %}
+{{ bet.team }}
+{% endfor %}
+
+<br><br><br>
+{% for bet in ml %}
+{{ bet.ml }}
+{% endfor %}
         </div>
     </div>
 </div>

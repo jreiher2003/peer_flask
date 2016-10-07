@@ -21,8 +21,8 @@
                 <p class="text-center"><img src="{{ nfl_bet.users.profile.avatar }}" width="40"/> {{ nfl_bet.users.username }}</p>
                 <h3 class="text-center">{{ nfl_bet.vs }}</h3>
                 <p class="text-center">{{ nfl_bet.game_date|game_time }} {{ nfl_bet.game_date|game_date }}</p>
-                <h4 class="text-center">{{ nfl_bet.over_under }}{{ nfl_bet.total_format() }}</h4>
-                <h4 class="text-center">{{ nfl_bet.team }}  {{ nfl_bet.ps_format() }}</h4>
+                <!-- {#<h4 class="text-center">{{ nfl_bet.over_under }}{{ nfl_bet.total_format() }}</h4>#} -->
+                <!-- {#<h4 class="text-center">{{ nfl_bet.team }}  {{ nfl_bet.ps_format() }}</h4>#} -->
                 <h4 class="text-center"> amount: ${{ nfl_bet.amount }}</h4>
                 </h4>
                 <div class="caption">
@@ -39,10 +39,10 @@
            
 game_key {{ nfl_bet.game_key }}<br>
 vs: {{ nfl_bet.vs }}<br>
-over/under: {{ nfl_bet.over_under }}{{ nfl_bet.total}}<br>
+{#over/under: {{ nfl_bet.over_under }}{{ nfl_bet.total}}<br>#}
 team: {{ nfl_bet.team }}<br>
 ps: {{ nfl_bet.ps }}<br>
-ps fm: {{ nfl_bet.ps_format() }}<br>
+{#ps fm: {{ nfl_bet.ps_format() }}<br>#}
 amount: {{ nfl_bet.amount }}<br>
 user_id: {{ nfl_bet.user_id }}<br>
 bet_key: {{ nfl_bet.bet_key }}<br>
