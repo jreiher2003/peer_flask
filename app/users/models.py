@@ -71,10 +71,10 @@ class Profile(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     avatar = db.Column(db.String)
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     bets_created = db.Column(db.Integer, default=0) 
     bets_taken = db.Column(db.Integer, default=0)
     wins = db.Column(db.Integer, default=0)
     losses = db.Column(db.Integer, default=0)
     d_amount = db.Column(db.Numeric(12,2))
-    # users = db.relationship("Users", back_populates="Profile")
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    # user = db.relationship("Users", back_populates="Profile")
