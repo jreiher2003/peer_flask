@@ -15,7 +15,7 @@ class NFLcreateBet(db.Model):
     away_team = db.Column(db.String)
     over_under = db.Column(db.String, default=" ")
     total = db.Column(db.Integer)
-    amount = db.Column(db.Numeric(12,2))
+    amount = db.Column(db.Integer)
     team = db.Column(db.String, default=" ")
     ps = db.Column(db.Integer)
     ml = db.Column(db.Integer)
@@ -61,7 +61,7 @@ class NFLcreateBet(db.Model):
         else: return "u"
 
     def amount_win(self):
-        return float(self.amount) * .9
+        return round(float(self.amount) * .9,2)
 
 class NFLtakeBet(db.Model):
     __tablename__ = 'nfl_take_bet'
@@ -79,7 +79,7 @@ class NFLtakeBet(db.Model):
     team = db.Column(db.String, default=" ")
     ps = db.Column(db.Integer)
     ml = db.Column(db.Integer)
-    amount = db.Column(db.Numeric(12,2))
+    amount = db.Column(db.Integer)
     bet_graded = db.Column(db.Boolean, default=False)
     win = db.Column(db.Boolean)
     lose = db.Column(db.Boolean)
