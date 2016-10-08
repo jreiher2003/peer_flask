@@ -144,12 +144,12 @@ def pay_winners_from_losers():
                 t_profile = Profile.query.filter_by(user_id=ss.taken_by).one()
                 if ss.win == True:
                     print "player %s gets paid from player %s this amount %s" % (ss.user_id, ss.taken_by, ss.amount)
-                    c_profile.d_amount += ss.amount_win()
+                    c_profile.d_amount += ss.amount_win
                     t_profile.d_amount -= ss.amount 
                     ss.paid = True 
                 if ss.win == False:
                     print "player %s gets paid from player %s this amount %s" % (ss.taken_by, ss.user_id, ss.amount)
-                    t_profile.d_amount += ss.amount_win()
+                    t_profile.d_amount += ss.amount_win
                     c_profile.d_amount -= ss.amount 
                     ss.paid = True 
                 db.session.add(c_profile)
@@ -162,12 +162,12 @@ def pay_winners_from_losers():
                 t_profile = Profile.query.filter_by(user_id=oo.taken_by).one()
                 if oo.win == True:
                     print "player %s gets paid from player %s this amount %s" % (oo.user_id, oo.taken_by, oo.amount)
-                    c_profile.d_amount += oo.amount_win()
+                    c_profile.d_amount += oo.amount_win
                     t_profile.d_amount -= oo.amount 
                     oo.paid = True 
                 if oo.win == False:
                     print "player %s gets paid from player %s this amount %s" % (oo.taken_by, oo.user_id, oo.amount)
-                    t_profile.d_amount += oo.amount_win()
+                    t_profile.d_amount += oo.amount_win
                     c_profile.d_amount -= oo.amount 
                     oo.paid = True 
                 db.session.add(c_profile)
