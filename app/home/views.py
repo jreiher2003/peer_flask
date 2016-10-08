@@ -22,64 +22,43 @@ def graded_bets():
         db.session.add(grade)
         db.session.commit()
 
-def grade_cb():
-    graded_bets()
-    graded1 = NFLBetGraded.query.all()
-    # cb1 = NFLcreateBet.query.all()
-    cb = [r for r in cb1]
-    grd = [r for r in graded1]
-    for g in grd:
-        for c in cb:
-            if g.game_key == c.game_key:
-                if c.over_under == "u" or c.over_under == "o":
-                    if c.over_under == g.cover_total:
-                        c.win = True
-                        c.lose = False
-                        c.bet_graded = True
-                    else:
-                        c.lose = True
-                        c.win = False
-                        c.bet_graded = True
-
-                if c.ps != None:
-                    if c.team == g.cover_side:
-                        c.win = True
-                        c.lose = False
-                        c.bet_graded = True
-                    else:
-                        c.lose = True
-                        c.win = False 
-                        c.bet_graded = True
-    db.session.add(c)
-    db.session.commit()
-
 def grade_tb():
     graded_bets()
     graded1 = NFLBetGraded.query.all()
-    # cb1 = NFLtakeBet.query.all()
+    cb1 = NFLcreateOverUnderBet.query.all()
     cb = [r for r in cb1]
     grd = [r for r in graded1]
     for g in grd:
         for c in cb:
             if g.game_key == c.game_key:
-                if c.over_under == "u" or c.over_under == "o":
-                    if c.over_under == g.cover_total:
-                        c.win = True
-                        c.lose = False
-                        c.bet_graded = True
-                    else:
-                        c.lose = True
-                        c.win = False
-                        c.bet_graded = True
-                if c.ps != None:
-                    if c.team == g.cover_side:
-                        c.win = True
-                        c.lose = False
-                        c.bet_graded = True
-                    else:
-                        c.lose = True
-                        c.win = False 
-                        c.bet_graded = True
+                if c.over_under == g.cover_total:
+                    c.win = True
+                    c.lose = False
+                    c.bet_graded = True
+                else:
+                    c.lose = True
+                    c.win = False
+                    c.bet_graded = True
+    db.session.add(c)
+    db.session.commit()
+
+def grade_sb():
+    graded_bets()
+    graded1 = NFLBetGraded.query.all()
+    cb1 = NFLcreateSideBet.query.all()
+    cb = [r for r in cb1]
+    grd = [r for r in graded1]
+    for g in grd:
+        for c in cb:
+            if g.game_key == c.game_key:
+                if c.team == g.cover_side:
+                    c.win = True
+                    c.lose = False
+                    c.bet_graded = True
+                else:
+                    c.lose = True
+                    c.win = False 
+                    c.bet_graded = True
     db.session.add(c)
     db.session.commit()
 
@@ -133,8 +112,8 @@ def home():
 @login_required
 def profile():
     all_teams = all_nfl_teams()
-    # grade_cb()
-    # grade_tb()
+    grade_sb()
+    grade_tb()
     # count_wins_losses()
     # pay_winners_from_losers()
     user = Users.query.filter_by(id=current_user.id).one()
