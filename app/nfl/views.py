@@ -192,11 +192,8 @@ def nfl_confirm_bet(bet_key):
     try:
         nfl_bet = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one()
     except:
-        pass
-    try:
         nfl_bet = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one()
-    except:
-        pass 
+
     return render_template('nfl_confirm.html', nfl_bet=nfl_bet, all_teams=all_teams)
     
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/edit/", methods=["GET","POST"])
@@ -252,14 +249,23 @@ def nfl_edit_bet(bet_key):
 @login_required
 def nfl_delete_bet(bet_key):
     all_teams = all_nfl_teams()
-    nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
-    form = OverUnderForm()
-    if request.method == "POST":
-        db.session.delete(nfl_bet)
-        db.session.commit()
-        flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl_bet.users.username,nfl_bet.vs,nfl_bet.amount), "danger")
-        return redirect(url_for("nfl.nfl_public_board"))
-    return render_template("nfl_delete_bet.html", nfl_bet=nfl_bet, form=form, all_teams=all_teams)
+    nfl_ou = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one_or_none()
+    if nfl_ou is not None:
+        form = OverUnderForm()
+        if request.method == "POST":
+            db.session.delete(nfl_ou)
+            db.session.commit()
+            flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl_ou.users.username,nfl_ou.vs,nfl_ou.amount), "danger")
+            return redirect(url_for("nfl.nfl_public_board"))
+    nfl_sb = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one_or_none()
+    if nfl_sb is not None:
+        form = HomeTeamForm()
+        if request.method == "POST":
+            db.session.delete(nfl_sb)
+            db.session.commit()
+            flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl_sb.users.username,nfl_sb.vs,nfl_sb.amount), "danger")
+            return redirect(url_for("nfl.nfl_public_board"))
+    return render_template("nfl_delete_bet.html", nfl_ou=nfl_ou, nfl_sb=nfl_sb, form=form, all_teams=all_teams)
 
 
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/", methods=["GET","POST"])

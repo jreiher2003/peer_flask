@@ -21,7 +21,7 @@ class Base(db.Model):
     paid = db.Column(db.Boolean, default=False)
     bet_created = db.Column(db.DateTime,  default=datetime.datetime.utcnow)
     bet_modified = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
-    nfl_create_side_bet = db.relationship("NFLcreateSideBet")
+   
 
     def ps_format(self):
         if self.ps == None: return ""
