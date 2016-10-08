@@ -22,7 +22,6 @@ class Base(db.Model):
     bet_created = db.Column(db.DateTime,  default=datetime.datetime.utcnow)
     bet_modified = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
    
-
     def ps_format(self):
         if self.ps == None: return ""
         elif self.ps > 0: return "+" + str(self.ps)
@@ -30,18 +29,15 @@ class Base(db.Model):
 
     def total_format(self):
         return "" if self.total == None else self.total
-        
-    @property 
+         
     def format_bet_created(self):
         return "{dt:%Y-%m-%d}".format(dt=self.bet_created)
-
-    @property 
+ 
     def opposite_team(self):
         if self.ps == None: return ""
         elif self.team == self.home_team: return self.away_team 
         else: return self.home_team 
-
-    @property 
+ 
     def opposite_ps(self):
         if self.ps == None: return ""
         elif self.ps < 0: return str(self.ps).replace("-", "+")
@@ -54,7 +50,6 @@ class Base(db.Model):
 
     def amount_win(self):
         return round(float(self.amount) * .9,2)
-
 
 class NFLcreateOverUnderBet(Base):
     __tablename__ = "nfl_create_ou_bet"
@@ -83,7 +78,6 @@ class NFLcreateMLBet(Base):
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_create_ml_bet")
    
-
 class NFLBetGraded(db.Model):
     __tablename__ = 'nfl_bet_graded'
 
@@ -100,6 +94,7 @@ class NFLBetGraded(db.Model):
     ps = db.Column(db.Integer)
     cover_total = db.Column(db.String)
     cover_side = db.Column(db.String)
+    cover_ml = db.Column(db.String)
     # user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
 
 

@@ -32,51 +32,36 @@ class NFLSchedule(db.Model):
 
     @property 
     def OverUnder_(self):
-        if self.OverUnder == None:
-            return "N/A"
-        else:
-            return self.OverUnder
+        if self.OverUnder == None: return "N/A"
+        else: return self.OverUnder
 
     @property 
     def away_pointspread(self):
-        if self.PointSpread == None:
-            return "N/A"
-        elif self.PointSpread > 0:
-            return self.PointSpread * -1
-        else:
-            return self.PointSpread 
+        if self.PointSpread == None: return "N/A"
+        elif self.PointSpread > 0: return self.PointSpread * -1
+        else: return self.PointSpread 
 
     @property 
     def home_pointspread(self):
-        if self.PointSpread == None:
-            return "N/A"
-        elif self.PointSpread < 0:
-            return self.PointSpread
-        else:
-            return self.PointSpread * -1
+        if self.PointSpread == None: return "N/A"
+        elif self.PointSpread < 0: return self.PointSpread
+        else: return self.PointSpread * -1
 
     @property 
     def even_pointspread(self):
-        if self.PointSpread == 0.0:
-            return "even"
+        if self.PointSpread == 0.0: return "even"
 
     @property 
     def away_ml(self):
-        if self.AwayTeamMoneyLine == None:
-            return "N/A"
-        elif self.AwayTeamMoneyLine > 0:
-            return "+%s" % (self.AwayTeamMoneyLine)
-        else:
-            return self.AwayTeamMoneyLine
+        if self.AwayTeamMoneyLine == None: return "N/A"
+        elif self.AwayTeamMoneyLine > 0: return "+%s" % (self.AwayTeamMoneyLine)
+        else: return self.AwayTeamMoneyLine
         
     @property 
     def home_ml(self):
-        if self.HomeTeamMoneyLine == None:
-            return "N/A"
-        elif self.HomeTeamMoneyLine > 0:
-            return "+%s" % (self.HomeTeamMoneyLine)
-        else:
-            return self.HomeTeamMoneyLine
+        if self.HomeTeamMoneyLine == None: return "N/A"
+        elif self.HomeTeamMoneyLine > 0: return "+%s" % (self.HomeTeamMoneyLine)
+        else: return self.HomeTeamMoneyLine
 
     @hybrid_property 
     def d_date(self):
@@ -199,6 +184,10 @@ class NFLScore(db.Model):
         if self.AwayScore + self.HomeScore == self.OverUnder: return "push"
         elif self.AwayScore + self.HomeScore > self.OverUnder: return "o"
         else: return "u"
+
+    def cover_ml(self):
+        if self.AwayScore > self.HomeScore: return self.AwayTeam
+        else: return self.HomeTeam 
     
 
     # nfl_bet_graded = db.relationship("NFLBetGraded", uselist=False, back_populates="nfl_score")

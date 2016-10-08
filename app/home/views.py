@@ -18,14 +18,14 @@ def graded_bets():
     NFLBetGraded.__table__.drop(db.engine)
     NFLBetGraded.__table__.create(db.engine)
     for x in score:
-        grade = NFLBetGraded(game_key=x.GameKey,week = x.Week,game_date=parse_date(x.Date),home_team=x.HomeTeam,home_score=x.HomeScore,away_team=x.AwayTeam,away_score=x.AwayScore,total_score=(x.AwayScore+x.HomeScore),over_under=x.OverUnder,ps=x.PointSpread,cover_total=x.cover_total(),cover_side=x.cover_line())
+        grade = NFLBetGraded(game_key=x.GameKey,week = x.Week,game_date=parse_date(x.Date),home_team=x.HomeTeam,home_score=x.HomeScore,away_team=x.AwayTeam,away_score=x.AwayScore,total_score=(x.AwayScore+x.HomeScore),over_under=x.OverUnder,ps=x.PointSpread,cover_total=x.cover_total(),cover_side=x.cover_line(),cover_ml=x.cover_ml())
         db.session.add(grade)
         db.session.commit()
 
 def grade_tb():
     graded_bets()
     graded1 = NFLBetGraded.query.all()
-    cb1 = NFLcreateOverUnderBet.query.all()
+    cb1 = NFLcreateOverUnderBet.query.filter_by(bet_taken=True).all()
     cb = [r for r in cb1]
     grd = [r for r in graded1]
     for g in grd:
@@ -45,7 +45,7 @@ def grade_tb():
 def grade_sb():
     graded_bets()
     graded1 = NFLBetGraded.query.all()
-    cb1 = NFLcreateSideBet.query.all()
+    cb1 = NFLcreateSideBet.query.filter_by(bet_taken=True).all()
     cb = [r for r in cb1]
     grd = [r for r in graded1]
     for g in grd:
@@ -62,16 +62,46 @@ def grade_sb():
     db.session.add(c)
     db.session.commit()
 
+def grade_ml():
+    graded_bets()
+    graded1 = NFLBetGraded.query.all()
+    cb1 = NFLcreateMLBet.query.filter_by(bet_taken=True).all()
+    cb = [r for r in cb1]
+    grd = [r for r in graded1]
+    for g in grd:
+        for c in cb:
+            if g.game_key == c.game_key:
+                if c.team == g.cover_ml:
+                    c.win = True
+                    c.lose = False
+                    c.bet_graded = True
+                else:
+                    c.lose = True
+                    c.win = False 
+                    c.bet_graded = True
+    db.session.add(c)
+    db.session.commit()
+
 def count_wins_losses():
     users1 = Users.query.all()
     users = [r for r in users1] # list of all users id
     for u in users:
-        # count_wins_c = NFLcreateBet.query.filter_by(user_id=u.id,win=True).count()
-        # count_losses_c = NFLcreateBet.query.filter_by(user_id=u.id,win=False).count()
-        # count_wins_t = NFLtakeBet.query.filter_by(user_id=u.id,win=True).count()
-        # count_losses_t = NFLtakeBet.query.filter_by(user_id=u.id,win=False).count()
-        u.profile.wins = (count_wins_c + count_wins_t)
-        u.profile.losses = (count_losses_c + count_losses_t)  
+        count_wins_s = NFLcreateSideBet.query.filter_by(user_id=u.id,win=True,bet_taken=True).count()
+        count_losses_s = NFLcreateSideBet.query.filter_by(user_id=u.id,win=False, bet_taken=True).count()
+        count_wins_o = NFLcreateOverUnderBet.query.filter_by(user_id=u.id,win=True,bet_taken=True).count()
+        count_losses_o = NFLcreateOverUnderBet.query.filter_by(user_id=u.id,win=False, bet_taken=True).count()
+        count_wins_ml = NFLcreateMLBet.query.filter_by(user_id=u.id,win=True,bet_taken=True).count()
+        count_losses_ml = NFLcreateMLBet.query.filter_by(user_id=u.id,win=False, bet_taken=True).count()
+
+        count_wins_s_t = NFLcreateSideBet.query.filter_by(taken_by=u.id,win=True,bet_taken=True).count()
+        count_losses_s_t = NFLcreateSideBet.query.filter_by(taken_by=u.id,win=False, bet_taken=True).count()
+        count_wins_o_t = NFLcreateOverUnderBet.query.filter_by(taken_by=u.id,win=True,bet_taken=True).count()
+        count_losses_o_t = NFLcreateOverUnderBet.query.filter_by(taken_by=u.id,win=False, bet_taken=True).count()
+        count_wins_ml_t = NFLcreateMLBet.query.filter_by(taken_by=u.id,win=True,bet_taken=True).count()
+        count_losses_ml_t = NFLcreateMLBet.query.filter_by(taken_by=u.id,win=False, bet_taken=True).count()
+        
+        u.profile.wins = (count_wins_s + count_wins_o + count_wins_ml + count_wins_s_t + count_wins_o_t + count_wins_ml_t)
+        u.profile.losses = (count_losses_s + count_losses_o + count_losses_ml + count_losses_s_t + count_losses_o_t + count_losses_ml_t)  
     db.session.add(u)
     db.session.commit()
 
@@ -114,7 +144,8 @@ def profile():
     all_teams = all_nfl_teams()
     grade_sb()
     grade_tb()
-    # count_wins_losses()
+    grade_ml()
+    count_wins_losses()
     # pay_winners_from_losers()
     user = Users.query.filter_by(id=current_user.id).one()
    

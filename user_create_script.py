@@ -1,6 +1,6 @@
 from dateutil.parser import parse as parse_date
 from app.users.models import Users, Role, UserRoles,Profile
-from app.nfl.models import NFLcreateBet, NFLtakeBet, NFLBetGraded, NFLcreateOverUnderBet, NFLcreateSideBet,NFLcreateMLBet
+from app.nfl.models import NFLBetGraded, NFLcreateOverUnderBet, NFLcreateSideBet,NFLcreateMLBet
 from app.nfl_stats.models import NFLScore
 from app import app, db, user_datastore 
 from flask_security.utils import encrypt_password
@@ -43,10 +43,21 @@ def create_users():
         db.session.commit()
 
 def create_bet():
-    bet1 = NFLcreateOverUnderBet(id=5, bet_key=5, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="o", vs="NYG vs @MIN", total=42.5, amount=20, user_id=3, bet_taken=False)
-    bet2 = NFLcreateSideBet(id=6, bet_key=6, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=10, user_id=3, bet_taken=False)
-    bet3 = NFLcreateMLBet(id=7,bet_key=7, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ml=125, team="NYG", amount=10, user_id=3, bet_taken=False)
-    db.session.add_all([bet1,bet2,bet3])
+    profile1 = Profile.query.filter_by(user_id=1).one()
+    profile2 = Profile.query.filter_by(user_id=2).one()
+    bet1 = NFLcreateOverUnderBet(id=1, bet_key=1, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="o", vs="NYG vs @MIN", total=42.5, amount=20, user_id=1, bet_taken=True, taken_by=2)
+    profile1.bets_created += 1
+    profile1.bets_taken += 1
+    profile2.bets_taken += 1
+    bet2 = NFLcreateSideBet(id=2, bet_key=2, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=10, user_id=1, bet_taken=True, taken_by=2)
+    profile1.bets_created += 1
+    profile1.bets_taken += 1
+    profile2.bets_taken += 1
+    bet3 = NFLcreateMLBet(id=3,bet_key=3, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ml=125, team="MIN", amount=10, user_id=1, bet_taken=True, taken_by=2)
+    profile1.bets_created += 1
+    profile1.bets_taken += 1
+    profile2.bets_taken += 1
+    db.session.add_all([bet1,bet2,bet3,profile1,profile2])
     db.session.commit()
 
 if __name__ == "__main__":
