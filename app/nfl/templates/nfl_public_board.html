@@ -98,36 +98,21 @@ i {
                     </tbody>
                </table>
            </div><!-- end wrapper -->
-               <div id="pager" class="pager">
-                    <form>
-                        <span class="first"><i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i></span>
-                        <span class="prev"><i class="fa fa-angle-left fa-2x" aria-hidden="true"></i></span>
-                        <input type="text" class="pagedisplay" readonly/>
-                        <span class="next"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></span>
-                        <span class="last"><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i></span>
-                        <select class="pagesize">
-                            <option selected="selected"  value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option  value="40">40</option>
-                        </select>
-                    </form>
-                </div>
-
-{% for bet in tb %}
-{{ bet.over_under }}
-{% endfor %}
-
-
-<br><br><br>
-{% for bet in sb %}
-{{ bet.team }}
-{% endfor %}
-
-<br><br><br>
-{% for bet in ml %}
-{{ bet.ml }}
-{% endfor %}
+           <div id="pager" class="pager">
+                <form>
+                    <span class="first"><i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i></span>
+                    <span class="prev"><i class="fa fa-angle-left fa-2x" aria-hidden="true"></i></span>
+                    <input type="text" class="pagedisplay" readonly/>
+                    <span class="next"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></span>
+                    <span class="last"><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i></span>
+                    <select class="pagesize">
+                        <option selected="selected"  value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option  value="40">40</option>
+                    </select>
+                </form>
+            </div>
         </div>
     </div>
 </div>

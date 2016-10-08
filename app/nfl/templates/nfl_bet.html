@@ -13,13 +13,16 @@
                 <div class="col-md-5">
                     <h3 class="text-center">Opponent</h3>
                     <div class="thumbnail">
-                        <p class="text-center"><img src="{{ nfl_bet.users.profile.avatar }}" width="40"/> {{ nfl_bet.users.username }}</p>
-                        <h3 class="text-center">{{ nfl_bet.vs }}</h3>
-                        <p class="text-center">{{ nfl_bet.game_date|game_time }} {{ nfl_bet.game_date|game_date }}</p>
-                        <h4 class="text-center">{{ nfl_bet.over_under }}{{ nfl_bet.total_format() }}</h4>
-                        <h4 class="text-center">{{ nfl_bet.team }}  {{ nfl_bet.ps_format() }}</h4>
-                        <h4 class="text-center"> risk: ${{ nfl_bet.amount }}<br>
-                                                 win: ${{ nfl_bet.amount_win() }}
+                        <p class="text-center"><img src="{{ nfl.users.profile.avatar }}" width="40"/> {{ nfl.users.username }}</p>
+                        <h3 class="text-center">{{ nfl.vs }}</h3>
+                        <p class="text-center">{{ nfl.game_date|game_time }} {{ nfl.game_date|game_date }}</p>
+                            {% if nfl.over_under %}
+                        <h4 class="text-center">{{ nfl.over_under }}{{ nfl.total_format() }}</h4>
+                            {% else %}
+                        <h4 class="text-center">{{ nfl.team }}  {{ nfl.ps_format() }}</h4>
+                            {% endif %}
+                        <h4 class="text-center"> risk: ${{ nfl.amount }}<br>
+                                                 win: ${{ nfl.amount_win() }}
                          </h4>
                         
                         <div class="caption">
@@ -32,16 +35,18 @@
                     <h3 class="text-center">You</h3>
                     <div class="thumbnail">
                         <p class="text-center"><img src="{{ current_user.profile.avatar }}" width="40"/> {{ current_user.username }}</p>
-                        <h3 class="text-center">{{ nfl_bet.vs }}</h3>
-                        <p class="text-center">{{ nfl_bet.game_date|game_time }} {{ nfl_bet.game_date|game_date }}</p>
-                        <h4 class="text-center">{{ nfl_bet.opposite_over_under() }}{{ nfl_bet.total_format() }}</h4>
-                        <h4 class="text-center">{{ nfl_bet.opposite_team }}  {{ nfl_bet.opposite_ps }}</h4>
-                        <h4 class="text-center"> risk: ${{ nfl_bet.amount }}<br>
-                                                 win: ${{ nfl_bet.amount_win() }}
+                        <h3 class="text-center">{{ nfl.vs }}</h3>
+                        <p class="text-center">{{ nfl.game_date|game_time }} {{ nfl.game_date|game_date }}</p>
+                            {% if nfl.over_under %}
+                        <h4 class="text-center">{{ nfl.opposite_over_under() }}{{ nfl.total_format() }}</h4>
+                            {% else %}
+                        <h4 class="text-center">{{ nfl.opposite_team }}  {{ nfl.opposite_ps }}</h4>
+                            {% endif %}
+                        <h4 class="text-center"> risk: ${{ nfl.amount }}<br>
+                                                 win: ${{ nfl.amount_win() }}
                         </h4>
                         
                         <div class="caption">
-                           
                         </div>
                     </div>
                 </div>
@@ -49,8 +54,9 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                     <form method="POST" action="">
-                        <!-- <input type="hidden" name="" value="{{ nfl_bet.nfl_create_bet_id }}"> -->
+                       
                         <input type="submit" class="form-control btn btn-success btn-block" value="bet this opponent">
+                        <div class="text-center"><a href="{{url_for('nfl.nfl_public_board') }}">cancel</a></div>
                     </form>
                 </div>
         </div>

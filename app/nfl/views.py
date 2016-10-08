@@ -249,66 +249,47 @@ def nfl_edit_bet(bet_key):
 @login_required
 def nfl_delete_bet(bet_key):
     all_teams = all_nfl_teams()
-    nfl_ou = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one_or_none()
-    if nfl_ou is not None:
-        form = OverUnderForm()
+    try:
+        nfl = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one()
+    except:
+        nfl = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one()
+    form = OverUnderForm()
+    if nfl is not None:
         if request.method == "POST":
-            db.session.delete(nfl_ou)
+            db.session.delete(nfl)
             db.session.commit()
-            flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl_ou.users.username,nfl_ou.vs,nfl_ou.amount), "danger")
+            flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl.users.username,nfl.vs,nfl.amount), "danger")
             return redirect(url_for("nfl.nfl_public_board"))
-    nfl_sb = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one_or_none()
-    if nfl_sb is not None:
-        form = HomeTeamForm()
-        if request.method == "POST":
-            db.session.delete(nfl_sb)
-            db.session.commit()
-            flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl_sb.users.username,nfl_sb.vs,nfl_sb.amount), "danger")
-            return redirect(url_for("nfl.nfl_public_board"))
-    return render_template("nfl_delete_bet.html", nfl_ou=nfl_ou, nfl_sb=nfl_sb, form=form, all_teams=all_teams)
+    return render_template("nfl_delete_bet.html", nfl=nfl, form=form, all_teams=all_teams)
 
 
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/", methods=["GET","POST"])
 def nfl_bet(bet_key):
     all_teams = all_nfl_teams()
-    profile = Profile.query.filter_by(user_id=current_user.id).one()
-    nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
-    profile_bet_creator = Profile.query.filter_by(user_id=nfl_bet.users.id).one() 
+    profile_taker = Profile.query.filter_by(user_id=current_user.id).one()
+    try:
+        nfl = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one()
+    except:
+        nfl = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one()
+    profile_bet_creator = Profile.query.filter_by(user_id=nfl.users.id).one() 
     if request.method == "POST":
-        print current_user.id
-        nfl_bet.bet_taken = True
-        nfl_bet.taken_by = current_user.id 
-        take = NFLtakeBet(
-            user_id=current_user.id, 
-            bet_key = nfl_bet.bet_key,
-            game_key = nfl_bet.game_key,
-            game_date = nfl_bet.game_date,
-            away_team = nfl_bet.away_team,
-            home_team = nfl_bet.home_team,
-            vs = nfl_bet.vs,
-            over_under = nfl_bet.opposite_over_under(),
-            total = nfl_bet.total,
-            amount = nfl_bet.amount,
-            nfl_create_bet_id=nfl_bet.id,
-            team = nfl_bet.opposite_team,
-            ps = nfl_bet.opposite_ps,
-            )
+        nfl.bet_taken = True
+        nfl.taken_by = current_user.id 
         profile_bet_creator.bets_taken += 1
-        profile.bets_taken += 1
-        db.session.add(profile)
-        db.session.add(profile_bet_creator)
-        db.session.add(take)
-        db.session.add(nfl_bet)
+        profile_taker.bets_taken += 1
+        db.session.add_all([profile_taker,profile_bet_creator,nfl])
         db.session.commit()
         flash("%s, You have action" % current_user.username,  "success")
         return redirect(url_for("nfl.nfl_confirm_take_bet", bet_key=bet_key))
-    return render_template("nfl_bet.html", all_teams=all_teams, nfl_bet=nfl_bet)
+    return render_template("nfl_bet.html", all_teams=all_teams, nfl=nfl)
 
 @nfl_blueprint.route("/nfl/bet/confirm/<path:bet_key>/live/")
 def nfl_confirm_take_bet(bet_key):
-    nfl_bet = NFLcreateBet.query.filter_by(bet_key=bet_key).one()
-    live_bet = NFLtakeBet.query.filter_by(nfl_create_bet_id=nfl_bet.id, user_id=current_user.id).one()
-    return render_template("nfl_confirm_take_bet.html", live_bet=live_bet, nfl_bet=nfl_bet)
+    try:
+        live_bet = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one()
+    except:
+        live_bet = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one()
+    return render_template("nfl_confirm_take_bet.html", live_bet=live_bet)
 
 
 @nfl_blueprint.route("/nfl/team/home/<int:sid>/<path:key>/<path:team>/")

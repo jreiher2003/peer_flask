@@ -8,15 +8,18 @@
         <div class="col-md-12">
             <p>check your pending bets in your profile</p>
             <h2>Your bet</h2>
-            {{ live_bet.users.username }}<br>
+            {{ current_user.username }}<br>
             {{ live_bet.game_key }}<br>
             {{ live_bet.bet_key }}<br>
             {{ live_bet.game_date }}<br>
-            {{ live_bet.nfl_create_bet.vs }}<br>
-            {{ live_bet.nfl_create_bet.opposite_team }} {{ live_bet.nfl_create_bet.opposite_ps }}<br>
-            {{ live_bet.nfl_create_bet.opposite_over_under() }}{{ live_bet.nfl_create_bet.total_format() }}<br>
-            <b>risk: </b>{{ live_bet.nfl_create_bet.amount }} / <b>win: </b>{{ nfl_bet.amount_win() }}<br>
-            <b>vs: </b>{{ nfl_bet.users.username }}
+            {{ live_bet.vs }}<br>
+            {% if live_bet.opposite_team %}
+                {{ live_bet.opposite_team }} {{ live_bet.opposite_ps }}<br>
+            {% else %}
+                {{ live_bet.opposite_over_under() }}{{ live_bet.total_format() }}<br>
+            {% endif %}
+            <b>risk: </b>{{ live_bet.amount }} / <b>win: </b>{{ live_bet.amount_win() }}<br>
+            <b>vs: </b>{{ live_bet.users.username }}
         </div>
     </div>
 </div>
