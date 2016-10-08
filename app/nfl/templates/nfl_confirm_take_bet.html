@@ -16,9 +16,9 @@
             {% if live_bet.opposite_team %}
                 {{ live_bet.opposite_team }} {{ live_bet.opposite_ps }}<br>
             {% else %}
-                {{ live_bet.opposite_over_under() }}{{ live_bet.total_format() }}<br>
+                {{ live_bet.opposite_over_under }}{{ live_bet.total_format }}<br>
             {% endif %}
-            <b>risk: </b>{{ live_bet.amount }} / <b>win: </b>{{ live_bet.amount_win() }}<br>
+            <b>risk: </b>{{ live_bet.amount }} / <b>win: </b>{{ live_bet.amount_win }}<br>
             <b>vs: </b>{{ live_bet.users.username }}
         </div>
     </div>

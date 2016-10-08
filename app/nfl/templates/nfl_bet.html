@@ -17,12 +17,12 @@
                         <h3 class="text-center">{{ nfl.vs }}</h3>
                         <p class="text-center">{{ nfl.game_date|game_time }} {{ nfl.game_date|game_date }}</p>
                             {% if nfl.over_under %}
-                        <h4 class="text-center">{{ nfl.over_under }}{{ nfl.total_format() }}</h4>
+                        <h4 class="text-center">{{ nfl.over_under }}{{ nfl.total_format }}</h4>
                             {% else %}
-                        <h4 class="text-center">{{ nfl.team }}  {{ nfl.ps_format() }}</h4>
+                        <h4 class="text-center">{{ nfl.team }}  {{ nfl.ps_format }}</h4>
                             {% endif %}
                         <h4 class="text-center"> risk: ${{ nfl.amount }}<br>
-                                                 win: ${{ nfl.amount_win() }}
+                                                 win: ${{ nfl.amount_win }}
                          </h4>
                         
                         <div class="caption">
@@ -38,12 +38,12 @@
                         <h3 class="text-center">{{ nfl.vs }}</h3>
                         <p class="text-center">{{ nfl.game_date|game_time }} {{ nfl.game_date|game_date }}</p>
                             {% if nfl.over_under %}
-                        <h4 class="text-center">{{ nfl.opposite_over_under() }}{{ nfl.total_format() }}</h4>
+                        <h4 class="text-center">{{ nfl.opposite_over_under }}{{ nfl.total_format }}</h4>
                             {% else %}
                         <h4 class="text-center">{{ nfl.opposite_team }}  {{ nfl.opposite_ps }}</h4>
                             {% endif %}
                         <h4 class="text-center"> risk: ${{ nfl.amount }}<br>
-                                                 win: ${{ nfl.amount_win() }}
+                                                 win: ${{ nfl.amount_win }}
                         </h4>
                         
                         <div class="caption">

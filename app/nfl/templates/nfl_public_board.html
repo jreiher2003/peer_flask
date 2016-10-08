@@ -53,8 +53,8 @@ i {
                             <td>{{ bet.game_date|game_time }}</td>
                             <td>{{ bet.vs }}</td>
                             <td>{{ bet.team }}</td>
-                            <td>{#{{ bet.ps_format() }}#}</td>
-                            <td>{{ bet.over_under }}{{ bet.total_format() }}</td>
+                            <td>{#{{ bet.ps_format }}#}</td>
+                            <td>{{ bet.over_under }}{{ bet.total_format }}</td>
                             <td>{{ bet.amount }}</td>
                             {% if current_user.id == bet.user_id %}
                                 <td>
@@ -79,7 +79,7 @@ i {
                             <td>{{ bet.game_date|game_time }}</td>
                             <td>{{ bet.vs }}</td>
                             <td>{{ bet.team }}</td>
-                            <td>{{ bet.ps_format() }}</td>
+                            <td>{{ bet.ps_format }}</td>
                             <td></td>
                             <td>{{ bet.amount }}</td>
                             {% if current_user.id == bet.user_id %}

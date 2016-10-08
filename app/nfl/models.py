@@ -17,37 +17,44 @@ class Base(db.Model):
     amount = db.Column(db.Integer)
     bet_taken = db.Column(db.Boolean, default=False)
     bet_graded = db.Column(db.Boolean, default=False)
-    taken_by = db.Column(db.Integer) # other player id 
+    # taken_by = db.Column(db.Integer) # other player id 
     paid = db.Column(db.Boolean, default=False)
     bet_created = db.Column(db.DateTime,  default=datetime.datetime.utcnow)
     bet_modified = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
    
+    @property
     def ps_format(self):
         if self.ps == None: return ""
         elif self.ps > 0: return "+" + str(self.ps)
         else: return self.ps
 
+    @property
     def total_format(self):
         return "" if self.total == None else self.total
-         
+
+    @property
     def format_bet_created(self):
         return "{dt:%Y-%m-%d}".format(dt=self.bet_created)
- 
+
+    @property
     def opposite_team(self):
         if self.ps == None: return ""
         elif self.team == self.home_team: return self.away_team 
         else: return self.home_team 
- 
+
+    @property 
     def opposite_ps(self):
         if self.ps == None: return ""
         elif self.ps < 0: return str(self.ps).replace("-", "+")
         else: return "-"+str(self.ps)
 
+    @property    
     def opposite_over_under(self):
         if self.total == None: return ""
         elif self.over_under == "u": return "o"
         else: return "u"
 
+    @property    
     def amount_win(self):
         return round(float(self.amount) * .9,2)
 
@@ -57,6 +64,7 @@ class NFLcreateOverUnderBet(Base):
     id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
     over_under = db.Column(db.String)
     total = db.Column(db.Integer)
+    taken_by = db.Column(db.Integer) # other player id 
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_create_ou_bet")
 
@@ -66,6 +74,7 @@ class NFLcreateSideBet(Base):
     id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
     team = db.Column(db.String)
     ps = db.Column(db.Integer)
+    taken_by = db.Column(db.Integer) # other player id 
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_create_side_bet")
 
@@ -75,6 +84,7 @@ class NFLcreateMLBet(Base):
     id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
     team = db.Column(db.String)
     ml = db.Column(db.Integer)
+    taken_by = db.Column(db.Integer) # other player id 
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_create_ml_bet")
    
