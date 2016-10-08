@@ -5,7 +5,7 @@ import hashlib
 from dateutil.parser import parse as parse_date
 from app import app, db
 from app.users.models import Users, Role, UserRoles, Profile
-from .models import NFLcreateBet, NFLtakeBet, NFLcreateOverUnderBet, NFLcreateSideBet, NFLcreateMLBet, Base
+from .models import NFLcreateOverUnderBet, NFLcreateSideBet, NFLcreateMLBet, Base
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
 from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash, abort

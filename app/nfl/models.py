@@ -55,18 +55,6 @@ class Base(db.Model):
     def amount_win(self):
         return round(float(self.amount) * .9,2)
 
-class NFLcreateBet(Base):
-    __tablename__ = "nfl_create_bet"
-
-    id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
-    over_under = db.Column(db.String, default=" ")
-    total = db.Column(db.Integer)
-    team = db.Column(db.String, default=" ")
-    ps = db.Column(db.Integer)
-    ml = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
-    users = db.relationship(Users, back_populates="nfl_create_bet")
-    nfl_take_bet = db.relationship("NFLtakeBet", uselist=False, back_populates="nfl_create_bet")
 
 class NFLcreateOverUnderBet(Base):
     __tablename__ = "nfl_create_ou_bet"
@@ -95,42 +83,6 @@ class NFLcreateMLBet(Base):
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_create_ml_bet")
    
-
-class NFLtakeBet(db.Model):
-    __tablename__ = 'nfl_take_bet'
-
-    id = db.Column(db.Integer, primary_key=True)
-
-    game_key = db.Column(db.Integer)
-    bet_key = db.Column(db.Integer, unique=True)
-    game_date = db.Column(db.DateTime)
-    vs = db.Column(db.String)
-    home_team = db.Column(db.String)
-    away_team = db.Column(db.String)
-    over_under = db.Column(db.String, default=" ")
-    total = db.Column(db.Integer)
-    team = db.Column(db.String, default=" ")
-    ps = db.Column(db.Integer)
-    ml = db.Column(db.Integer)
-    amount = db.Column(db.Integer)
-    bet_graded = db.Column(db.Boolean, default=False)
-    win = db.Column(db.Boolean)
-    lose = db.Column(db.Boolean)
-    # paid = db.Column(db.Boolean, default=False)
-    created = db.Column(db.DateTime,  default=datetime.datetime.now())
-    nfl_create_bet_id = db.Column(db.Integer, db.ForeignKey('nfl_create_bet.id'))
-    nfl_create_bet = db.relationship("NFLcreateBet", back_populates="nfl_take_bet")
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
-    users = db.relationship(Users, back_populates="nfl_take_bet")
-
-    def ps_format(self):
-        if self.ps == "": return ""
-        elif self.ps > 0: return "+" + str(self.ps)
-        else: return self.ps
-
-    def total_format(self):
-        return "" if self.total == None else self.total
-
 
 class NFLBetGraded(db.Model):
     __tablename__ = 'nfl_bet_graded'

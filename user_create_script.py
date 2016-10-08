@@ -4,17 +4,14 @@ from app.nfl.models import NFLcreateBet, NFLtakeBet, NFLBetGraded, NFLcreateOver
 from app.nfl_stats.models import NFLScore
 from app import app, db, user_datastore 
 from flask_security.utils import encrypt_password
-# bcrypt.generate_password_hash
+
 def create_users():
     with app.app_context():
         role1 = Role(id=1,name="admin", description="Admin of site")
         role2 = Role(id=2,name="users", description="basic user of site")
         role3 = Role(id=3,name="gold", description="More privileges then basic user")
-        db.session.add(role1)
-        db.session.add(role2)
-        db.session.add(role3)
+        db.session.add_all([role1,role2,role3])
         db.session.commit() 
-
         user1 = user_datastore.create_user(id=1,username="j3ff_", email="jeffreiher@gmail.com", password=encrypt_password("password"))
         user2 = user_datastore.create_user(id=2, username="nhilson", email="ken@gmail.com", password=encrypt_password("password"))
         user3 = user_datastore.create_user(id=3, username="Mike", email="mike@gmail.com", password=encrypt_password("password"))
@@ -42,81 +39,15 @@ def create_users():
         u10 = UserRoles(user_id=user5.id, role_id=role2.id)
         u11 = UserRoles(user_id=user5.id, role_id=role3.id)
         profile5 = Profile(id=5,avatar="https://scontent-mia1-1.xx.fbcdn.net/v/t1.0-1/p32x32/13342960_10209784965251295_4841832740377934677_n.jpg?oh=71ef1aaf572dce4ac995ff0b0b4ff3e5&oe=58785BBE",user_id=5, d_amount=100)
-
-        # db.session.add(user1)
-        db.session.add(u1)
-        db.session.add(u2)
-        db.session.add(u3)
-        db.session.add(profile1)
-
-        # db.session.add(user2)
-        db.session.add(u4)
-        db.session.add(u5)
-        db.session.add(profile2)
-
-        # db.session.add(user3)
-        db.session.add(u6)
-        db.session.add(u7)
-        db.session.add(profile3)
-
-        # db.session.add(user4)
-        db.session.add(u8)
-        db.session.add(u9)
-        db.session.add(profile4)
-
-        # db.session.add(user5)
-        db.session.add(u10)
-        db.session.add(u11)
-        db.session.add(profile5)
-        
+        db.session.add_all([u1,u2,u3,profile1,u4,u5,profile2,u6,u7,profile3,u8,u9,profile4,u10,u11,profile5])
         db.session.commit()
 
 def create_bet():
-    bet1 = NFLcreateBet(id=1, bet_key=1, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="o", vs="NYG vs @MIN", total=42.5, amount=20, user_id=1, taken_by=2, bet_taken=True)
-    profile1 = Profile.query.filter_by(user_id=1).one()
-    profile1.bets_created += 1
-    take1 = NFLtakeBet(id=1, bet_key=1, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="u", vs="NYG vs @MIN", total=42.5, amount=20, user_id=2, nfl_create_bet_id=1)
-    profile2 = Profile.query.filter_by(user_id=2).one()
-    profile2.bets_taken += 1
-    profile1.bets_taken += 1
-
-    bet2 = NFLcreateBet(id=2, bet_key=2, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=-3.5, team="MIN", amount=10, user_id=1, taken_by=2, bet_taken=True)
-    profile1.bets_created += 1
-   
-    take2 = NFLtakeBet(id=2, bet_key=2, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=10, user_id=2, nfl_create_bet_id=2)
-    profile2.bets_taken += 1
-    profile1.bets_taken += 1
-
-    db.session.add_all([bet1,take1,bet2,take2,profile1,profile2])
-    db.session.commit()
-
-def create_bet1():
-    bet1 = NFLcreateBet(id=3, bet_key=3, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="o", vs="NYG vs @MIN", total=42.5, amount=20, user_id=3, taken_by=4, bet_taken=True)
-    profile3 = Profile.query.filter_by(user_id=3).one()
-    profile3.bets_created += 1
-    take1 = NFLtakeBet(id=3, bet_key=3, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="u", vs="NYG vs @MIN", total=42.5, amount=20, user_id=4, nfl_create_bet_id=3)
-    profile4 = Profile.query.filter_by(user_id=4).one()
-    profile4.bets_taken += 1
-    profile3.bets_taken += 1
-
-    bet2 = NFLcreateBet(id=4, bet_key=4, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=-3.5, team="MIN", amount=10, user_id=3, taken_by=4, bet_taken=True)
-    profile3.bets_created += 1
-   
-    take2 = NFLtakeBet(id=4, bet_key=4, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=10, user_id=4, nfl_create_bet_id=4)
-    profile4.bets_taken += 1
-    profile3.bets_taken += 1
-
-    db.session.add_all([bet1,take1,bet2,take2,profile3,profile4])
-    db.session.commit()
-
-def create_bet2():
     bet1 = NFLcreateOverUnderBet(id=5, bet_key=5, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="o", vs="NYG vs @MIN", total=42.5, amount=20, user_id=3, bet_taken=False)
     bet2 = NFLcreateSideBet(id=6, bet_key=6, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=10, user_id=3, bet_taken=False)
     bet3 = NFLcreateMLBet(id=7,bet_key=7, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ml=125, team="NYG", amount=10, user_id=3, bet_taken=False)
     db.session.add_all([bet1,bet2,bet3])
     db.session.commit()
-
-
 
 if __name__ == "__main__":
     db.drop_all()
@@ -124,10 +55,7 @@ if __name__ == "__main__":
     db.create_all()
     create_users()
     print "users created"
-   
     create_bet()
-    create_bet2()
     print "bets created"
-    # graded_bets()
-    # print "graded bets table populated"
+    
     

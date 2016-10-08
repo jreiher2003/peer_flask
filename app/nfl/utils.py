@@ -4,7 +4,7 @@ import random
 from string import hexdigits
 from app import db
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
-from app.nfl.models import NFLcreateBet, NFLtakeBet
+
 
 def make_salt(length=10):
     return "".join(random.choice(hexdigits) for x in xrange(length))

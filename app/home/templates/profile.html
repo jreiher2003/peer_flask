@@ -25,8 +25,8 @@
             </div>
 
             <h4><u>Pending Bets</u></h4>
-            {% if pending_bets %}
-                {% for b in pending_bets %}
+           {% if tb %}
+                {% for b in tb %}
                     {% if b.user_id == current_user.id %}
                         <b>Game Key: </b>{{ b.game_key }}, 
                         <b>Bet Key: </b>{{ b.bet_key }},
@@ -34,27 +34,67 @@
                         {{ b.vs }}
                         <b>Bet Creator: </b> {{ b.users.username }},
                         {{ b.over_under }}{{ b.total_format() }}
-                        {{ b.ps_format() }},
-                        {{ b.team }}<br>
-                        <b>vs: </b>{{ b.taken_by }}{{ b.nfl_take_bet.users.username }}<br>
+                        <b>vs: </b>{{ b.taken_by }}<br>
                         <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win() }}<br><hr>
                     {% elif b.taken_by == current_user.id %}
-                        <b>Game Key: </b>{{ b.nfl_take_bet.game_key }}, 
-                        <b>Bet Key: </b>{{ b.nfl_take_bet.bet_key }},
-                        <b>Game Date: </b>{{ b.nfl_take_bet.game_date }},
+                        <b>Game Key: </b>{{ b.game_key }}, 
+                        <b>Bet Key: </b>{{ b.bet_key }},
+                        <b>Game Date: </b>{{ b.game_date }},
                         {{ b.vs }}, 
-                        <b>Bet Taker: </b>{{ b.nfl_take_bet.users.username }},
-                        {{ b.nfl_take_bet.over_under }}{{ b.nfl_take_bet.total_format() }}
-                        {{ b.nfl_take_bet.ps_format() }},
-                        {{ b.nfl_take_bet.team }}<br>
-                        <b>vs: </b>{{ b.users.username }}<br>
+                        <b>Bet Creator: </b>{{ b.users.username }},
+                        {{ b.over_under }}{{ b.total_format() }}
+                        <b>vs: </b>{{ b.taken_by }}<br>
                         <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win() }}<br><hr>
-
                     {% endif %}
                 {% endfor %}
-            {% else %}
-            <p>No pending bets at this time</p>
             {% endif %}
+            {% if sb %}
+                {% for b in sb %}
+                    {% if b.user_id == current_user.id %}
+                        <b>Game Key: </b>{{ b.game_key }}, 
+                        <b>Bet Key: </b>{{ b.bet_key }},
+                        <b>Game Date: </b>{{ b.game_date }}, 
+                        {{ b.vs }}
+                        <b>Bet Creator: </b> {{ b.users.username }},
+                        {{ b.team }}{{ b.ps_format() }},<br>
+                        <b>vs: </b>{{ b.taken_by }}<br>
+                        <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win() }}<br><hr>
+                    {% elif b.taken_by == current_user.id %}
+                        <b>Game Key: </b>{{ b.game_key }}, 
+                        <b>Bet Key: </b>{{ b.bet_key }},
+                        <b>Game Date: </b>{{ b.game_date }},
+                        {{ b.vs }}, 
+                        <b>Bet Creator: </b>{{ b.users.username }},
+                        {{ b.team }}{{ b.ps_format() }},<br>
+                        <b>vs: </b>{{ b.taken_by }}<br>
+                        <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win() }}<br><hr>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if ml %}
+                {% for b in ml %}
+                    {% if b.user_id == current_user.id %}
+                        <b>Game Key: </b>{{ b.game_key }}, 
+                        <b>Bet Key: </b>{{ b.bet_key }},
+                        <b>Game Date: </b>{{ b.game_date }}, 
+                        {{ b.vs }}
+                        <b>Bet Creator: </b> {{ b.users.username }},
+                        {{ b.team }}{{ b.ml }},<br>
+                        <b>vs: </b>{{ b.taken_by }}<br>
+                        <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win() }}<br><hr>
+                    {% elif b.taken_by == current_user.id %}
+                        <b>Game Key: </b>{{ b.game_key }}, 
+                        <b>Bet Key: </b>{{ b.bet_key }},
+                        <b>Game Date: </b>{{ b.game_date }},
+                        {{ b.vs }}, 
+                        <b>Bet Creator: </b>{{ b.users.username }},
+                        {{ b.team }}{{ b.ml }},<br>
+                        <b>vs: </b>{{ b.taken_by }}<br>
+                        <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win() }}<br><hr>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            
 
             <h4><u>Graded Bets</u></h4>
             {% if graded_bets %}

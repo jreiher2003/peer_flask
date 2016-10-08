@@ -5,8 +5,7 @@ from flask import request
 from flask_security import login_required, roles_required, current_user
 from app.users.models import Users, Profile 
 from app.nfl_stats.models import NFLTeam,NFLScore
-from app.nfl.models import NFLcreateBet,NFLBetGraded,NFLtakeBet
-
+from app.nfl.models import NFLBetGraded,NFLcreateOverUnderBet,NFLcreateSideBet,NFLcreateMLBet
 from flask import Blueprint, render_template
 
 home_blueprint = Blueprint("home", __name__, template_folder="templates")
@@ -26,7 +25,7 @@ def graded_bets():
 def grade_cb():
     graded_bets()
     graded1 = NFLBetGraded.query.all()
-    cb1 = NFLcreateBet.query.all()
+    # cb1 = NFLcreateBet.query.all()
     cb = [r for r in cb1]
     grd = [r for r in graded1]
     for g in grd:
@@ -57,7 +56,7 @@ def grade_cb():
 def grade_tb():
     graded_bets()
     graded1 = NFLBetGraded.query.all()
-    cb1 = NFLtakeBet.query.all()
+    # cb1 = NFLtakeBet.query.all()
     cb = [r for r in cb1]
     grd = [r for r in graded1]
     for g in grd:
@@ -88,10 +87,10 @@ def count_wins_losses():
     users1 = Users.query.all()
     users = [r for r in users1] # list of all users id
     for u in users:
-        count_wins_c = NFLcreateBet.query.filter_by(user_id=u.id,win=True).count()
-        count_losses_c = NFLcreateBet.query.filter_by(user_id=u.id,win=False).count()
-        count_wins_t = NFLtakeBet.query.filter_by(user_id=u.id,win=True).count()
-        count_losses_t = NFLtakeBet.query.filter_by(user_id=u.id,win=False).count()
+        # count_wins_c = NFLcreateBet.query.filter_by(user_id=u.id,win=True).count()
+        # count_losses_c = NFLcreateBet.query.filter_by(user_id=u.id,win=False).count()
+        # count_wins_t = NFLtakeBet.query.filter_by(user_id=u.id,win=True).count()
+        # count_losses_t = NFLtakeBet.query.filter_by(user_id=u.id,win=False).count()
         u.profile.wins = (count_wins_c + count_wins_t)
         u.profile.losses = (count_losses_c + count_losses_t)  
     db.session.add(u)
@@ -101,7 +100,7 @@ def pay_winners_from_losers():
     users1 = Users.query.all()
     users = list(users1) # list of all users id
     for u in users:
-        money1 = NFLcreateBet.query.filter_by(user_id=u.id,bet_taken=True,paid=False).all()
+        # money1 = NFLcreateBet.query.filter_by(user_id=u.id,bet_taken=True,paid=False).all()
         money = list(money1)
         if money:
             for m in money:
@@ -125,9 +124,6 @@ def pay_winners_from_losers():
         else:
             print "all bets are paid"
 
-    
-
-
 @home_blueprint.route("/", methods=["GET","POST"])
 def home():
     all_teams = all_nfl_teams()
@@ -137,15 +133,27 @@ def home():
 @login_required
 def profile():
     all_teams = all_nfl_teams()
-    grade_cb()
-    grade_tb()
-    count_wins_losses()
-    pay_winners_from_losers()
+    # grade_cb()
+    # grade_tb()
+    # count_wins_losses()
+    # pay_winners_from_losers()
     user = Users.query.filter_by(id=current_user.id).one()
-    pending_bets = NFLcreateBet.query.filter((NFLcreateBet.user_id==user.id) | (NFLcreateBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
-    graded_bets = NFLcreateBet.query.filter((NFLcreateBet.user_id==user.id) | (NFLcreateBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).all()
+   
+    tb = NFLcreateOverUnderBet.query.filter((NFLcreateOverUnderBet.user_id==user.id) | (NFLcreateOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True,bet_graded=False).all()
+    sb = NFLcreateSideBet.query.filter((NFLcreateSideBet.user_id==user.id) | (NFLcreateSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
+    ml = NFLcreateMLBet.query.filter((NFLcreateMLBet.user_id==user.id) | (NFLcreateMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
+
+    # graded_bets = NFLcreateBet.query.filter((NFLcreateBet.user_id==user.id) | (NFLcreateBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).all()
     
-    return render_template("profile.html", user=user, all_teams=all_teams, pending_bets=pending_bets, graded_bets=graded_bets)
+    return render_template(
+        "profile.html", 
+        all_teams=all_teams, 
+        user=user, 
+        tb=tb,
+        sb=sb,
+        ml=ml,
+        # graded_bets=graded_bets
+        )
 
 @home_blueprint.route("/admin/")
 @roles_required("admin")
