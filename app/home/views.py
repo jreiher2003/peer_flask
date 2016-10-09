@@ -196,6 +196,21 @@ def pay_winners_from_losers():
             db.session.add(ll)
             db.session.commit()
 
+def count_pending_bets():
+    user = Users.query.filter_by(id=current_user.id).one()
+    ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True,bet_graded=False).count()
+    sb = NFLSideBet.query.filter((NFLSideBet.user_id==user.id) | (NFLSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).count()
+    ml = NFLMLBet.query.filter((NFLMLBet.user_id==user.id) | (NFLMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).count()
+    return (ou+sb+ml)
+
+def count_graded_bets():
+    user = Users.query.filter_by(id=current_user.id).one()
+    graded_sb = NFLSideBet.query.filter((NFLSideBet.user_id==user.id) | (NFLSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).count()
+    graded_ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).count()
+    graded_ml = NFLMLBet.query.filter((NFLMLBet.user_id==user.id) | (NFLMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).count()
+    return (graded_sb+graded_ou+graded_ml)
+
+
 @home_blueprint.route("/", methods=["GET","POST"])
 def home():
     all_teams = all_nfl_teams()
@@ -210,6 +225,8 @@ def profile():
     grade_ml()
     update_users_wins_losses()
     pay_winners_from_losers()
+    num_pending = count_pending_bets()
+    num_graded = count_graded_bets()
     user = Users.query.filter_by(id=current_user.id).one()
     ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True,bet_graded=False).all()
     sb = NFLSideBet.query.filter((NFLSideBet.user_id==user.id) | (NFLSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
@@ -224,6 +241,8 @@ def profile():
         ou=ou,
         sb=sb,
         ml=ml,
+        num_pending=num_pending,
+        num_graded=num_graded,
         graded_sb=graded_sb,
         graded_ou=graded_ou,
         graded_ml=graded_ml
