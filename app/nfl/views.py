@@ -302,7 +302,7 @@ def nfl_bet(bet_key):
         return redirect(url_for("nfl.nfl_confirm_take_bet", bet_key=bet_key))
     return render_template("nfl_bet.html", all_teams=all_teams, nfl=nfl)
 
-@nfl_blueprint.route("/nfl/bet/confirm/<path:bet_key>/live/")
+@nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/confirm/")
 def nfl_confirm_take_bet(bet_key):
     try:
         live_bet = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
