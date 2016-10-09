@@ -1,6 +1,6 @@
 from dateutil.parser import parse as parse_date
 from app.users.models import Users, Role, UserRoles,Profile
-from app.nfl.models import NFLBetGraded, NFLcreateOverUnderBet, NFLcreateSideBet,NFLcreateMLBet
+from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet,NFLMLBet
 from app.nfl_stats.models import NFLScore
 from app import app, db, user_datastore 
 from flask_security.utils import encrypt_password
@@ -48,27 +48,27 @@ def create_bet():
     profile3 = Profile.query.filter_by(user_id=3).one()
     profile4 = Profile.query.filter_by(user_id=4).one()
     profile5 = Profile.query.filter_by(user_id=5).one()
-    bet1 = NFLcreateOverUnderBet(id=1, bet_key=1, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="u", vs="NYG vs @MIN", total=42.5, amount=20, user_id=1, bet_taken=True, taken_by=2)
+    bet1 = NFLOverUnderBet(id=1, bet_key=1, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="u", vs="NYG vs @MIN", total=42.5, amount=20, user_id=1, bet_taken=True, taken_by=2)
     profile1.bets_created += 1
     profile1.bets_taken += 1
     profile2.bets_taken += 1
-    bet2 = NFLcreateSideBet(id=2, bet_key=2, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=10, user_id=2, bet_taken=True, taken_by=3)
+    bet2 = NFLSideBet(id=2, bet_key=2, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=10, user_id=2, bet_taken=True, taken_by=3)
     profile2.bets_created += 1
     profile2.bets_taken += 1
     profile3.bets_taken += 1
-    # bet3 = NFLcreateMLBet(id=3,bet_key=3, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ml=125, team="MIN", amount=10, user_id=1, bet_taken=True, taken_by=2)
-    # profile1.bets_created += 1
-    # profile1.bets_taken += 1
-    # profile2.bets_taken += 1
-    bet4 = NFLcreateSideBet(id=4, bet_key=4, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=10, user_id=5, bet_taken=True, taken_by=1)
+    bet3 = NFLMLBet(id=3,bet_key=3, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ml=-125, team="MIN", amount=10, user_id=1, bet_taken=True, taken_by=2)
+    profile1.bets_created += 1
+    profile1.bets_taken += 1
+    profile2.bets_taken += 1
+    bet4 = NFLSideBet(id=4, bet_key=4, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=10, user_id=5, bet_taken=True, taken_by=1)
     profile5.bets_created += 1
     profile5.bets_taken += 1
     profile1.bets_taken += 1
-    bet5 = NFLcreateSideBet(id=5, bet_key=5, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="MIN", amount=10, user_id=3, bet_taken=True, taken_by=4)
+    bet5 = NFLSideBet(id=5, bet_key=5, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="MIN", amount=10, user_id=3, bet_taken=True, taken_by=4)
     profile3.bets_created += 1
     profile3.bets_taken += 1
     profile4.bets_taken += 1
-    db.session.add_all([bet1,bet2,bet4,bet5,profile1,profile2,profile3,profile4,profile5])
+    db.session.add_all([bet1,bet2,bet3,bet4,bet5,profile1,profile2,profile3,profile4,profile5])
     db.session.commit()
 
 if __name__ == "__main__":

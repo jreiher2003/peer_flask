@@ -9,10 +9,10 @@
                 <p class="text-center">{{ nfl.bet_key }}</p>
                 <p class="text-center">{{ nfl.vs }}</p>
                 {% if nfl.over_under %}
-                <p class="text-center"> {{ nfl.over_under }}{{ nfl.total_format() }} for ${{ nfl.amount }}</p>
+                <p class="text-center"> {{ nfl.over_under }}{{ nfl.total_format }} for ${{ nfl.amount }}</p>
                 {% endif %}
                 {% if nfl.ps %}
-                <p class="text-center"> {{ nfl.team }}{{ nfl.ps_format() }} for ${{ nfl.amount }}</p>
+                <p class="text-center"> {{ nfl.team }}{{ nfl.ps_format }} for ${{ nfl.amount }}</p>
                 {% endif %}
                 <p class="text-center">{{ nfl.game_date }} {{ nfl.game_date }}</p>
                 <form class="text-center" method="post" action="">

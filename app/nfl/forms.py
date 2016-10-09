@@ -7,8 +7,6 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange
 from app import db
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
 
-
-
 def validate_teamname(form, field):
     team = ['ARI', 'ATL', 'BAL', 'BUF', 'CAR', 'CHI', 'CIN', 'CLE', 'DAL', 'DEN', 'DET', 'GB', 'HOU', 'IND', 'JAX', 'KC', 'LA', 'MIA', 'MIN', 'NE', 'NO', 'NYG', 'NYJ', 'OAK', 'PHI', 'PIT', 'SD', 'SEA', 'SF', 'TB', 'TEN', 'WAS']
     if field.data not in team:

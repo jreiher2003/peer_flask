@@ -22,9 +22,9 @@ class Users(db.Model, UserMixin):
     profile = db.relationship('Profile', uselist=False)
     roles = db.relationship('Role', secondary='user_roles',
             backref=db.backref('users', lazy='dynamic'))
-    nfl_create_ou_bet = db.relationship("NFLcreateOverUnderBet")
-    nfl_create_side_bet = db.relationship("NFLcreateSideBet")
-    nfl_create_ml_bet = db.relationship("NFLcreateMLBet")
+    nfl_ou_bet = db.relationship("NFLOverUnderBet")
+    nfl_side_bet = db.relationship("NFLSideBet")
+    nfl_ml_bet = db.relationship("NFLMLBet")
 
    
     

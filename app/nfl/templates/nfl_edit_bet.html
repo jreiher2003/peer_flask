@@ -5,11 +5,11 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="thumbnail">
-                {% if nfl_ou.over_under %}
-                <p class="text-center"><img src="{{ nfl_ou.users.profile.avatar }}" width="40"/> {{ nfl_ou.users.username }}</p>
-                <h3 class="text-center">{{ nfl_ou.vs }}</h3>
-                <p class="text-center">{{ nfl_ou.game_date }} {{ nfl_ou.game_date }}</p>
-                <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl_ou.bet_key) }}" method="POST">
+                {% if nfl.over_under %}
+                <p class="text-center"><img src="{{ nfl.users.profile.avatar }}" width="40"/> {{ nfl.users.username }}</p>
+                <h3 class="text-center">{{ nfl.vs }}</h3>
+                <p class="text-center">{{ nfl.game_date }} {{ nfl.game_date }}</p>
+                <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl.bet_key) }}" method="POST">
                     {{ form.csrf_token }}
                     <div class="form-group">
                         {{ form.game_key }}
@@ -77,11 +77,11 @@
                     {{ form.submit_o(value="edit") }}
                 </form>
                 {% endif %}
-                {% if nfl_sb.ps and nfl_sb.team == nfl_sb.home_team %}
-                    <p class="text-center"><img src="{{ nfl_sb.users.profile.avatar }}" width="40"/> {{ nfl_sb.users.username }}</p>
-                    <h3 class="text-center">{{ nfl_sb.vs }}</h3>
-                    <p class="text-center">{{ nfl_sb.game_date }} {{ nfl_sb.game_date }}</p>
-                    <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl_sb.bet_key) }}" method="POST">
+                {% if nfl.ps and nfl.team == nfl.home_team %}
+                    <p class="text-center"><img src="{{ nfl.users.profile.avatar }}" width="40"/> {{ nfl.users.username }}</p>
+                    <h3 class="text-center">{{ nfl.vs }}</h3>
+                    <p class="text-center">{{ nfl.game_date }} {{ nfl.game_date }}</p>
+                    <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl.bet_key) }}" method="POST">
                         {{ form.csrf_token }}
                         <div class="form-group">
                             {{ form.game_key }}
@@ -126,7 +126,7 @@
                         </span>
                         <div class="form-group">
                              {{ form.point_spread.label }}
-                             {{ form.point_spread(class="form-control", type="number", min="-14", max="14", step="0.5", value=nfl_sb.ps) }}
+                             {{ form.point_spread(class="form-control", type="number", min="-14", max="14", step="0.5", value=nfl.ps) }}
                         </div>
                         <span class="error bg-danger">
                             {% if form.point_spread.errors %}
@@ -149,11 +149,11 @@
                         {{ form.submit_h(value="edit") }}
                     </form>
                 {% endif %}
-                {% if nfl_sb.ps and nfl_sb.team == nfl_sb.away_team %}
-                    <p class="text-center"><img src="{{ nfl_sb.users.profile.avatar }}" width="40"/> {{ nfl_sb.users.username }}</p>
-                    <h3 class="text-center">{{ nfl_sb.vs }}</h3>
-                    <p class="text-center">{{ nfl_sb.game_date }} {{ nfl_sb.game_date }}</p>
-                    <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl_sb.bet_key) }}" method="POST">
+                {% if nfl.ps and nfl.team == nfl.away_team %}
+                    <p class="text-center"><img src="{{ nfl.users.profile.avatar }}" width="40"/> {{ nfl.users.username }}</p>
+                    <h3 class="text-center">{{ nfl.vs }}</h3>
+                    <p class="text-center">{{ nfl.game_date }} {{ nfl.game_date }}</p>
+                    <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl.bet_key) }}" method="POST">
                      {{ form.csrf_token }}
                         <div class="form-group">
                             {{ form.game_key }}
@@ -198,7 +198,7 @@
                         </span>
                         <div class="form-group">
                          {{ form.point_spread.label }}
-                         {{ form.point_spread(id="away_ps",class="form-control", value=nfl_sb.ps, type="number", min="-14", max="14", step="0.5") }}    
+                         {{ form.point_spread(id="away_ps",class="form-control", value=nfl.ps, type="number", min="-14", max="14", step="0.5") }}    
                         </div>
                         <span class="error bg-danger">
                             {% if form.point_spread.errors %}

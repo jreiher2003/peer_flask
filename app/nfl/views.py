@@ -4,8 +4,9 @@ from datetime import date
 import hashlib
 from dateutil.parser import parse as parse_date
 from app import app, db
+from sqlalchemy import exc
 from app.users.models import Users, Role, UserRoles, Profile
-from .models import NFLcreateOverUnderBet, NFLcreateSideBet, NFLcreateMLBet, Base
+from .models import NFLOverUnderBet, NFLSideBet, NFLMLBet, Base
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
 from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash, abort
@@ -19,7 +20,8 @@ team_def_avg, today_date,today_and_now, make_salt, yesterday
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 
 def all_nfl_teams():
-    return NFLTeam.query.all()
+    teams = NFLTeam.query.all()
+    return list(teams)
 
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")
@@ -59,9 +61,9 @@ def nfl_stats(sid):
 def nfl_public_board():
     all_teams = all_nfl_teams()
     dt = datetime.datetime.now()
-    tb = NFLcreateOverUnderBet.query.filter_by(bet_taken=False).all()
-    sb = NFLcreateSideBet.query.filter_by(bet_taken=False).all()
-    ml = NFLcreateMLBet.query.filter_by(bet_taken=False).all()
+    tb = NFLOverUnderBet.query.filter_by(bet_taken=False).all()
+    sb = NFLSideBet.query.filter_by(bet_taken=False).all()
+    ml = NFLMLBet.query.filter_by(bet_taken=False).all()
     return render_template(
         "nfl_public_board.html", 
         all_teams=all_teams, 
@@ -93,7 +95,7 @@ def nfl_create_bet(game_key):
         bet_key= ""
         bet_key += hashlib.md5(game_key_form+home+away+total+over_under+amount+salt).hexdigest()
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_o = NFLcreateOverUnderBet(
+            bet_o = NFLOverUnderBet(
                 game_key=game_key_form, 
                 game_date=parse_date(nfl_game.Date), 
                 over_under=over_under,
@@ -125,7 +127,7 @@ def nfl_create_bet(game_key):
         bet_key = ""
         bet_key += hashlib.md5(game_key_form+home+away+awayteam+away_ps+amount+salt).hexdigest()
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_h = NFLcreateSideBet(
+            bet_h = NFLSideBet(
                 game_key=game_key_form,
                 game_date=parse_date(nfl_game.Date),
                 team=awayteam,
@@ -155,7 +157,7 @@ def nfl_create_bet(game_key):
         bet_key = ""
         bet_key += hashlib.md5(game_key_form+home+away+hometeam+home_ps+amount+salt).hexdigest()
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_h = NFLcreateSideBet(
+            bet_h = NFLSideBet(
                 game_key=game_key_form,
                 game_date=parse_date(nfl_game.Date),
                 home_team = home,
@@ -190,55 +192,64 @@ def nfl_create_bet(game_key):
 def nfl_confirm_bet(bet_key):
     all_teams = all_nfl_teams()
     try:
-        nfl_bet = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one()
-    except:
-        nfl_bet = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one()
+        nfl_bet = NFLSideBet.query.filter_by(bet_key=bet_key).one()
+    except exc.SQLAlchemyError:
+        print "No Side Bets"
+    try:
+        nfl_bet = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
+    except exc.SQLAlchemyError:
+        print "No Over Under bets"
 
     return render_template('nfl_confirm.html', nfl_bet=nfl_bet, all_teams=all_teams)
     
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/edit/", methods=["GET","POST"])
 def nfl_edit_bet(bet_key):
     all_teams = all_nfl_teams()
-    nfl_ou = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one_or_none()
-    if nfl_ou is not None:
-        a_team = nfl_ou.vs.split("vs")[0].strip()
-        h_team = nfl_ou.vs.split("@")[1].strip()
-        form = OverUnderForm(obj=nfl_ou)
-        if form.validate_on_submit():
-            nfl_ou.amount = form.amount.data
-            nfl_ou.over_under = form.over_under.data
-            nfl_ou.total =  form.total.data
-            db.session.add(nfl_ou)
-            db.session.commit()
-            flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl_ou.users.username,nfl_ou.vs,nfl_ou.bet_key),"info")
-            return redirect(url_for("nfl.nfl_public_board"))
-    nfl_sb = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one_or_none()
-    if nfl_sb is not None:
-        a_team = nfl_sb.vs.split("vs")[0].strip()
-        h_team = nfl_sb.vs.split("@")[1].strip()
-        if nfl_sb.ps and nfl_sb.team == nfl_sb.home_team:
-            form = HomeTeamForm(obj=nfl_sb)
+    try:
+        nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
+        if nfl is not None:
+            a_team = nfl.vs.split("vs")[0].strip()
+            h_team = nfl.vs.split("@")[1].strip()
+            form = OverUnderForm(obj=nfl)
             if form.validate_on_submit():
-                nfl_sb.amount = form.amount.data
-                nfl_sb.ps = form.point_spread.data
-                db.session.add(nfl_sb)
+                nfl.amount = form.amount.data
+                nfl.over_under = form.over_under.data
+                nfl.total =  form.total.data
+                db.session.add(nfl)
                 db.session.commit()
-                flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl_sb.users.username,nfl_sb.vs,nfl_sb.bet_key),"info")
+                flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl.users.username,nfl.vs,nfl.bet_key),"info")
                 return redirect(url_for("nfl.nfl_public_board"))
-        elif nfl_sb.ps and nfl_sb.team == nfl_sb.away_team:
-            form = AwayTeamForm(obj=nfl_sb)
-            if form.validate_on_submit():
-                nfl_sb.amount = form.amount.data
-                nfl_sb.ps = form.point_spread.data
-                db.session.add(nfl_sb)
-                db.session.commit()
-                flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl_sb.users.username,nfl_sb.vs,nfl_sb.bet_key),"info")
-                return redirect(url_for("nfl.nfl_public_board"))
+    except exc.SQLAlchemyError:
+        print "No over under bets"
+    try:
+        nfl = NFLSideBet.query.filter_by(bet_key=bet_key).one()
+        if nfl is not None:
+            a_team = nfl.vs.split("vs")[0].strip()
+            h_team = nfl.vs.split("@")[1].strip()
+            if nfl.ps and nfl.team == nfl.home_team:
+                form = HomeTeamForm(obj=nfl)
+                if form.validate_on_submit():
+                    nfl.amount = form.amount.data
+                    nfl.ps = form.point_spread.data
+                    db.session.add(nfl)
+                    db.session.commit()
+                    flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl.users.username,nfl.vs,nfl.bet_key),"info")
+                    return redirect(url_for("nfl.nfl_public_board"))
+            elif nfl.ps and nfl.team == nfl.away_team:
+                form = AwayTeamForm(obj=nfl)
+                if form.validate_on_submit():
+                    nfl.amount = form.amount.data
+                    nfl.ps = form.point_spread.data
+                    db.session.add(nfl)
+                    db.session.commit()
+                    flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl.users.username,nfl.vs,nfl.bet_key),"info")
+                    return redirect(url_for("nfl.nfl_public_board"))
+    except exc.SQLAlchemyError:
+        print "No side bets"
     return render_template(
         "nfl_edit_bet.html", 
         all_teams=all_teams,
-        nfl_ou=nfl_ou,
-        nfl_sb=nfl_sb,
+        nfl=nfl,
         h_team=h_team,
         a_team=a_team,
         form = form,
@@ -250,9 +261,13 @@ def nfl_edit_bet(bet_key):
 def nfl_delete_bet(bet_key):
     all_teams = all_nfl_teams()
     try:
-        nfl = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one()
-    except:
-        nfl = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one()
+        nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one_or_none()
+    except exc.SQLAlchemyError:
+        print "No Over Under Bets"
+    try:
+        nfl = NFLSideBet.query.filter_by(bet_key=bet_key).one()
+    except exc.SQLAlchemyError:
+        print "No Side Bets"
     form = OverUnderForm()
     if nfl is not None:
         if request.method == "POST":
@@ -266,11 +281,15 @@ def nfl_delete_bet(bet_key):
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/", methods=["GET","POST"])
 def nfl_bet(bet_key):
     all_teams = all_nfl_teams()
-    profile_taker = Profile.query.filter_by(user_id=current_user.id).one()
     try:
-        nfl = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one()
-    except:
-        nfl = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one()
+        nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
+    except exc.SQLAlchemyError:
+        print "No OverUnder bets"
+    try:
+        nfl = NFLSideBet.query.filter_by(bet_key=bet_key).one()
+    except exc.SQLAlchemyError:
+        print "No side bets"
+    profile_taker = Profile.query.filter_by(user_id=current_user.id).one()
     profile_bet_creator = Profile.query.filter_by(user_id=nfl.users.id).one() 
     if request.method == "POST":
         nfl.bet_taken = True
@@ -286,9 +305,13 @@ def nfl_bet(bet_key):
 @nfl_blueprint.route("/nfl/bet/confirm/<path:bet_key>/live/")
 def nfl_confirm_take_bet(bet_key):
     try:
-        live_bet = NFLcreateOverUnderBet.query.filter_by(bet_key=bet_key).one()
-    except:
-        live_bet = NFLcreateSideBet.query.filter_by(bet_key=bet_key).one()
+        live_bet = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
+    except exc.SQLAlchemyError:
+        print "No OverUnder Bets"
+    try:
+        live_bet = NFLSideBet.query.filter_by(bet_key=bet_key).one()
+    except exc.SQLAlchemyError:
+        print "No Side Bets"
     return render_template("nfl_confirm_take_bet.html", live_bet=live_bet)
 
 

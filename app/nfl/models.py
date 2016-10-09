@@ -62,35 +62,42 @@ class Base(db.Model):
     def amount_win(self):
         return round(float(self.amount) * .9,2)
 
-class NFLcreateOverUnderBet(Base):
-    __tablename__ = "nfl_create_ou_bet"
+    @property 
+    def ml_win(self):
+        if self.ml > 0:
+            return self.amount * self.ml / 100.0
+        elif self.ml < 0:
+            return (self.amount / ((self.ml*-1) / 100.0))
+
+class NFLOverUnderBet(Base):
+    __tablename__ = "nfl_ou_bet"
 
     id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
     over_under = db.Column(db.String)
     total = db.Column(db.Integer)
     taken_by = db.Column(db.Integer) # other player id 
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
-    users = db.relationship(Users, back_populates="nfl_create_ou_bet")
+    users = db.relationship(Users, back_populates="nfl_ou_bet")
 
-class NFLcreateSideBet(Base):
-    __tablename__ = "nfl_create_side_bet"
+class NFLSideBet(Base):
+    __tablename__ = "nfl_side_bet"
 
     id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
     team = db.Column(db.String)
     ps = db.Column(db.Integer)
     taken_by = db.Column(db.Integer) # other player id 
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
-    users = db.relationship(Users, back_populates="nfl_create_side_bet")
+    users = db.relationship(Users, back_populates="nfl_side_bet")
 
-class NFLcreateMLBet(Base):
-    __tablename__ = "nfl_create_ml_bet"
+class NFLMLBet(Base):
+    __tablename__ = "nfl_ml_bet"
 
     id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
     team = db.Column(db.String)
     ml = db.Column(db.Integer)
     taken_by = db.Column(db.Integer) # other player id 
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
-    users = db.relationship(Users, back_populates="nfl_create_ml_bet")
+    users = db.relationship(Users, back_populates="nfl_ml_bet")
    
 class NFLBetGraded(db.Model):
     __tablename__ = 'nfl_bet_graded'
