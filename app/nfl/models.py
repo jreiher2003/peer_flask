@@ -54,6 +54,10 @@ class Base(db.Model):
         elif self.over_under == "u": return "o"
         else: return "u"
 
+    @property 
+    def opposite_ml(self):
+        return "write class method"
+
     @property    
     def amount_win(self):
         return round(float(self.amount) * .9,2)

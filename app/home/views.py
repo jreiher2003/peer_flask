@@ -4,8 +4,8 @@ from app import app, db
 from flask import request
 from flask_security import login_required, roles_required, current_user
 from app.users.models import Users, Profile 
-from app.nfl_stats.models import NFLTeam,NFLScore
-from app.nfl.models import NFLBetGraded,NFLcreateOverUnderBet,NFLcreateSideBet,NFLcreateMLBet
+from app.nfl_stats.models import NFLTeam, NFLScore
+from app.nfl.models import NFLBetGraded, NFLcreateOverUnderBet, NFLcreateSideBet, NFLcreateMLBet
 from flask import Blueprint, render_template
 
 home_blueprint = Blueprint("home", __name__, template_folder="templates")
@@ -190,20 +190,22 @@ def profile():
     update_users_wins_losses()
     pay_winners_from_losers()
     user = Users.query.filter_by(id=current_user.id).one()
-    tb = NFLcreateOverUnderBet.query.filter((NFLcreateOverUnderBet.user_id==user.id) | (NFLcreateOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True,bet_graded=False).all()
+    ou = NFLcreateOverUnderBet.query.filter((NFLcreateOverUnderBet.user_id==user.id) | (NFLcreateOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True,bet_graded=False).all()
     sb = NFLcreateSideBet.query.filter((NFLcreateSideBet.user_id==user.id) | (NFLcreateSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
     ml = NFLcreateMLBet.query.filter((NFLcreateMLBet.user_id==user.id) | (NFLcreateMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
     graded_sb = NFLcreateSideBet.query.filter((NFLcreateSideBet.user_id==user.id) | (NFLcreateSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).all()
     graded_ou = NFLcreateOverUnderBet.query.filter((NFLcreateOverUnderBet.user_id==user.id) | (NFLcreateOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).all()
+    graded_ml = NFLcreateMLBet.query.filter((NFLcreateMLBet.user_id==user.id) | (NFLcreateMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).all()
     return render_template(
         "profile.html", 
         all_teams=all_teams, 
         user=user, 
-        tb=tb,
+        ou=ou,
         sb=sb,
         ml=ml,
         graded_sb=graded_sb,
-        graded_ou=graded_ou
+        graded_ou=graded_ou,
+        graded_ml=graded_ml
         )
 
 @home_blueprint.route("/admin/")
