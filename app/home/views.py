@@ -1,6 +1,6 @@
 import json
 from dateutil.parser import parse as parse_date
-from app import app, db 
+from app import app, db, cache 
 from flask import request
 from flask_security import login_required, roles_required, current_user
 from app.users.models import Users, Profile 
@@ -10,8 +10,14 @@ from flask import Blueprint, render_template
 
 home_blueprint = Blueprint("home", __name__, template_folder="templates")
 
-def all_nfl_teams():
-    return NFLTeam.query.all()
+def all_nfl_teams(update=False):
+    key = "teams"
+    all_teams = cache.get(key)
+    if all_teams in None or update:
+        all_teams = NFLTeam.query.all()
+        all_teams = list(all_teams)
+        cache.st(key, all_teams)
+    return all_teams 
 
 def graded_bets():
     NFLBetGraded.__table__.drop(db.engine)

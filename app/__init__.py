@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_mail import Mail
 from flask_script import Manager 
+from flask_cache import Cache 
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, SQLAlchemyUserDatastore
 
@@ -9,6 +10,7 @@ app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS']) 
 mail = Mail(app)  # Initialize Flask-Mail
 db = SQLAlchemy(app) # Initialize Flask-SQLAlchemy
+cache = Cache(app)
 manager = Manager(app) 
 
 from app.users.views import users_blueprint
