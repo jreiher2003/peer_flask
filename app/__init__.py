@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_mail import Mail
 from flask_script import Manager 
-from flask_cache import Cache 
+from flask_caching import Cache 
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, SQLAlchemyUserDatastore
 

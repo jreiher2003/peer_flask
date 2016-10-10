@@ -3,7 +3,7 @@ import datetime
 from datetime import date
 import hashlib
 from dateutil.parser import parse as parse_date
-from app import app, db
+from app import app, db, cache
 from sqlalchemy import exc
 from app.users.models import Users, Role, UserRoles, Profile
 from .models import NFLOverUnderBet, NFLSideBet, NFLMLBet, Base
@@ -19,9 +19,14 @@ team_def_avg, today_date,today_and_now, make_salt, yesterday
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 
-def all_nfl_teams():
-    teams = NFLTeam.query.all()
-    return list(teams)
+def all_nfl_teams(update=False):
+    key = "teams"
+    all_teams = cache.get(key)
+    if all_teams is None or update:
+        all_teams = NFLTeam.query.all()
+        all_teams = list(all_teams)
+        cache.set(key, all_teams)
+    return all_teams 
 
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")

@@ -13,13 +13,24 @@ home_blueprint = Blueprint("home", __name__, template_folder="templates")
 def all_nfl_teams(update=False):
     key = "teams"
     all_teams = cache.get(key)
-    if all_teams in None or update:
+    if all_teams is None or update:
         all_teams = NFLTeam.query.all()
         all_teams = list(all_teams)
-        cache.st(key, all_teams)
+        cache.set(key, all_teams)
     return all_teams 
 
+def grade_query(update=False):
+    key = "grade"
+    all_grades = cache.get(key)
+    if all_grades is None or update:
+        all_grades = NFLBetGraded.query.all()
+        all_grades = list(all_grades)
+        cache.set(key, all_grades)
+    return all_grades 
+
 def graded_bets():
+    """ this function populates NFLBetGraded db with latest score data that is available. Tell which team or side covered, which total over or under coverd and which team won the money line bets for each game played. 
+     """
     NFLBetGraded.__table__.drop(db.engine)
     NFLBetGraded.__table__.create(db.engine)
     score1 = db.session.query(NFLScore).filter_by(SeasonType=1).all()
@@ -30,11 +41,12 @@ def graded_bets():
         db.session.commit()
 
 def grade_tb():
-    graded_bets()
-    graded1 = NFLBetGraded.query.all()
-    cb1 = NFLOverUnderBet.query.filter_by(bet_taken=True).all()
+    """ this function updates all NFLOverUnderBet table with correct wins and lose booleans
+    Also marks bet graded.  grade_query is a cache of NFLBetGraded table.  
+    """ 
+    cb1 = NFLOverUnderBet.query.filter_by(bet_taken=True,bet_graded=False).all()
     cb = list(cb1)
-    grd = list(graded1)
+    grd = grade_query()
     if cb:
         for g in grd:
             for c in cb:
@@ -53,11 +65,12 @@ def grade_tb():
         return None
 
 def grade_sb():
-    graded_bets()
-    graded1 = NFLBetGraded.query.all()
-    cb1 = NFLSideBet.query.filter_by(bet_taken=True).all()
+    """ this function updates all NFLSideBet table with correct wins and lose booleans
+    Also marks bet graded.  grade_query is a cache of NFLBetGraded table. 
+    """ 
+    cb1 = NFLSideBet.query.filter_by(bet_taken=True,bet_graded=False).all()
     cb = list(cb1)
-    grd = list(graded1)
+    grd = grade_query()
     if cb:
         for g in grd:
             for c in cb:
@@ -76,11 +89,12 @@ def grade_sb():
         return None
 
 def grade_ml():
-    graded_bets()
-    graded1 = NFLBetGraded.query.all()
-    cb1 = NFLMLBet.query.filter_by(bet_taken=True).all()
+    """ this function updates all NFLMLBet table with correct wins and lose booleans
+    Also marks bet graded   grade_query is a cache of NFLBetGraded table.
+    """ 
+    cb1 = NFLMLBet.query.filter_by(bet_taken=True,bet_graded=False).all()
     cb = list(cb1)
-    grd = list(graded1)
+    grd = grade_query()
     if cb:
         for g in grd:
             for c in cb:
@@ -102,18 +116,18 @@ def count_wins_losses_user_id(id, ct):
     """
     counts total wins or losses for user_id. ct=True is for wins. ct=False is for losses.  ct=True,win==win, ct=False,win==loss
     """
-    ml = NFLMLBet.query.filter_by(user_id=id,win=ct,bet_taken=True).count()
-    tb = NFLOverUnderBet.query.filter_by(user_id=id,win=ct,bet_taken=True).count()
-    sb = NFLSideBet.query.filter_by(user_id=id,win=ct,bet_taken=True).count()
+    ml = NFLMLBet.query.filter_by(user_id=id, win=ct, bet_taken=True, bet_graded=True).count()
+    tb = NFLOverUnderBet.query.filter_by(user_id=id, win=ct, bet_taken=True, bet_graded=True).count()
+    sb = NFLSideBet.query.filter_by(user_id=id,win=ct, bet_taken=True, bet_graded=True).count()
     return (ml+tb+sb)
 
 def count_wins_losses_taken_by(id, ct):
     """
     counts total wins or losses for taken_by. ct=False is for wins. ct=True is for losses.  ct=False,win==win, ct=True,win==loss
     """
-    ml = NFLMLBet.query.filter_by(taken_by=id,win=ct,bet_taken=True).count()
-    tb = NFLOverUnderBet.query.filter_by(taken_by=id,win=ct,bet_taken=True).count()
-    sb = NFLSideBet.query.filter_by(taken_by=id,win=ct,bet_taken=True).count()
+    ml = NFLMLBet.query.filter_by(taken_by=id, win=ct, bet_taken=True, bet_graded=True).count()
+    tb = NFLOverUnderBet.query.filter_by(taken_by=id, win=ct, bet_taken=True, bet_graded=True).count()
+    sb = NFLSideBet.query.filter_by(taken_by=id, win=ct, bet_taken=True, bet_graded=True).count()
     return (ml+tb+sb)
 
 def update_profile_w(uid):
@@ -141,11 +155,11 @@ def pay_winners_from_losers():
     users1 = Users.query.all()
     users = list(users1) # list of all users id
     for u in users:
-        sb1 = NFLSideBet.query.filter_by(user_id=u.id,bet_taken=True,paid=False).all()
+        sb1 = NFLSideBet.query.filter_by(user_id=u.id, bet_taken=True, bet_graded=True, paid=False).all()
         sb = list(sb1)
-        ou1 = NFLOverUnderBet.query.filter_by(user_id=u.id,bet_taken=True,paid=False).all()
+        ou1 = NFLOverUnderBet.query.filter_by(user_id=u.id, bet_taken=True, bet_graded=True, paid=False).all()
         ou = list(ou1)
-        ml1 = NFLMLBet.query.filter_by(user_id=u.id,bet_taken=True,paid=False).all()
+        ml1 = NFLMLBet.query.filter_by(user_id=u.id, bet_taken=True, bet_graded=True, paid=False).all()
         ml = list(ml1)
         if sb:
             for ss in sb:
@@ -204,16 +218,16 @@ def pay_winners_from_losers():
 
 def count_pending_bets():
     user = Users.query.filter_by(id=current_user.id).one()
-    ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True,bet_graded=False).count()
+    ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).count()
     sb = NFLSideBet.query.filter((NFLSideBet.user_id==user.id) | (NFLSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).count()
     ml = NFLMLBet.query.filter((NFLMLBet.user_id==user.id) | (NFLMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).count()
     return (ou+sb+ml)
 
 def count_graded_bets():
     user = Users.query.filter_by(id=current_user.id).one()
-    graded_sb = NFLSideBet.query.filter((NFLSideBet.user_id==user.id) | (NFLSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).count()
-    graded_ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).count()
-    graded_ml = NFLMLBet.query.filter((NFLMLBet.user_id==user.id) | (NFLMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).count()
+    graded_sb = NFLSideBet.query.filter((NFLSideBet.user_id==user.id) | (NFLSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True, paid=True).count()
+    graded_ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True, paid=True).count()
+    graded_ml = NFLMLBet.query.filter((NFLMLBet.user_id==user.id) | (NFLMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True, paid=True).count()
     return (graded_sb+graded_ou+graded_ml)
 
 
@@ -226,6 +240,7 @@ def home():
 @login_required
 def profile():
     all_teams = all_nfl_teams()
+    graded_bets()
     grade_sb()
     grade_tb()
     grade_ml()
@@ -234,12 +249,12 @@ def profile():
     num_pending = count_pending_bets()
     num_graded = count_graded_bets()
     user = Users.query.filter_by(id=current_user.id).one()
-    ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True,bet_graded=False).all()
-    sb = NFLSideBet.query.filter((NFLSideBet.user_id==user.id) | (NFLSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
-    ml = NFLMLBet.query.filter((NFLMLBet.user_id==user.id) | (NFLMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
-    graded_sb = NFLSideBet.query.filter((NFLSideBet.user_id==user.id) | (NFLSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).all()
-    graded_ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).all()
-    graded_ml = NFLMLBet.query.filter((NFLMLBet.user_id==user.id) | (NFLMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True,paid=True).all()
+    ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).order_by("game_date desc").all()
+    sb = NFLSideBet.query.filter((NFLSideBet.user_id==user.id) | (NFLSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).order_by("game_date desc").all()
+    ml = NFLMLBet.query.filter((NFLMLBet.user_id==user.id) | (NFLMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).order_by("game_date desc").all()
+    graded_sb = NFLSideBet.query.filter((NFLSideBet.user_id==user.id) | (NFLSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True, paid=True).order_by("game_key desc").all()
+    graded_ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True, paid=True).order_by("game_key desc").all()
+    graded_ml = NFLMLBet.query.filter((NFLMLBet.user_id==user.id) | (NFLMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=True, paid=True).order_by("game_key desc").all()
     return render_template(
         "profile.html", 
         all_teams=all_teams, 
