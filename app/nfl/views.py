@@ -274,12 +274,14 @@ def nfl_delete_bet(bet_key):
     except exc.SQLAlchemyError:
         print "No Side Bets"
     form = OverUnderForm()
-    profile = Profile.query.filter_by(user_id=nfl.user_id)
+    profile = Profile.query.filter_by(user_id=nfl.user_id).one()
+    admin = Profile.query.filter_by(user_id=1).one()
     if nfl is not None:
         if request.method == "POST":
             profile.bets_created -= 1
+            admin.bets_created -= 1
             db.session.delete(nfl)
-            db.session.add(profile)
+            db.session.add_all([admin,profile])
             db.session.commit()
             flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl.users.username,nfl.vs,nfl.amount), "danger")
             return redirect(url_for("nfl.nfl_public_board"))
