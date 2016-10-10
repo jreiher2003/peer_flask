@@ -10,6 +10,10 @@ from flask import Blueprint, render_template
 
 home_blueprint = Blueprint("home", __name__, template_folder="templates")
 
+@cache.cached(timeout=30, key_prefix="all_users")
+def get_all_users():
+    return Users.query.all()
+
 def all_nfl_teams(update=False):
     key = "teams"
     all_teams = cache.get(key)
@@ -19,7 +23,7 @@ def all_nfl_teams(update=False):
         cache.set(key, all_teams)
     return all_teams 
 
-def grade_query(update=False):
+def grade_query(update=True):
     key = "grade"
     all_grades = cache.get(key)
     if all_grades is None or update:
@@ -28,17 +32,17 @@ def grade_query(update=False):
         cache.set(key, all_grades)
     return all_grades 
 
-def graded_bets():
-    """ this function populates NFLBetGraded db with latest score data that is available. Tell which team or side covered, which total over or under coverd and which team won the money line bets for each game played. 
-     """
-    NFLBetGraded.__table__.drop(db.engine)
-    NFLBetGraded.__table__.create(db.engine)
-    score1 = db.session.query(NFLScore).filter_by(SeasonType=1).all()
-    score = list(score1)
-    for x in score:
-        grade = NFLBetGraded(game_key=x.GameKey,week = x.Week,game_date=parse_date(x.Date),home_team=x.HomeTeam,home_score=x.HomeScore,away_team=x.AwayTeam,away_score=x.AwayScore,total_score=(x.AwayScore+x.HomeScore),over_under=x.OverUnder,ps=x.PointSpread,cover_total=x.cover_total(),cover_side=x.cover_line(),cover_ml=x.cover_ml())
-        db.session.add(grade)
-        db.session.commit()
+# def graded_bets():
+#     """ this function populates NFLBetGraded db with latest score data that is available. Tell which team or side covered, which total over or under coverd and which team won the money line bets for each game played. 
+#      """
+#     NFLBetGraded.__table__.drop(db.engine)
+#     NFLBetGraded.__table__.create(db.engine)
+#     score1 = db.session.query(NFLScore).filter_by(SeasonType=1).all()
+#     score = list(score1)
+#     for x in score:
+#         grade = NFLBetGraded(game_key=x.GameKey,week = x.Week,game_date=parse_date(x.Date),home_team=x.HomeTeam,home_score=x.HomeScore,away_team=x.AwayTeam,away_score=x.AwayScore,total_score=(x.AwayScore+x.HomeScore),over_under=x.OverUnder,ps=x.PointSpread,cover_total=x.cover_total(),cover_side=x.cover_line(),cover_ml=x.cover_ml())
+#         db.session.add(grade)
+#         db.session.commit()
 
 def grade_tb():
     """ this function updates all NFLOverUnderBet table with correct wins and lose booleans
@@ -145,22 +149,16 @@ def update_profile_l(uid):
     db.session.commit()
 
 def update_users_wins_losses():
-    users1 = Users.query.all()
-    users = list(users1)
+    users = get_all_users()
     for u in users:
         update_profile_w(u.id)
         update_profile_l(u.id)  
 
-def pay_winners_from_losers():
-    users1 = Users.query.all()
-    users = list(users1) # list of all users id
+def pay_winners_from_losers_sb():
+    users = get_all_users() # list of all users id
     for u in users:
         sb1 = NFLSideBet.query.filter_by(user_id=u.id, bet_taken=True, bet_graded=True, paid=False).all()
         sb = list(sb1)
-        ou1 = NFLOverUnderBet.query.filter_by(user_id=u.id, bet_taken=True, bet_graded=True, paid=False).all()
-        ou = list(ou1)
-        ml1 = NFLMLBet.query.filter_by(user_id=u.id, bet_taken=True, bet_graded=True, paid=False).all()
-        ml = list(ml1)
         if sb:
             for ss in sb:
                 c_profile = Profile.query.filter_by(user_id=ss.user_id).one()
@@ -175,10 +173,16 @@ def pay_winners_from_losers():
                     t_profile.d_amount += ss.amount_win
                     c_profile.d_amount -= ss.amount 
                     ss.paid = True 
-                db.session.add(c_profile)
-                db.session.add(t_profile)
-            db.session.add(ss)
+            db.session.add_all([c_profile,t_profile,ss])
+            # db.session.add()
             db.session.commit()
+
+
+def pay_winners_from_losers_ou():
+    users = get_all_users()
+    for u in users:
+        ou1 = NFLOverUnderBet.query.filter_by(user_id=u.id, bet_taken=True, bet_graded=True, paid=False).all()
+        ou = list(ou1)
         if ou:
             for oo in ou:
                 c_profile = Profile.query.filter_by(user_id=oo.user_id).one()
@@ -193,10 +197,16 @@ def pay_winners_from_losers():
                     t_profile.d_amount += oo.amount_win
                     c_profile.d_amount -= oo.amount 
                     oo.paid = True 
-                db.session.add(c_profile)
-                db.session.add(t_profile)
-            db.session.add(oo)
+            db.session.add_all([c_profile,t_profile,oo])
+            #     db.session.add(t_profile)
+            # db.session.add(oo)
             db.session.commit()
+
+def pay_winners_from_losers_ml():
+    users = get_all_users()
+    for u in users:
+        ml1 = NFLMLBet.query.filter_by(user_id=u.id, bet_taken=True, bet_graded=True, paid=False).all()
+        ml = list(ml1)
         if ml:
             for ll in ml:
                 c_profile = Profile.query.filter_by(user_id=ll.user_id).one()
@@ -211,10 +221,15 @@ def pay_winners_from_losers():
                     t_profile.d_amount += ll.amount_win
                     c_profile.d_amount -= ll.amount 
                     ll.paid = True 
-                db.session.add(c_profile)
-                db.session.add(t_profile)
-            db.session.add(ll)
+            db.session.add([c_profile,t_profile,ll])
+            #     db.session.add(t_profile)
+            # db.session.add(ll)
             db.session.commit()
+
+def pay_everyone():
+    pay_winners_from_losers_ou()
+    pay_winners_from_losers_sb()
+    pay_winners_from_losers_ml()
 
 def count_pending_bets():
     user = Users.query.filter_by(id=current_user.id).one()
@@ -245,7 +260,7 @@ def profile():
     grade_tb()
     grade_ml()
     update_users_wins_losses()
-    pay_winners_from_losers()
+    pay_everyone()
     num_pending = count_pending_bets()
     num_graded = count_graded_bets()
     user = Users.query.filter_by(id=current_user.id).one()

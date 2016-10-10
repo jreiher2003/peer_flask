@@ -128,15 +128,18 @@ def populate_teamseason():
         c.execute("""insert into teamseason (OpponentPuntReturnLong,RushingTouchdowns,OpponentSafeties,OpponentQuarterbackHitsDifferential,FieldGoalPercentage,WindSpeed,ExtraPointRushingConversions,OpponentPuntYards,FumblesLost,OpponentExtraPointsHadBlocked,PuntNetAverage,ExtraPointKickingConversions,PointDifferential,OpponentPassingYardsPerCompletion,PassingInterceptions,OpponentPuntReturns,PassingYards,OpponentGoalToGoConversions,OpponentFourthDownConversions,OpponentPassingInterceptionPercentage,GoalToGoPercentage,BlockedKicks,ReturnYards,OpponentKickReturnLong,OpponentFieldGoalsHadBlocked,OpponentSackYards,CompletionPercentage,Fumbles,ThirdDownAttempts,OpponentPunts,RedZoneConversions,OpponentKickReturnYards,PassesDefended,OpponentTimesSacked,TeamName,OpponentThirdDownPercentage,Penalties,OpponentFieldGoalAttempts,Safeties,OpponentRedZoneConversions,OpponentBlockedKickReturnYards,OpponentPenaltyYards,OpponentThirdDownAttempts,OpponentBlockedKickReturnTouchdowns,Touchdowns,TimesSackedPercentage,FirstDowns,Kickoffs,OpponentTurnoverDifferential,InterceptionReturns,TimesSacked,ExtraPointPassingConversions,PenaltyYards,QuarterbackHitsDifferential,PassingInterceptionPercentage,ScoreQuarter4,ScoreQuarter3,ScoreQuarter2,OpponentRushingTouchdowns,OpponentPassingInterceptions,OpponentGoalToGoAttempts,OpponentFourthDownAttempts,RedZonePercentage,RushingAttempts,Season,PuntReturns,FieldGoalReturnYards,OpponentReturnYards,GoalToGoConversions,OpponentFirstDownsByRushing,Punts,FumbleReturnTouchdowns,TotalScore,OpponentPassingAttempts,TurnoverDifferential,PuntReturnTouchdowns,OpponentFumblesLost,OpponentExtraPointKickingAttempts,PuntYards,OpponentTacklesForLossPercentage,Team,KickReturnYards,ExtraPointsHadBlocked,FumblesRecovered,TacklesForLoss,OpponentTimesSackedYards,OpponentAssistedTackles,OpponentFourthDownPercentage,OpponentSoloTackles,BlockedKickReturnTouchdowns,ExtraPointPercentage,ExtraPointKickingAttempts,OpponentQuarterbackSacksDifferential,FieldGoalsHadBlocked,OpponentFieldGoalReturnTouchdowns,FieldGoalReturnTouchdowns,PassingYardsPerAttempt,OpponentKickReturnTouchdowns,OpponentExtraPointRushingAttempts,OpponentExtraPointKickingConversions,KickReturnYardDifferential,KickReturnLong,KickReturnAverage,Temperature,PassingYardsPerCompletion,OpponentTimesSackedPercentage,OpponentPuntAverage,RushingYardsPerAttempt,QuarterbackHits,OverUnder,PassingDropbacks,KickReturns,OpponentQuarterbackHits,OpponentFirstDownsByPenalty,OpponentExtraPointPercentage,PuntsHadBlocked,OpponentCompletionPercentage,OpponentRushingAttempts,SeasonType,TwoPointConversionReturns,OpponentInterceptionReturnTouchdowns,OffensiveYards,PuntAverage,RushingYards,ExtraPointPassingAttempts,PuntNetYards,PassingCompletions,OpponentFumbles,TacklesForLossDifferential,KickReturnTouchdowns,OpponentPuntReturnAverage,PuntReturnAverage,TacklesForLossPercentage,FourthDownConversions,OpponentRedZoneAttempts,OpponentBlockedKicks,OpponentQuarterbackHitsPercentage,OpponentKickReturns,TeamSeasonID,OpponentPassingDropbacks,OpponentKickoffTouchbacks,OpponentGoalToGoPercentage,OpponentFumblesForced,PuntReturnLong,OpponentRushingYards,OpponentKickoffs,OpponentTouchdowns,OpponentTakeaways,FirstDownsByRushing,OpponentThirdDownConversions,OpponentInterceptionReturnYards,OpponentRushingYardsPerAttempt,OpponentKickoffsInEndZone,OpponentOffensiveYardsPerPlay,OpponentPuntNetYards,OpponentExtraPointRushingConversions,KickoffTouchbacks,FieldGoalsMade,InterceptionReturnTouchdowns,OpponentPassingCompletions,OpponentPassingTouchdowns,GoalToGoAttempts,OpponentPassesDefended,OpponentTimeOfPossession,PuntReturnYards,PassingTouchdowns,FieldGoalAttempts,OpponentTacklesForLossDifferential,OpponentFieldGoalPercentage,FumblesForced,OpponentPasserRating,OpponentScoreQuarter2,OpponentScoreQuarter3,OpponentScoreQuarter1,FirstDownsByPenalty,TimesSackedYards,OpponentScoreQuarter4,ExtraPointRushingAttempts,AssistedTackles,Giveaways,OpponentExtraPointPassingConversions,FourthDownPercentage,Score,PointSpread,OpponentScoreOvertime,FirstDownsByPassing,TimeOfPossession,ThirdDownPercentage,OpponentExtraPointPassingAttempts,OpponentPuntsHadBlocked,OpponentPassingYardsPerAttempt,InterceptionReturnYards,Takeaways,OffensivePlays,OpponentFirstDownsByPassing,ScoreQuarter1,PuntReturnYardDifferential,OpponentKickReturnAverage,OpponentPuntReturnTouchdowns,OpponentInterceptionReturns,ThirdDownConversions,PenaltyYardDifferential,OpponentFumbleReturnTouchdowns,QuarterbackSacksDifferential,Sacks,FumbleReturnYards,OpponentPenalties,OpponentGiveaways,OpponentTwoPointConversionReturns,ScoreOvertime,Humidity,SackYards,RedZoneAttempts,Games,PasserRating,OpponentPassingYards,OpponentPuntNetAverage,OpponentSacks,OpponentFumblesRecovered,OpponentOffensivePlays,OffensiveYardsPerPlay,OpponentTacklesForLoss,SoloTackles,OpponentRedZonePercentage,PassingAttempts,OpponentFumbleReturnYards,OpponentScore,KickoffsInEndZone,OpponentPuntReturnYards,OpponentFirstDowns,OpponentFieldGoalsMade,FourthDownAttempts,OpponentFieldGoalReturnYards,OpponentOffensiveYards,QuarterbackHitsPercentage,BlockedKickReturnYards) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", item.values())
     print "team season populated"
 
-# def graded_bets():
-    
-#     score = db.session.query(NFLScore).filter_by(SeasonType=1).all()
-#     for x in score:
-        
-#         grade = NFLBetGraded(game_key=x.GameKey,week = x.Week,game_date=parse_date(x.Date),home_team=x.HomeTeam,home_score=x.HomeScore,away_team=x.AwayTeam,away_score=x.AwayScore,total_score=(x.AwayScore+x.HomeScore),over_under=x.OverUnder,ps=x.PointSpread,cover_total=x.cover_total(),cover_side=x.cover_line())
-    
-#         db.session.add(grade)
-#         db.session.commit()
+def graded_bets():
+    """ this function populates NFLBetGraded db with latest score data that is available. Tell which team or side covered, which total over or under coverd and which team won the money line bets for each game played. 
+     """
+    NFLBetGraded.__table__.drop(db.engine)
+    NFLBetGraded.__table__.create(db.engine)
+    score1 = db.session.query(NFLScore).filter_by(SeasonType=1).all()
+    score = list(score1)
+    for x in score:
+        grade = NFLBetGraded(game_key=x.GameKey,week = x.Week,game_date=parse_date(x.Date),home_team=x.HomeTeam,home_score=x.HomeScore,away_team=x.AwayTeam,away_score=x.AwayScore,total_score=(x.AwayScore+x.HomeScore),over_under=x.OverUnder,ps=x.PointSpread,cover_total=x.cover_total(),cover_side=x.cover_line(),cover_ml=x.cover_ml())
+        db.session.add(grade)
+        db.session.commit()
+    print "graded bets table populated"
         
             
 
@@ -150,6 +153,8 @@ if __name__ == "__main__":
     c.execute("drop table if exists standing")
     c.execute("drop table if exists score")
     c.execute("drop table if exists teamseason")
+    # NFLBetGraded.__table__.drop(db.engine)
+    # NFLBetGraded.__table__.create(db.engine)
 
     create_schedule()
     populate_schedule()
@@ -168,10 +173,10 @@ if __name__ == "__main__":
 
     create_teamseason()
     populate_teamseason()
-
-    # NFLBetGraded.__table__.drop(db.engine)
-    # NFLBetGraded.__table__.create(db.engine)
-    # graded_bets()
-
-
     close()
+
+    # import time 
+    # time.sleep(15)
+    graded_bets()
+
+
