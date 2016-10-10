@@ -117,7 +117,7 @@ def nfl_create_bet(game_key):
             profile1.bets_created += 1
             db.session.add_all([admin,profile1,bet_o])
             db.session.commit()
-            return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
+            return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
             return render_template("nfl_error.html")
@@ -147,7 +147,7 @@ def nfl_create_bet(game_key):
             profile1.bets_created += 1
             db.session.add_all([admin,profile1,bet_h])
             db.session.commit()
-            return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
+            return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
             return render_template("nfl_error.html")
@@ -177,7 +177,7 @@ def nfl_create_bet(game_key):
             profile1.bets_created += 1
             db.session.add_all([admin,profile1,bet_h])
             db.session.commit()
-            return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
+            return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
             return render_template("nfl_error.html")
@@ -194,7 +194,7 @@ def nfl_create_bet(game_key):
 
 @nfl_blueprint.route("/nfl/confirm/<path:bet_key>/", methods=["GET","POST"])
 @login_required
-def nfl_confirm_bet(bet_key):
+def nfl_confirm_create_bet(bet_key):
     all_teams = all_nfl_teams()
     try:
         nfl_bet = NFLSideBet.query.filter_by(bet_key=bet_key).one()
@@ -205,7 +205,7 @@ def nfl_confirm_bet(bet_key):
     except exc.SQLAlchemyError:
         print "No Over Under bets"
 
-    return render_template('nfl_confirm.html', nfl_bet=nfl_bet, all_teams=all_teams)
+    return render_template('nfl_confirm_create_bet.html', nfl_bet=nfl_bet, all_teams=all_teams)
     
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/edit/", methods=["GET","POST"])
 def nfl_edit_bet(bet_key):
@@ -274,9 +274,12 @@ def nfl_delete_bet(bet_key):
     except exc.SQLAlchemyError:
         print "No Side Bets"
     form = OverUnderForm()
+    profile = Profile.query.filter_by(user_id=nfl.user_id)
     if nfl is not None:
         if request.method == "POST":
+            profile.bets_created -= 1
             db.session.delete(nfl)
+            db.session.add(profile)
             db.session.commit()
             flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl.users.username,nfl.vs,nfl.amount), "danger")
             return redirect(url_for("nfl.nfl_public_board"))
@@ -284,7 +287,7 @@ def nfl_delete_bet(bet_key):
 
 
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/", methods=["GET","POST"])
-def nfl_bet(bet_key):
+def nfl_bet_vs_bet(bet_key):
     all_teams = all_nfl_teams()
     try:
         nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
@@ -307,11 +310,11 @@ def nfl_bet(bet_key):
         db.session.add_all([admin,profile_taker,profile_bet_creator,nfl])
         db.session.commit()
         flash("%s, You have action" % current_user.username,  "success")
-        return redirect(url_for("nfl.nfl_confirm_take_bet", bet_key=bet_key))
-    return render_template("nfl_bet.html", all_teams=all_teams, nfl=nfl)
+        return redirect(url_for("nfl.nfl_confirm_live_action", bet_key=bet_key))
+    return render_template("nfl_vs_bet.html", all_teams=all_teams, nfl=nfl)
 
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/confirm/")
-def nfl_confirm_take_bet(bet_key):
+def nfl_confirm_live_action(bet_key):
     try:
         live_bet = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
     except exc.SQLAlchemyError:
@@ -320,7 +323,7 @@ def nfl_confirm_take_bet(bet_key):
         live_bet = NFLSideBet.query.filter_by(bet_key=bet_key).one()
     except exc.SQLAlchemyError:
         print "No Side Bets"
-    return render_template("nfl_confirm_take_bet.html", live_bet=live_bet)
+    return render_template("nfl_confirm_live_action.html", live_bet=live_bet)
 
 
 @nfl_blueprint.route("/nfl/team/home/<int:sid>/<path:key>/<path:team>/")

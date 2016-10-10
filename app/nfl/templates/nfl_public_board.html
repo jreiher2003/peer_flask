@@ -38,7 +38,7 @@ i {
                         <th><a>team<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>spread<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>total<i class="fa fa-fw fa-sort"></i></a></th>
-                        <th><a>amount<i class="fa fa-fw fa-sort"></i></a></th>
+                        <th><a>risk/win<i class="fa fa-fw fa-sort"></i></a></th>
                         <th><a>bet this<i class="fa fa-fw fa-sort"></i></a></th>
                     </tr>
                    </thead>
@@ -52,17 +52,17 @@ i {
                             <td>{{ bet.game_date|game_date }}<br>{{ bet.game_date|game_day }}</td>
                             <td>{{ bet.game_date|game_time }}</td>
                             <td>{{ bet.vs }}</td>
+                            <td></td>
                             <td>{{ bet.team }}</td>
-                            <td>{#{{ bet.ps_format }}#}</td>
                             <td>{{ bet.over_under }}{{ bet.total_format }}</td>
-                            <td>{{ bet.amount }}</td>
+                            <td>{{ bet.amount }}/{{ bet.amount_win }}</td>
                             {% if current_user.id == bet.user_id %}
                                 <td>
                                     <a href="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}">delete</a><br>
                                     <a href="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}">edit</a>
                                 </td>
                             {% else %}
-                                <td><a href="{{ url_for('nfl.nfl_bet', bet_key=bet.bet_key) }}">bet</a></td>
+                                <td><a href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}">bet</a></td>
                             {% endif %} 
                         </tr>
                             {% endif %}
@@ -81,14 +81,14 @@ i {
                             <td>{{ bet.team }}</td>
                             <td>{{ bet.ps_format }}</td>
                             <td></td>
-                            <td>{{ bet.amount }}</td>
+                            <td>{{ bet.amount }}/{{ bet.amount_win }}</td>
                             {% if current_user.id == bet.user_id %}
                                 <td>
                                     <a href="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}">delete</a><br>
                                     <a href="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}">edit</a>
                                 </td>
                             {% else %}
-                                <td><a href="{{ url_for('nfl.nfl_bet', bet_key=bet.bet_key) }}">bet</a></td>
+                                <td><a href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}">bet</a></td>
                             {% endif %} 
                         </tr>
                             {% endif %}
