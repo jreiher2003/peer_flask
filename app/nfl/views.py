@@ -83,6 +83,7 @@ def nfl_public_board():
 def nfl_create_bet(game_key):
     all_teams = all_nfl_teams()
     salt = make_salt()
+    admin = Profile.query.filter_by(user_id=1).one()
     profile1 = Profile.query.filter_by(user_id=current_user.id).one()
     nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
     h_team = nfl_game.HomeTeam 
@@ -112,10 +113,9 @@ def nfl_create_bet(game_key):
                 bet_key=bet_key,
                 user_id=current_user.id
                 )
-            
+            admin.bets_created += 1
             profile1.bets_created += 1
-            db.session.add(profile1)
-            db.session.add(bet_o)
+            db.session.add_all([admin,profile1,bet_o])
             db.session.commit()
             return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
         else:
@@ -143,9 +143,9 @@ def nfl_create_bet(game_key):
                 amount=amount,
                 bet_key=bet_key,
                 user_id=current_user.id)
-            db.session.add(bet_h)
+            admin.bets_created += 1
             profile1.bets_created += 1
-            db.session.add(profile1)
+            db.session.add_all([admin,profile1,bet_h])
             db.session.commit()
             return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
         else:
@@ -173,9 +173,9 @@ def nfl_create_bet(game_key):
                 amount=amount,
                 bet_key=bet_key,
                 user_id=current_user.id)
-            db.session.add(bet_h)
+            admin.bets_created += 1
             profile1.bets_created += 1
-            db.session.add(profile1)
+            db.session.add_all([admin,profile1,bet_h])
             db.session.commit()
             return redirect(url_for('nfl.nfl_confirm_bet', bet_key=bet_key))
         else:
@@ -266,7 +266,7 @@ def nfl_edit_bet(bet_key):
 def nfl_delete_bet(bet_key):
     all_teams = all_nfl_teams()
     try:
-        nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one_or_none()
+        nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
     except exc.SQLAlchemyError:
         print "No Over Under Bets"
     try:
@@ -296,12 +296,15 @@ def nfl_bet(bet_key):
         print "No side bets"
     profile_taker = Profile.query.filter_by(user_id=current_user.id).one()
     profile_bet_creator = Profile.query.filter_by(user_id=nfl.users.id).one() 
+    admin = Profile.query.filter_by(user_id=1).one()
     if request.method == "POST":
         nfl.bet_taken = True
         nfl.taken_by = current_user.id 
+        nfl.taken_username = current_user.username 
         profile_bet_creator.bets_taken += 1
         profile_taker.bets_taken += 1
-        db.session.add_all([profile_taker,profile_bet_creator,nfl])
+        admin.bets_taken += 1
+        db.session.add_all([admin,profile_taker,profile_bet_creator,nfl])
         db.session.commit()
         flash("%s, You have action" % current_user.username,  "success")
         return redirect(url_for("nfl.nfl_confirm_take_bet", bet_key=bet_key))
