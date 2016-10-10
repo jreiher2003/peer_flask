@@ -13,11 +13,9 @@ class Base(db.Model):
     home_team = db.Column(db.String)
     away_team = db.Column(db.String)
     win = db.Column(db.Boolean)
-    lose = db.Column(db.Boolean)
     amount = db.Column(db.Integer)
     bet_taken = db.Column(db.Boolean, default=False)
     bet_graded = db.Column(db.Boolean, default=False)
-    # taken_by = db.Column(db.Integer) # other player id 
     paid = db.Column(db.Boolean, default=False)
     bet_created = db.Column(db.DateTime,  default=datetime.datetime.utcnow)
     bet_modified = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
@@ -76,6 +74,7 @@ class NFLOverUnderBet(Base):
     over_under = db.Column(db.String)
     total = db.Column(db.Integer)
     taken_by = db.Column(db.Integer) # other player id 
+    taken_username = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_ou_bet")
 
@@ -86,6 +85,7 @@ class NFLSideBet(Base):
     team = db.Column(db.String)
     ps = db.Column(db.Integer)
     taken_by = db.Column(db.Integer) # other player id 
+    taken_username = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_side_bet")
 
@@ -95,7 +95,8 @@ class NFLMLBet(Base):
     id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
     team = db.Column(db.String)
     ml = db.Column(db.Integer)
-    taken_by = db.Column(db.Integer) # other player id 
+    taken_by = db.Column(db.Integer) # other player id
+    taken_username = db.Column(db.String) 
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     users = db.relationship(Users, back_populates="nfl_ml_bet")
    
@@ -116,7 +117,6 @@ class NFLBetGraded(db.Model):
     cover_total = db.Column(db.String)
     cover_side = db.Column(db.String)
     cover_ml = db.Column(db.String)
-    # user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
 
 
 

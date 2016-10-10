@@ -75,6 +75,7 @@ class Profile(db.Model):
     bets_taken = db.Column(db.Integer, default=0)
     wins = db.Column(db.Integer, default=0)
     losses = db.Column(db.Integer, default=0)
+    pushes = db.Column(db.Integer, default=0)
     d_amount = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
     # user = db.relationship("Users", back_populates="Profile")

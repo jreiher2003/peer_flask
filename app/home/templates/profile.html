@@ -8,6 +8,7 @@
             <h4>Bets Taken <small>{{ user.profile.bets_taken }}</small></h4>
             <h4>Bets Won <small>{{ user.profile.wins }}</small></h4>
             <h4>Bets Lost <small>{{ user.profile.losses }}</small></h4>
+            <h4>Bets Pushed <small>{{ user.profile.pushes }}</small></h4>
             <h4>Number of Pending Bets: <small>{{ num_pending }}</small></h4>
             <h4>Number of Graded Bets: <small>{{ num_graded }}</small></h4>
             <h4>Funds: <small>${{ user.profile.d_amount }}</small></h4>
@@ -122,7 +123,7 @@
                         <b>You: </b> {{ b.users.username }}<br>
                         <b>vs: </b>{{ b.taken_by }}<br>
                         <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win }}<br>
-                        {% if b.win==True %}Win +{{ b.amount_win }}{% elif b.win == False %}Lose -{{ b.amount }}{% endif %}<hr>
+                        {% if b.win==True %}Win +{{ b.amount_win }}{% elif b.win == False %}Lose -{{ b.amount }}{% elif b.win == None %}Push{% endif %}<hr>
                     {% elif b.taken_by == current_user.id %}
                         <b>Game Key: </b>{{ b.game_key }}, 
                         <b>Bet Key: </b>{{ b.bet_key }},

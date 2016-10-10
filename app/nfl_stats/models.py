@@ -181,12 +181,13 @@ class NFLScore(db.Model):
             else:return self.HomeTeam
 
     def cover_total(self):
-        if self.AwayScore + self.HomeScore == self.OverUnder: return "push"
+        if self.AwayScore + self.HomeScore == self.OverUnder: return "Push"
         elif self.AwayScore + self.HomeScore > self.OverUnder: return "o"
         else: return "u"
 
     def cover_ml(self):
-        if self.AwayScore > self.HomeScore: return self.AwayTeam
+        if self.AwayScore == self.HomeScore: return "Push"
+        elif self.AwayScore > self.HomeScore: return self.AwayTeam
         else: return self.HomeTeam 
     
 
