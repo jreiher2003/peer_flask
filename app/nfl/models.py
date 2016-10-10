@@ -61,6 +61,10 @@ class Base(db.Model):
         return round(float(self.amount) * .9,2)
 
     @property 
+    def admin_win(self):
+        return round(float(self.amount)* .1, 2)
+
+    @property 
     def ml_win(self):
         if self.ml > 0:
             return self.amount * self.ml / 100.0
