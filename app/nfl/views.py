@@ -119,7 +119,7 @@ def nfl_create_bet(game_key):
             db.session.commit()
             cache.delete("nflboard")
             cache.delete("user_profile")
-            flash("%s, You just created a bet between %s taking %s%s risking %s to win %s." % (current_user.username, bet_o.vs, bet_o.total, bet_o.OverUnder, bet_o.amount, bet_o.amount*.9))
+            flash("%s, You just created a bet between %s taking %s%s risking %s to win %s." % (current_user.username, bet_o.vs, bet_o.over_under, bet_o.total, bet_o.amount, bet_o.amount*.9), "success")
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
@@ -152,7 +152,7 @@ def nfl_create_bet(game_key):
             db.session.commit()
             cache.delete("nflboard")
             cache.delete("user_profile")
-            flash("%s, You just created a bet between %s taking %s%s risking %s to win %s." % (current_user.username, bet_a.vs, bet_a.team, bet_a.ps, bet_a.amount, bet_a.amount*.9))
+            flash("%s, You just created a bet between %s taking %s %s risking %s to win %s." % (current_user.username, bet_a.vs, bet_a.team, bet_a.ps_format, bet_a.amount, bet_a.amount*.9), "success")
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
@@ -184,7 +184,7 @@ def nfl_create_bet(game_key):
             db.session.commit()
             cache.delete("nflboard")
             cache.delete("user_profile")
-            flash("%s, You just created a bet between %s taking %s%s risking %s to win %s." % (current_user.username, bet_h.vs, bet_h.team, bet_h.ps, bet_h.amount, bet_h.amount*.9))
+            flash("%s, You just created a bet between %s taking %s %s risking %s to win %s." % (current_user.username, bet_h.vs, bet_h.team, bet_h.ps_format, bet_h.amount, bet_h.amount*.9), "success")
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")

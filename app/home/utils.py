@@ -117,25 +117,19 @@ def pay_winners_from_losers_sb():
             for ss in sb:
                 c_profile = Profile.query.filter_by(user_id=ss.user_id).one()
                 t_profile = Profile.query.filter_by(user_id=ss.taken_by).one()
-                admin = Profile.query.filter_by(user_id=1).one()
                 if ss.win == True:
                     print "player %s gets paid from player %s this amount %s" % (ss.user_id, ss.taken_by, ss.amount_win)
-                    print "sb w", ss.admin_win 
-                    admin.d_amount += ss.admin_win
                     c_profile.d_amount += ss.amount_win
                     t_profile.d_amount -= ss.amount 
                     ss.paid = True 
                 if ss.win == False:
                     print "player %s gets paid from player %s this amount %s" % (ss.taken_by, ss.user_id, ss.amount_win)
-                    print "sb l", ss.admin_win
-                    admin.d_amount += ss.admin_win
                     t_profile.d_amount += ss.amount_win
                     c_profile.d_amount -= ss.amount 
                     ss.paid = True 
                 if ss.win == None:
                     print "this is a push no payment"
                     ss.paid = True 
-                db.session.add(admin)
                 db.session.add(c_profile)
                 db.session.add(t_profile)
             db.session.add(ss)
@@ -151,25 +145,19 @@ def pay_winners_from_losers_ou():
             for oo in ou:
                 c_profile = Profile.query.filter_by(user_id=oo.user_id).one()
                 t_profile = Profile.query.filter_by(user_id=oo.taken_by).one()
-                admin = Profile.query.filter_by(user_id=1).one()
                 if oo.win == True:
                     print "player %s gets paid from player %s this amount %s" % (oo.user_id, oo.taken_by, oo.amount_win)
-                    admin.d_amount = oo.admin_win
-                    print "ou w", oo.admin_win
                     c_profile.d_amount += oo.amount_win
                     t_profile.d_amount -= oo.amount 
                     oo.paid = True 
                 if oo.win == False:
                     print "player %s gets paid from player %s this amount %s" % (oo.taken_by, oo.user_id, oo.amount_win)
-                    print "ou l", oo.admin_win
-                    admin.d_amount += oo.admin_win
                     t_profile.d_amount += oo.amount_win
                     c_profile.d_amount -= oo.amount 
                     oo.paid = True
                 if oo.win == None:
                     print "this is a push no payment."
                     oo.paid = True  
-                db.session.add(admin)
                 db.session.add(c_profile)
                 db.session.add(t_profile)
             db.session.add(oo)
@@ -184,25 +172,19 @@ def pay_winners_from_losers_ml():
             for ll in ml:
                 c_profile = Profile.query.filter_by(user_id=ll.user_id).one()
                 t_profile = Profile.query.filter_by(user_id=ll.taken_by).one()
-                admin = Profile.query.filter_by(user_id=1).one()
                 if ll.win == True:
                     print "player %s gets paid from player %s this amount %s" % (ll.user_id, ll.taken_by, ll.amount_win)
-                    admin.d_amount += ll.admin_win 
-                    print "ml w", ll.admin_win
                     c_profile.d_amount += ll.amount_win
                     t_profile.d_amount -= ll.amount 
                     ll.paid = True 
                 if ll.win == False:
                     print "player %s gets paid from player %s this amount %s" % (ll.taken_by, ll.user_id, ll.amount_win)
-                    admin.d_amount += ll.admin_win 
-                    print "ml l", ll.admin_win
                     t_profile.d_amount += ll.amount_win
                     c_profile.d_amount -= ll.amount 
                     ll.paid = True 
                 if ll.win == None:
                     print "this is a push no payment"
                     ll.paid = True
-                db.session.add(admin) 
                 db.session.add(c_profile)
                 db.session.add(t_profile)
             db.session.add(ll)

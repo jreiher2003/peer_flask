@@ -21,10 +21,13 @@ def create_users():
         db.session.commit()
 
         u1 = UserRoles(user_id=user1.id, role_id=role1.id)
+        u11 = UserRoles(user_id=user1.id, role_id=role2.id)
+        u12 = UserRoles(user_id=user1.id, role_id=role3.id)
         admin = Admin(id=1, avatar="https://scontent-mia1-1.xx.fbcdn.net/v/t1.0-1/p40x40/12208487_10153305128458380_4762134821855593042_n.jpg?oh=46fb02bcf716c4fafa4c0e8d6a5b4ac7&oe=587158D8", user_id=1)
+        profile1 = Profile(id=1,avatar="https://avatars1.githubusercontent.com/u/5870557?v=3&s=466",user_id=1, d_amount=100)
         # user 2
         u2 = UserRoles(user_id=user2.id, role_id=role2.id)
-        u3 = UserRoles(user_id=user3.id, role_id=role3.id)
+        u3 = UserRoles(user_id=user2.id, role_id=role3.id)
         profile2 = Profile(id=2,avatar="https://avatars1.githubusercontent.com/u/5870557?v=3&s=466",user_id=2, d_amount=100)
         #user 3
         u4 = UserRoles(user_id=user3.id, role_id=role2.id)
@@ -42,11 +45,11 @@ def create_users():
         u10 = UserRoles(user_id=user6.id, role_id=role2.id)
         u11 = UserRoles(user_id=user6.id, role_id=role3.id)
         profile6 = Profile(id=6,avatar="https://scontent-mia1-1.xx.fbcdn.net/v/t1.0-1/p32x32/13342960_10209784965251295_4841832740377934677_n.jpg?oh=71ef1aaf572dce4ac995ff0b0b4ff3e5&oe=58785BBE",user_id=6, d_amount=100)
-        db.session.add_all([u1,admin,u2,u3,profile2,u4,u5,profile3,u6,u7,profile4,u8,u9,profile5,u10,u11,profile6])
+        db.session.add_all([u1,admin,u11,u12,profile1,u2,u3,profile2,u4,u5,profile3,u6,u7,profile4,u8,u9,profile5,u10,u11,profile6])
         db.session.commit()
 
 def create_bet():
-    # admin = Admin.query.filter_by(user_id=1).one()
+    profile1 = Profile.query.filter_by(user_id=1).one()
     profile2 = Profile.query.filter_by(user_id=2).one()
     profile3 = Profile.query.filter_by(user_id=3).one()
     profile4 = Profile.query.filter_by(user_id=4).one()
