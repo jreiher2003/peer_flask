@@ -120,6 +120,7 @@ def nfl_create_bet(game_key):
             db.session.add_all([admin,profile1,bet_o])
             db.session.commit()
             cache.delete("nflboard")
+            cache.delete("user_profile")
             flash("%s, You just created a bet between %s taking %s%s risking %s to win %s." % (current_user.username, bet_o.vs, bet_o.total, bet_o.OverUnder, bet_o.amount, bet_o.amount*.9))
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
@@ -152,6 +153,7 @@ def nfl_create_bet(game_key):
             db.session.add_all([admin,profile1,bet_a])
             db.session.commit()
             cache.delete("nflboard")
+            cache.delete("user_profile")
             flash("%s, You just created a bet between %s taking %s%s risking %s to win %s." % (current_user.username, bet_a.vs, bet_a.team, bet_a.ps, bet_a.amount, bet_a.amount*.9))
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
@@ -184,6 +186,7 @@ def nfl_create_bet(game_key):
             db.session.add_all([admin,profile1,bet_h])
             db.session.commit()
             cache.delete("nflboard")
+            cache.delete("user_profile")
             flash("%s, You just created a bet between %s taking %s%s risking %s to win %s." % (current_user.username, bet_h.vs, bet_h.team, bet_h.ps, bet_h.amount, bet_h.amount*.9))
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
@@ -296,6 +299,7 @@ def nfl_delete_bet(bet_key):
             db.session.add_all([admin,profile])
             db.session.commit()
             cache.delete("nflboard")
+            cache.delete("user_profile")
             flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl.users.username,nfl.vs,nfl.amount), "danger")
             return redirect(url_for("nfl.nfl_public_board"))
     return render_template("nfl_delete_bet.html", nfl=nfl, form=form, all_teams=all_teams)
@@ -326,6 +330,7 @@ def nfl_bet_vs_bet(bet_key):
         db.session.add_all([admin,profile_taker,profile_bet_creator,nfl])
         db.session.commit()
         cache.delete("nflboard")
+        cache.delete("user_profile")
         flash("%s, You have action" % current_user.username,  "success")
         return redirect(url_for("nfl.nfl_confirm_live_action", bet_key=bet_key))
     return render_template("nfl_vs_bet.html", all_teams=all_teams, nfl=nfl)
