@@ -3,9 +3,10 @@ import json
 import sqlite3
 import time
 from dateutil.parser import parse as parse_date
+from app import app, db, cache
 from app.nfl.models import NFLBetGraded
 from app.nfl_stats.models import NFLScore
-from app import db
+from app.home.utils import kitchen_sink
 
 
 
@@ -178,5 +179,7 @@ if __name__ == "__main__":
     # import time 
     # time.sleep(15)
     graded_bets()
+    kitchen_sink()
+    cache.clear()
 
 

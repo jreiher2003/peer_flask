@@ -7,7 +7,7 @@ from app.users.models import Users, Profile
 from app.nfl_stats.models import NFLTeam, NFLScore
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet
 from flask import Blueprint, render_template
-from .utils import all_nfl_teams, grade_query, kitchen_sink, count_pending_bets, count_graded_bets
+from .utils import all_nfl_teams, grade_query, count_pending_bets, count_graded_bets
 
 home_blueprint = Blueprint("home", __name__, template_folder="templates")
  
@@ -23,7 +23,6 @@ def home():
 def profile():
     # cache.delete("user_profile")
     all_teams = all_nfl_teams()
-    kitchen_sink()
     num_pending = count_pending_bets()
     num_graded = count_graded_bets()
     user = Users.query.filter_by(id=current_user.id).one()
