@@ -2,7 +2,7 @@ from dateutil.parser import parse as parse_date
 from app.users.models import Users, Role, UserRoles, Profile, Admin
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet,NFLMLBet
 from app.nfl_stats.models import NFLScore
-from app import app, db, user_datastore 
+from app import app, db, user_datastore, block_io
 from flask_security.utils import encrypt_password
 
 def create_users():
@@ -13,11 +13,17 @@ def create_users():
         db.session.add_all([role1,role2,role3])
         db.session.commit() 
         user1 = user_datastore.create_user(id=1,username="admin", email="jreiher2003@yahoo.com", password=encrypt_password("password"))
+        # block_io.get_new_address(label=user1.username)
         user2 = user_datastore.create_user(id=2,username="j3ff_", email="jeffreiher@gmail.com", password=encrypt_password("password"))
+        # block_io.get_new_address(label=user2.username)
         user3 = user_datastore.create_user(id=3, username="Nhilson", email="ken@gmail.com", password=encrypt_password("password"))
+        # block_io.get_new_address(label=user3.username)
         user4 = user_datastore.create_user(id=4, username="Mike", email="mike@gmail.com", password=encrypt_password("password"))
+        # block_io.get_new_address(label=user4.username)
         user5 = user_datastore.create_user(id=5, username="Greg", email="greg@gmail.com", password=encrypt_password("password"))
+        # block_io.get_new_address(label=user5.username)
         user6 = user_datastore.create_user(id=6, username="Rob", email="rob@gmail.com", password=encrypt_password("password"))
+        # block_io.get_new_address(label=user6.username)
         db.session.commit()
 
         u1 = UserRoles(user_id=user1.id, role_id=role1.id)

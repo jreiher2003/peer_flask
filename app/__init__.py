@@ -5,6 +5,7 @@ from flask_script import Manager
 from flask_caching import Cache 
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, SQLAlchemyUserDatastore
+from block_io import BlockIo
 
 app = Flask(__name__) 
 app.config.from_object(os.environ['APP_SETTINGS']) 
@@ -12,6 +13,10 @@ mail = Mail(app)  # Initialize Flask-Mail
 db = SQLAlchemy(app) # Initialize Flask-SQLAlchemy
 cache = Cache(app)
 manager = Manager(app) 
+version = 2
+block_io = BlockIo("ef62-6d12-8127-566c", "finn7797", version)
+# print block_io.get_my_addresses_without_balances()
+
 
 from app.users.views import users_blueprint
 app.register_blueprint(users_blueprint) 

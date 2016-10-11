@@ -6,6 +6,16 @@
         <div class="col-md-4 col-md-offset-4">
 
        home
+      
+       {{ all_address.data }}<br><br><br>
+       {{ all_address.data.network }}<br><br><br>
+       {{ all_address.data.addresses }}<br><br><br>
+       {% for i in all_address.data.addresses %}
+       {{ i.label }}<br>
+       {{ i.user_id }}<br>
+       {{ i.address }}<br><br>
+       {% endfor %}
+     
         </div>
     </div>
 </div>

@@ -321,6 +321,7 @@ def nfl_bet_vs_bet(bet_key):
         nfl.taken_username = current_user.username 
         profile_bet_creator.bets_taken += 1
         profile_taker.bets_taken += 1
+        # put method for block_io.withdraw_from_addresses(amounts='nfl.amount, nfl.amount', from_addresses='profile_taker.bitcoin_address, profile_bet_creator.bitcoin_address', to_addresses='admin_addresss or escrow address')
         db.session.add_all([profile_taker,profile_bet_creator,nfl])
         db.session.commit()
         cache.delete("nflboard")
