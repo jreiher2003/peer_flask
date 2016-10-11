@@ -12,6 +12,7 @@ from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash, abort
 from flask_security import login_required, roles_required, current_user
 from slugify import slugify
+from app.home.utils import all_nfl_teams 
 from .utils import team_rush_avg, team_pass_avg, \
 opp_team_rush_avg, opp_team_pass_avg, team_off_avg, \
 team_def_avg, today_date,today_and_now, make_salt, yesterday
@@ -19,26 +20,26 @@ team_def_avg, today_date,today_and_now, make_salt, yesterday
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 
-def all_nfl_teams(update=False):
-    key = "teams"
-    all_teams = cache.get(key)
-    if all_teams is None or update:
-        all_teams = NFLTeam.query.all()
-        all_teams = list(all_teams)
-        cache.set(key, all_teams)
-    return all_teams 
 
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")
 def nfl_home():
     all_teams = all_nfl_teams()
-    return render_template("nfl_home.html", all_teams=all_teams)
+    return render_template(
+        "nfl_home.html", 
+        all_teams=all_teams
+        )
 
 @nfl_blueprint.route("/nfl/standings/")
+@cache.cached(timeout=60*15, key_prefix="nfl_season_standings")
 def nfl_standings():
     all_teams = all_nfl_teams()
     st = NFLStandings.query.all()
-    return render_template("nfl_standings/nfl standings.html", standing=st, all_teams=all_teams)
+    return render_template(
+        "nfl_standings/nfl standings.html", 
+        standing=st, 
+        all_teams=all_teams
+        )
 
 @nfl_blueprint.route("/nfl/schedule/")
 def nfl_schedule():
@@ -208,6 +209,7 @@ def nfl_confirm_create_bet(bet_key):
     return render_template('nfl_confirm_create_bet.html', nfl_bet=nfl_bet, all_teams=all_teams)
     
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/edit/", methods=["GET","POST"])
+@login_required
 def nfl_edit_bet(bet_key):
     all_teams = all_nfl_teams()
     try:
@@ -289,6 +291,7 @@ def nfl_delete_bet(bet_key):
 
 
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/", methods=["GET","POST"])
+@login_required
 def nfl_bet_vs_bet(bet_key):
     all_teams = all_nfl_teams()
     try:
@@ -316,6 +319,7 @@ def nfl_bet_vs_bet(bet_key):
     return render_template("nfl_vs_bet.html", all_teams=all_teams, nfl=nfl)
 
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/confirm/")
+@login_required
 def nfl_confirm_live_action(bet_key):
     try:
         live_bet = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()

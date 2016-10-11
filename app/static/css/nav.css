@@ -10,11 +10,12 @@ nav a {
 a.navbar-brand {
     color: #fff;
 }
-h2.nav__league {
-    color: lightblue;
-}
+h2.nav__league, h3.nav__division, 
 li.nav__team a, h3 .nav__team {
     color: lightblue;
+}
+h3.nav__division {
+    text-decoration: underline;
 }
 
 .caret-up {

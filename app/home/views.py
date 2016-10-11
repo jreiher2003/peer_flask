@@ -45,9 +45,12 @@ def profile():
         graded_ml=graded_ml
         )
 
-@home_blueprint.route("/admin/")
+@home_blueprint.route("/dude/")
 @roles_required("admin")
 def admin():
     all_teams = all_nfl_teams()
-    return "Admin page"
+    return render_template(
+        "admin_page.html",
+     all_teams=all_teams
+     )
 
