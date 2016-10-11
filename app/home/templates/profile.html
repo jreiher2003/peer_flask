@@ -99,27 +99,27 @@
 
             <h4><u>Graded Bets</u></h4>
             {% if graded_sb or graded_ou or graded_ml %}
-                {% for t in graded_ou %}
-                    {% if t.user_id == current_user.id %}
-                        <b>Game Key: </b>{{ t.game_key }}, 
-                        <b>Bet Key: </b>{{ t.bet_key }},
-                        <b>Game Date: </b>{{ t.game_date }}<br>
-                        {{ t.vs }}<br>
-                        {{ t.over_under }}{{ t.total_format }}<br>
-                        <b>You: </b> {{ t.users.username }}<br>
-                        <b>vs: </b>{{ t.taken_by }}{{ b.taken_username }}<br>
-                        <b>risk: </b>{{ t.amount }} / <b>win: </b>{{ t.amount_win }}<br>
-                        {% if t.win==True %}Win +{{ t.amount_win }}{% elif t.win == False %}Lose -{{ t.amount }}{% endif %}<hr>
-                    {% elif t.taken_by == current_user.id %}
-                        <b>Game Key: </b>{{ t.game_key }}, 
-                        <b>Bet Key: </b>{{ t.bet_key }},
-                        <b>Game Date: </b>{{ t.game_date }}<br>
-                        {{ t.vs }}<br>
-                        {{ t.opposite_over_under }}{{ t.total_format }}
-                        <b>Bet Taker: </b>{{ t.taken_by }}{{ b.taken_username }}<br>
-                        <b>opponent:  </b>{{ t.users.username }}<br>
-                        <b>risk: </b>{{ t.amount }} / <b>win: </b>{{ t.amount_win }}<br>
-                        {% if t.win == False %}Win +{{ t.amount_win }}{% elif t.win == True %}Lose -{{ t.amount }}{% endif %}<hr>
+                {% for b in graded_ou %}
+                    {% if b.user_id == current_user.id %}
+                        <b>Game Key: </b>{{ b.game_key }}, 
+                        <b>Bet Key: </b>{{ b.bet_key }},
+                        <b>Game Date: </b>{{ b.game_date }}<br>
+                        {{ b.vs }}<br>
+                        {{ b.over_under }}{{ b.total_format }}<br>
+                        <b>You: </b> {{ b.users.username }}<br>
+                        <b>vs: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
+                        <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win }}<br>
+                        {% if b.win==True %}Win +{{ b.amount_win }}{% elif b.win == False %}Lose -{{ b.amount }}{% endif %}<hr>
+                    {% elif b.taken_by == current_user.id %}
+                        <b>Game Key: </b>{{ b.game_key }}, 
+                        <b>Bet Key: </b>{{ b.bet_key }},
+                        <b>Game Date: </b>{{ b.game_date }}<br>
+                        {{ b.vs }}<br>
+                        {{ b.opposite_over_under }}{{ b.total_format }}
+                        <b>Bet Taker: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
+                        <b>opponent:  </b>{{ b.users.username }}<br>
+                        <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win }}<br>
+                        {% if b.win == False %}Win +{{ b.amount_win }}{% elif b.win == True %}Lose -{{ b.amount }}{% endif %}<hr>
                     {% endif %}
                 {% endfor %}
                 {% for b in graded_sb %}

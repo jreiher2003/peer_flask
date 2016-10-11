@@ -2,7 +2,7 @@ import json
 from dateutil.parser import parse as parse_date
 from app import app, db, cache 
 from flask import request
-from flask_security import login_required, roles_required, current_user
+from flask_security import login_required, roles_required, roles_accepted, current_user
 from app.users.models import Users, Profile 
 from app.nfl_stats.models import NFLTeam, NFLScore
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet
@@ -18,8 +18,10 @@ def home():
 
 @home_blueprint.route("/profile/")
 @cache.cached(timeout=60*15, key_prefix="user_profile")
+@roles_accepted("player", "bookie")
 @login_required
 def profile():
+    # cache.delete("user_profile")
     all_teams = all_nfl_teams()
     kitchen_sink()
     num_pending = count_pending_bets()
