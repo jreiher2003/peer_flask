@@ -1,3 +1,8 @@
+"""
+If in Base you see bet_taken, bet_graded, and paid but Win is Null or None then the game was graded at a Push.
+win=True is win for user_id, win=False is win for taken_by.  
+ """
+
 import datetime
 from app import db
 from app.users.models import Users, Role, UserRoles, Profile
