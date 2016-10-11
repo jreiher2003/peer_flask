@@ -64,6 +64,7 @@ def nfl_stats(sid):
         )
 
 @nfl_blueprint.route("/nfl/board/")
+@cache.cached(timeout=60*15, key_prefix="nflboard")
 def nfl_public_board():
     all_teams = all_nfl_teams()
     dt = datetime.datetime.now()
@@ -105,10 +106,10 @@ def nfl_create_bet(game_key):
             bet_o = NFLOverUnderBet(
                 game_key=game_key_form, 
                 game_date=parse_date(nfl_game.Date), 
-                over_under=over_under,
                 vs=away+" vs "+"@"+home,
                 home_team = home,
                 away_team = away,
+                over_under=over_under,
                 total=total,
                 amount=amount,
                 bet_key=bet_key,
@@ -118,6 +119,8 @@ def nfl_create_bet(game_key):
             profile1.bets_created += 1
             db.session.add_all([admin,profile1,bet_o])
             db.session.commit()
+            cache.delete("nflboard")
+            flash("%s, You just created a bet between %s taking %s%s risking %s to win %s." % (current_user.username, bet_o.vs, bet_o.total, bet_o.OverUnder, bet_o.amount, bet_o.amount*.9))
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
@@ -133,7 +136,7 @@ def nfl_create_bet(game_key):
         bet_key = ""
         bet_key += hashlib.md5(game_key_form+home+away+awayteam+away_ps+amount+salt).hexdigest()
         if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
-            bet_h = NFLSideBet(
+            bet_a = NFLSideBet(
                 game_key=game_key_form,
                 game_date=parse_date(nfl_game.Date),
                 team=awayteam,
@@ -146,8 +149,10 @@ def nfl_create_bet(game_key):
                 user_id=current_user.id)
             admin.bets_created += 1
             profile1.bets_created += 1
-            db.session.add_all([admin,profile1,bet_h])
+            db.session.add_all([admin,profile1,bet_a])
             db.session.commit()
+            cache.delete("nflboard")
+            flash("%s, You just created a bet between %s taking %s%s risking %s to win %s." % (current_user.username, bet_a.vs, bet_a.team, bet_a.ps, bet_a.amount, bet_a.amount*.9))
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
@@ -178,6 +183,8 @@ def nfl_create_bet(game_key):
             profile1.bets_created += 1
             db.session.add_all([admin,profile1,bet_h])
             db.session.commit()
+            cache.delete("nflboard")
+            flash("%s, You just created a bet between %s taking %s%s risking %s to win %s." % (current_user.username, bet_h.vs, bet_h.team, bet_h.ps, bet_h.amount, bet_h.amount*.9))
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
@@ -224,6 +231,7 @@ def nfl_edit_bet(bet_key):
                 nfl.total =  form.total.data
                 db.session.add(nfl)
                 db.session.commit()
+                cache.delete("nflboard")
                 flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl.users.username,nfl.vs,nfl.bet_key),"info")
                 return redirect(url_for("nfl.nfl_public_board"))
     except exc.SQLAlchemyError:
@@ -240,6 +248,7 @@ def nfl_edit_bet(bet_key):
                     nfl.ps = form.point_spread.data
                     db.session.add(nfl)
                     db.session.commit()
+                    cache.delete("nflboard")
                     flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl.users.username,nfl.vs,nfl.bet_key),"info")
                     return redirect(url_for("nfl.nfl_public_board"))
             elif nfl.ps and nfl.team == nfl.away_team:
@@ -249,6 +258,7 @@ def nfl_edit_bet(bet_key):
                     nfl.ps = form.point_spread.data
                     db.session.add(nfl)
                     db.session.commit()
+                    cache.delete("nflboard")
                     flash("%s you just edited <u>%s</u>. BetKey: %s" % (nfl.users.username,nfl.vs,nfl.bet_key),"info")
                     return redirect(url_for("nfl.nfl_public_board"))
     except exc.SQLAlchemyError:
@@ -285,6 +295,7 @@ def nfl_delete_bet(bet_key):
             db.session.delete(nfl)
             db.session.add_all([admin,profile])
             db.session.commit()
+            cache.delete("nflboard")
             flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl.users.username,nfl.vs,nfl.amount), "danger")
             return redirect(url_for("nfl.nfl_public_board"))
     return render_template("nfl_delete_bet.html", nfl=nfl, form=form, all_teams=all_teams)
@@ -314,6 +325,7 @@ def nfl_bet_vs_bet(bet_key):
         admin.bets_taken += 1
         db.session.add_all([admin,profile_taker,profile_bet_creator,nfl])
         db.session.commit()
+        cache.delete("nflboard")
         flash("%s, You have action" % current_user.username,  "success")
         return redirect(url_for("nfl.nfl_confirm_live_action", bet_key=bet_key))
     return render_template("nfl_vs_bet.html", all_teams=all_teams, nfl=nfl)
