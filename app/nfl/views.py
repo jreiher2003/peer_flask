@@ -85,7 +85,6 @@ def nfl_public_board():
 def nfl_create_bet(game_key):
     all_teams = all_nfl_teams()
     salt = make_salt()
-    admin = Profile.query.filter_by(user_id=1).one()
     profile1 = Profile.query.filter_by(user_id=current_user.id).one()
     nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
     h_team = nfl_game.HomeTeam 
@@ -115,9 +114,8 @@ def nfl_create_bet(game_key):
                 bet_key=bet_key,
                 user_id=current_user.id
                 )
-            admin.bets_created += 1
             profile1.bets_created += 1
-            db.session.add_all([admin,profile1,bet_o])
+            db.session.add_all([profile1,bet_o])
             db.session.commit()
             cache.delete("nflboard")
             cache.delete("user_profile")
@@ -148,9 +146,9 @@ def nfl_create_bet(game_key):
                 amount=amount,
                 bet_key=bet_key,
                 user_id=current_user.id)
-            admin.bets_created += 1
+           
             profile1.bets_created += 1
-            db.session.add_all([admin,profile1,bet_a])
+            db.session.add_all([profile1,bet_a])
             db.session.commit()
             cache.delete("nflboard")
             cache.delete("user_profile")
@@ -181,9 +179,8 @@ def nfl_create_bet(game_key):
                 amount=amount,
                 bet_key=bet_key,
                 user_id=current_user.id)
-            admin.bets_created += 1
             profile1.bets_created += 1
-            db.session.add_all([admin,profile1,bet_h])
+            db.session.add_all([profile1,bet_h])
             db.session.commit()
             cache.delete("nflboard")
             cache.delete("user_profile")
@@ -290,13 +287,11 @@ def nfl_delete_bet(bet_key):
         print "No Side Bets"
     form = OverUnderForm()
     profile = Profile.query.filter_by(user_id=nfl.user_id).one()
-    admin = Profile.query.filter_by(user_id=1).one()
     if nfl is not None:
         if request.method == "POST":
             profile.bets_created -= 1
-            admin.bets_created -= 1
             db.session.delete(nfl)
-            db.session.add_all([admin,profile])
+            db.session.add_all([profile])
             db.session.commit()
             cache.delete("nflboard")
             cache.delete("user_profile")
@@ -319,15 +314,14 @@ def nfl_bet_vs_bet(bet_key):
         print "No side bets"
     profile_taker = Profile.query.filter_by(user_id=current_user.id).one()
     profile_bet_creator = Profile.query.filter_by(user_id=nfl.users.id).one() 
-    admin = Profile.query.filter_by(user_id=1).one()
+    
     if request.method == "POST":
         nfl.bet_taken = True
         nfl.taken_by = current_user.id 
         nfl.taken_username = current_user.username 
         profile_bet_creator.bets_taken += 1
         profile_taker.bets_taken += 1
-        admin.bets_taken += 1
-        db.session.add_all([admin,profile_taker,profile_bet_creator,nfl])
+        db.session.add_all([profile_taker,profile_bet_creator,nfl])
         db.session.commit()
         cache.delete("nflboard")
         cache.delete("user_profile")
