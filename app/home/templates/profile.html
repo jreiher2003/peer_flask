@@ -4,30 +4,41 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h4>Bets Created <small>{{ user.profile.bets_created }}</small></h4>
-            <h4>Bets Taken <small>{{ user.profile.bets_taken }}</small></h4>
-            <h4>Bets Won <small>{{ user.profile.wins }}</small></h4>
-            <h4>Bets Lost <small>{{ user.profile.losses }}</small></h4>
-            <h4>Bets Pushed <small>{{ user.profile.pushes }}</small></h4>
+            <h4>Bets Created <small>{{ current_user.profile.bets_created }}</small></h4>
+            <h4>Bets Taken <small>{{ current_user.profile.bets_taken }}</small></h4>
+            <h4>Bets Won <small>{{ current_user.profile.wins }}</small></h4>
+            <h4>Bets Lost <small>{{ current_user.profile.losses }}</small></h4>
+            <h4>Bets Pushed <small>{{ current_user.profile.pushes }}</small></h4>
             <h4>Number of Pending Bets: <small>{{ num_pending }}</small></h4>
             <h4>Number of Graded Bets: <small>{{ num_graded }}</small></h4>
-            <h4>Funds: <small>${{ user.profile.d_amount }}</small></h4>
+            <h4>Funds: <small>${{ current_user.profile.d_amount }}</small></h4>
             <h1>Profile page</h1>
             <div class="thumbnail">
-                {{ user.id }}
-                {{ user.username }}
-                {{ user.email }}
-                {{ user.profile.avatar }}
+                {{ current_user.id }}
+                {{ current_user.username }}
+                {{ current_user.email }}
+                {{ current_user.profile.avatar }}
             </div>
             
+            
             <div class="thumbnail">
-                {{ account_info.data.user_id }}, {{ account_info.data.label }}, {{ account_info.data.available_balance }}, {{ account_info.data.pending_received_balance }} {{ account_info.data.address }}
+            {% if wallet %}
+            <h4>btc wallet</h4>
+            {{ wallet }}<br>
+            {{ wallet.data.address }}
+            {% else %}
+                you need to create a wallet
+                <form action="" method="post">
+                    {{ form.csrf_token }}
+                    {{ form.submit }}
+                </form>
+            {% endif %}
             </div>
            
 
             <h4>site privileges</h4> 
             <div class="thumbnail">
-            {% for role in user.roles %}
+            {% for role in current_user.roles %}
                 {{ role.name }}
             {% endfor %}
             </div>

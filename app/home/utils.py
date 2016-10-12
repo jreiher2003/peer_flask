@@ -13,6 +13,23 @@ def all_nfl_teams(update=False):
         cache.set(key, all_teams)
     return all_teams
 
+#########################################################################################################
+def ou():
+    return NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==current_user.id) | (NFLOverUnderBet.taken_by==current_user.id)).filter_by(bet_taken=True, bet_graded=False).all()
+def sb():    
+    return NFLSideBet.query.filter((NFLSideBet.user_id==current_user.id) | (NFLSideBet.taken_by==current_user.id)).filter_by(bet_taken=True, bet_graded=False).all()
+
+def ml():
+    return NFLMLBet.query.filter((NFLMLBet.user_id==current_user.id) | (NFLMLBet.taken_by==current_user.id)).filter_by(bet_taken=True, bet_graded=False).all()
+
+def graded_sb():
+    return NFLSideBet.query.filter((NFLSideBet.user_id==current_user.id) | (NFLSideBet.taken_by==current_user.id)).filter_by(bet_taken=True, bet_graded=True, paid=True).all()
+
+def graded_ou():
+    return NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==current_user.id) | (NFLOverUnderBet.taken_by==current_user.id)).filter_by(bet_taken=True, bet_graded=True, paid=True).all()
+
+def graded_ml():
+    return NFLMLBet.query.filter((NFLMLBet.user_id==current_user.id) | (NFLMLBet.taken_by==current_user.id)).filter_by(bet_taken=True, bet_graded=True, paid=True).all()
 #################################################################################
 ## this group of functions updates all the bet tables with wins loses or pushes
 ## win is True, lose is False, push is None

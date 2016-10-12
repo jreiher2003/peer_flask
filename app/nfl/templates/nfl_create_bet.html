@@ -88,9 +88,13 @@
                                 {% endif %}
                             </span>
                             <div class="form-group">
-                                {{ form_h.amount.label }}
-                                {{ form_h.amount(id="amount", placeholder="$20.00", class="form-control")}}
+                                <label class="sr-only" for="amount">Amount (in btc)</label>
+                                <div class="input-group">
+                                  <div class="input-group-addon"><i class="fa fa-btc" aria-hidden="true"></i></div>
+                                    {{ form_h.amount(id="amount", placeholder="0.08", class="form-control")}}
+                                </div>
                             </div>
+                                
                             <span class="error bg-danger">
                                 {% if form_h.amount.errors %}
                                     {% for error in form_h.amount.errors %}
@@ -164,8 +168,11 @@
                                 {% endif %}
                             </span>
                             <div class="form-group">
-                                {{ form_a.amount.label }}
-                                {{ form_a.amount(id="amount", placeholder="$20.00", class="form-control")}}
+                                <label class="sr-only" for="amount">Amount (in btc)</label>
+                                <div class="input-group">
+                                  <div class="input-group-addon"><i class="fa fa-btc" aria-hidden="true"></i></div>
+                                    {{ form_a.amount(id="amount", placeholder="0.08", class="form-control")}}
+                                </div>
                             </div>
                             <span class="error bg-danger">
                                 {% if form_a.amount.errors %}
@@ -235,8 +242,11 @@
                                 {% endif %}
                             </span>
                             <div class="form-group">
-                                {{ form_o.amount.label }}
-                                {{ form_o.amount(placeholder="$20.00", class="form-control")}}
+                                <label class="sr-only" for="amount">Amount (in btc)</label>
+                                <div class="input-group">
+                                  <div class="input-group-addon"><i class="fa fa-btc" aria-hidden="true"></i></div>
+                                    {{ form_o.amount(id="amount", placeholder="0.08", class="form-control")}}
+                                </div>
                             </div>
                             <span class="error bg-danger">
                                 {% if form_o.amount.errors %}

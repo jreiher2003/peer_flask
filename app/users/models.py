@@ -21,8 +21,8 @@ class Users(db.Model, UserMixin):
     login_count = db.Column(db.Integer)
     profile = db.relationship('Profile', uselist=False)
     admin = db.relationship('Admin', uselist=False)
-    roles = db.relationship('Role', secondary='user_roles',
-            backref=db.backref('users', lazy='dynamic'))
+    bitcoin_wallet = db.relationship("BitcoinWallet", uselist=False)
+    roles = db.relationship('Role', secondary='user_roles', backref=db.backref('users', lazy='dynamic'))
     nfl_ou_bet = db.relationship("NFLOverUnderBet")
     nfl_side_bet = db.relationship("NFLSideBet")
     nfl_ml_bet = db.relationship("NFLMLBet")
@@ -90,6 +90,14 @@ class Admin(db.Model):
     total_player_risk = db.Column(db.Integer, default=0)
     total_player_win = db.Column(db.Integer,default=0)
     site_money = db.Column(db.Integer, default=0)
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+
+class BitcoinWallet(db.Model):
+    __tablename__ = "bitcoin_wallet"
+
+    id = db.Column(db.Integer(), primary_key=True)
+    label = db.Column(db.String)
+    address = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
 
 

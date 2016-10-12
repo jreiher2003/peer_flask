@@ -28,7 +28,7 @@
                 {% elif nfl_bet.ml %}
                 <h4 class="text-center">{{ nfl_bet.team }}  {{ nfl_bet.ml }}</h4>
                 {% endif %}
-                <h4 class="text-center"> amount: ${{ nfl_bet.amount }}</h4>
+                <h4 class="text-center"><i class='fa fa-btc' aria-hidden='true'></i> {{ nfl_bet.amount }} / {{ nfl_bet.amount_win }}</h4>
                 </h4>
                 <div class="caption">
                     <div class="col-md-4 text-center"><a href="{{ url_for('nfl.nfl_public_board') }}">board</a></div>

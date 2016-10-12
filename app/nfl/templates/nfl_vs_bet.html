@@ -21,8 +21,8 @@
                             {% else %}
                         <h4 class="text-center">{{ nfl.team }}  {{ nfl.ps_format }}</h4>
                             {% endif %}
-                        <h4 class="text-center"> risk: ${{ nfl.amount }}<br>
-                                                 win: ${{ nfl.amount_win }}
+                        <h4 class="text-center"> risk: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount }}<br>
+                                                 win: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount_win }}
                          </h4>
                         
                         <div class="caption">
@@ -42,8 +42,8 @@
                             {% else %}
                         <h4 class="text-center">{{ nfl.opposite_team }}  {{ nfl.opposite_ps }}</h4>
                             {% endif %}
-                        <h4 class="text-center"> risk: ${{ nfl.amount }}<br>
-                                                 win: ${{ nfl.amount_win }}
+                        <h4 class="text-center"> risk: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount }}<br>
+                                                 win:  <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount_win }}
                         </h4>
                         
                         <div class="caption">

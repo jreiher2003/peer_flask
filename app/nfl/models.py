@@ -18,7 +18,7 @@ class Base(db.Model):
     home_team = db.Column(db.String)
     away_team = db.Column(db.String)
     win = db.Column(db.Boolean)
-    amount = db.Column(db.Integer)
+    amount = db.Column(db.BigInteger)
     bet_taken = db.Column(db.Boolean, default=False)
     bet_graded = db.Column(db.Boolean, default=False)
     paid = db.Column(db.Boolean, default=False)
@@ -63,11 +63,11 @@ class Base(db.Model):
 
     @property    
     def amount_win(self):
-        return round(float(self.amount) * .9,2)
+        return self.amount * .9
 
     @property 
     def admin_win(self):
-        return round(float(self.amount)* .1, 2)
+        return self.amount * .1
 
     @property 
     def ml_win(self):

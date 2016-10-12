@@ -31,7 +31,7 @@ def nfl_home():
         )
 
 @nfl_blueprint.route("/nfl/standings/")
-@cache.cached(timeout=60*15, key_prefix="nfl_season_standings")
+# @cache.cached(timeout=60*15, key_prefix="nfl_season_standings")
 def nfl_standings():
     all_teams = all_nfl_teams()
     st = NFLStandings.query.all()
@@ -64,7 +64,7 @@ def nfl_stats(sid):
         )
 
 @nfl_blueprint.route("/nfl/board/")
-@cache.cached(timeout=60*15, key_prefix="nflboard")
+# @cache.cached(timeout=60*15, key_prefix="nflboard")
 def nfl_public_board():
     all_teams = all_nfl_teams()
     dt = datetime.datetime.now()
@@ -82,6 +82,7 @@ def nfl_public_board():
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])
 @login_required
+# we have to check to see if bet_creator has enough bitcoins in their account to proceed.
 def nfl_create_bet(game_key):
     all_teams = all_nfl_teams()
     salt = make_salt()
@@ -119,7 +120,7 @@ def nfl_create_bet(game_key):
             db.session.commit()
             cache.delete("nflboard")
             cache.delete("user_profile")
-            flash("%s, You just created a bet between %s taking %s%s risking %s to win %s." % (current_user.username, bet_o.vs, bet_o.over_under, bet_o.total, bet_o.amount, bet_o.amount*.9), "success")
+            flash("%s, You just created a bet between %s taking %s%s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_o.vs, bet_o.over_under, bet_o.total, bet_o.amount, bet_o.amount*.9), "success")
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
@@ -152,7 +153,7 @@ def nfl_create_bet(game_key):
             db.session.commit()
             cache.delete("nflboard")
             cache.delete("user_profile")
-            flash("%s, You just created a bet between %s taking %s %s risking %s to win %s." % (current_user.username, bet_a.vs, bet_a.team, bet_a.ps_format, bet_a.amount, bet_a.amount*.9), "success")
+            flash("%s, You just created a bet between %s taking %s %s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_a.vs, bet_a.team, bet_a.ps_format, bet_a.amount, bet_a.amount*.9), "success")
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
@@ -184,7 +185,7 @@ def nfl_create_bet(game_key):
             db.session.commit()
             cache.delete("nflboard")
             cache.delete("user_profile")
-            flash("%s, You just created a bet between %s taking %s %s risking %s to win %s." % (current_user.username, bet_h.vs, bet_h.team, bet_h.ps_format, bet_h.amount, bet_h.amount*.9), "success")
+            flash("%s, You just created a bet between %s taking %s %s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_h.vs, bet_h.team, bet_h.ps_format, bet_h.amount, bet_h.amount*.9), "success")
             return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
         else:
             flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
@@ -312,15 +313,21 @@ def nfl_bet_vs_bet(bet_key):
         nfl = NFLSideBet.query.filter_by(bet_key=bet_key).one()
     except exc.SQLAlchemyError:
         print "No side bets"
-    profile_taker = Profile.query.filter_by(user_id=current_user.id).one()
-    profile_bet_creator = Profile.query.filter_by(user_id=nfl.users.id).one() 
+    profile_taker = Users.query.filter_by(user_id=current_user.id).one()
+    profile_bet_creator = Users.query.filter_by(user_id=nfl.users.id).one() 
     
     if request.method == "POST":
         nfl.bet_taken = True
         nfl.taken_by = current_user.id 
         nfl.taken_username = current_user.username 
-        profile_bet_creator.bets_taken += 1
-        profile_taker.bets_taken += 1
+        profile_bet_creator.profile.bets_taken += 1
+        profile_taker.profile.bets_taken += 1
+        pbc = profile_bet_creator.bitcoin_wallet.address
+        pbt = profile_taker.bitcoin_wallet.address
+         
+        # we have to check to see if profile_taker and profile_bet_creator have enough bitcoins in their account to proceed.
+        # block_io.withdraw_from_addresses(amounts=nfl.amount,nfl.amount,from_addresses=pbc,pbt,to_addresses=admin_account)
+        
         # put method for block_io.withdraw_from_addresses(amounts='nfl.amount, nfl.amount', from_addresses='profile_taker.bitcoin_address, profile_bet_creator.bitcoin_address', to_addresses='admin_addresss or escrow address')
         db.session.add_all([profile_taker,profile_bet_creator,nfl])
         db.session.commit()

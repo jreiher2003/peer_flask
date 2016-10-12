@@ -1,5 +1,6 @@
 from flask_security.forms import RegisterForm, Required, ValidationError
-from wtforms import TextField
+from flask_wtf import Form 
+from wtforms import TextField, SubmitField
 from .models import Users
 
 def validate_username(form, field):
@@ -9,3 +10,7 @@ def validate_username(form, field):
 
 class ExtendedConfirmRegisterForm(RegisterForm):
     username = TextField("Username", [Required(), validate_username])
+
+class BitcoinWalletForm(Form):
+    create = SubmitField("Create a wallet")
+    
