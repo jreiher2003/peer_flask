@@ -12,79 +12,76 @@ from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash, abort
 from flask_security import login_required, roles_required, current_user
 from slugify import slugify
-from app.home.utils import all_nfl_teams 
+from app.home.utils import all_nfl_teams, get_user_wallet
 from .utils import team_rush_avg, team_pass_avg, \
 opp_team_rush_avg, opp_team_pass_avg, team_off_avg, \
 team_def_avg, today_date,today_and_now, make_salt, yesterday
 
-
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
-
 
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")
 def nfl_home():
-    all_teams = all_nfl_teams()
     return render_template(
         "nfl_home.html", 
-        all_teams=all_teams
+        all_teams = all_nfl_teams(),
+        wallet = get_user_wallet(),
         )
 
 @nfl_blueprint.route("/nfl/standings/")
 # @cache.cached(timeout=60*15, key_prefix="nfl_season_standings")
 def nfl_standings():
-    all_teams = all_nfl_teams()
     st = NFLStandings.query.all()
     return render_template(
         "nfl_standings/nfl standings.html", 
-        standing=st, 
-        all_teams=all_teams
+        all_teams = all_nfl_teams(),
+        wallet = get_user_wallet(),
+        standing = st, 
         )
 
 @nfl_blueprint.route("/nfl/schedule/")
 def nfl_schedule():
-    all_teams = all_nfl_teams()
     dt = datetime.datetime.now()
     sch = NFLSchedule.query.filter(NFLSchedule.SeasonType == 1, NFLSchedule.PointSpread != None).all()
     return render_template(
         "nfl_schedule.html", 
-        all_teams=all_teams, 
-        data=sch, 
-        dt=dt,
+        all_teams = all_nfl_teams(), 
+        wallet = get_user_wallet(),
+        data = sch, 
+        dt = dt,
         )
 
 @nfl_blueprint.route("/nfl/stats/<int:sid>/")
-def nfl_stats(sid):
-    all_teams = all_nfl_teams()
+def nfl_stats(sid): 
     teamseason1 = NFLTeamSeason.query.filter_by(SeasonType=sid).all()
     return render_template(
         "nfl_stats.html", 
-        all_teams=all_teams, 
-        teamseason=teamseason1,
+        all_teams = all_nfl_teams(),
+        wallet = get_user_wallet(), 
+        teamseason = teamseason1,
         )
 
 @nfl_blueprint.route("/nfl/board/")
 # @cache.cached(timeout=60*15, key_prefix="nflboard")
 def nfl_public_board():
-    all_teams = all_nfl_teams()
     dt = datetime.datetime.now()
     tb = NFLOverUnderBet.query.filter_by(bet_taken=False).all()
     sb = NFLSideBet.query.filter_by(bet_taken=False).all()
     ml = NFLMLBet.query.filter_by(bet_taken=False).all()
     return render_template(
         "nfl_public_board.html", 
-        all_teams=all_teams, 
-        dt=dt, 
-        tb=tb,
-        sb=sb,
-        ml=ml
+        all_teams = all_nfl_teams(), 
+        wallet = get_user_wallet(),
+        dt = dt, 
+        tb = tb,
+        sb = sb,
+        ml = ml
         )
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])
 @login_required
 # we have to check to see if bet_creator has enough bitcoins in their account to proceed.
 def nfl_create_bet(game_key):
-    all_teams = all_nfl_teams()
     salt = make_salt()
     profile1 = Profile.query.filter_by(user_id=current_user.id).one()
     nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
@@ -192,19 +189,20 @@ def nfl_create_bet(game_key):
             return render_template("nfl_error.html")
     return render_template(
         "nfl_create_bet.html",
-        form_o=form_o,
-        form_h=form_h,
-        form_a=form_a, 
-        nfl_game=nfl_game, 
-        all_teams=all_teams,
-        h_team=h_team,
-        a_team=a_team,
+        all_teams = all_nfl_teams(),
+        wallet = get_user_wallet(),
+        form_o = form_o,
+        form_h = form_h,
+        form_a = form_a, 
+        nfl_game = nfl_game, 
+        h_team = h_team,
+        a_team = a_team,
         )
 
 @nfl_blueprint.route("/nfl/confirm/<path:bet_key>/", methods=["GET","POST"])
 @login_required
 def nfl_confirm_create_bet(bet_key):
-    all_teams = all_nfl_teams()
+    
     try:
         nfl_bet = NFLSideBet.query.filter_by(bet_key=bet_key).one()
     except exc.SQLAlchemyError:
@@ -213,13 +211,15 @@ def nfl_confirm_create_bet(bet_key):
         nfl_bet = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
     except exc.SQLAlchemyError:
         print "No Over Under bets"
-
-    return render_template('nfl_confirm_create_bet.html', nfl_bet=nfl_bet, all_teams=all_teams)
+    return render_template(
+        'nfl_confirm_create_bet.html', 
+        nfl_bet = nfl_bet, 
+        all_teams = all_nfl_teams(),
+        wallet = get_user_wallet())
     
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/edit/", methods=["GET","POST"])
 @login_required
 def nfl_edit_bet(bet_key):
-    all_teams = all_nfl_teams()
     try:
         nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
         if nfl is not None:
@@ -266,18 +266,18 @@ def nfl_edit_bet(bet_key):
         print "No side bets"
     return render_template(
         "nfl_edit_bet.html", 
-        all_teams=all_teams,
-        nfl=nfl,
-        h_team=h_team,
-        a_team=a_team,
+        all_teams = all_nfl_teams(),
+        wallet = get_user_wallet(),
+        nfl = nfl,
+        h_team = h_team,
+        a_team = a_team,
         form = form,
-        bet_key=bet_key
+        bet_key = bet_key
         )
 
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/delete/", methods=["GET","POST"])
 @login_required
 def nfl_delete_bet(bet_key):
-    all_teams = all_nfl_teams()
     try:
         nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
     except exc.SQLAlchemyError:
@@ -298,7 +298,13 @@ def nfl_delete_bet(bet_key):
             cache.delete("user_profile")
             flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl.users.username,nfl.vs,nfl.amount), "danger")
             return redirect(url_for("nfl.nfl_public_board"))
-    return render_template("nfl_delete_bet.html", nfl=nfl, form=form, all_teams=all_teams)
+    return render_template(
+        "nfl_delete_bet.html", 
+        all_teams = all_nfl_teams(),
+        wallet = get_user_wallet(),
+        nfl = nfl, 
+        form = form, 
+        )
 
 
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/", methods=["GET","POST"])
@@ -335,7 +341,12 @@ def nfl_bet_vs_bet(bet_key):
         cache.delete("user_profile")
         flash("%s, You have action" % current_user.username,  "success")
         return redirect(url_for("nfl.nfl_confirm_live_action", bet_key=bet_key))
-    return render_template("nfl_vs_bet.html", all_teams=all_teams, nfl=nfl)
+    return render_template(
+        "nfl_vs_bet.html", 
+        all_teams = all_nfl_teams(),
+        wallet = get_user_wallet(), 
+        nfl = nfl
+        )
 
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/confirm/")
 @login_required
@@ -348,12 +359,15 @@ def nfl_confirm_live_action(bet_key):
         live_bet = NFLSideBet.query.filter_by(bet_key=bet_key).one()
     except exc.SQLAlchemyError:
         print "No Side Bets"
-    return render_template("nfl_confirm_live_action.html", live_bet=live_bet)
+    return render_template(
+        "nfl_confirm_live_action.html",
+        all_teams = all_nfl_teams(),
+        wallet = get_user_wallet(), 
+        live_bet = live_bet)
 
 
 @nfl_blueprint.route("/nfl/team/home/<int:sid>/<path:key>/<path:team>/")
 def nfl_team_home(sid,key,team):
-    all_teams = all_nfl_teams()
     dt = today_and_now()
     dt_plus_2h = dt - datetime.timedelta(hours=4)
     jj = NFLTeam.query.filter_by(Key=key).one()
@@ -370,32 +384,35 @@ def nfl_team_home(sid,key,team):
     team_def_rank = team_def_avg(tss.OpponentOffensiveYards,tss.Team, sid) 
     return render_template(
         "nfl_team/nfl_team_home.html",
-        all_teams=all_teams,
-        team_rush_rank=team_rush_rank,
-        team_pass_rank=team_pass_rank,
-        opp_team_rush_rank=opp_team_rush_rank,
-        opp_team_pass_rank=opp_team_pass_rank,
-        team_off_rank=team_off_rank,
-        team_def_rank=team_def_rank,
-        team_score=team_score,
-        dt_plus_2h=dt_plus_2h,
-        dt=dt,
-        tt=tt,
-        jj=jj,
-        ss=ss,
-        tss=tss,
-        ts=ts
+        all_teams = all_nfl_teams(),
+        wallet = get_user_wallet(),
+        team_rush_rank = team_rush_rank,
+        team_pass_rank = team_pass_rank,
+        opp_team_rush_rank = opp_team_rush_rank,
+        opp_team_pass_rank = opp_team_pass_rank,
+        team_off_rank = team_off_rank,
+        team_def_rank = team_def_rank,
+        team_score = team_score,
+        dt_plus_2h = dt_plus_2h,
+        dt = dt,
+        tt = tt,
+        jj = jj,
+        ss = ss,
+        tss = tss,
+        ts = ts
         )
 
 
 @nfl_blueprint.route("/nfl/team/schedule/<path:team>/")
 def nfl_team_schedule(team):
     all_teams = all_nfl_teams()
+    wallet = get_user_wallet()
     return "schedule"
 
 @nfl_blueprint.route("/nfl/team/stats/<path:team>/")
 def nfl_team_stats(team):
     all_teams = all_nfl_teams()
+    wallet = get_user_wallet(),
     return "stats"
 
 

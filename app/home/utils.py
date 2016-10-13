@@ -1,8 +1,8 @@
-from app import app, db, cache 
+from app import app, db, cache,block_io
 from flask_security import current_user
 from app.nfl_stats.models import NFLTeam 
 from app.nfl.models import NFLBetGraded, NFLSideBet, NFLOverUnderBet, NFLMLBet
-from app.users.models import Users, Profile
+from app.users.models import Users, Profile, BitcoinWallet
 
 def all_nfl_teams(update=False):
     key = "teams"
@@ -12,6 +12,14 @@ def all_nfl_teams(update=False):
         all_teams = list(all_teams)
         cache.set(key, all_teams)
     return all_teams
+
+def get_user_wallet():
+    wallet = BitcoinWallet.query.filter_by(user_id=current_user.id).one_or_none()
+    try:
+        wallet = block_io.get_address_by_label(label=wallet.label)
+    except AttributeError:
+        print "no wallet created yet"
+    return wallet or None 
 
 #########################################################################################################
 def ou():

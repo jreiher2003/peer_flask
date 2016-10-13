@@ -21,6 +21,7 @@
           <li><a href="{{ url_for('nfl.nfl_stats', sid=1) }}">Stats</a></li>
         {% if current_user.is_active %}
           <li><a href="{{ url_for('home.profile') }}">{{ current_user.username }}</a></li>
+          <li><a href="#"><i class="fa fa-btc" aria-hidden="true"></i> {{ wallet.data.available_balance }}</a></li>
           <li><a href="{{ url_for('security.logout') }}">logout</a></li>
         {% else %} 
           <li><a href="{{ url_for('security.login') }}">login</a></li>
@@ -32,6 +33,7 @@
       </form> -->
       <ul class="nav navbar-nav navbar-left">
         <li><a href="{{ url_for('nfl.nfl_public_board') }}">Board</a></li>
+
       </ul>
     </div>
   </div>

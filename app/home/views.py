@@ -9,7 +9,7 @@ from app.users.forms import BitcoinWalletForm
 from app.nfl_stats.models import NFLTeam, NFLScore
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet
 from flask import Blueprint, render_template
-from .utils import all_nfl_teams, grade_query, count_pending_bets, count_graded_bets, ou, sb, ml, graded_sb, graded_ou, graded_ml
+from .utils import all_nfl_teams, grade_query, count_pending_bets, count_graded_bets, ou, sb, ml, graded_sb, graded_ou, graded_ml, get_user_wallet
 
 home_blueprint = Blueprint("home", __name__, template_folder="templates")
  
@@ -17,9 +17,10 @@ home_blueprint = Blueprint("home", __name__, template_folder="templates")
 def home():
     all_address = block_io.get_my_addresses()
     return render_template(
-        "home.html", 
-        all_teams=all_nfl_teams(),
-        all_address=all_address
+        "home.html",
+        wallet = get_user_wallet(), 
+        all_teams = all_nfl_teams(),
+        all_address = all_address
         )
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
@@ -27,11 +28,7 @@ def home():
 @roles_accepted("player", "bookie")
 @login_required
 def profile():
-    wallet = BitcoinWallet.query.filter_by(user_id=current_user.id).one_or_none()
-    try:
-        wallet = block_io.get_address_by_label(label=wallet.label)
-    except AttributeError:
-        print "no wallet created yet"
+    wallet = get_user_wallet()
     form = BitcoinWalletForm()
     if form.validate_on_submit():
         try:
@@ -61,24 +58,24 @@ def profile():
     return render_template(
         "profile.html", 
         all_teams=all_nfl_teams(), 
-        form=form,
-        wallet=wallet,
-        ou=ou(),
-        sb=sb(),
-        ml=ml(),
-        num_pending=count_pending_bets(),
-        num_graded=count_graded_bets(),
-        graded_sb=graded_sb(),
-        graded_ou=graded_ou(),
-        graded_ml=graded_ml(),
+        form = form,
+        wallet = get_user_wallet(),
+        ou = ou(),
+        sb = sb(),
+        ml = ml(),
+        num_pending = count_pending_bets(),
+        num_graded = count_graded_bets(),
+        graded_sb = graded_sb(),
+        graded_ou = graded_ou(),
+        graded_ml = graded_ml(),
         )
 
 @home_blueprint.route("/admin/")
 @roles_required("admin")
 def admin():
-    all_teams = all_nfl_teams()
     return render_template(
         "admin_page.html",
-     all_teams=all_teams
+     all_teams = all_nfl_teams(),
+     wallet = get_user_wallet(),
      )
 
