@@ -22,6 +22,8 @@ nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")
 def nfl_home():
+    admin = Users.query.filter_by(id=1).one()
+    print admin.username
     return render_template(
         "nfl_home.html", 
         all_teams = all_nfl_teams(),
@@ -208,7 +210,6 @@ def nfl_create_bet(game_key):
 @nfl_blueprint.route("/nfl/confirm/<path:bet_key>/", methods=["GET","POST"])
 @login_required
 def nfl_confirm_create_bet(bet_key):
-    
     try:
         nfl_bet = NFLSideBet.query.filter_by(bet_key=bet_key).one()
     except exc.SQLAlchemyError:
@@ -323,11 +324,9 @@ def nfl_delete_bet(bet_key):
         form = form, 
         )
 
-
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/", methods=["GET","POST"])
 @login_required
 def nfl_bet_vs_bet(bet_key):
-    all_teams = all_nfl_teams()
     try:
         nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
     except exc.SQLAlchemyError:
@@ -338,7 +337,13 @@ def nfl_bet_vs_bet(bet_key):
         print "No side bets"
     bet_taker = Users.query.filter_by(id=current_user.id).one()
     bet_creator = Users.query.filter_by(id=nfl.users.id).one() 
-    
+    default = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7" # default block_io address
+    bc = bet_creator.bitcoin_wallet.address
+    bt = bet_taker.bitcoin_wallet.address
+    nonce = make_salt(length=32)
+    print nfl.amount,bc,bt, default,nonce
+    bc_amount = nfl.amount 
+    bt_amount = nfl.amount 
     if request.method == "POST":
         nfl.bet_taken = True
         nfl.taken_by = current_user.id 
@@ -347,9 +352,12 @@ def nfl_bet_vs_bet(bet_key):
         bet_taker.profile.bets_taken += 1
         bc = bet_creator.bitcoin_wallet.address
         bt = bet_taker.bitcoin_wallet.address
+
          
         # we have to check to see if profile_taker and profile_bet_creator have enough bitcoins in their account to proceed.
-        # block_io.withdraw_from_addresses(amounts=nfl.amount,nfl.amount,from_addresses=pbc,pbt,to_addresses=admin_account)
+        block_io.withdraw_from_addresses(amounts = bc_amount+", "+bt_amount, from_addresses = bc+","+bt, to_addresses = default, priority="low", nonce=nonce)
+        network_fees = block_io.get_network_fee_estimate(amounts = bc_amount+", "+bt_amount, from_addresses = bc+","+bt, to_addresses = default, priority="low", nonce=nonce)
+        print network_fees
         
         # put method for block_io.withdraw_from_addresses(amounts='nfl.amount, nfl.amount', from_addresses='profile_taker.bitcoin_address, profile_bet_creator.bitcoin_address', to_addresses='admin_addresss or escrow address')
         db.session.add_all([bet_taker, bet_creator, nfl])
