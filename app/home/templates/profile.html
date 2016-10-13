@@ -11,13 +11,17 @@
             <h4>Bets Pushed <small>{{ current_user.profile.pushes }}</small></h4>
             <h4>Number of Pending Bets: <small>{{ num_pending }}</small></h4>
             <h4>Number of Graded Bets: <small>{{ num_graded }}</small></h4>
-            <h4>Funds: <small>${{ current_user.profile.d_amount }}</small></h4>
+            <h4>Funds: <small>{{ current_user.profile.d_amount }} BTC</small></h4>
+            <h4>Actual: <small>{{ current_user.bitcoin_wallet.available_btc }} BTC</small></h4>
             <h1>Profile page</h1>
             <div class="thumbnail">
                 {{ current_user.id }}
                 {{ current_user.username }}
                 {{ current_user.email }}
                 {{ current_user.profile.avatar }}
+                {{ current_user.bitcoin_wallet.label }}
+                {{ current_user.bitcoin_wallet.address }}
+                {{ current_user.bitcoin_wallet.available_btc }}
             </div>
             
             
@@ -30,7 +34,7 @@
                 you need to create a wallet
                 <form action="" method="post">
                     {{ form.csrf_token }}
-                    {{ form.submit }}
+                    {{ form.create }}
                 </form>
             {% endif %}
             </div>

@@ -74,7 +74,7 @@
                             {% endfor %}
                         {% endif %}
                     </span>
-                    {{ form.submit_o(value="edit") }}
+                    {{ form.submit_o(value="edit") }} <a href="{{ url_for('nfl.nfl_public_board') }}">cancel</a>
                 </form>
                 {% endif %}
                 {% if nfl.ps and nfl.team == nfl.home_team %}
@@ -146,7 +146,7 @@
                                 {% endfor %}
                             {% endif %}
                         </span>
-                        {{ form.submit_h(value="edit") }}
+                        {{ form.submit_h(value="edit") }} <a href="{{ url_for('nfl.nfl_public_board') }}">cancel</a>
                     </form>
                 {% endif %}
                 {% if nfl.ps and nfl.team == nfl.away_team %}
@@ -218,7 +218,7 @@
                                 {% endfor %}
                             {% endif %}
                         </span>
-                        {{ form.submit_a }}
+                        {{ form.submit_a }} <a href="{{ url_for('nfl.nfl_public_board') }}">cancel</a>
                 </form>
                 {% endif %}
             </div>

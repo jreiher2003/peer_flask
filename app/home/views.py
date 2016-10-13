@@ -18,7 +18,6 @@ def home():
     all_address = block_io.get_my_addresses()
     return render_template(
         "home.html",
-        wallet = get_user_wallet(), 
         all_teams = all_nfl_teams(),
         all_address = all_address
         )
@@ -57,9 +56,9 @@ def profile():
             print "some thing else happend"
     return render_template(
         "profile.html", 
-        all_teams=all_nfl_teams(), 
+        all_teams = all_nfl_teams(), 
+        wallet = wallet,
         form = form,
-        wallet = get_user_wallet(),
         ou = ou(),
         sb = sb(),
         ml = ml(),
@@ -76,6 +75,5 @@ def admin():
     return render_template(
         "admin_page.html",
      all_teams = all_nfl_teams(),
-     wallet = get_user_wallet(),
      )
 

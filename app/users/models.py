@@ -1,5 +1,5 @@
 import datetime
-from app import db
+from app import db, block_io
 from flask_security import UserMixin, RoleMixin 
 
 
@@ -99,5 +99,17 @@ class BitcoinWallet(db.Model):
     label = db.Column(db.String)
     address = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+
+    @property 
+    def available_btc(self):
+        avail = block_io.get_address_by_label(label=self.label)
+        return avail["data"]["available_balance"]
+
+    @property 
+    def pending_btc(self):
+        avail = block_io.get_address_by_label(label=self.label)
+        return avail["data"]["pending_received_balance"]
+
+
 
 

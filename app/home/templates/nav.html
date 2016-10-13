@@ -20,8 +20,12 @@
           <li><a href="{{ url_for('nfl.nfl_schedule') }}">Schedule</a></li>
           <li><a href="{{ url_for('nfl.nfl_stats', sid=1) }}">Stats</a></li>
         {% if current_user.is_active %}
+          {% if current_user.bitcoin_wallet == None %}
+            <li><a href="{{ url_for('home.profile') }}">Create Bitcoin Wallet</a></li>
+            {% else %}
+            <li><a href="{{ url_for('home.profile') }}">{{ current_user.bitcoin_wallet.available_btc }} BTC</a></li>
+          {% endif %}
           <li><a href="{{ url_for('home.profile') }}">{{ current_user.username }}</a></li>
-          <li><a href="#"><i class="fa fa-btc" aria-hidden="true"></i> {{ wallet.data.available_balance }}</a></li>
           <li><a href="{{ url_for('security.logout') }}">logout</a></li>
         {% else %} 
           <li><a href="{{ url_for('security.login') }}">login</a></li>

@@ -14,12 +14,15 @@ def all_nfl_teams(update=False):
     return all_teams
 
 def get_user_wallet():
-    wallet = BitcoinWallet.query.filter_by(user_id=current_user.id).one_or_none()
-    try:
-        wallet = block_io.get_address_by_label(label=wallet.label)
-    except AttributeError:
-        print "no wallet created yet"
-    return wallet or None 
+    if current_user.get_id():
+        wallet = BitcoinWallet.query.filter_by(user_id=current_user.id).one_or_none()
+        try:
+            wallet = block_io.get_address_by_label(label=wallet.label)
+        except AttributeError:
+            print "no wallet created yet"
+        return wallet or None 
+    else:
+        return None
 
 #########################################################################################################
 def ou():
@@ -133,6 +136,10 @@ def grade_all_bets():
 def get_all_users():
     return Users.query.all()
 
+def get_admin():
+    user1 = Users.query.filter_by(id=1).one()
+    return user1.admin
+
 def pay_winners_from_losers_sb():
     users = get_all_users() # list of all users id
     for u in users:
@@ -140,23 +147,25 @@ def pay_winners_from_losers_sb():
         sb = list(sb1)
         if sb:
             for ss in sb:
-                c_profile = Profile.query.filter_by(user_id=ss.user_id).one()
-                t_profile = Profile.query.filter_by(user_id=ss.taken_by).one()
+                c_user = Users.query.filter_by(id=ss.user_id).one()
+                t_user = Users.query.filter_by(id=ss.taken_by).one()
                 if ss.win == True:
                     print "player %s gets paid from player %s this amount %s" % (ss.user_id, ss.taken_by, ss.amount_win)
-                    c_profile.d_amount += ss.amount_win
-                    t_profile.d_amount -= ss.amount 
+                    c_user.profile.d_amount += (ss.amount_win + ss.amount)
+                    # t_profile.d_amount -= ss.amount 
                     ss.paid = True 
                 if ss.win == False:
                     print "player %s gets paid from player %s this amount %s" % (ss.taken_by, ss.user_id, ss.amount_win)
-                    t_profile.d_amount += ss.amount_win
-                    c_profile.d_amount -= ss.amount 
+                    t_user.profile.d_amount += (ss.amount_win + ss.amount)
+                    # c_profile.d_amount -= ss.amount 
                     ss.paid = True 
                 if ss.win == None:
-                    print "this is a push no payment"
+                    print "this is a push no payment both users get back their money"
+                    c_user.profile.d_amount += (ss.amount)
+                    t_user.profile.d_amount += (ss.amount)
                     ss.paid = True 
-                db.session.add(c_profile)
-                db.session.add(t_profile)
+                db.session.add(c_user)
+                db.session.add(t_user)
             db.session.add(ss)
             db.session.commit()
 
@@ -168,23 +177,25 @@ def pay_winners_from_losers_ou():
         ou = list(ou1)
         if ou:
             for oo in ou:
-                c_profile = Profile.query.filter_by(user_id=oo.user_id).one()
-                t_profile = Profile.query.filter_by(user_id=oo.taken_by).one()
+                c_user = Users.query.filter_by(id=oo.user_id).one()
+                t_user = Users.query.filter_by(id=oo.taken_by).one()
                 if oo.win == True:
                     print "player %s gets paid from player %s this amount %s" % (oo.user_id, oo.taken_by, oo.amount_win)
-                    c_profile.d_amount += oo.amount_win
-                    t_profile.d_amount -= oo.amount 
+                    c_user.profile.d_amount += (oo.amount_win + oo.amount)
+                    # t_profile.d_amount -= oo.amount 
                     oo.paid = True 
                 if oo.win == False:
                     print "player %s gets paid from player %s this amount %s" % (oo.taken_by, oo.user_id, oo.amount_win)
-                    t_profile.d_amount += oo.amount_win
-                    c_profile.d_amount -= oo.amount 
+                    t_user.profile.d_amount += (oo.amount_win + oo.amount)
+                    # c_profile.d_amount -= oo.amount 
                     oo.paid = True
                 if oo.win == None:
-                    print "this is a push no payment."
+                    print "this is a push no payment. People get back their money."
+                    t_user.profile.d_amount += oo.amount 
+                    c_user.profile.d_amount += oo.amount 
                     oo.paid = True  
-                db.session.add(c_profile)
-                db.session.add(t_profile)
+                db.session.add(c_user)
+                db.session.add(t_user)
             db.session.add(oo)
             db.session.commit()
 
@@ -195,23 +206,25 @@ def pay_winners_from_losers_ml():
         ml = list(ml1)
         if ml:
             for ll in ml:
-                c_profile = Profile.query.filter_by(user_id=ll.user_id).one()
-                t_profile = Profile.query.filter_by(user_id=ll.taken_by).one()
+                c_user = Users.query.filter_by(id=ll.user_id).one()
+                t_user = Users.query.filter_by(id=ll.taken_by).one()
                 if ll.win == True:
                     print "player %s gets paid from player %s this amount %s" % (ll.user_id, ll.taken_by, ll.amount_win)
-                    c_profile.d_amount += ll.amount_win
-                    t_profile.d_amount -= ll.amount 
+                    c_user.profile.d_amount += (ll.amount_win + ll.amount)
+                    # t_profile.d_amount -= ll.amount 
                     ll.paid = True 
                 if ll.win == False:
                     print "player %s gets paid from player %s this amount %s" % (ll.taken_by, ll.user_id, ll.amount_win)
-                    t_profile.d_amount += ll.amount_win
-                    c_profile.d_amount -= ll.amount 
+                    t_user.profile.d_amount += (ll.amount_win + ll.amount)
+                    # c_profile.d_amount -= ll.amount 
                     ll.paid = True 
                 if ll.win == None:
-                    print "this is a push no payment"
+                    print "this is a push no payment. Everyone gets back their money"
+                    c_user.profile.d_amount += ll.amount 
+                    t_user.profile.d_amount += ll.amount 
                     ll.paid = True
-                db.session.add(c_profile)
-                db.session.add(t_profile)
+                db.session.add(c_user)
+                db.session.add(t_user)
             db.session.add(ll)
             db.session.commit()
 
