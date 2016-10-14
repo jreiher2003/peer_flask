@@ -81,7 +81,9 @@ def nfl_public_board():
 # we have to check to see if bet_creator has enough bitcoins in their account to proceed.
 def nfl_create_bet(game_key):
     salt = make_salt()
+    admin = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7"
     user1 = Users.query.filter_by(id = current_user.id).one()
+    btc_address = user1.bitcoin_wallet.address
     nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
     h_team = nfl_game.HomeTeam 
     a_team = nfl_game.AwayTeam
@@ -90,7 +92,9 @@ def nfl_create_bet(game_key):
     form_a = AwayTeamForm()
     if form_o.validate_on_submit():
         amount = request.form["amount"]
-        if amount <= user1.bitcoin_wallet.available_btc: 
+        network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
+        network_fees = network_fees["data"]["estimated_network_fee"]
+        if (amount+network_fees) <= user1.bitcoin_wallet.available_btc: 
             game_key_form = request.form["game_key"]
             home = request.form["home_"]
             away = request.form["away_"]
@@ -127,7 +131,9 @@ def nfl_create_bet(game_key):
 
     elif form_a.validate_on_submit():
         amount = request.form["amount"]
-        if amount <= user1.bitcoin_wallet.available_btc:
+        network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
+        network_fees = network_fees["data"]["estimated_network_fee"]
+        if (amount+network_fees) <= user1.bitcoin_wallet.available_btc: 
             game_key_form = request.form["game_key"]
             home = request.form["home_"]
             away = request.form["away_"]
@@ -163,7 +169,11 @@ def nfl_create_bet(game_key):
 
     elif form_h.validate_on_submit():
         amount = request.form["amount"]
-        if amount <= user1.bitcoin_wallet.available_btc:
+        network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
+        network_fees = network_fees["data"]["estimated_network_fee"]
+        if (amount+network_fees) <= user1.bitcoin_wallet.available_btc: 
+            print user1.bitcoin_wallet.available_btc
+            print type(user1.bitcoin_wallet.available_btc)
             game_key_form = request.form["game_key"]
             home = request.form["home_"]
             away = request.form["away_"]
@@ -227,7 +237,10 @@ def nfl_confirm_create_bet(bet_key):
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/edit/", methods=["GET","POST"])
 @login_required
 def nfl_edit_bet(bet_key):
+    admin = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7"
     user = Users.query.filter_by(id=current_user.id).one()
+    btc_address = user.bitcoin_wallet.address 
+
     try:
         nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
         if nfl is not None:
@@ -236,7 +249,9 @@ def nfl_edit_bet(bet_key):
             form = OverUnderForm(obj=nfl)
             if form.validate_on_submit():
                 nfl.amount = form.amount.data
-                if nfl.amount <= user.bitcoin_wallet.available_btc:
+                network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
+                network_fees = network_fees["data"]["estimated_network_fee"]
+                if (nfl.amount+network_fees) <= user.bitcoin_wallet.available_btc:
                     nfl.over_under = form.over_under.data
                     nfl.total =  form.total.data
                     db.session.add(nfl)
@@ -258,7 +273,9 @@ def nfl_edit_bet(bet_key):
                 form = HomeTeamForm(obj=nfl)
                 if form.validate_on_submit():
                     nfl.amount = form.amount.data
-                    if nfl.amount <= user.bitcoin_wallet.available_btc:
+                    network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
+                    network_fees = network_fees["data"]["estimated_network_fee"]
+                    if (nfl.amount+network_fees) <= user.bitcoin_wallet.available_btc:
                         nfl.ps = form.point_spread.data
                         db.session.add(nfl)
                         db.session.commit()
@@ -272,7 +289,9 @@ def nfl_edit_bet(bet_key):
                 form = AwayTeamForm(obj=nfl)
                 if form.validate_on_submit():
                     nfl.amount = form.amount.data
-                    if nfl.amount <= user.bitcoin_wallet.available_btc:
+                    network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
+                    network_fees = network_fees["data"]["estimated_network_fee"]
+                    if (nfl.amount+network_fees) <= user.bitcoin_wallet.available_btc:
                         nfl.ps = form.point_spread.data
                         db.session.add(nfl)
                         db.session.commit()
@@ -359,17 +378,15 @@ def nfl_bet_vs_bet(bet_key):
             bet_creator.profile.d_amount -= (nfl.amount+network_fees)
             bet_taker.profile.bets_taken += 1
             bet_taker.profile.d_amount -= (nfl.amount+network_fees)
-            
+
             # bc = bet_creator.bitcoin_wallet.address
             # bt = bet_taker.bitcoin_wallet.address
-
             # # we have to check to see if profile_taker and profile_bet_creator have enough bitcoins in their account to proceed.
             # block_io.withdraw_from_addresses(amounts = bc_amount, from_addresses = bc, to_addresses = default, priority="low", nonce=nonce)
             # block_io.withdraw_from_addresses(amounts = bt_amount, from_addresses = bt, to_addresses = default, priority="low", nonce=nonce1)
             # network_fees = block_io.get_network_fee_estimate(amounts = bc_amount, from_addresses = bc, to_addresses = default, priority="low")
             # network_fees1 = block_io.get_network_fee_estimate(amounts = bt_amount, from_addresses = bt, to_addresses = default, priority="low")
-            # print "bt nf ", network_fees
-            # print "bc nf ", network_fees1
+           
             
             db.session.add_all([bet_taker, bet_creator, nfl])
             db.session.commit()

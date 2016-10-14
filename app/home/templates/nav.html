@@ -24,6 +24,7 @@
             <li><a href="{{ url_for('home.profile') }}">Create Bitcoin Wallet</a></li>
             {% else %}
             <li><a href="{{ url_for('home.profile') }}">{{ current_user.bitcoin_wallet.available_btc }} BTC</a></li>
+            <li><a href="{{ url_for('home.profile') }}">{{ current_user.profile.d_amount }} Profile BTC</a></li>
           {% endif %}
           <li><a href="{{ url_for('home.profile') }}">{{ current_user.username }}</a></li>
           <li><a href="{{ url_for('security.logout') }}">logout</a></li>
