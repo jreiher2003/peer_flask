@@ -51,12 +51,19 @@
     <script src="/static/js/validate_register.js"></script>
     <script src="/static/js/all_tablesortings.js"></script>
     <script src="/static/js/validate_login.js"></script>
+    <script src="/static/js/jquery.qrcode.min.js"></script>
 
     <script>
     // prevents tabs in stats from jumping down
     $('.nav-tabs li a').click( function(e) {
     history.pushState( null, null, $(this).attr('href') );
     });
+    </script>
+    <script>
+   
+    
+$('#qrcode').qrcode({width: 64,height: 64,text: "size doesn't matter"});
+   
     </script>
     {% include "footer.html" %}
   </body>

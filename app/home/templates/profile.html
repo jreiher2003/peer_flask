@@ -3,9 +3,9 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <h1>Profile page</h1>
-        <div class="col-md-4">
-            <div class="thumbnail">
+        <!-- <h1>Profile page</h1> -->
+        <div class="col-md-3">
+            
                 <img src="{{ current_user.profile.avatar }}" width="200"/>
                 <div class="caption">
                     {{ current_user.id }}
@@ -18,7 +18,7 @@
                         {{ role.name }}
                     {% endfor %}
                 </div>
-            </div>
+            
         </div>
         <div class="col-md-4">
             <div class="thumbnail">
@@ -34,7 +34,7 @@
             </div>
             
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="thumbnail">
             {#{% if num_pending > 0 %}
                 no widthdrawls until pending bets are graded
@@ -44,7 +44,7 @@
                 {{ wallet }}<br><br>
             <h5>Make a deposit</h5>
             {{ wallet.data.address }}
-                <h5>Make a Widthdrawl</h5>
+                <h5>Make a Widthdrawl</h5><div id="qrcode"></div>
                 <form action="" method="post">
                     {{ form_1.csrf_token }}
                     {{ form_1.amount(class="form-control", placeholder="put in the amount here...") }}

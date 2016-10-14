@@ -1,6 +1,9 @@
 html,body {
     font-family: 'Roboto', sans-serif;
 }
+div.row, div.col-* {
+    padding: 10px;
+}
 
 h1 {
     /*color: red;*/
