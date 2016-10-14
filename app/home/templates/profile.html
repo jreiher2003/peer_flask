@@ -14,27 +14,31 @@
                     {{ current_user.bitcoin_wallet.label }}
                     {{ current_user.bitcoin_wallet.address }}
                     {{ current_user.bitcoin_wallet.available_btc }}
+                    {% for role in current_user.roles %}
+                        {{ role.name }}
+                    {% endfor %}
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
-            <h4>Bets Created <small>{{ current_user.profile.bets_created }}</small></h4>
-            <h4>Bets Taken <small>{{ current_user.profile.bets_taken }}</small></h4>
-            <h4>Bets Won <small>{{ current_user.profile.wins }}</small></h4>
-            <h4>Bets Lost <small>{{ current_user.profile.losses }}</small></h4>
-            <h4>Bets Pushed <small>{{ current_user.profile.pushes }}</small></h4>
-            <h4>Number of Pending Bets: <small>{{ num_pending }}</small></h4>
-            <h4>Number of Graded Bets: <small>{{ num_graded }}</small></h4>
-            <h4>Funds: <small>{{ current_user.profile.d_amount }} BTC</small></h4>
-            <h4>Actual: <small>{{ current_user.bitcoin_wallet.available_btc }} BTC</small></h4>
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <h4>Bets Created <small>{{ current_user.profile.bets_created }}</small></h4>
+                <h4>Bets Taken <small>{{ current_user.profile.bets_taken }}</small></h4>
+                <h4>Bets Won <small>{{ current_user.profile.wins }}</small></h4>
+                <h4>Bets Lost <small>{{ current_user.profile.losses }}</small></h4>
+                <h4>Bets Pushed <small>{{ current_user.profile.pushes }}</small></h4>
+                <h4>Number of Pending Bets: <small>{{ num_pending }}</small></h4>
+                <h4>Number of Graded Bets: <small>{{ num_graded }}</small></h4>
+                <h4>Funds: <small>{{ current_user.profile.d_amount }} BTC</small></h4>
+                <h4>Actual: <small>{{ current_user.bitcoin_wallet.available_btc }} BTC</small></h4>
+            </div>
             
         </div>
-            
-            
+        <div class="col-md-4">
             <div class="thumbnail">
-            {% if num_pending > 0 %}
+            {#{% if num_pending > 0 %}
                 no widthdrawls until pending bets are graded
-            {% else %}
+            {% else %}#}
             {% if wallet %}
                 <h4>btc wallet</h4>
                 {{ wallet }}<br><br>
@@ -43,9 +47,9 @@
                 <h5>Make a Widthdrawl</h5>
                 <form action="" method="post">
                     {{ form_1.csrf_token }}
+                    {{ form_1.amount(class="form-control", placeholder="put in the amount here...") }}
+                    {{ form_1.address(class="form-control", placeholder="what wallet address do you want to send to...") }}
                     {{ form_1.submit }}
-                    {{ form_1.amount(placeholder="put in the amount here...") }}
-                    {{ form_1.address(placeholder="what wallet address do you want to send to...") }}
                 </form>
             {% else %}
                 you need to create a wallet
@@ -54,15 +58,16 @@
                     {{ form.create }}
                 </form>
             {% endif %}
-            {% endif %}
+            {#{% endif %}#}
             </div>
-            <h4>site privileges</h4> 
-            <div class="thumbnail">
-            {% for role in current_user.roles %}
-                {{ role.name }}
-            {% endfor %}
+        </div>
+            
+        </div><!-- end row -->
+        <div class="row">
+            <div class="col-md-4">
+                {% include "profile/according.html" %}
             </div>
-            {% include "profile/according.html" %}
+            <div class="col-md-6"></div>
         </div>
     </div>
 </div>
