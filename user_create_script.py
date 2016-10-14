@@ -25,7 +25,7 @@ def create_users():
         u11 = UserRoles(user_id=user1.id, role_id=role2.id)
         u12 = UserRoles(user_id=user1.id, role_id=role3.id)
         admin = Admin(id=1, avatar="https://scontent-mia1-1.xx.fbcdn.net/v/t1.0-1/p40x40/12208487_10153305128458380_4762134821855593042_n.jpg?oh=46fb02bcf716c4fafa4c0e8d6a5b4ac7&oe=587158D8", user_id=1)
-        profile1 = Profile(id=1,avatar=None,user_id=None, d_amount=None)
+        profile1 = Profile(id=1,avatar=None,user_id=1, d_amount=None)
         # user 2
         u2 = UserRoles(user_id=user2.id, role_id=role2.id)
         u3 = UserRoles(user_id=user2.id, role_id=role3.id)

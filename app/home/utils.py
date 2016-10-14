@@ -144,7 +144,7 @@ def get_admin():
 def pay_winners_from_losers_sb():
     nonce = make_salt(length=32)
     nonce1 = make_salt(length=32)
-    Admin = Users.filter_by(id=1).one()
+    Admin = Users.query.filter_by(id=1).one()
     admin = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7"
     users = get_all_users() # list of all users id
     for u in users:
@@ -197,7 +197,7 @@ def pay_winners_from_losers_sb():
 def pay_winners_from_losers_ou():
     nonce = make_salt(length=32)
     nonce1 = make_salt(length=32)
-    Admin = Users.filter_by(id=1).one()
+    Admin = Users.query.filter_by(id=1).one()
     admin = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7"
     users = get_all_users()
     for u in users:
@@ -247,7 +247,7 @@ def pay_winners_from_losers_ou():
 def pay_winners_from_losers_ml():
     nonce = make_salt(length=32)
     nonce1 = make_salt(length=32)
-    Admin = Users.filter_by(id=1).one()
+    Admin = Users.query.filter_by(id=1).one()
     admin = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7"
     users = get_all_users()
     for u in users:
