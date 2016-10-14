@@ -1,4 +1,4 @@
-from app import app, db, cache,block_io
+from app import app, db, cache, block_io
 from flask_security import current_user
 from app.nfl_stats.models import NFLTeam 
 from app.nfl.models import NFLBetGraded, NFLSideBet, NFLOverUnderBet, NFLMLBet

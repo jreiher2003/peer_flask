@@ -5,7 +5,7 @@ from flask import request, flash, redirect, url_for
 from sqlalchemy import exc
 from flask_security import login_required, roles_required, roles_accepted, current_user
 from app.users.models import Users, Profile, BitcoinWallet 
-from app.users.forms import BitcoinWalletForm
+from app.users.forms import BitcoinWalletForm, BitcoinWithdrawlForm
 from app.nfl_stats.models import NFLTeam, NFLScore
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet
 from flask import Blueprint, render_template
@@ -31,20 +31,6 @@ def profile():
     form = BitcoinWalletForm()
     if form.validate_on_submit():
         try:
-            wallet = BitcoinWallet.query.filter_by(user_id=current_user.id).one()
-            btc = block_io.get_new_address()
-            print btc
-            if wallet is not None:
-                wallet.label = btc["data"]["label"]
-                wallet.address = btc["data"]["address"]
-                db.session.add(wallet)
-                db.session.commit()
-                cache.delete("user_profile")
-                flash("edited wallet", "success")
-                return redirect(url_for("home.profile"))
-        except exc.SQLAlchemyError:
-            print "Need to create a wallet first" 
-        try:
             btc = block_io.get_new_address() 
             wallet = BitcoinWallet(label=btc["data"]["label"], address=btc["data"]["address"], user_id=current_user.id)
             db.session.add(wallet)
@@ -54,11 +40,15 @@ def profile():
             return redirect(url_for("home.profile"))
         except exc.SQLAlchemyError:
             print "some thing else happend"
+    form_1 = BitcoinWithdrawlForm()
+    if form_1.validate_on_submit():
+        pass
     return render_template(
         "profile.html", 
         all_teams = all_nfl_teams(), 
         wallet = wallet,
         form = form,
+        form_1 = form_1,
         ou = ou(),
         sb = sb(),
         ml = ml(),
@@ -77,3 +67,17 @@ def admin():
      all_teams = all_nfl_teams(),
      )
 
+# try:
+#     wallet = BitcoinWallet.query.filter_by(user_id=current_user.id).one()
+#     btc = block_io.get_new_address()
+#     print btc
+#     if wallet is not None:
+#         wallet.label = btc["data"]["label"]
+#         wallet.address = btc["data"]["address"]
+#         db.session.add(wallet)
+#         db.session.commit()
+#         cache.delete("user_profile")
+#         flash("edited wallet", "success")
+#         return redirect(url_for("home.profile"))
+# except exc.SQLAlchemyError:
+#     print "Need to create a wallet first" 

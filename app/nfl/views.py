@@ -3,7 +3,7 @@ import datetime
 from datetime import date
 import hashlib
 from dateutil.parser import parse as parse_date
-from app import app, db, cache
+from app import app, db, cache, block_io
 from sqlalchemy import exc
 from app.users.models import Users, Role, UserRoles, Profile
 from .models import NFLOverUnderBet, NFLSideBet, NFLMLBet, Base
@@ -341,9 +341,10 @@ def nfl_bet_vs_bet(bet_key):
     bc = bet_creator.bitcoin_wallet.address
     bt = bet_taker.bitcoin_wallet.address
     nonce = make_salt(length=32)
-    print nfl.amount,bc,bt, default,nonce
+    nonce1 = make_salt(length=32)
     bc_amount = nfl.amount 
     bt_amount = nfl.amount 
+    print nfl.amount,bc,bt, default,nonce, bt_amount, type(bt_amount)
     if request.method == "POST":
         nfl.bet_taken = True
         nfl.taken_by = current_user.id 
@@ -355,9 +356,12 @@ def nfl_bet_vs_bet(bet_key):
 
          
         # we have to check to see if profile_taker and profile_bet_creator have enough bitcoins in their account to proceed.
-        block_io.withdraw_from_addresses(amounts = bc_amount+", "+bt_amount, from_addresses = bc+","+bt, to_addresses = default, priority="low", nonce=nonce)
-        network_fees = block_io.get_network_fee_estimate(amounts = bc_amount+", "+bt_amount, from_addresses = bc+","+bt, to_addresses = default, priority="low", nonce=nonce)
-        print network_fees
+        block_io.withdraw_from_addresses(amounts = bc_amount, from_addresses = bc, to_addresses = default, priority="low", nonce=nonce)
+        block_io.withdraw_from_addresses(amounts = bt_amount, from_addresses = bt, to_addresses = default, priority="low", nonce=nonce1)
+        network_fees = block_io.get_network_fee_estimate(amounts = bc_amount, from_addresses = bc, to_addresses = default, priority="low")
+        network_fees1 = block_io.get_network_fee_estimate(amounts = bt_amount, from_addresses = bt, to_addresses = default, priority="low")
+        print "bt nf ", network_fees
+        print "bc nf ", network_fees1
         
         # put method for block_io.withdraw_from_addresses(amounts='nfl.amount, nfl.amount', from_addresses='profile_taker.bitcoin_address, profile_bet_creator.bitcoin_address', to_addresses='admin_addresss or escrow address')
         db.session.add_all([bet_taker, bet_creator, nfl])
