@@ -54,7 +54,8 @@ def create_wallets():
     user2 = BitcoinWallet(label = "bacru22", address = "2N7xdmuX55uRFLQTwmcU6FR1SH3mQXSTog5", user_id=2)
     user3 = BitcoinWallet(label = "juby67", address = "2NEysAXjp2ozYwcNoqAN6EJCXrTiQYvHVze", user_id=3)
     user4 = BitcoinWallet(label = "fonty81", address = "2NDTcuhDuZPgV5b9FN8svdrEJtVeKCRPQDH", user_id=4)
-    db.session.add_all([user1,user2,user3,user4])
+    user5 = BitcoinWallet(label = "zevu17", address = "2NGFk7ZLf3bUPqg4ZLybbJJWD9APCZdaGh2", user_id=5)
+    db.session.add_all([user1,user2,user3,user4,user5])
     db.session.commit()
 
 def update_profiles_bitcoin():
@@ -62,11 +63,13 @@ def update_profiles_bitcoin():
     user2 = Users.query.filter_by(id=2).one()
     user3 = Users.query.filter_by(id=3).one()
     user4 = Users.query.filter_by(id=4).one()
+    user5 = Users.query.filter_by(id=5).one()
     user1.admin.site_money = user1.bitcoin_wallet.available_btc 
     user2.profile.d_amount = user2.bitcoin_wallet.available_btc
     user3.profile.d_amount = user3.bitcoin_wallet.available_btc
     user4.profile.d_amount = user4.bitcoin_wallet.available_btc
-    db.session.add_all([user1,user2,user3,user4])
+    user5.profile.d_amount = user5.bitcoin_wallet.available_btc
+    db.session.add_all([user1,user2,user3,user4,user5])
     db.session.commit()
 
 def create_bet():
