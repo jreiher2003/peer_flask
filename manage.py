@@ -9,7 +9,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 manager = Manager(app)
 migrate = Migrate(app, db)
 
-manager.add_command("runserver", Server(host="0.0.0.0", port=8500))
+manager.add_command("runserver", Server(host="0.0.0.0", port=8600))
 manager.add_command('db', MigrateCommand)
 
 @manager.command 
