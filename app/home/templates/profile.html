@@ -36,9 +36,9 @@
         </div>
         <div class="col-md-5">
             <div class="thumbnail">
-            {#{% if num_pending > 0 %}
+            {% if num_pending > 0 %}
                 no widthdrawls until pending bets are graded
-            {% else %}#}
+            {% else %}
             {% if wallet %}
                 <h4>btc wallet</h4>
                 {{ wallet }}<br><br>
@@ -58,7 +58,7 @@
                     {{ form.create }}
                 </form>
             {% endif %}
-            {#{% endif %}#}
+            {% endif %}
             </div>
         </div>
             

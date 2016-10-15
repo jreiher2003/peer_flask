@@ -5,7 +5,6 @@ from string import hexdigits
 from app import db
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
 
-
 def make_salt(length=10):
     return "".join(random.choice(hexdigits) for x in xrange(length))
 
@@ -22,7 +21,7 @@ def yesterday():
 
 ## OFFENSIVE STATS by TEAM
 def team_rush_avg(rush_yds, team, sid):
-    q = db.session.query(NFLTeamSeason.RushingYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by('RushingYards desc').all()
+    q = db.session.query(NFLTeamSeason.RushingYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by(db.desc(NFLTeamSeason.RushingYards)).all()
     team_ = []
     for y,t in q:
         team_.append((y,t)) 
@@ -30,7 +29,7 @@ def team_rush_avg(rush_yds, team, sid):
     
 
 def team_pass_avg(pass_yds, team, sid):
-    q = db.session.query(NFLTeamSeason.PassingYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by('PassingYards desc').all()
+    q = db.session.query(NFLTeamSeason.PassingYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by(db.desc(NFLTeamSeason.PassingYards)).all()
     team_ = []
     for y,t in q:
         team_.append((y,t))
@@ -38,36 +37,33 @@ def team_pass_avg(pass_yds, team, sid):
     
 
 def opp_team_rush_avg(rush_yds, team, sid):
-    q = db.session.query(NFLTeamSeason.OpponentRushingYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by('OpponentRushingYards asc').all()
+    q = db.session.query(NFLTeamSeason.OpponentRushingYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by(db.desc(NFLTeamSeason.OpponentRushingYards)).all()
     team_ = []
     for y,t in q:
         team_.append((y,t))
     return team_.index((rush_yds, team)) + 1
 
 def opp_team_pass_avg(pass_yds, team, sid):
-    q = db.session.query(NFLTeamSeason.OpponentPassingYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by('OpponentPassingYards asc').all()
+    q = db.session.query(NFLTeamSeason.OpponentPassingYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by(db.desc(NFLTeamSeason.OpponentPassingYards)).all()
     team_ = []
     for y,t in q:
         team_.append((y,t))
     return team_.index((pass_yds, team)) + 1
 
 def team_off_avg(pass_yds, team, sid):
-    q = db.session.query(NFLTeamSeason.OffensiveYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by('OffensiveYards desc').all()
+    q = db.session.query(NFLTeamSeason.OffensiveYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by(db.desc(NFLTeamSeason.OffensiveYards)).all()
     team_ = []
     for y,t in q:
         team_.append((y,t))
     return team_.index((pass_yds, team)) + 1
 
 def team_def_avg(pass_yds, team, sid):
-    q = db.session.query(NFLTeamSeason.OpponentOffensiveYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by('OpponentOffensiveYards asc').all()
+    q = db.session.query(NFLTeamSeason.OpponentOffensiveYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by(db.desc(NFLTeamSeason.OpponentOffensiveYards)).all()
     team_ = []
     for y,t in q:
         team_.append((y,t))
     return team_.index((pass_yds, team)) + 1
 
-# NFL OFFENSIVE STATS ##################################################
-# def nfl_off_yds(col_to_sort):
-#     return sorted(teamseason, key=lambda k: int(k[col_to_sort]), reverse=True)
 
     
              
