@@ -1,5 +1,5 @@
 nav {
-    background-color: lightblue;
+    background-color: #2780e3;
     color: #fff;
 }
 nav a {
@@ -12,7 +12,7 @@ a.navbar-brand {
 }
 h2.nav__league, h3.nav__division, 
 li.nav__team a, h3 .nav__team {
-    color: lightblue;
+    color: #2780e3;
 }
 h3.nav__division {
     text-decoration: underline;

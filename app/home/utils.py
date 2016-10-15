@@ -165,8 +165,8 @@ def pay_winners_from_losers_sb():
 
                     block_io.withdraw_from_addresses(amounts = (ss.admin_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=nonce1)
 
-                    c_user.profile.d_amount += ((ss.amount_win + ss.amount) + network_fees["data"]["estimated_network_fee"])
-                    Admin.admin.d_amount += (ss.admin_win)
+                    c_user.profile.d_amount = float(c_user.bitcoin_wallet.available_btc)
+                    Admin.admin.site_money = float(Admin.bitcoin_wallet.available_btc)
                     ss.paid = True 
                 if ss.win == False:
                     print "player %s gets paid from player %s this amount %s" % (ss.taken_by, ss.user_id, ss.amount_win)
@@ -179,14 +179,14 @@ def pay_winners_from_losers_sb():
 
                     block_io.withdraw_from_addresses(amounts = (ss.admin_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=nonce1)
 
-                    t_user.profile.d_amount += ((ss.amount_win + ss.amount) + network_fees["data"]["estimated_network_fee"])
-                    Admin.admin.d_amount += (ss.admin_win) 
+                    t_user.profile.d_amount = float(t_user.bitcoin_wallet.available_btc)
+                    Admin.admin.site_money = float(Admin.bitcoin_wallet.available_btc)
                     ss.paid = True 
 
                 if ss.win == None:
                     print "this is a push no payment both users get back their money"
-                    c_user.profile.d_amount += (ss.amount)
-                    t_user.profile.d_amount += (ss.amount)
+                    c_user.profile.d_amount += (ss.amount+float(network_fees["data"]["estimated_network_fee"]))
+                    t_user.profile.d_amount += (ss.amount+float(network_fees["data"]["estimated_network_fee"]))
                     ss.paid = True 
                 db.session.add(c_user)
                 db.session.add(t_user)
@@ -209,35 +209,35 @@ def pay_winners_from_losers_ou():
                 t_user = Users.query.filter_by(id=oo.taken_by).one()
                 if oo.win == True:
                     print "player %s gets paid from player %s this amount %s" % (oo.user_id, oo.taken_by, oo.amount_win)
-                    network_fees = block_io.get_network_fee_estimate(amounts = (ss.amount_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low")
+                    network_fees = block_io.get_network_fee_estimate(amounts = (oo.amount_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low")
 
-                    network_fees1 = block_io.get_network_fee_estimate(amounts = (ss.admin_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low")
+                    network_fees1 = block_io.get_network_fee_estimate(amounts = (oo.admin_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low")
 
-                    block_io.withdraw_from_addresses(amounts = (ss.amount_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=nonce)
+                    block_io.withdraw_from_addresses(amounts = (oo.amount_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=nonce)
 
-                    block_io.withdraw_from_addresses(amounts = (ss.admin_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=nonce1)
+                    block_io.withdraw_from_addresses(amounts = (oo.admin_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=nonce1)
                     
-                    c_user.profile.d_amount += ((ss.amount_win + ss.amount) + network_fees["data"]["estimated_network_fee"])
-                    Admin.admin.d_amount += (ss.admin_win) 
+                    c_user.profile.d_amount = float(c_user.bitcoin_wallet.available_btc)
+                    Admin.admin.site_money = float(Admin.bitcoin_wallet.available_btc)
                     oo.paid = True 
                 if oo.win == False:
                     print "player %s gets paid from player %s this amount %s" % (oo.taken_by, oo.user_id, oo.amount_win)
 
-                    network_fees = block_io.get_network_fee_estimate(amounts = (ss.amount_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low")
+                    network_fees = block_io.get_network_fee_estimate(amounts = (oo.amount_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low")
 
-                    network_fees1 = block_io.get_network_fee_estimate(amounts = (ss.admin_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low")
+                    network_fees1 = block_io.get_network_fee_estimate(amounts = (oo.admin_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low")
 
-                    block_io.withdraw_from_addresses(amounts = (ss.amount_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=nonce)
+                    block_io.withdraw_from_addresses(amounts = (oo.amount_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=nonce)
 
-                    block_io.withdraw_from_addresses(amounts = (ss.admin_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=nonce1)
+                    block_io.withdraw_from_addresses(amounts = (oo.admin_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=nonce1)
 
-                    t_user.profile.d_amount += ((ss.amount_win + ss.amount) + network_fees) 
-                    Admin.admin.d_amount += (ss.admin_win) 
+                    t_user.profile.d_amount = float(t_user.bitcoin_wallet.available_btc)
+                    Admin.admin.site_money = float(Admin.bitcoin_wallet.available_btc)
                     oo.paid = True
                 if oo.win == None:
                     print "this is a push no payment. People get back their money."
-                    t_user.profile.d_amount += oo.amount 
-                    c_user.profile.d_amount += oo.amount 
+                    t_user.profile.d_amount += (oo.amount+float(network_fees["data"]["estimated_network_fee"])) 
+                    c_user.profile.d_amount += (oo.amount+float(network_fees["data"]["estimated_network_fee"])) 
                     oo.paid = True  
                 db.session.add(c_user)
                 db.session.add(t_user)
@@ -260,35 +260,35 @@ def pay_winners_from_losers_ml():
                 if ll.win == True:
                     print "player %s gets paid from player %s this amount %s" % (ll.user_id, ll.taken_by, ll.amount_win)
 
-                    network_fees = block_io.get_network_fee_estimate(amounts = (ss.amount_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low")
+                    network_fees = block_io.get_network_fee_estimate(amounts = (ll.amount_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low")
 
-                    network_fees1 = block_io.get_network_fee_estimate(amounts = (ss.admin_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low")
+                    network_fees1 = block_io.get_network_fee_estimate(amounts = (ll.admin_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low")
 
-                    block_io.withdraw_from_addresses(amounts = (ss.amount_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=nonce)
+                    block_io.withdraw_from_addresses(amounts = (ll.amount_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=nonce)
 
-                    block_io.withdraw_from_addresses(amounts = (ss.admin_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=nonce1)
+                    block_io.withdraw_from_addresses(amounts = (ll.admin_win), from_addresses = t_user.bitcoin_wallet.address, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=nonce1)
 
-                    c_user.profile.d_amount += ((ss.amount_win + ss.amount) + network_fees["data"]["estimated_network_fee"])
-                    Admin.admin.d_amount += (ss.admin_win)
+                    c_user.profile.d_amount = float(c_user.bitcoin_wallet.available_btc)
+                    Admin.admin.site_money = float(Admin.bitcoin_wallet.available_btc)
                     ll.paid = True 
                 if ll.win == False:
                     print "player %s gets paid from player %s this amount %s" % (ll.taken_by, ll.user_id, ll.amount_win)
 
-                    network_fees = block_io.get_network_fee_estimate(amounts = (ss.amount_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low")
+                    network_fees = block_io.get_network_fee_estimate(amounts = (ll.amount_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low")
 
-                    network_fees1 = block_io.get_network_fee_estimate(amounts = (ss.admin_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low")
+                    network_fees1 = block_io.get_network_fee_estimate(amounts = (ll.admin_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low")
 
-                    block_io.withdraw_from_addresses(amounts = (ss.amount_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=nonce)
+                    block_io.withdraw_from_addresses(amounts = (ll.amount_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=nonce)
 
-                    block_io.withdraw_from_addresses(amounts = (ss.admin_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=nonce1)
+                    block_io.withdraw_from_addresses(amounts = (ll.admin_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=nonce1)
 
-                    t_user.profile.d_amount += ((ss.amount_win + ss.amount) + network_fees["data"]["estimated_network_fee"])
-                    Admin.admin.d_amount += (ss.admin_win)
+                    t_user.profile.d_amount = float(t_user.bitcoin_wallet.available_btc)
+                    Admin.admin.site_money = float(Admin.bitcoin_wallet.available_btc)
                     ll.paid = True 
                 if ll.win == None:
                     print "this is a push no payment. Everyone gets back their money"
-                    c_user.profile.d_amount += ll.amount 
-                    t_user.profile.d_amount += ll.amount 
+                    c_user.profile.d_amount += (ll.amount+float(network_fees["data"]["estimated_network_fee"])) 
+                    t_user.profile.d_amount += (ll.amount+float(network_fees["data"]["estimated_network_fee"])) 
                     ll.paid = True
                 db.session.add(c_user)
                 db.session.add(t_user)

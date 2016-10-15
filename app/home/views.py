@@ -27,6 +27,10 @@ def home():
 @roles_accepted("player", "bookie")
 @login_required
 def profile():
+    # user = Users.query.filter_by(id=current_user.id).one() 
+    # user.profile.d_amount = user.bitcoin_wallet.available_btc  
+    # db.session.add(user)
+    # db.session.commit()
     wallet = get_user_wallet()
     form = BitcoinWalletForm()
     if form.validate_on_submit():

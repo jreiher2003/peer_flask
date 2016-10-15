@@ -80,7 +80,7 @@ def create_bet():
     user5 = Users.query.filter_by(id=5).one()
     user6 = Users.query.filter_by(id=6).one()
     network = block_io.get_network_fee_estimate(amounts = 0.004, from_addresses = "2N7xdmuX55uRFLQTwmcU6FR1SH3mQXSTog5", to_addresses = "2NEysAXjp2ozYwcNoqAN6EJCXrTiQYvHVze", priority="low")
-    network_fees = network["data"]["estimated_network_fee"]
+    network_fees = float(network["data"]["estimated_network_fee"])
 
     bet1 = NFLOverUnderBet(id=1, bet_key=1, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="u", vs="NYG vs @MIN", total=42.5, amount=0.004, user_id=2, bet_taken=True, taken_by=3, taken_username="Nhilson")
     user2.profile.bets_created += 1
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     create_wallets()
     update_profiles_bitcoin()
     print "users created"
-    # create_bet()
+    create_bet()
     print "bets created"
     
     

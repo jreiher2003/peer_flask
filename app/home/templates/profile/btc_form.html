@@ -1,0 +1,16 @@
+<form class="bs-component" action="" method="post">
+    {{ form_1.csrf_token }}
+    <div class="form-group">
+        {{ form_1.amount(class="form-control", placeholder="Amount of Bitcoin to send...") }}
+    </div>
+    <div class="form-group">
+        {{ form_1.address(class="form-control", placeholder="Destination Bitcoin address...") }}
+    </div>
+    <hr>
+    <p>Minimum Network Fee: 0.00040 ฿T.</p>
+    <p>Actual network fees depend on the size of your transaction.</p>
+    <div class="form-group">
+        {{ form_1.submit(class="btn btn-success") }}
+        <button class="btn btn-default">Cancel</button>
+    </div>
+</form>

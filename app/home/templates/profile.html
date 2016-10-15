@@ -4,25 +4,29 @@
 <div class="container">
     <div class="row">
         <!-- <h1>Profile page</h1> -->
-        <div class="col-md-3">
-            
-                <img src="{{ current_user.profile.avatar }}" width="200"/>
+        <div class="col-md-2">
+            <div class="profileborder">
+                <img class="profilepic" src="{{ current_user.profile.avatar }}" width="150"/>
                 <div class="caption">
-                    {{ current_user.id }}
-                    {{ current_user.username }}
-                    {{ current_user.email }}
-                    {{ current_user.bitcoin_wallet.label }}
-                    {{ current_user.bitcoin_wallet.address }}
-                    {{ current_user.bitcoin_wallet.available_btc }}
-                    {% for role in current_user.roles %}
-                        {{ role.name }}
-                    {% endfor %}
+                    <hr class="profileme">
+                    <p class="p__status"><b>Username:</b> {{ current_user.username }}</p>
+                    <p class="p__status"><b>Email:</b><small> {{ current_user.email }}</small></p>
+                    <p class="p__status"><b>Balance:</b><small> {{ current_user.bitcoin_wallet.available_btc }} BTC</small></p>
+                    <p class="p__status"><b>Bets Created:</b><small> {{ current_user.profile.bets_created }}</small></p>
+                    <p class="p__status"><b>Bets Taken:</b><small> {{ current_user.profile.bets_taken }}</small></p>
+                    <p class="p__status"><b>Wins:</b><small> {{ current_user.profile.wins }}</small></p>
+                    <p class="p__status"><b>Losses:</b><small> {{ current_user.profile.losses }}</small></p>
+                    <p class="p__status"><b>Pushes:</b><small> {{ current_user.profile.pushes }}</small></p>
+                    <p class="p__status"><b>Pending Bets:</b><small> {{ num_pending }}</small></p>
+                    <p class="p__status"><b>Graded Bets:</b><small> {{ num_graded }}</small></p>
+                    <p class="p__status"><b>Funds:</b> <small>{{ current_user.profile.d_amount }} BTC</small></p>
+                    <hr class="profileme">
                 </div>
-            
+            </div>
         </div>
         <div class="col-md-4">
             <div class="thumbnail">
-                <h4>Bets Created <small>{{ current_user.profile.bets_created }}</small></h4>
+                <b>Bets Created</b> <small>{{ current_user.profile.bets_created }}</small>
                 <h4>Bets Taken <small>{{ current_user.profile.bets_taken }}</small></h4>
                 <h4>Bets Won <small>{{ current_user.profile.wins }}</small></h4>
                 <h4>Bets Lost <small>{{ current_user.profile.losses }}</small></h4>
@@ -34,28 +38,32 @@
             </div>
             
         </div>
-        <div class="col-md-5">
-            <div class="thumbnail">
+        <div class="col-md-6">
+            <div class="thumbnail profileborder">
             {% if num_pending > 0 %}
-                no widthdrawls until pending bets are graded
+                <div class="no__widthdrawl">
+                    <h3 class="text-center">No widthdrawls until pending bets are graded</h3>
+                    <div class="text-center nomoney"><i class="fa fa-ban" aria-hidden="true"></i></div>
+                    <p class="text-center">Bets are graded within a few hours after completion</p>
+                    <p class="text-center">You are welcome to make a deposit...as always :) </p>
+                </div>
             {% else %}
             {% if wallet %}
-                <h4>btc wallet</h4>
-                {{ wallet }}<br><br>
-            <h5>Make a deposit</h5>
-            {{ wallet.data.address }}
-                <h5>Make a Widthdrawl</h5><div id="qrcode"></div>
-                <form action="" method="post">
-                    {{ form_1.csrf_token }}
-                    {{ form_1.amount(class="form-control", placeholder="put in the amount here...") }}
-                    {{ form_1.address(class="form-control", placeholder="what wallet address do you want to send to...") }}
-                    {{ form_1.submit }}
-                </form>
+                <h2 class="text-center">BTC Wallet</h2>
+                <hr>
+                <h3>Make a deposit</h3>
+                <p><b>{{ current_user.bitcoin_wallet.address }}</b></p>
+                <hr>
+                <h5>Make a Widthdrawl</h5>
+                <!-- <div id="qrcode"></div> -->
+                {% include "profile/btc_form.html" %}
             {% else %}
-                you need to create a wallet
-                <form action="" method="post">
+                <h2 class="text-center">Create a wallet BTC Wallet</h2>
+                <form class="bs-component" action="" method="post">
                     {{ form.csrf_token }}
-                    {{ form.create }}
+                    <div class="form-group text-center">
+                        {{ form.create(class="btn btn-lg btn-warning") }}
+                    </div>
                 </form>
             {% endif %}
             {% endif %}
@@ -63,6 +71,7 @@
         </div>
             
         </div><!-- end row -->
+        <br><br>
         <div class="row">
             <div class="col-md-4">
                 {% include "profile/according.html" %}
