@@ -30,7 +30,7 @@
                 </thead> 
                 <tbody>
                  {% for d in data %}
-                    {% if d.d_date > dt %}
+                    {% if d.Date|dateify > dt %}
                     <tr>
                         <td rowspan="2">{{ d.Date|dateify|game_time }}<br>{{ d.Date|dateify|game_date }}</td>
                         <td rowspan="2">{{ d.GameKey }}</td>
@@ -66,4 +66,5 @@
         </div>
     </div>
 </div>
+{% include "footer.html" %}
 {% endblock content %}
