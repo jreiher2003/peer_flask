@@ -8,4 +8,7 @@
         opacity:0;
         visibility: collapse;       
     } 
+    span.icon-bar {
+        background-color: #fff;
+    }
 }

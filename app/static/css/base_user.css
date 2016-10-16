@@ -1,0 +1,25 @@
+nav {
+    background-color: #2780e3;
+    color: #fff;
+}
+nav a {
+    color: #FFF;
+    text-transform: uppercase;
+    font-size: .8em;
+}
+a.navbar-brand {
+    color: #fff;
+}
+.strength-meter {
+    width: 100%;
+}
+span.error, span {
+  color: #a94442;
+}
+li {
+  list-style: none;
+}
+div.profileborder {
+    border: .8px solid #ddd;
+    padding: 10px;
+}

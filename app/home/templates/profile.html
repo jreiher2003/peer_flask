@@ -21,24 +21,26 @@
                     <p class="p__status"><b>Graded Bets:</b><small> {{ num_graded }}</small></p>
                     <p class="p__status"><b>Funds:</b> <small>{{ current_user.profile.d_amount }} BTC</small></p>
                     <hr class="profileme">
+                    <p class="p__status"><a href="{{ url_for('security.change_password') }}">Change Password</a></p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="thumbnail">
-                <b>Bets Created</b> <small>{{ current_user.profile.bets_created }}</small>
-                <h4>Bets Taken <small>{{ current_user.profile.bets_taken }}</small></h4>
-                <h4>Bets Won <small>{{ current_user.profile.wins }}</small></h4>
-                <h4>Bets Lost <small>{{ current_user.profile.losses }}</small></h4>
-                <h4>Bets Pushed <small>{{ current_user.profile.pushes }}</small></h4>
-                <h4>Number of Pending Bets: <small>{{ num_pending }}</small></h4>
-                <h4>Number of Graded Bets: <small>{{ num_graded }}</small></h4>
-                <h4>Funds: <small>{{ current_user.profile.d_amount }} BTC</small></h4>
-                <h4>Actual: <small>{{ current_user.bitcoin_wallet.available_btc }} BTC</small></h4>
+        <div class="col-md-6">
+            <div class="well bs-component">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend>Profile Info</legend>
+                        <div class="form-group"></div>
+                        <div class="form-group"></div>
+                        <div class="form-group"></div>
+                        
+                    </fieldset>
+                </form>
+                
             </div>
             
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="thumbnail profileborder">
             {% if num_pending > 0 %}
                 <div class="no__widthdrawl">

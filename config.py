@@ -28,6 +28,8 @@ class BaseConfig(object):
     SECURITY_PASSWORD_HASH = "bcrypt"
     SECURITY_PASSWORD_SALT = 'something_super_secret_change_in_production'
     SECURITY_POST_LOGIN_VIEW = "/nfl/"
+    SECURITY_CHANGE_URL = "/password-change/"
+    SECURITY_RESET_URL = "/password-recovery/"
 
     USER_APP_NAME = "Peer2Peer"
  
