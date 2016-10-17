@@ -4,6 +4,7 @@ from app.nfl_stats.models import NFLTeam
 from app.nfl.models import NFLBetGraded, NFLSideBet, NFLOverUnderBet, NFLMLBet
 from app.nfl.utils import make_salt 
 from app.users.models import Users, Profile, BitcoinWallet
+import time
 
 def all_nfl_teams(update=False):
     key = "teams"
@@ -179,9 +180,9 @@ def pay_winners_from_losers_sb():
 
                     block_io.withdraw_from_addresses(amounts = (ss.admin_win), from_addresses = c_user.bitcoin_wallet.address, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=nonce1)
 
+                    ss.paid = True 
                     t_user.profile.d_amount = float(t_user.bitcoin_wallet.available_btc)
                     Admin.admin.site_money = float(Admin.bitcoin_wallet.available_btc)
-                    ss.paid = True 
 
                 if ss.win == None:
                     print "this is a push no payment both users get back their money"

@@ -17,14 +17,14 @@ class BitcoinWalletForm(Form):
     create = SubmitField("Create a wallet")
 
 class BitcoinWithdrawlForm(Form):
+    amount = FloatField("Amount")
+    address = TextField("Bitcoin Address")#validators=[DataRequired()
     submit = SubmitField("Widthdrawl")
-    amount = FloatField("Amount", validators=[DataRequired()])
-    address = TextField("Address", validators=[DataRequired()])
 
 class ProfileForm(Form):
-    username = TextField("Username", validators=[DataRequired])
-    email = EmailField("Email Address", [Required()])
-    password = PasswordField("Password", [Required()])
+    username = TextField("Username")
+    email = EmailField("Email")
+    password = PasswordField("Password")
     avatar = TextField("Avatar")
-    submit = SubmitField("Change")
+    submit = SubmitField("Update")
     

@@ -3,7 +3,6 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <!-- <h1>Profile page</h1> -->
         <div class="col-md-2">
             <div class="profileborder">
                 <img class="profilepic" src="{{ current_user.profile.avatar }}" width="150"/>
@@ -11,7 +10,6 @@
                     <hr class="profileme">
                     <p class="p__status"><b>Username:</b> {{ current_user.username }}</p>
                     <p class="p__status"><b>Email:</b><small> {{ current_user.email }}</small></p>
-                    <p class="p__status"><b>Balance:</b><small> {{ current_user.bitcoin_wallet.available_btc }} BTC</small></p>
                     <p class="p__status"><b>Bets Created:</b><small> {{ current_user.profile.bets_created }}</small></p>
                     <p class="p__status"><b>Bets Taken:</b><small> {{ current_user.profile.bets_taken }}</small></p>
                     <p class="p__status"><b>Wins:</b><small> {{ current_user.profile.wins }}</small></p>
@@ -19,68 +17,28 @@
                     <p class="p__status"><b>Pushes:</b><small> {{ current_user.profile.pushes }}</small></p>
                     <p class="p__status"><b>Pending Bets:</b><small> {{ num_pending }}</small></p>
                     <p class="p__status"><b>Graded Bets:</b><small> {{ num_graded }}</small></p>
-                    <p class="p__status"><b>Funds:</b> <small>{{ current_user.profile.d_amount }} BTC</small></p>
+                    <p class="p__status"><b>Balance:</b><small> {{ current_user.bitcoin_wallet.available_btc }} BTC</small></p>
                     <hr class="profileme">
                     <p class="p__status"><a href="{{ url_for('security.change_password') }}">Change Password</a></p>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="well bs-component">
-                <form class="form-horizontal">
-                    <fieldset>
-                        <legend>Profile Info</legend>
-                        <div class="form-group"></div>
-                        <div class="form-group"></div>
-                        <div class="form-group"></div>
-                        
-                    </fieldset>
-                </form>
-                
-            </div>
-            
+            {% include "profile/update_profile_form.html" %}
         </div>
         <div class="col-md-4">
-            <div class="thumbnail profileborder">
-            {% if num_pending > 0 %}
-                <div class="no__widthdrawl">
-                    <h3 class="text-center">No widthdrawls until pending bets are graded</h3>
-                    <div class="text-center nomoney"><i class="fa fa-ban" aria-hidden="true"></i></div>
-                    <p class="text-center">Bets are graded within a few hours after completion</p>
-                    <p class="text-center">You are welcome to make a deposit...as always :) </p>
-                </div>
-            {% else %}
-            {% if wallet %}
-                <h2 class="text-center">BTC Wallet</h2>
-                <hr>
-                <h3>Make a deposit</h3>
-                <p><b>{{ current_user.bitcoin_wallet.address }}</b></p>
-                <hr>
-                <h5>Make a Widthdrawl</h5>
-                <!-- <div id="qrcode"></div> -->
-                {% include "profile/btc_form.html" %}
-            {% else %}
-                <h2 class="text-center">Create a wallet BTC Wallet</h2>
-                <form class="bs-component" action="" method="post">
-                    {{ form.csrf_token }}
-                    <div class="form-group text-center">
-                        {{ form.create(class="btn btn-lg btn-warning") }}
-                    </div>
-                </form>
-            {% endif %}
-            {% endif %}
-            </div>
+            {% include "profile/btc_form.html" %}
+        </div>    
+    </div><!-- end row -->
+    <br><br>
+    <div class="row">
+        <div class="col-md-4">
+            {% include "profile/according.html" %}
         </div>
-            
-        </div><!-- end row -->
-        <br><br>
-        <div class="row">
-            <div class="col-md-4">
-                {% include "profile/according.html" %}
-            </div>
-            <div class="col-md-6"></div>
-        </div>
+        <div class="col-md-6"></div>
     </div>
-</div>
+</div><!-- end container -->
 
+
+{% include "profile/qrcodes.html" %}
 {% endblock %}

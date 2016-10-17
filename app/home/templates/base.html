@@ -5,17 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>{% block title %}{% endblock %}</title>
-    <!-- Latest compiled and minified CSS -->
-    <!-- <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
-    
-   
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootswatch/cosmo/bootstrap.css') }}">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap-theme.css') }}"> -->
-    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
@@ -38,9 +30,7 @@
     {% endblock content %}
 
     <script src="/static/js/jquery/dist/jquery.min.js"></script>
-    
     <script src="/static/js/bootstrap/bootstrap.js"></script>
-    
     <script src="/static/js/jquery-form-validator/form-validator/jquery.form-validator.min.js"></script>
     <script src="/static/js/tablesorter/jquery.tablesorter.js"></script>
     <script src="/static/js/tablesorter/pager/jquery.tablesorter.pager.js"></script>
@@ -50,7 +40,6 @@
     <script src="/static/js/nav_dropdown.js"></script>
     <script src="/static/js/all_tablesortings.js"></script>
     <script src="/static/js/jquery.qrcode.min.js"></script>
-
     <script>
     // prevents tabs in stats from jumping down
     $('.nav-tabs li a').click( function(e) {
@@ -58,11 +47,7 @@
     });
     </script>
     <script>
-   
-    
-$('#qrcode').qrcode({width: 64,height: 64,text: "size doesn't matter"});
-   
+    $('#qrcode').qrcode({width: 400,height: 400,text: "size doesn't matter"});
     </script>
-    
   </body>
 </html>

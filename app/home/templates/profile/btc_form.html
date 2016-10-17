@@ -1,16 +1,55 @@
-<form class="bs-component" action="" method="post">
-    {{ form_1.csrf_token }}
-    <div class="form-group">
-        {{ form_1.amount(class="form-control", placeholder="Amount of Bitcoin to send...") }}
-    </div>
-    <div class="form-group">
-        {{ form_1.address(class="form-control", placeholder="Destination Bitcoin address...") }}
-    </div>
-    <hr>
-    <p>Minimum Network Fee: 0.00040 ฿T.</p>
-    <p>Actual network fees depend on the size of your transaction.</p>
-    <div class="form-group">
-        {{ form_1.submit(class="btn btn-success") }}
-        <button class="btn btn-default">Cancel</button>
-    </div>
-</form>
+<div class="well bs-component">
+    {% if num_pending > 0 %}
+        <div class="no__widthdrawl">
+            <h3>Make a deposit</h3>
+            <p><b>{{ current_user.bitcoin_wallet.address }}</b></p>
+            <hr>
+            <h3 class="text-center">No widthdrawls until pending bets are graded</h3>
+            <div class="text-center nomoney"><i class="fa fa-ban" aria-hidden="true"></i></div>
+            <p class="text-center">Bets are graded within a few hours after completion</p>
+            <p class="text-center">You are welcome to make a deposit...as always :) </p>
+        </div>
+    {% else %}
+    {% if current_user.bitcoin_wallet.address %}
+        <h2 class="text-center">BTC Wallet</h2>
+        <hr>
+        <h3>Make a deposit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">
+                QR-CODE
+            </button>
+        </h3>
+        <p><b>{{ current_user.bitcoin_wallet.address }}</b></p>
+        <hr>
+        <h5>Make a Widthdrawl</h5>
+        <form class="bs-component" action="{{ url_for('home.bitcoin_widthdrawl') }}" method="post">
+            {{ form_w.csrf_token }}
+            <div class="form-group">
+                {{ form_w.address.label }}
+                {{ form_w.address(class="form-control", placeholder="Destination Bitcoin address...") }}
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="amount">Amount (in btc)</label>
+                <div class="input-group">
+                  <div class="input-group-addon"><i class="fa fa-btc" aria-hidden="true"></i></div>
+                    {{ form_w.amount(class="form-control", placeholder="Amount of Bitcoin to send...") }}
+                </div>
+            </div>
+            <hr>
+            <p>Minimum Network Fee: 0.00040 ฿T.</p>
+            <p>Actual network fees depend on the size of your transaction.</p>
+            <div class="form-group">
+                {{ form_w.submit(class="btn btn-success") }}
+                <button class="btn btn-default">Cancel</button>
+            </div>
+        </form>
+    {% else %}
+        <h2 class="text-center">Create a wallet BTC Wallet</h2>
+        <form class="bs-component" action="{{ url_for('home.create_bitcoin') }}" method="post">
+            {{ form_c.csrf_token }}
+            <div class="form-group text-center">
+                {{ form_c.create(class="btn btn-lg btn-warning") }}
+            </div>
+        </form>
+    {% endif %}
+    {% endif %}
+</div>
