@@ -25,7 +25,7 @@ def home():
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
 # @cache.cached(timeout=60*15, key_prefix="user_profile")
-@roles_accepted("player", "bookie")
+# @roles_accepted("player", "bookie")
 @login_required
 def profile():
     # user.profile.d_amount = user.bitcoin_wallet.available_btc  
@@ -97,7 +97,7 @@ def create_bitcoin():
             db.session.add(wallet)
             db.session.commit()
             cache.delete("user_profile")
-            flash("created a New wallet fresh", "success")
+            flash("Just created a new Bitcoin Wallet, Now Make a deposit and start playing!", "success")
             return redirect(url_for("home.profile"))
         except exc.SQLAlchemyError:
             print "some thing else happend"

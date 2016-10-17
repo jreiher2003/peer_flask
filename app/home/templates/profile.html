@@ -5,7 +5,11 @@
     <div class="row">
         <div class="col-md-2">
             <div class="profileborder">
-                <img class="profilepic" src="{{ current_user.profile.avatar }}" width="150"/>
+                {% if current_user.profile.avatar %}
+                    <img class="profilepic" src="{{ current_user.profile.avatar }}" width="150"/>
+                {% else %}
+                    <img class="profilepic" src="{{ url_for('static', filename='img/user.jpg') }}" width="150"/>
+                {% endif %}
                 <div class="caption">
                     <hr class="profileme">
                     <p class="p__status"><b>Username:</b> {{ current_user.username }}</p>
@@ -27,6 +31,7 @@
             {% include "profile/update_profile_form.html" %}
         </div>
         <div class="col-md-4">
+            {% include "profile/qrcodes.html" %}
             {% include "profile/btc_form.html" %}
         </div>    
     </div><!-- end row -->
@@ -40,5 +45,4 @@
 </div><!-- end container -->
 
 
-{% include "profile/qrcodes.html" %}
 {% endblock %}

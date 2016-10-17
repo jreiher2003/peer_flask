@@ -17,7 +17,7 @@ class BitcoinWalletForm(Form):
     create = SubmitField("Create a wallet")
 
 class BitcoinWithdrawlForm(Form):
-    amount = FloatField("Amount")
+    amount = FloatField("Bitcoin Amount")
     address = TextField("Bitcoin Address")#validators=[DataRequired()
     submit = SubmitField("Widthdrawl")
 
