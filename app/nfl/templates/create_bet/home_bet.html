@@ -1,0 +1,75 @@
+<form id="form-home" method="POST" action="{{ url_for('nfl.nfl_create_bet', game_key=nfl_game.GameKey) }}">
+    {{ form_h.csrf_token }}
+    <div class="form-group">
+        {{ form_h.game_key(value=nfl_game.GameKey) }}
+    </div>
+    <span class="error bg-danger">
+        {% if form_h.game_key.errors %}
+            {% for error in form_h.game_key.errors %}
+                <div class="bg-danger">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+    </span>
+    <div class="form-group">
+        {{ form_h.away_(value=a_team) }}
+    </div>
+    <span class="error bg-danger">
+        {% if form_h.away_.errors %}
+            {% for error in form_h.away_.errors %}
+                <div class="bg-danger">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+    </span>
+    <div class="form-group">
+        {{ form_h.home_(value=h_team) }}
+    </div>
+    <span class="error bg-danger">
+        {% if form_h.home_.errors %}
+            {% for error in form_h.home_.errors %}
+                <div class="bg-danger">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+    </span>
+    <div class="form-group">
+        {{ form_h.home_team.label }}
+        {{ form_h.home_team(id="home_team", class="form-control", readonly=True,value=nfl_game.HomeTeam) }}
+    </div>
+    <span class="error bg-danger">
+        {% if form_h.home_team.errors %}
+            {% for error in form_h.home_team.errors %}
+                <div class="bg-danger">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+    </span>
+    <div class="form-group">
+     {{ form_h.point_spread.label }}
+        {% if nfl_game.PointSpread < 0 %}
+            {{ form_h.point_spread(id="home_ps",class="form-control", value=nfl_game.PointSpread, type="number", min="-14", max="14", step="0.5") }}
+        {% else %}
+            {{ form_h.point_spread(id="home_ps",class="form-control", value=nfl_game.PointSpread, type="number", min="-14", max="14", step="0.5") }}
+        {% endif %}
+    </div>
+    <span class="error bg-danger">
+        {% if form_h.point_spread.errors %}
+            {% for error in form_h.point_spread.errors %}
+                <div class="bg-danger">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+    </span>
+    <div class="form-group">
+        <label class="sr-only" for="amount">Amount (in btc)</label>
+        <div class="input-group">
+          <div class="input-group-addon"><i class="fa fa-btc" aria-hidden="true"></i></div>
+            {{ form_h.amount(id="amount", placeholder="0.08", class="form-control")}}
+        </div>
+    </div>
+        
+    <span class="error bg-danger">
+        {% if form_h.amount.errors %}
+            {% for error in form_h.amount.errors %}
+                <div class="bg-danger">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+    </span>
+    {{ form_h.submit_h(class="btn btn-success") }}
+</form>

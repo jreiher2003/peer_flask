@@ -65,4 +65,41 @@ tbody.tbody {
     background-color: #fff;
 }
 
+/* --------- CREATE-A-BET ---------- */
+div.createbet {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 5px 5px 5px #9D9D9D;
+    min-height: 400px;
+}
+#bet_tabs > li {
+    float: none;
+    display: inline-block;
+}
+#bet_tabs  {
+    text-align: center;
+}
+#bet_tabs > li > a {
+    color: #2780e3;
+}
+#bet_tabs > li > a:hover,#bet_tabs > li.active a {
+    background-color: #fff;
+    color: #2780e3;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: #fff;
+}
+#bet_tabs > li.active a {
+    border-bottom: 3px solid #1EC0FA;
+}
+ul#over_under > li {
+    display: inline;
+    list-style: none;
+    padding-right: 15px;
+}
+ul#over_under {
+    padding-left: 0px;
+}
 

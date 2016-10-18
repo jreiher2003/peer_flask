@@ -207,7 +207,7 @@ def nfl_create_bet(game_key):
             flash("You don't have enough money in your account to make this bet", "danger")
             return redirect(url_for('nfl.nfl_create_bet', game_key=game_key))
     return render_template(
-        "nfl_create_bet.html",
+        "create_bet/nfl_create_bet.html",
         all_teams = all_nfl_teams(),
         form_o = form_o,
         form_h = form_h,

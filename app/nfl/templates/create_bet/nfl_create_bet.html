@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h1>Create-A-Bet</h1>
+            1. First Pick a Team<br>
+            2. Pick a bet type (ml, spread, total)<br>
+            3. Pick a dollar amount <br>
+            4. Change spreads as u see fit<br>
+            5. Check to make sure its what u want<br>
+            6. Creat bet
+        </div>
+            <div class="col-md-5 col-md-offset-1">
+                <div class="createbet">
+                
+                <div class="form-group betheader">
+                    <!-- Nav tabs -->
+                      <ul class="nav nav-tabs" id="bet_tabs">
+                        <li class="active"><a href="#info" data-toggle="tab">Info</a></li>
+                        <li><a href="#home" data-toggle="tab">Home</a></li>
+                        <li><a href="#away" data-toggle="tab">Away</a></li>
+                        <li><a href="#totals" data-toggle="tab">Over/Under</a></li>
+                      </ul>
+                </div>
+                <!-- <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="info">
+                        {% include "create_bet/info_bet.html" %}
+                    </div>
+                    <div class="tab-pane" id="home">
+                        {% include "create_bet/home_bet.html" %}
+                    </div> <!-- end tab-pane home -->
+                    <div class="tab-pane" id="away">
+                        {% include "create_bet/away_bet.html" %}    
+                    </div> <!-- end tab-pane away -->
+                    <div class="tab-pane" id="totals">
+                        {% include "create_bet/over_bet.html" %}
+                    </div><!-- end tab-pane totals -->
+                </div> <!-- end tab-content -->
+            </div>
+        </div>
+    </div><!-- row -->
+</div><!-- end container -->
+{% include "footer.html" %}
+{% endblock content %}
