@@ -27,6 +27,9 @@
                 {{ form_w.address.label }}
                 {{ form_w.address(class="form-control", placeholder="Destination Bitcoin address...") }}
             </div>
+            {% if form_w.address.errors %}
+                <ul class="errors">{% for error in form_w.address.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            {% endif %}
             <div class="form-group">
                 {{ form_w.amount.label }}
                 <div class="input-group">
@@ -34,6 +37,9 @@
                     {{ form_w.amount(class="form-control", placeholder="Amount of Bitcoin to send...") }}
                 </div>
             </div>
+            {% if form_w.amount.errors %}
+                <ul class="errors">{% for error in form_w.amount.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            {% endif %}
             <hr>
             <p>Minimum Network Fee: 0.00040 ฿T.</p>
             <p>Actual network fees depend on the size of your transaction.</p>
