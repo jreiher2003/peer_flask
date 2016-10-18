@@ -2,66 +2,58 @@
 
 {% block title %}NFL schedule{% endblock title %}
 {% block style %}
-.button {
-    border-style: solid;
-  border-width : 1px 1px 1px 1px;
-  text-decoration : none;
-  padding : 4px;
-  border-color : #000000
-}
-.middlerow { 
-     border-top: none !important; 
- }
+
 {% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <table class="table table-border">
-                <thead class="thead-inverse"> 
-                    <tr> 
-                        <th>Date Week: 4</th>  
-                        <th>Game Number</th> 
-                        <th>Game</th>
-                        <th>Spread</th>
-                        <th>ML</th>
-                        <th>Bet</th>
-                    </tr>
-                </thead> 
-                <tbody>
-                 {% for d in data %}
-                    {% if d.Date|dateify > dt %}
-                    <tr>
-                        <td rowspan="2">{{ d.Date|dateify|game_time }}<br>{{ d.Date|dateify|game_date }}</td>
-                        <td rowspan="2">{{ d.GameKey }}</td>
-                        <td>{{ d.AwayTeam }}</td>
-                        {% if d.PointSpread > 0 %}
-                            <td>{{ d.away_pointspread }}</td>
-                        {% elif d.PointSpread == 0.0 %}
-                            <td>{{ d.OverUnder_ }}</td>
-                        {% else %}
-                            <td>{{ d.OverUnder_ }}</td>
-                        {% endif %}
-                        <td>{{ d.away_ml }}</td>
-                        <td><a class="board button" href="{{ url_for('nfl.nfl_public_board') }}">Board</a></td>
-                    </tr>
-                    <tr>
-                        <td class="middlerow">{{ d.HomeTeam }}</td>
-                         {% if d.PointSpread > 0 %}
-                            <td class="middlerow">{{ d.OverUnder_ }}</td>
-                        {% elif d.PointSpread == 0.0 %}
-                            <td class="middlerow">{{ d.even_pointspread }}</td>
-                        {% else %}
-                            <td class="middlerow">{{ d.home_pointspread }}</td>
-                        {% endif %}
-                        <td class="middlerow">{{ d.home_ml }}</td>
-                        <td class="middlerow"><a class="create button" href="{{ url_for('nfl.nfl_create_bet', game_key=d.GameKey) }}">Create</a>
-                        </td>
-                    </tr>
-                     {% endif %}
-                {% endfor %}
-                </tbody>
-            </table>
+        <div class="col-md-10 col-md-offset-1">
+            <div class="ptable__board">
+                <table class="table table-border">
+                    <thead class="thead"> 
+                        <tr> 
+                            <th class="text-center">Date Week: 7</th>  
+                            <th class="text-center">Game Number</th> 
+                            <th class="text-center">Game</th>
+                            <th class="text-center">Spread</th>
+                            <th class="text-center">ML</th>
+                            <th class="text-center">Bet</th>
+                        </tr>
+                    </thead> 
+                    <tbody class="tbody">
+                     {% for d in data %}
+                        {#{% if d.Date|dateify > dt %}#}
+                        <tr>
+                            <td rowspan="2" class="text-center"><p class="reg_pboard">{{ d.Date|dateify|game_time }}</p><p class="reg_pboard">{{ d.Date|dateify|game_date }}</p></td>
+                            <td rowspan="2" class="text-center"><p class="reg_pboard">{{ d.GameKey }}</p></td>
+                            <td class="text-center"><p class="pboard">{{ d.AwayTeam }}</p></td>
+                            {% if d.PointSpread > 0 %}
+                                <td class="text-center"><p class="pboard">{{ d.away_pointspread }}</p></td>
+                            {% elif d.PointSpread == 0.0 %}
+                                <td class="text-center"><p class="pboard">{{ d.OverUnder_ }}</p></td>
+                            {% else %}
+                                <td class="text-center"><p class="pboard">{{ d.OverUnder_ }}</p></td>
+                            {% endif %}
+                            <td class="text-center"><p class="pboard">{{ d.away_ml }}</p></td>
+                            <td rowspan="2" class="text-center"><a class="btn btn-success" href="{{ url_for('nfl.nfl_create_bet', game_key=d.GameKey) }}">Create</a></td>
+                        </tr>
+                        <tr>
+                            <td class="middlerow text-center"><p class="bottom_pboard">{{ d.HomeTeam }}</p></td>
+                             {% if d.PointSpread > 0 %}
+                                <td class="middlerow text-center"><p class="bottom_pboard">{{ d.OverUnder_ }}</p></td>
+                            {% elif d.PointSpread == 0.0 %}
+                                <td class="middlerow text-center"><p class="bottom_pboard">{{ d.even_pointspread }}</p></td>
+                            {% else %}
+                                <td class="middlerow text-center"><p class="bottom_pboard">{{ d.home_pointspread }}</p></td>
+                            {% endif %}
+                            <td class="middlerow text-center"><p class="bottom_pboard">{{ d.home_ml }}</p></td>
+                            
+                        </tr>
+                         {#{% endif %}#}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             
         </div>
     </div>
