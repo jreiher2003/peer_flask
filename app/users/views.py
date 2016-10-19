@@ -1,4 +1,3 @@
-
 from app import app, db
 from flask import Blueprint, render_template
 

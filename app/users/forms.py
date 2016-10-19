@@ -15,10 +15,8 @@ def positve_bitcoin(form, field):
         raise ValidationError("Only positive values please.")
 
 class ExtendedConfirmRegisterForm(RegisterForm):
-    # pass
     username = TextField("Username", [InputRequired(), validate_username])
     password = PasswordField("Password", [InputRequired(), Length(min=12, message="You need to choose a password that is 12 characters long.")])
-    # password_confirm = PasswordField("Confirm")
 
 class BitcoinWalletForm(Form):
     create = SubmitField("Create a wallet")
