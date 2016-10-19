@@ -10,7 +10,7 @@ class Users(db.Model, UserMixin):
     username = db.Column(db.String(50), unique=True)#nullable=False, 
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False, default='')
-    active = db.Column(db.Boolean(), default=False)
+    confirmed = db.Column(db.Boolean(), default=False)
     confirmed_at = db.Column(db.DateTime)
     date_created = db.Column(db.DateTime,  default=datetime.datetime.utcnow)
     date_modified = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
@@ -18,7 +18,7 @@ class Users(db.Model, UserMixin):
     last_login_ip = db.Column(db.String(45))
     current_login_at = db.Column(db.DateTime)
     current_login_ip = db.Column(db.String(45))
-    login_count = db.Column(db.Integer)
+    login_count = db.Column(db.Integer, default=0)
     profile = db.relationship('Profile', uselist=False)
     admin = db.relationship('Admin', uselist=False)
     bitcoin_wallet = db.relationship("BitcoinWallet", uselist=False)

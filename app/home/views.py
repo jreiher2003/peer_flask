@@ -5,12 +5,13 @@ from flask import request, flash, redirect, url_for
 from sqlalchemy import exc
 from flask_security import login_required, roles_required, roles_accepted, current_user
 from app.users.models import Users, Profile, BitcoinWallet 
-from app.users.forms import BitcoinWalletForm, BitcoinWithdrawlForm, ProfileForm
+from app.users.forms import BitcoinWalletForm, BitcoinWithdrawlForm, ProfileForm, SendEmailConfirmForm
 from app.nfl_stats.models import NFLTeam, NFLScore
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet
 from app.nfl.utils import make_salt
 from flask import Blueprint, render_template
 from .utils import all_nfl_teams, grade_query, count_pending_bets, count_graded_bets, ou, sb, ml, graded_sb, graded_ou, graded_ml, get_user_wallet
+from app.users.utils import profile_confirm_email 
 
 home_blueprint = Blueprint("home", __name__, template_folder="templates")
  
@@ -132,6 +133,17 @@ def create_bitcoin():
             return redirect(url_for("home.profile"))
         except exc.SQLAlchemyError:
             print "some thing else happend"
+
+@home_blueprint.route("/confirm-email/", methods=["GET","POST"])
+def profile_c_email():
+    user = Users.query.filter_by(id=current_user.id).one()
+    form = SendEmailConfirmForm(obj=user)
+    if form.validate_on_submit():
+        profile_confirm_email()
+        flash("An email was send to %s" % user.email, "info")
+        return redirect(url_for('home.profile'))
+
+    return render_template("security/send_confirmation.html", form=form) 
 
 
 @home_blueprint.route("/admin/")

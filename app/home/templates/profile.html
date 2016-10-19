@@ -22,8 +22,10 @@
                     <p class="p__status"><b>Pending Bets:</b><small> {{ num_pending }}</small></p>
                     <p class="p__status"><b>Graded Bets:</b><small> {{ num_graded }}</small></p>
                     <p class="p__status"><b>Balance:</b><small> {{ current_user.bitcoin_wallet.available_btc }} BTC</small></p>
+                    <p class="p__status"><b>Account Confirmed: </b><small> {{ current_user.confirmed }} </small></p>
                     <hr class="profileme">
-                    <p class="p__status"><a href="{{ url_for('security.change_password') }}">Change Password</a></p>
+                    <p class="p__status"><a href="{{ url_for('users.change_password') }}">Change Password</a></p>
+                    <p class="p__status"><a href="{{ url_for('home.profile_c_email') }}">Send Email</a></p>
                 </div>
             </div>
         </div>

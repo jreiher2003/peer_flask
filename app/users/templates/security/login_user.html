@@ -10,31 +10,24 @@
           <div class="profileborder">
             <h1 class="text-center">Login</h1>
             <hr>
-            <form id="loginForm" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
-              {{ login_user_form.hidden_tag() }}
+            <form id="loginForm" action="{{ url_for('users.login') }}" method="POST" name="login_user_form">
+              {{ form.csrf_token }}
               <div class="form-group">
-                {{ render_field_with_errors(login_user_form.email, class="form-control", placeholder="username or email address...", **{'data-validation':'required'}) }}
+                {{ render_field_with_errors(form.username, class="form-control", placeholder="username or email address...", **{'data-validation':'required'}) }}
               </div>
               <div class="form-group">
-                {{ render_field_with_errors(login_user_form.password, class="form-control", placeholder="password...", **{'data-validation':'required'}) }}
+                {{ render_field_with_errors(form.password, class="form-control", placeholder="password...", **{'data-validation':'required'}) }}
               </div>
               <div class="form-group">
-                {{ render_field_with_errors(login_user_form.remember) }}<label for="remember">&nbsp;Remember me&nbsp; </label>
-                 {% if security.recoverable %}
-                    <li class="pull-right"><a href="{{ url_for_security('forgot_password') }}">Forgot password</a><br/></li>
-                {% endif %}
+                {{ render_field_with_errors(form.remember) }}<label for="remember">&nbsp;Remember me&nbsp; </label>
+                  <li class="pull-right"><a href="{{ url_for('users.forgot_password') }}">Forgot password</a><br/></li>
               </div>
               <div class="form-group">
-                {{ render_field(login_user_form.next) }}
-              </div>
-              <div class="form-group">
-                {{ render_field(login_user_form.submit, class="btn btn-primary btn-block") }}
+                {{ render_field(form.submit, class="btn btn-primary btn-block") }}
               </div>
             </form>
             <hr>
-            {% if security.registerable %}
-                <li class="text-muted">Not registered? <a href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Create an account</a><br/></li>
-            {% endif %}
+            <li class="text-muted">Not registered? <a href="{{ url_for('users.register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Create an account</a><br/></li>
         </div>
       </div>
     </div>

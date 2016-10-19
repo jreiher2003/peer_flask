@@ -13,28 +13,26 @@
           <div class="profileborder">
             <h1 class="text-center">Register</h1>
             <hr>
-            <form id="registerForm" action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
-              {{ register_user_form.hidden_tag() }}
+            <form id="registerForm" action="{{ url_for('users.register') }}" method="POST" name="register_user_form">
+              {{ form.csrf_token }}
               <div class="form-group">
-                {{ render_field_with_errors(register_user_form.username, class="form-control", placeholder="username...", **{'data-validation':'required','data-validation':'length', 'data-validation-length':'min4', 'data-validation-error-msg':'Pick a longer username'}) }}
+                {{ render_field_with_errors(form.username, class="form-control", placeholder="username...", **{'data-validation':'required','data-validation':'length', 'data-validation-length':'min4', 'data-validation-error-msg':'Pick a longer username'}) }}
               </div>
               <div class="form-group">
-                {{ render_field_with_errors(register_user_form.email, class="form-control", placeholder="you@example.com", **{'data-validation':'email','data-validation-error-msg':'Enter a valid email address, name@domain.com', 'autocomplete': 'email'}) }}
+                {{ render_field_with_errors(form.email, class="form-control", placeholder="you@example.com", **{'data-validation':'email','data-validation-error-msg':'Enter a valid email address, name@domain.com', 'autocomplete': 'email'}) }}
               </div>
               <div class="form-group">
-                {{ render_field_with_errors(register_user_form.password, class="form-control", placeholder="password...", **{'data-validation':'strength','data-validation-strength':'2', 'data-validation':'length', 'data-validation-length': 'min12'}) }}
+                {{ render_field_with_errors(form.password, class="form-control", placeholder="password...", **{'data-validation':'strength','data-validation-strength':'2', 'data-validation':'length', 'data-validation-length': 'min12'}) }}
               </div>
               <div class="form-group">
-                {% if register_user_form.password_confirm %}
-                  {{ render_field_with_errors(register_user_form.password_confirm, class="form-control", placeholder="confirm password...", **{'data-validation': 'confirmation', 'data-validation-confirm':'password'}) }}
-                {% endif %}
+                {{ render_field_with_errors(form.password_confirm, class="form-control", placeholder="confirm password...", **{'data-validation': 'confirmation', 'data-validation-confirm':'password'}) }}
               </div>
               <div class="form-group">
-                {{ render_field(register_user_form.submit, class="btn btn-primary btn-block") }}
+                {{ render_field(form.submit, class="btn btn-primary btn-block") }}
               </div>
             </form>
             <hr>
-            <li class="text-muted">Already have an account? <a href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Login</a></li>
+            <li class="text-muted">Already have an account? <a href="{{ url_for('users.login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Login</a></li>
         </div>
       </div>
     </div>

@@ -4,15 +4,15 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6 col-md-offset-3">
             <h1>Resend confirmation instructions</h1>
-            <form action="{{ url_for_security('send_confirmation') }}" method="POST" name="send_confirmation_form">
-              {{ send_confirmation_form.hidden_tag() }}
+            <form action="{{ url_for('home.profile_c_email') }}" method="POST" name="send_confirmation_form">
+              {{ form.csrf_token }}
               <div class="form-group">
-                {{ render_field_with_errors(send_confirmation_form.email, class="form-control", placeholder="email address...")) }}
+                {{ render_field_with_errors(form.email, class="form-control", placeholder="email address...") }}
               </div>
               <div class="form-group">
-                {{ render_field(send_confirmation_form.submit, class="btn btn-default")) }}
+                {{ render_field(form.submit, class="btn btn-default") }}
               </div>
             </form>
         </div>

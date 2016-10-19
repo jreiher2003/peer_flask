@@ -1,7 +1,6 @@
 <p>Welcome {{ user.email }}!</p>
 
-{% if security.confirmable %}
+
 <p>You can confirm your email through the link below:</p>
 
-<p><a href="{{ confirmation_link }}">Confirm my account</a></p>
-{% endif %}
+<p><a href="{{ confirm_url }}">Confirm my account</a></p>

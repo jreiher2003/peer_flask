@@ -84,6 +84,7 @@ def nfl_create_bet(game_key):
     admin = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7"
     user1 = Users.query.filter_by(id = current_user.id).one()
     btc_address = user1.bitcoin_wallet.address
+    btc_address if btc_address is not None else None
     nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
     h_team = nfl_game.HomeTeam 
     a_team = nfl_game.AwayTeam

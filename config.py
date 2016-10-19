@@ -14,32 +14,15 @@ class BaseConfig(object):
     MAIL_USE_TLS = False
     MAIL_USERNAME = "jeffreiher@gmail.com"
     MAIL_PASSWORD = "7797finn"
-    MAIL_DEFAULT_SENDER = '"Jeff" <jeffreiher@gmail.com>'
+    MAIL_DEFAULT_SENDER = '"Site Admin" <noreply@peer2peer.com>'
     
-    SECURITY_REGISTERABLE = True
-    SECURITY_CONFIRMABLE = False
-    SECURITY_CHANGEABLE = True
-    SECURITY_RECOVERABLE = True
-    SECURITY_TRACKABLE = True
-    # SECURITY_CONFIRM_URL = True
-    SECURITY_SEND_REGISTER_EMAIL = True 
-    SECURITY_USER_IDENTITY_ATTRIBUTES = ("username","email")
-    # SECURITY_BLUEPRINT_NAME = "security"
-    SECURITY_PASSWORD_HASH = "bcrypt"
-    SECURITY_PASSWORD_SALT = 'something_super_secret_change_in_production'
-    SECURITY_POST_LOGIN_VIEW = "/nfl/"
-    SECURITY_CHANGE_URL = "/password-change/"
-    SECURITY_RESET_URL = "/password-recovery/"
-
-    USER_APP_NAME = "Peer2Peer"
- 
     
    
 class TestConfig(BaseConfig):
     DEBUG = True
     TESTING = True
     PRESERVE_CONTEXT_ON_EXCEPTION = False
-    MAIL_SUPPRESS_SEND = False
+    MAIL_SUPPRESS_SEND = True
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     

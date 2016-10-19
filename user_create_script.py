@@ -2,8 +2,8 @@ from dateutil.parser import parse as parse_date
 from app.users.models import Users, Role, UserRoles, Profile, Admin, BitcoinWallet
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet,NFLMLBet
 from app.nfl_stats.models import NFLScore
-from app import app, db, user_datastore, block_io 
-from flask_security.utils import encrypt_password
+from app import app, db, block_io, bcrypt 
+# from flask_security.utils import encrypt_password
 
 def create_users():
     with app.app_context():
@@ -12,12 +12,13 @@ def create_users():
         role3 = Role(id=3,name="bookie", description="More privileges then basic user")
         db.session.add_all([role1,role2,role3])
         db.session.commit() 
-        user1 = user_datastore.create_user(id=1,username="admin", email="jreiher2003@yahoo.com", password=encrypt_password("password"))
-        user2 = user_datastore.create_user(id=2,username="j3ff_", email="jeffreiher@gmail.com", password=encrypt_password("password"))
-        user3 = user_datastore.create_user(id=3, username="Nhilson", email="ken@gmail.com", password=encrypt_password("password"))
-        user4 = user_datastore.create_user(id=4, username="Mike", email="mike@gmail.com", password=encrypt_password("password"))
-        user5 = user_datastore.create_user(id=5, username="Greg", email="greg@gmail.com", password=encrypt_password("password"))
-        user6 = user_datastore.create_user(id=6, username="Rob", email="rob@gmail.com", password=encrypt_password("password"))
+        user1 = Users(id=1,username="admin", email="jreiher2003@yahoo.com", password=bcrypt.generate_password_hash("password123456"))
+        user2 = Users(id=2,username="j3ff_", email="jeffreiher@gmail.com", password=bcrypt.generate_password_hash("password123456"))
+        user3 = Users(id=3, username="Nhilson", email="ken@gmail.com", password=bcrypt.generate_password_hash("password123456"))
+        user4 = Users(id=4, username="Mike", email="mike@gmail.com", password=bcrypt.generate_password_hash("password123456"))
+        user5 = Users(id=5, username="Greg", email="greg@gmail.com", password=bcrypt.generate_password_hash("password123456"))
+        user6 = Users(id=6, username="Rob", email="rob@gmail.com", password=bcrypt.generate_password_hash("password123456"))
+        db.session.add_all([user1,user2,user3,user4,user5,user6])
         db.session.commit()
 
 

@@ -26,10 +26,10 @@
             <li><a href="{{ url_for('home.profile') }}">{{ current_user.profile.d_amount }} Profile BTC</a></li>
           {% endif %}
           <li><a href="{{ url_for('home.profile') }}">{{ current_user.username }}</a></li>
-          <li><a href="{{ url_for('security.logout') }}">logout</a></li>
+          <li><a href="{{ url_for('users.logout') }}">logout</a></li>
         {% else %} 
-          <li><a href="{{ url_for('security.login') }}">login</a></li>
-          <li><a href="{{ url_for('security.register') }}">register</a></li>
+          <li><a href="{{ url_for('users.login') }}">login</a></li>
+          <li><a href="{{ url_for('users.register') }}">register</a></li>
         {% endif %}
       </ul>
       <!-- <form class="navbar-form navbar-right">
