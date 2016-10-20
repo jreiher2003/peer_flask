@@ -3,6 +3,7 @@ $(document).ready(function(){
       e.preventDefault();  
         $(this).tab('show');
     });
+});
 
 //     // store the currently selected tab in the hash value
 //     $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {

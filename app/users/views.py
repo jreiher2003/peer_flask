@@ -48,7 +48,7 @@ def register():
             db.session.add(user)
             db.session.commit()
             token = generate_confirmation_token(user.email)
-            confirm_url = url_for('users.confirm_email', token=token, _external=True)
+            confirm_url = url_for('users.confirm_email_register', token=token, _external=True)
             html = render_template("security/email/welcome.html", confirm_url=confirm_url, user=user)
             subject = "Please confirm your email"
             send_email(user.email, subject, html)
@@ -77,7 +77,24 @@ def logout():
     referer = request.headers["Referer"]
     return redirect(referer)
 
-
+@users_blueprint.route('/confirm/<token>/')
+@login_required
+def confirm_email_register(token):
+    try:
+        email = confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    user = Users.query.filter_by(email=email).first_or_404()
+    if user.confirmed:
+        flash('Account already confirmed. Please login.', 'success')
+    else:
+        # add user roles to protect create-a-bet page with no wallet
+        user.confirmed = True
+        user.confirmed_at = datetime.datetime.now()
+        db.session.add(user)
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!', 'success')
+    return redirect(url_for('home.profile'))
 
 
 

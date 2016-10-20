@@ -53,7 +53,11 @@
         <form class="bs-component" action="{{ url_for('home.create_bitcoin') }}" method="post">
             {{ form_c.csrf_token }}
             <div class="form-group text-center">
-                {{ form_c.create(class="btn btn-lg btn-warning") }}
+                {% if current_user.confirmed == False %}
+                    {{ form_c.create(id="createBCB", class="btn btn-lg btn-warning disabled createBCB", **{ 'data-toggle': 'tooltip', 'data-placement':'bottom', 'title':'Confirm your account first'}) }}
+                {% else %}
+                    {{ form_c.create(class="btn btn-lg btn-warning") }}
+                {% endif %}
             </div>
         </form>
     {% endif %}

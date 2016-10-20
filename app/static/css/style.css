@@ -102,4 +102,19 @@ ul#over_under > li {
 ul#over_under {
     padding-left: 0px;
 }
+.bg-danger {
+    color: #fff;
+    text-align: center;
+}
+/* ----  tool-tip ---- */
+.popover {
+    border: 2px solid black;
+}
+.popover-content {
+    background-color: black;
+    color: #fff;
+    opacity: .8;
+}
 
+.popover.top > .arrow:after { border-top-color: black; }
+.popover > .arrow { border-bottom-color: black;}

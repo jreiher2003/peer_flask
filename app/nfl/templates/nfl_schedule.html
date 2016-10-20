@@ -35,7 +35,11 @@
                                 <td class="text-center"><p class="pboard">{{ d.OverUnder_ }}</p></td>
                             {% endif %}
                             <td class="text-center"><p class="pboard">{{ d.away_ml }}</p></td>
+                            {% if current_user.bitcoin_wallet %}
                             <td rowspan="2" class="text-center"><a class="btn btn-success" href="{{ url_for('nfl.nfl_create_bet', game_key=d.GameKey) }}">Create</a></td>
+                            {% else %}
+                                <td rowspan="2" class="text-center"><a href="#" class="btn btn-success cbw" data-toggle="popover" data-placement="top" data-content="Create Bitcoin Wallet">Create</a></td>
+                            {% endif %}
                         </tr>
                         <tr>
                             <td class="middlerow text-center"><p class="bottom_pboard">{{ d.HomeTeam }}</p></td>

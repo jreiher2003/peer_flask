@@ -49,5 +49,20 @@
     <script>
     $('#qrcode').qrcode({width: 400,height: 400,text: "size doesn't matter"});
     </script>
+    <!-- create btc wallet js -->
+    <script>
+    $(document).on('click', '#createBCB:enabled', function(){
+        return false
+    });
+    </script>
+    <script>
+    $(document).ready(function(){
+        $("#createBCB").tooltip();
+    });
+    </script>
+<!-- - end btc wallet js - -->
+    <script>
+    $("[data-toggle=popover]").popover();
+    </script>
   </body>
 </html>

@@ -38,4 +38,10 @@ div.errors  {
 div.profile_class_button {
     text-align: center;
 }
-
+/* ---- tool-tip ---- */
+.createBCB + .tooltip > .tooltip-inner {
+    background-color: #f00;
+}
+.createBCB + .tooltip > .tooltip-arrow { 
+    border-bottom-color:#f00; 
+}
