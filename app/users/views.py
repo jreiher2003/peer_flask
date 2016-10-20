@@ -2,7 +2,7 @@ import datetime
 from app import app, db, bcrypt 
 from .models import Users
 from .forms import LoginForm, RegisterForm, RecoverPasswordForm, ChangePasswordForm
-from .utils import get_ip, is_safe_url, generate_confirmation_token, confirm_token, send_email
+from .utils import get_ip, is_safe_url, generate_confirmation_token, confirm_token, send_email, password_reset_email
 from flask import Blueprint, render_template, url_for, request, flash, redirect, session
 from flask_login import login_user, logout_user, login_required, current_user 
 
@@ -29,7 +29,7 @@ def login():
             return redirect(next or url_for("nfl.nfl_home"))
         else:
             flash("<strong>Invalid password.</strong> Please try again.", "danger")
-            return redirect(url_for("nfl.nfl_home"))
+            return redirect(url_for("users.login"))
     return render_template("security/login_user.html", form=form)
 
 @users_blueprint.route("/register/", methods=["GET","POST"])
@@ -78,11 +78,6 @@ def logout():
     referer = request.headers["Referer"]
     return redirect(referer)
 
-@users_blueprint.route("/forgot-password/", methods=["GET","POST"])
-def forgot_password():
-    form = RecoverPasswordForm()
-    return render_template("security/forgot_password.html", form=form)
-
 @users_blueprint.route("/change-password/", methods=["GET","POST"])
 def change_password():
     form = ChangePasswordForm()
@@ -95,7 +90,6 @@ def change_password():
             referer = request.headers["Referer"]
             flash("Successfully changed your password", "success")
             return redirect(url_for("home.profile"))
-
     return render_template("security/change_password.html", form=form)
 
 @users_blueprint.route('/confirm/<token>/')
@@ -115,3 +109,39 @@ def confirm_email(token):
         db.session.commit()
         flash('You have confirmed your account. Thanks!', 'success')
     return redirect(url_for('home.profile'))
+
+@users_blueprint.route("/forgot-password/", methods=["GET","POST"])
+def forgot_password():
+    form = RecoverPasswordForm()
+    if form.validate_on_submit():
+        user = Users.query.filter_by(email=form.email.data, confirmed=True).one_or_none()
+        if user is not None:
+            password_reset_email(user.email)
+            flash("sent email to %s" % user.email, "warning")
+            return redirect(url_for("users.login"))
+        else:
+            flash("this account is not confirmed", "danger")
+            return redirect(url_for("users.login"))
+    return render_template("security/forgot_password.html", form=form)
+
+@users_blueprint.route("/password-reset/<token>/", methods=["GET","POST"])
+def forgot_password_reset_token(token):
+    try:
+        email = confirm_token(token)
+        print email
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    form = ChangePasswordForm()
+    user = Users.query.filter_by(email=email).one_or_none()
+    print user.username
+    
+    if form.validate_on_submit(): 
+        new_password = form.new_password.data
+        print new_password
+        db.session.add(user)
+        db.session.commit()
+        flash("Successful password change", "success")
+        return redirect(url_for("users.login"))
+    
+    return render_template("security/forgot_password_change.html", form=form, token=token)
+

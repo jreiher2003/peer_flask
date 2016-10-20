@@ -38,7 +38,7 @@ class ChangePasswordForm(Form):
     password = PasswordField("Password", [InputRequired(), Length(min=12, message="The min password length is 12 chars long.")])
     new_password = PasswordField("Password", [InputRequired(), Length(min=12, message="The min password length is 12 chars long.")])
     new_password_confirm = PasswordField("Confirm", [InputRequired(), EqualTo("new_password", message="Your passwords don't match.")])
-    submit = SubmitField("Register")
+    submit = SubmitField("Change Password")
 
 
 

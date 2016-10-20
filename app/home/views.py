@@ -53,6 +53,7 @@ def profile():
         )
 
 @home_blueprint.route("/profile_update/", methods=["POST"])
+@login_required
 def update_profile():
     user = Users.query.filter_by(id=current_user.id).one()
     form_p = ProfileForm(obj=user)
@@ -86,6 +87,7 @@ def update_profile():
         ) 
 
 @home_blueprint.route("/bitcoin_widthdrawl/", methods=["POST"])
+@login_required
 def bitcoin_widthdrawl():
     nonce = make_salt(length=32)
     form_w = BitcoinWithdrawlForm()
@@ -120,6 +122,7 @@ def bitcoin_widthdrawl():
         ) 
 
 @home_blueprint.route("/create_bitcoin/", methods=["POST"])
+@login_required
 def create_bitcoin():
     form_c = BitcoinWalletForm()
     if form_c.validate_on_submit():
@@ -135,11 +138,12 @@ def create_bitcoin():
             print "some thing else happend"
 
 @home_blueprint.route("/confirm-email/", methods=["GET","POST"])
+@login_required
 def profile_c_email():
     user = Users.query.filter_by(id=current_user.id).one()
     form = SendEmailConfirmForm(obj=user)
     if form.validate_on_submit():
-        profile_confirm_email()
+        profile_confirm_email(user.email)
         flash("An email was send to %s" % user.email, "info")
         return redirect(url_for('home.profile'))
 
