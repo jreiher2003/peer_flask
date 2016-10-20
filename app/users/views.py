@@ -1,7 +1,7 @@
 import datetime
 from app import app, db, bcrypt 
 from .models import Users
-from .forms import LoginForm, RegisterForm, RecoverPasswordForm, ChangePasswordForm
+from .forms import LoginForm, RegisterForm, RecoverPasswordForm, ChangePasswordForm, ChangePasswordTokenForm
 from .utils import get_ip, is_safe_url, generate_confirmation_token, confirm_token, send_email, password_reset_email
 from flask import Blueprint, render_template, url_for, request, flash, redirect, session
 from flask_login import login_user, logout_user, login_required, current_user 
@@ -131,16 +131,15 @@ def forgot_password_reset_token(token):
         print email
     except:
         flash('The confirmation link is invalid or has expired.', 'danger')
-    form = ChangePasswordForm()
     user = Users.query.filter_by(email=email).one_or_none()
     print user.username
     
-    if form.validate_on_submit(): 
-        new_password = form.new_password.data
-        print new_password
+    form = ChangePasswordTokenForm()
+    if request.method == "POST": 
+        user.password = bcrypt.generate_password_hash(request.form["password"])
         db.session.add(user)
         db.session.commit()
-        flash("Successful password change", "success")
+        flash("Successful password updated!", "success")
         return redirect(url_for("users.login"))
     
     return render_template("security/forgot_password_change.html", form=form, token=token)

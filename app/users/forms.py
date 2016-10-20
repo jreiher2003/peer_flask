@@ -40,6 +40,11 @@ class ChangePasswordForm(Form):
     new_password_confirm = PasswordField("Confirm", [InputRequired(), EqualTo("new_password", message="Your passwords don't match.")])
     submit = SubmitField("Change Password")
 
+class ChangePasswordTokenForm(Form):
+    password = PasswordField("Password")
+    password_confirm = PasswordField("Confirm")#, [InputRequired(), EqualTo("password", message="Your passwords don't match.")]
+    submit = SubmitField("Change Password")
+
 
 
 
