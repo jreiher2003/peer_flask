@@ -1,0 +1,26 @@
+<!-- Trigger the modal with a button -->
+<a type="button" class="btn btn-danger btn-sm profile_center" data-toggle="modal" data-target="#myModal">Confirm Account</a>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h1>Resend confirmation instructions</h1>
+        <form action="{{ url_for('home.profile_c_email') }}" method="POST" name="send_confirmation_form">
+          {{ form.csrf_token }}
+          <div class="form-group">
+            {{ render_field_with_errors(form.email, class="form-control", placeholder="email address...") }}
+          </div>
+          <div class="form-group">
+            {{ render_field(form.submit, class="btn btn-danger") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -22,10 +22,21 @@
                     <p class="p__status"><b>Pending Bets:</b><small> {{ num_pending }}</small></p>
                     <p class="p__status"><b>Graded Bets:</b><small> {{ num_graded }}</small></p>
                     <p class="p__status"><b>Balance:</b><small> {{ current_user.bitcoin_wallet.available_btc }} BTC</small></p>
-                    <p class="p__status"><b>Account Confirmed: </b><small> {{ current_user.confirmed }} </small></p>
+                    <p class="p__status"><b>Account Confirmed: </b>
+                        {% if current_user.confirmed == False %}
+                            <small class="label label-danger"> {{ current_user.confirmed }} </small>
+                        {% else %}
+                            <small class="label label-success"> {{ current_user.confirmed }} </small>
+                        {% endif %}
                     <hr class="profileme">
-                    <p class="p__status"><a href="{{ url_for('users.change_password') }}">Change Password</a></p>
-                    <p class="p__status"><a href="{{ url_for('home.profile_c_email') }}">Confirm Email</a></p>
+                    <div class="profile_class_button">
+                        {% if current_user.confirmed == False %}
+                        <!-- {#<p class="p__status"><a href="{{ url_for('home.profile_c_email') }}">Confirm Email</a></p>#} -->
+                            {% include "profile/confirm_email_modal.html" %}
+                        {% endif %}
+                        <!-- {#<p type="button" class="btn btn-sm btn-warning"><a href="{{ url_for('home.change_password') }}">Change Password</a></p>#} -->
+                        {% include "profile/profile_change_password_modal.html" %}
+                    </div>
                 </div>
             </div>
         </div>

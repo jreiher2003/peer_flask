@@ -1,7 +1,7 @@
 import datetime
 from app import app, db, bcrypt 
 from .models import Users
-from .forms import LoginForm, RegisterForm, RecoverPasswordForm, ChangePasswordForm, ChangePasswordTokenForm
+from .forms import LoginForm, RegisterForm, RecoverPasswordForm, ChangePasswordTokenForm
 from .utils import get_ip, is_safe_url, generate_confirmation_token, confirm_token, send_email, password_reset_email
 from flask import Blueprint, render_template, url_for, request, flash, redirect, session
 from flask_login import login_user, logout_user, login_required, current_user 
@@ -77,38 +77,9 @@ def logout():
     referer = request.headers["Referer"]
     return redirect(referer)
 
-@users_blueprint.route("/change-password/", methods=["GET","POST"])
-def change_password():
-    form = ChangePasswordForm()
-    if form.validate_on_submit():
-        user = Users.query.filter_by(id=current_user.id).first()
-        if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
-            user.password = form.new_password.data
-            db.session.add(user)
-            db.session.commit()
-            referer = request.headers["Referer"]
-            flash("Successfully changed your password", "success")
-            return redirect(url_for("home.profile"))
-    return render_template("security/change_password.html", form=form)
 
-#app.user.home.views.profile_c_email
-@users_blueprint.route('/confirm/<token>/')
-@login_required
-def confirm_email(token):
-    try:
-        email = confirm_token(token)
-    except:
-        flash('The confirmation link is invalid or has expired.', 'danger')
-    user = Users.query.filter_by(email=email).first_or_404()
-    if user.confirmed:
-        flash('Account already confirmed. Please login.', 'success')
-    else:
-        user.confirmed = True
-        user.confirmed_at = datetime.datetime.now()
-        db.session.add(user)
-        db.session.commit()
-        flash('You have confirmed your account. Thanks!', 'success')
-    return redirect(url_for('home.profile'))
+
+
 
 @users_blueprint.route("/forgot-password/", methods=["GET","POST"])
 def forgot_password():
@@ -128,7 +99,6 @@ def forgot_password():
 def forgot_password_reset_token(token):
     try:
         email = confirm_token(token)
-        print email
     except:
         flash('The confirmation link is invalid or has expired.', 'danger')
     user = Users.query.filter_by(email=email).one_or_none()
@@ -137,6 +107,7 @@ def forgot_password_reset_token(token):
         user.password = request.form["password"]
         db.session.add(user)
         db.session.commit()
+        email_reset_notice(user.email)
         flash("Successful password updated!", "success")
         return redirect(url_for("users.login"))
     return render_template("security/forgot_password_change.html", form=form, token=token)

@@ -25,11 +25,17 @@ div.nomoney i {
     text-shadow: 5px 2px #ddd;
     margin-bottom: 20px;
 }
-
 div.errors  {
     background-color: #ff0039;
     color: #fff;
     text-align: center;
     margin-bottom: 5px;
+}
+.profile_center {
+    margin-bottom: 5px;
+    min-width: 150px;
+}
+div.profile_class_button {
+    text-align: center;
 }
 

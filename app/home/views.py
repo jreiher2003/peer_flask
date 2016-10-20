@@ -1,17 +1,17 @@
 import json
 from dateutil.parser import parse as parse_date
-from app import app, db, cache, block_io
+from app import app, db, cache, block_io, bcrypt
 from flask import request, flash, redirect, url_for
 from sqlalchemy import exc
 from flask_security import login_required, roles_required, roles_accepted, current_user
 from app.users.models import Users, Profile, BitcoinWallet 
-from app.users.forms import BitcoinWalletForm, BitcoinWithdrawlForm, ProfileForm, SendEmailConfirmForm
+from app.users.forms import BitcoinWalletForm, BitcoinWithdrawlForm, ProfileForm, SendEmailConfirmForm, ChangePasswordForm
 from app.nfl_stats.models import NFLTeam, NFLScore
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet
 from app.nfl.utils import make_salt
 from flask import Blueprint, render_template
 from .utils import all_nfl_teams, grade_query, count_pending_bets, count_graded_bets, ou, sb, ml, graded_sb, graded_ou, graded_ml, get_user_wallet
-from app.users.utils import profile_confirm_email 
+from app.users.utils import profile_confirm_email, email_reset_notice
 
 home_blueprint = Blueprint("home", __name__, template_folder="templates")
  
@@ -36,9 +36,13 @@ def profile():
     form_p = ProfileForm(obj=user)
     form_w = BitcoinWithdrawlForm()
     form_c = BitcoinWalletForm()
+    form = SendEmailConfirmForm(obj=user)
+    form_cp = ChangePasswordForm()
     return render_template(
-        "profile.html", 
+        "profile/profile.html", 
         all_teams = all_nfl_teams(), 
+        form = form,
+        form_cp = form_cp,
         form_c = form_c,
         form_w = form_w,
         form_p = form_p,
@@ -60,7 +64,6 @@ def update_profile():
     form_w = BitcoinWithdrawlForm()
     form_c = BitcoinWalletForm()
     if form_p.validate_on_submit():
-        print "form_p"
         username = request.form["username"]
         email = request.form["email"]
         user.username = username
@@ -71,7 +74,7 @@ def update_profile():
         cache.delete("update_profile")
         return redirect(url_for('home.profile'))
     return render_template(
-        "profile.html", 
+        "profile/profile.html", 
         all_teams = all_nfl_teams(), 
         form_c = form_c,
         form_w = form_w,
@@ -107,7 +110,7 @@ def bitcoin_widthdrawl():
     user = Users.query.filter_by(id=current_user.id).one()
     form_p = ProfileForm(obj=user)
     return render_template(
-        "profile.html", 
+        "profile/profile.html", 
         all_teams = all_nfl_teams(), 
         form_w = form_w,
         form_p = form_p,
@@ -137,6 +140,21 @@ def create_bitcoin():
         except exc.SQLAlchemyError:
             print "some thing else happend"
 
+@home_blueprint.route("/change-password/", methods=["GET","POST"])
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        user = Users.query.filter_by(id=current_user.id).first()
+        if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
+            user.password = form.new_password.data
+            db.session.add(user)
+            db.session.commit()
+            referer = request.headers["Referer"]
+            email_reset_notice(user.email)
+            flash("Successfully changed your password", "success")
+            return redirect(url_for("home.profile"))
+    return render_template("security/change_password.html", form=form)
+
 #if user doesn't confirm on register
 @home_blueprint.route("/confirm-email/", methods=["GET","POST"])
 @login_required
@@ -148,6 +166,25 @@ def profile_c_email():
         flash("An email was send to %s" % user.email, "info")
         return redirect(url_for('home.profile'))
     return render_template("security/send_confirmation.html", form=form) 
+
+#app.user.home.views.profile_c_email
+@home_blueprint.route('/confirm/<token>/')
+@login_required
+def confirm_email(token):
+    try:
+        email = confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    user = Users.query.filter_by(email=email).first_or_404()
+    if user.confirmed:
+        flash('Account already confirmed. Please login.', 'success')
+    else:
+        user.confirmed = True
+        user.confirmed_at = datetime.datetime.now()
+        db.session.add(user)
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!', 'success')
+    return redirect(url_for('home.profile'))
 
 
 @home_blueprint.route("/admin/")

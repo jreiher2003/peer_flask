@@ -44,11 +44,12 @@ def send_email(to, subject, template):
 def profile_confirm_email(email):
     user = Users.query.filter_by(email=email).one()
     token = generate_confirmation_token(user.email)
-    confirm_url = url_for('users.confirm_email', token=token, _external=True)
-    html = render_template("security/email/welcome.html", confirm_url=confirm_url, user=user)
+    confirm_url = url_for('home.confirm_email', token=token, _external=True)
+    html = render_template("security/email/confirmation_instructions.html", confirm_url=confirm_url, user=user)
     subject = "Please confirm your email"
     send_email(user.email, subject, html)
 
+#login forgot password link
 def password_reset_email(email):
     user = Users.query.filter_by(email=email).one()
     token = generate_confirmation_token(user.email)
@@ -56,3 +57,9 @@ def password_reset_email(email):
     html = render_template("security/email/reset_instructions.html", reset_link=reset_link, user=user)
     subject = "reset instructions"
     send_email(user.email, subject, html)
+
+def email_reset_notice(email):
+    """ can handle all email reset emails """
+    html = render_template("security/email/reset_notice.html")
+    subject = "Password reset"
+    send_email(email, subject, html)
