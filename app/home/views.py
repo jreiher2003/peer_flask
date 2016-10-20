@@ -137,6 +137,7 @@ def create_bitcoin():
         except exc.SQLAlchemyError:
             print "some thing else happend"
 
+#if user doesn't confirm on register
 @home_blueprint.route("/confirm-email/", methods=["GET","POST"])
 @login_required
 def profile_c_email():
@@ -146,7 +147,6 @@ def profile_c_email():
         profile_confirm_email(user.email)
         flash("An email was send to %s" % user.email, "info")
         return redirect(url_for('home.profile'))
-
     return render_template("security/send_confirmation.html", form=form) 
 
 
@@ -158,17 +158,3 @@ def admin():
      all_teams = all_nfl_teams(),
      )
 
-# try:
-#     wallet = BitcoinWallet.query.filter_by(user_id=current_user.id).one()
-#     btc = block_io.get_new_address()
-#     print btc
-#     if wallet is not None:
-#         wallet.label = btc["data"]["label"]
-#         wallet.address = btc["data"]["address"]
-#         db.session.add(wallet)
-#         db.session.commit()
-#         cache.delete("user_profile")
-#         flash("edited wallet", "success")
-#         return redirect(url_for("home.profile"))
-# except exc.SQLAlchemyError:
-#     print "Need to create a wallet first" 

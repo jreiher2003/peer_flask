@@ -39,7 +39,7 @@ def register():
         user = Users(
             username = form.username.data,
             email = form.email.data,
-            password = bcrypt.generate_password_hash(form.password.data),
+            password = form.password.data,
             login_count = 1,
             current_login_ip = get_ip(),
             current_login_at = datetime.datetime.now()
@@ -53,7 +53,6 @@ def register():
             subject = "Please confirm your email"
             send_email(user.email, subject, html)
             login_user(user,True)
-           
             flash("Welcome <strong>%s</strong> to Peer2Peer. A confirmation email has been sent to %s" % (user.username,user.email), "success")
             next = request.args.get("next")
             print "next", next 
@@ -84,7 +83,7 @@ def change_password():
     if form.validate_on_submit():
         user = Users.query.filter_by(id=current_user.id).first()
         if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
-            user.password = bcrypt.generate_password_hash(form.new_password.data)
+            user.password = form.new_password.data
             db.session.add(user)
             db.session.commit()
             referer = request.headers["Referer"]
@@ -92,6 +91,7 @@ def change_password():
             return redirect(url_for("home.profile"))
     return render_template("security/change_password.html", form=form)
 
+#app.user.home.views.profile_c_email
 @users_blueprint.route('/confirm/<token>/')
 @login_required
 def confirm_email(token):
@@ -132,15 +132,12 @@ def forgot_password_reset_token(token):
     except:
         flash('The confirmation link is invalid or has expired.', 'danger')
     user = Users.query.filter_by(email=email).one_or_none()
-    print user.username
-    
     form = ChangePasswordTokenForm()
     if request.method == "POST": 
-        user.password = bcrypt.generate_password_hash(request.form["password"])
+        user.password = request.form["password"]
         db.session.add(user)
         db.session.commit()
         flash("Successful password updated!", "success")
         return redirect(url_for("users.login"))
-    
     return render_template("security/forgot_password_change.html", form=form, token=token)
 

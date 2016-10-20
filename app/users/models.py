@@ -1,5 +1,7 @@
 import datetime
-from app import db, block_io
+from app import db, block_io, bcrypt
+from sqlalchemy.ext.hybrid import hybrid_property
+
 from flask_security import UserMixin, RoleMixin 
 
 
@@ -9,7 +11,7 @@ class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True)#nullable=False, 
     email = db.Column(db.String(255), nullable=False, unique=True)
-    password = db.Column(db.String(255), nullable=False, default='')
+    _password = db.Column(db.String(255), nullable=False, default='') #hybrid column
     confirmed = db.Column(db.Boolean(), default=False)
     confirmed_at = db.Column(db.DateTime)
     date_created = db.Column(db.DateTime,  default=datetime.datetime.utcnow)
@@ -27,8 +29,13 @@ class Users(db.Model, UserMixin):
     nfl_side_bet = db.relationship("NFLSideBet")
     nfl_ml_bet = db.relationship("NFLMLBet")
 
-    def __repr__(self):
-        return "<username-{}".format(self.username)
+    @hybrid_property 
+    def password(self):
+        return self._password 
+
+    @password.setter 
+    def _set_password(self, plaintext):
+        self._password = bcrypt.generate_password_hash(plaintext)
 
     def is_authenticated(self):
         return True
@@ -44,6 +51,10 @@ class Users(db.Model, UserMixin):
 
     def get_id(self):
         return unicode(self.id)
+
+
+    def __repr__(self):
+        return "<username-{}".format(self.username)
 
 # Define the Role DataModel
 class Role(db.Model, RoleMixin):

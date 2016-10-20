@@ -7,7 +7,7 @@ class BaseConfig(object):
     # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     SQLALCHEMY_DATABASE_URI = "sqlite:///peer.db"
     CACHE_TYPE = "memcached"
-
+    BCRYPT_LOG_ROUNDS = 12
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
     MAIL_USE_SSL = True
