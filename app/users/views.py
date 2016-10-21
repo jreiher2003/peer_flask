@@ -15,7 +15,6 @@ def login():
         user = Users.query.filter_by(username=form.username.data).first()
         if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
             remember = form.remember.data
-            login_user(user,remember)
             user.login_count += 1
             user.last_login_ip = user.current_login_ip
             user.last_login_at = user.current_login_at
@@ -23,6 +22,7 @@ def login():
             user.current_login_at = datetime.datetime.now()
             db.session.add(user)
             db.session.commit()
+            login_user(user,remember)
             next = request.args.get("next")
             if not is_safe_url(next):
                 return flask.abort(400)

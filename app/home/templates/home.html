@@ -6,6 +6,11 @@
         <div class="col-md-4 col-md-offset-4">
 
        home
+       {% if current_user.has_role("player") %}
+        yes player<br>
+       {% else %}
+       no player
+       {% endif %}
       
        {{ all_address.data }}<br><br><br>
        {{ all_address.data.network }}<br><br><br>

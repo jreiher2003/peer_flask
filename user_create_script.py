@@ -127,10 +127,10 @@ if __name__ == "__main__":
     print "Just Dropped all tables"
     db.create_all()
     create_users()
-    create_wallets()
-    update_profiles_bitcoin()
-    print "users created"
-    create_bet()
+    # create_wallets()
+    # update_profiles_bitcoin()
+    # print "users created"
+    # create_bet()
     print "bets created"
     
     

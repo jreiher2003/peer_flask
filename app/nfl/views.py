@@ -22,8 +22,8 @@ nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")
 def nfl_home():
-    network = block_io.get_network_fee_estimate(amounts = .001, from_addresses = "2N7xdmuX55uRFLQTwmcU6FR1SH3mQXSTog5", to_addresses = "2NEysAXjp2ozYwcNoqAN6EJCXrTiQYvHVze", priority="low")
-    print network["data"]["estimated_network_fee"]
+    # network = block_io.get_network_fee_estimate(amounts = .001, from_addresses = "2N7xdmuX55uRFLQTwmcU6FR1SH3mQXSTog5", to_addresses = "2NEysAXjp2ozYwcNoqAN6EJCXrTiQYvHVze", priority="low")
+    # print network["data"]["estimated_network_fee"]
     return render_template(
         "nfl_home.html", 
         all_teams = all_nfl_teams(),

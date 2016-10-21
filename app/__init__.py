@@ -6,6 +6,7 @@ from flask_caching import Cache
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt 
 from flask_login import LoginManager 
+from flask_security import Security, SQLAlchemyUserDatastore
 from block_io import BlockIo
 
 app = Flask(__name__) 
@@ -19,7 +20,6 @@ version = 2
 block_io = BlockIo("ef62-6d12-8127-566c", "finn7797", version)
 login_manager = LoginManager(app) 
  
-
 
 from app.users.views import users_blueprint
 app.register_blueprint(users_blueprint) 
@@ -38,6 +38,8 @@ app.jinja_env.filters["game_date"] = game_date
 app.jinja_env.filters["game_day"] = game_day
 
 from app.users.models import Users, Role, UserRoles, Profile
+user_daatastore = SQLAlchemyUserDatastore(db, Users, Role)
+security = Security(app, user_daatastore)
 
 login_manager.login_view = "users.login"
 login_manager.login_message = "You need to login first before you can continue."

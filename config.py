@@ -15,6 +15,9 @@ class BaseConfig(object):
     MAIL_USERNAME = "jeffreiher@gmail.com"
     MAIL_PASSWORD = "7797finn"
     MAIL_DEFAULT_SENDER = '"Site Admin" <noreply@peer2peer.com>'
+
+    SECURITY_UNAUTHORIZED_VIEW = "/nfl/"
+    SECURITY_MSG_UNAUTHORIZED = ("You don't have permission to go there", "danger")
     
     
    
