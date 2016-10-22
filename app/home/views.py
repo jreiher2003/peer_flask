@@ -187,11 +187,11 @@ def confirm_email(token):
     return redirect(url_for('home.profile'))
 
 
-@home_blueprint.route("/admin/")
-@roles_required("admin")
-def admin():
-    return render_template(
-        "admin_page.html",
-     all_teams = all_nfl_teams(),
-     )
+# @home_blueprint.route("/admin/")
+# @roles_required("admin")
+# def admin():
+#     return render_template(
+#         "admin_page.html",
+#      all_teams = all_nfl_teams(),
+#      )
 
