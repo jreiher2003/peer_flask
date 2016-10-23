@@ -5,11 +5,11 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
 
-       home
-       {% if current_user.has_role("player") %}
-        yes player<br>
+       home<br><br>
+       {% if current_user.has_role("admin") %}
+          {{ current_user.roles }}<br>{{ current_user.has_role("admin") }}
        {% else %}
-       no player
+       no player-not logged in<br>
        {% endif %}
       
        {{ all_address.data }}<br><br><br>

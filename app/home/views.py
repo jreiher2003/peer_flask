@@ -18,6 +18,7 @@ home_blueprint = Blueprint("home", __name__, template_folder="templates")
 @home_blueprint.route("/", methods=["GET","POST"])
 def home():
     all_address = block_io.get_my_addresses()
+    print current_user.has_role("admin")
     return render_template(
         "home.html",
         all_teams = all_nfl_teams(),
@@ -25,8 +26,8 @@ def home():
         )
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
-# @cache.cached(timeout=60*15, key_prefix="user_profile")
-# @roles_accepted("player", "bookie")
+@cache.cached(timeout=60*15, key_prefix="user_profile")
+@roles_accepted("player", "bookie")
 @login_required
 def profile():
     # user.profile.d_amount = user.bitcoin_wallet.available_btc  
@@ -100,7 +101,7 @@ def bitcoin_widthdrawl():
         print amount,address, type(amount),type(address)
         print current_user.bitcoin_wallet.address, type(current_user.bitcoin_wallet.address)
         try: 
-            # block_io.withdraw_from_addresses(amounts = float(amount), from_addresses = str(current_user.bitcoin_wallet.address), to_addresses = str(address), priority="low", nonce=nonce)
+            block_io.withdraw_from_addresses(amounts = float(amount), from_addresses = str(current_user.bitcoin_wallet.address), to_addresses = str(address), priority="low", nonce=nonce)
             flash("You just send this amount of bitcoins %s BTC - to this address %s" % (address,amount), "info")
             cache.delete("user_profile")
             return redirect(url_for("home.profile"))
@@ -141,6 +142,7 @@ def create_bitcoin():
             print "some thing else happend"
 
 @home_blueprint.route("/change-password/", methods=["GET","POST"])
+@login_required
 def change_password():
     form = ChangePasswordForm()
     if form.validate_on_submit():
@@ -190,8 +192,9 @@ def confirm_email(token):
 # @home_blueprint.route("/admin/")
 # @roles_required("admin")
 # def admin():
-#     return render_template(
-#         "admin_page.html",
-#      all_teams = all_nfl_teams(),
-#      )
+#     pass
+    # return render_template(
+    #     "admin_page.html",
+    #  all_teams = all_nfl_teams(),
+    #  )
 

@@ -1,5 +1,5 @@
 import datetime
-from app import app, db, bcrypt 
+from app import app, db, bcrypt,cache
 from .models import Users
 from .forms import LoginForm, RegisterForm, RecoverPasswordForm, ChangePasswordTokenForm
 from .utils import get_ip, is_safe_url, generate_confirmation_token, confirm_token, send_email, password_reset_email
@@ -22,6 +22,7 @@ def login():
             user.current_login_at = datetime.datetime.now()
             db.session.add(user)
             db.session.commit()
+            cache.clear()
             login_user(user,remember)
             next = request.args.get("next")
             if not is_safe_url(next):
@@ -47,6 +48,7 @@ def register():
         try:
             db.session.add(user)
             db.session.commit()
+            cache.clear()
             token = generate_confirmation_token(user.email)
             confirm_url = url_for('users.confirm_email_register', token=token, _external=True)
             html = render_template("security/email/welcome.html", confirm_url=confirm_url, user=user)
@@ -73,6 +75,7 @@ def logout():
     logout_user()
     session.pop("logged_in", None)
     session.pop("session", None)
+    cache.clear()
     flash("You have logged out.", "danger")
     referer = request.headers["Referer"]
     return redirect(referer)

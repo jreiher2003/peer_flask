@@ -47,7 +47,10 @@ class Users(db.Model, UserMixin):
         return False
 
     def has_role(self, role):
-        return True
+        if role in self.roles:
+            return True
+        else:
+            return False
 
     def get_id(self):
         return unicode(self.id)
