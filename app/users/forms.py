@@ -9,6 +9,9 @@ def validate_username(form, field):
     if username is not None:
         raise ValidationError("A user with that username already exists")
 
+def validate_profile_username(form, field):
+    pass # if current user username is the same as whats in form field then let it pass otherwise check db. 
+
 def positve_bitcoin(form, field):
     if field.data < 0:
         raise ValidationError("Only positive values please.")
@@ -45,14 +48,9 @@ class ChangePasswordTokenForm(Form):
     password_confirm = PasswordField("Confirm")#, [InputRequired(), EqualTo("password", message="Your passwords don't match.")]
     submit = SubmitField("Change Password")
 
-
-
-
-
 class ProfileForm(Form):
-    username = TextField("Username",  [InputRequired(), validate_username])
+    username = TextField("Username",  [InputRequired()])
     email = EmailField("Email", [InputRequired(), Email()])
-    # password = PasswordField("Password")
     avatar = TextField("Avatar")
     submit = SubmitField("Update")
     

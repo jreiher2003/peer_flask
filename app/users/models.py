@@ -1,5 +1,5 @@
 import datetime
-from app import db, block_io, bcrypt
+from app import db, block_io, bcrypt, uploaded_photos
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from flask_security import UserMixin, RoleMixin 
@@ -89,6 +89,10 @@ class Profile(db.Model):
     pushes = db.Column(db.Integer, default=0)
     d_amount = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+
+    @property 
+    def imgsrc(self):
+        return uploaded_photos.url(self.avatar)
  
 
 class Admin(db.Model):

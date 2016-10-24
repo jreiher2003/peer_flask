@@ -18,6 +18,11 @@ class BaseConfig(object):
 
     SECURITY_UNAUTHORIZED_VIEW = "/nfl/"
     SECURITY_MSG_UNAUTHORIZED = ("You don't have permission to go there", "danger")
+
+    UPLOADED_PHOTOS_DEST = '/tmp/photolog/photos'
+    # UPLOADS_DEFAULT_DEST = "app/static/"
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+
     
     
    

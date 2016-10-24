@@ -1,6 +1,7 @@
 import json
 from dateutil.parser import parse as parse_date
-from app import app, db, cache, block_io, bcrypt
+from app import app, db, cache, block_io, bcrypt, uploaded_photos
+from flask_uploads import UploadNotAllowed
 from flask import request, flash, redirect, url_for
 from sqlalchemy import exc
 from flask_security import login_required, roles_required, roles_accepted, current_user
@@ -67,15 +68,22 @@ def update_profile():
     form_w = BitcoinWithdrawlForm()
     form_c = BitcoinWalletForm()
     if form_p.validate_on_submit():
+        avatar = request.files["avatar"]
         username = request.form["username"]
         email = request.form["email"]
-        user.username = username
-        user.email = email
-        db.session.add(user)
-        db.session.commit()
-        flash("Successful update", "warning")
-        cache.delete("update_profile")
-        return redirect(url_for('home.profile'))
+        try:
+            avatar = uploaded_photos.save(avatar)
+        except UploadNotAllowed:
+            flash("The upload was not allowed")
+        else:
+            user.profile.avatar = avatar 
+            user.username = username
+            user.email = email
+            db.session.add(user)
+            db.session.commit()
+            flash("Successful update", "warning")
+            cache.delete("update_profile")
+            return redirect(url_for('home.profile'))
     return render_template(
         "profile/profile.html", 
         all_teams = all_nfl_teams(), 

@@ -1,8 +1,8 @@
 <div class="well bs-component">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            
-            <form class="form-horizontal" action="{{ url_for('home.update_profile') }}" method="POST">
+
+            <form class="form-horizontal" action="{{ url_for('home.update_profile') }}" method="POST" enctype="multipart/form-data">
                 {{ form_p.csrf_token }}
                 <fieldset>
                     <legend>Profile Info</legend>
@@ -22,9 +22,12 @@
                             <div class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></div>
                             {{ form_p.email(class="form-control") }}
                         </div>
-                    {% if form_p.email.errors %}
+                            {% if form_p.email.errors %}
                         <div class="errors">{% for error in form_p.email.errors %}{{ error }}{% endfor %}</div>
                     {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <input type="file" name="avatar">
                     </div>
                     <div class="form-group">
                         {{ form_p.submit(class="btn btn-success") }}&nbsp;<a class="btn btn-default" href="{{ url_for('home.profile') }}">Cancel</a>
