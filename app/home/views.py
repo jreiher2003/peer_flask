@@ -26,7 +26,7 @@ def home():
         )
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
-@cache.cached(timeout=60*15, key_prefix="user_profile")
+@cache.cached(timeout=60*5, key_prefix="user_profile")
 @roles_accepted("player", "bookie")
 @login_required
 def profile():

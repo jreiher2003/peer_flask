@@ -31,7 +31,7 @@ def nfl_home():
         )
 
 @nfl_blueprint.route("/nfl/standings/")
-# @cache.cached(timeout=60*15, key_prefix="nfl_season_standings")
+@cache.cached(timeout=60*5, key_prefix="nfl_season_standings")
 def nfl_standings():
     st = NFLStandings.query.all()
     return render_template(
@@ -61,7 +61,7 @@ def nfl_stats(sid):
         )
 
 @nfl_blueprint.route("/nfl/board/")
-# @cache.cached(timeout=60*15, key_prefix="nflboard")
+@cache.cached(timeout=60*5, key_prefix="nflboard")
 def nfl_public_board():
     dt = datetime.datetime.now()
     tb = NFLOverUnderBet.query.filter_by(bet_taken=False).all()
