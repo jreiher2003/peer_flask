@@ -1,6 +1,6 @@
 import datetime
-from app import app, db, bcrypt,cache
-from .models import Users
+from app import app, db, bcrypt, cache
+from .models import Users, UserRoles
 from .forms import LoginForm, RegisterForm, RecoverPasswordForm, ChangePasswordTokenForm
 from .utils import get_ip, is_safe_url, generate_confirmation_token, confirm_token, send_email, password_reset_email
 from flask import Blueprint, render_template, url_for, request, flash, redirect, session
@@ -94,7 +94,8 @@ def confirm_email_register(token):
         # add user roles to protect create-a-bet page with no wallet
         user.confirmed = True
         user.confirmed_at = datetime.datetime.now()
-        db.session.add(user)
+        user_roles = UserRoles(user_id=user.id, role_id=2)
+        db.session.add_all([user, user_roles])
         db.session.commit()
         flash('You have confirmed your account. Thanks!', 'success')
     return redirect(url_for('home.profile'))
