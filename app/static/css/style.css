@@ -108,13 +108,13 @@ ul#over_under {
 }
 /* ----  tool-tip ---- */
 .popover {
-    border: 2px solid black;
+    border: 2px solid #fff;
 }
 .popover-content {
-    background-color: black;
-    color: #fff;
+    background-color: #fff;
+    color: black;
     opacity: .8;
 }
 
-.popover.top > .arrow:after { border-top-color: black; }
-.popover > .arrow { border-bottom-color: black;}
+.popover.top > .arrow:after { border-top-color: #fff; }
+.popover > .arrow { border-bottom-color: #fff;}

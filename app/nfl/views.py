@@ -10,7 +10,7 @@ from .models import NFLOverUnderBet, NFLSideBet, NFLMLBet, Base
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
 from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash, abort
-from flask_security import login_required, roles_required, current_user
+from flask_security import login_required, roles_required, current_user, roles_accepted
 from slugify import slugify
 from app.home.utils import all_nfl_teams, get_user_wallet
 from .utils import team_rush_avg, team_pass_avg, \
@@ -77,6 +77,7 @@ def nfl_public_board():
         )
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])
+@roles_accepted("player", "bookie")
 @login_required
 # we have to check to see if bet_creator has enough bitcoins in their account to proceed.
 def nfl_create_bet(game_key):
@@ -219,6 +220,7 @@ def nfl_create_bet(game_key):
         )
 
 @nfl_blueprint.route("/nfl/confirm/<path:bet_key>/", methods=["GET","POST"])
+@roles_accepted("player", "bookie")
 @login_required
 def nfl_confirm_create_bet(bet_key):
     try:
@@ -236,6 +238,7 @@ def nfl_confirm_create_bet(bet_key):
         )
     
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/edit/", methods=["GET","POST"])
+@roles_accepted("player", "bookie")
 @login_required
 def nfl_edit_bet(bet_key):
     admin = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7"
@@ -315,6 +318,7 @@ def nfl_edit_bet(bet_key):
         )
 
 @nfl_blueprint.route("/nfl/bet/<path:bet_key>/delete/", methods=["GET","POST"])
+@roles_accepted("player", "bookie")
 @login_required
 def nfl_delete_bet(bet_key):
     try:
@@ -345,6 +349,7 @@ def nfl_delete_bet(bet_key):
         )
 
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/", methods=["GET","POST"])
+@roles_accepted("player", "bookie")
 @login_required
 def nfl_bet_vs_bet(bet_key):
     try:

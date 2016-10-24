@@ -1,6 +1,6 @@
 import datetime
 from app import app, db, bcrypt, cache
-from .models import Users, UserRoles
+from .models import Users, UserRoles, Profile
 from .forms import LoginForm, RegisterForm, RecoverPasswordForm, ChangePasswordTokenForm
 from .utils import get_ip, is_safe_url, generate_confirmation_token, confirm_token, send_email, password_reset_email
 from flask import Blueprint, render_template, url_for, request, flash, redirect, session
@@ -45,8 +45,9 @@ def register():
             current_login_ip = get_ip(),
             current_login_at = datetime.datetime.now()
             )
+        profile = Profile(user_id=user.id)
         try:
-            db.session.add(user)
+            db.session.add_all([user,profile])
             db.session.commit()
             cache.clear()
             token = generate_confirmation_token(user.email)

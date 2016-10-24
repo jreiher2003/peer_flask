@@ -5,7 +5,7 @@ from flask_uploads import UploadNotAllowed
 from flask import request, flash, redirect, url_for
 from sqlalchemy import exc
 from flask_security import login_required, roles_required, roles_accepted, current_user
-from app.users.models import Users, Profile, BitcoinWallet 
+from app.users.models import Users, Profile, BitcoinWallet, UserRoles
 from app.users.forms import BitcoinWalletForm, BitcoinWithdrawlForm, ProfileForm, SendEmailConfirmForm, ChangePasswordForm
 from app.nfl_stats.models import NFLTeam, NFLScore
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet
@@ -28,7 +28,7 @@ def home():
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
 @cache.cached(timeout=60*5, key_prefix="user_profile")
-@roles_accepted("player", "bookie")
+# @roles_accepted("player", "bookie")
 @login_required
 def profile():
     # user.profile.d_amount = user.bitcoin_wallet.available_btc  
@@ -203,7 +203,8 @@ def confirm_email(token):
     else:
         user.confirmed = True
         user.confirmed_at = datetime.datetime.now()
-        db.session.add(user)
+        user_roles = UserRoles(user_id=user.id, role_id=2)
+        db.session.add_all([user, user_roles])
         db.session.commit()
         flash('You have confirmed your account. Thanks!', 'success')
     return redirect(url_for('home.profile'))
