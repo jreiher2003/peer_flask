@@ -71,12 +71,20 @@ def update_profile():
         avatar = request.files["avatar"]
         username = request.form["username"]
         email = request.form["email"]
-        try:
-            avatar = uploaded_photos.save(avatar)
-        except UploadNotAllowed:
-            flash("The upload was not allowed")
+        if avatar:
+            try:
+                avatar = uploaded_photos.save(avatar)
+                user.profile.avatar = avatar 
+                user.username = username
+                user.email = email
+                db.session.add(user)
+                db.session.commit()
+                flash("Successful update", "warning")
+                cache.delete("update_profile")
+                return redirect(url_for('home.profile'))
+            except UploadNotAllowed:
+                flash("The upload was not allowed")
         else:
-            user.profile.avatar = avatar 
             user.username = username
             user.email = email
             db.session.add(user)

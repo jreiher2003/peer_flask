@@ -27,7 +27,10 @@
                     {% endif %}
                     </div>
                     <div class="form-group">
+                        <!-- {#{{ form_p.avatar.label }}#} -->
+                        <!-- {#{{ form_p.avatar }}#} -->
                         <input type="file" name="avatar">
+                         
                     </div>
                     <div class="form-group">
                         {{ form_p.submit(class="btn btn-success") }}&nbsp;<a class="btn btn-default" href="{{ url_for('home.profile') }}">Cancel</a>

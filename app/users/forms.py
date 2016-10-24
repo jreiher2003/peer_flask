@@ -1,16 +1,19 @@
 from flask_wtf import Form
 from wtforms.validators import InputRequired, Email, NumberRange, Length, ValidationError, EqualTo
-from wtforms import TextField, SubmitField, FloatField, PasswordField, BooleanField
+from wtforms import TextField, SubmitField, FloatField, PasswordField, BooleanField, FileField
 from flask_wtf.html5 import EmailField
+from flask_login import current_user 
 from .models import Users
 
 def validate_username(form, field):
     username = Users.query.filter(Users.username == field.data).one_or_none()
     if username is not None:
-        raise ValidationError("A user with that username already exists")
+        raise ValidationError("A user with that username already exists.")
 
 def validate_profile_username(form, field):
-    pass # if current user username is the same as whats in form field then let it pass otherwise check db. 
+    username = Users.query.filter(Users.username == field.data).one_or_none()
+    if username is not None and current_user.username != field.data:
+        raise ValidationError("A user with that username already exists.")
 
 def positve_bitcoin(form, field):
     if field.data < 0:
@@ -45,13 +48,13 @@ class ChangePasswordForm(Form):
 
 class ChangePasswordTokenForm(Form):
     password = PasswordField("Password")
-    password_confirm = PasswordField("Confirm")#, [InputRequired(), EqualTo("password", message="Your passwords don't match.")]
+    password_confirm = PasswordField("Confirm", [InputRequired(), EqualTo("password", message="Your passwords don't match.")])
     submit = SubmitField("Change Password")
 
 class ProfileForm(Form):
-    username = TextField("Username",  [InputRequired()])
+    username = TextField("Username",  [InputRequired(), validate_profile_username])
     email = EmailField("Email", [InputRequired(), Email()])
-    avatar = TextField("Avatar")
+    # avatar = FileField("Avatar")
     submit = SubmitField("Update")
     
 class BitcoinWalletForm(Form):
