@@ -1,6 +1,7 @@
 <div class="well bs-component">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
+            
             <form class="form-horizontal" action="{{ url_for('home.update_profile') }}" method="POST">
                 {{ form_p.csrf_token }}
                 <fieldset>
@@ -11,20 +12,20 @@
                             <div class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></div>
                             {{ form_p.username(class="form-control") }}
                         </div>
-                    </div>
                     {% if form_p.username.errors %}
                         <div class="errors">{% for error in form_p.username.errors %}{{ error }}{% endfor %}</div>
                     {% endif %}
+                    </div>
                     <div class="form-group">
                         {{ form_p.email.label }}
                         <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></div>
                             {{ form_p.email(class="form-control") }}
                         </div>
-                    </div>
                     {% if form_p.email.errors %}
                         <div class="errors">{% for error in form_p.email.errors %}{{ error }}{% endfor %}</div>
                     {% endif %}
+                    </div>
                     <div class="form-group">
                         {{ form_p.submit(class="btn btn-success") }}&nbsp;<a class="btn btn-default" href="{{ url_for('home.profile') }}">Cancel</a>
                     </div>

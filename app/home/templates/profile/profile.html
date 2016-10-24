@@ -31,10 +31,8 @@
                     <hr class="profileme">
                     <div class="profile_class_button">
                         {% if current_user.confirmed == False %}
-                        <!-- {#<p class="p__status"><a href="{{ url_for('home.profile_c_email') }}">Confirm Email</a></p>#} -->
                             {% include "profile/confirm_email_modal.html" %}
                         {% endif %}
-                        <!-- {#<p type="button" class="btn btn-sm btn-warning"><a href="{{ url_for('home.change_password') }}">Change Password</a></p>#} -->
                         {% include "profile/profile_change_password_modal.html" %}
                     </div>
                 </div>

@@ -26,10 +26,12 @@ div.nomoney i {
     margin-bottom: 20px;
 }
 div.errors  {
+    width: 100%;
+    margin: 10px 0 10px 0;
     background-color: #ff0039;
     color: #fff;
     text-align: center;
-    margin-bottom: 5px;
+    
 }
 .profile_center {
     margin-bottom: 5px;

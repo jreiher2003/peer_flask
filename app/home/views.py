@@ -61,6 +61,8 @@ def profile():
 @login_required
 def update_profile():
     user = Users.query.filter_by(id=current_user.id).one()
+    form = SendEmailConfirmForm(obj=user)
+    form_cp = ChangePasswordForm()
     form_p = ProfileForm(obj=user)
     form_w = BitcoinWithdrawlForm()
     form_c = BitcoinWalletForm()
@@ -80,6 +82,8 @@ def update_profile():
         form_c = form_c,
         form_w = form_w,
         form_p = form_p,
+        form = form,
+        form_cp = form_cp,
         ou = ou(),
         sb = sb(),
         ml = ml(),
