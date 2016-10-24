@@ -62,6 +62,7 @@ def profile():
 @login_required
 def update_profile():
     user = Users.query.filter_by(id=current_user.id).one()
+    
     form = SendEmailConfirmForm(obj=user)
     form_cp = ChangePasswordForm()
     form_p = ProfileForm(obj=user)
@@ -74,10 +75,10 @@ def update_profile():
         if avatar:
             try:
                 avatar = uploaded_photos.save(avatar)
-                user.profile.avatar = avatar 
+                profile = Profile(user_id=user.id, avatar=avatar)
                 user.username = username
                 user.email = email
-                db.session.add(user)
+                db.session.add_all([user,profile])
                 db.session.commit()
                 flash("Successful update", "warning")
                 cache.delete("update_profile")
