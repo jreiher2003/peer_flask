@@ -23,3 +23,6 @@ div.profileborder {
     border: .8px solid #ddd;
     padding: 10px;
 }
+input.captcha {
+    width: 75px;
+}
