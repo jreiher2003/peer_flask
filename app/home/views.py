@@ -28,12 +28,8 @@ def home():
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
 @cache.cached(timeout=60*5, key_prefix="user_profile")
-# @roles_accepted("player", "bookie")
 @login_required
 def profile():
-    # user.profile.d_amount = user.bitcoin_wallet.available_btc  
-    # db.session.add(user)
-    # db.session.commit()
     user = Users.query.filter_by(id=current_user.id).one() 
     form_p = ProfileForm(obj=user)
     form_w = BitcoinWithdrawlForm()
@@ -62,7 +58,6 @@ def profile():
 @login_required
 def update_profile():
     user = Users.query.filter_by(id=current_user.id).one()
-    
     form = SendEmailConfirmForm(obj=user)
     form_cp = ChangePasswordForm()
     form_p = ProfileForm(obj=user)
@@ -209,14 +204,3 @@ def confirm_email(token):
         db.session.commit()
         flash('You have confirmed your account. Thanks!', 'success')
     return redirect(url_for('home.profile'))
-
-
-# @home_blueprint.route("/admin/")
-# @roles_required("admin")
-# def admin():
-#     pass
-    # return render_template(
-    #     "admin_page.html",
-    #  all_teams = all_nfl_teams(),
-    #  )
-
