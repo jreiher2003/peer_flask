@@ -26,27 +26,27 @@ def create_users():
         u11 = UserRoles(user_id=user1.id, role_id=role2.id)
         u12 = UserRoles(user_id=user1.id, role_id=role3.id)
         admin = Admin(id=1, user_id=1)
-        profile1 = Profile(id=1,avatar=None,user_id=1, d_amount=None)
+        profile1 = Profile(id=1,avatar=None,user_id=1)
         # user 2
         u2 = UserRoles(user_id=user2.id, role_id=role2.id)
         u3 = UserRoles(user_id=user2.id, role_id=role3.id)
-        profile2 = Profile(id=2,user_id=2, d_amount=0.00000000)
+        profile2 = Profile(id=2,user_id=2)
         #user 3
         u4 = UserRoles(user_id=user3.id, role_id=role2.id)
         u5 = UserRoles(user_id=user3.id, role_id=role3.id)
-        profile3 = Profile(id=3,user_id=3, d_amount=0.00000000)
+        profile3 = Profile(id=3,user_id=3)
         # user 4
         u6 = UserRoles(user_id=user4.id, role_id=role2.id)
         u7 = UserRoles(user_id=user4.id, role_id=role3.id)
-        profile4 = Profile(id=4,user_id=4, d_amount=0.0000000)
+        profile4 = Profile(id=4,user_id=4)
         # user 5
         u8 = UserRoles(user_id=user5.id, role_id=role2.id)
         u9 = UserRoles(user_id=user5.id, role_id=role3.id)
-        profile5 = Profile(id=5,user_id=5, d_amount=0.0000000)
+        profile5 = Profile(id=5,user_id=5)
         # user 6
         u10 = UserRoles(user_id=user6.id, role_id=role2.id)
         u11 = UserRoles(user_id=user6.id, role_id=role3.id)
-        profile6 = Profile(id=6,user_id=6, d_amount=0.0000000)
+        profile6 = Profile(id=6,user_id=6)
         db.session.add_all([u1,admin,u11,u12,profile1,u2,u3,profile2,u4,u5,profile3,u6,u7,profile4,u8,u9,profile5,u10,u11,profile6])
         db.session.commit()
 
@@ -66,10 +66,7 @@ def update_profiles_bitcoin():
     user4 = Users.query.filter_by(id=4).one()
     user5 = Users.query.filter_by(id=5).one()
     user1.admin.site_money = user1.bitcoin_wallet.available_btc 
-    user2.profile.d_amount = user2.bitcoin_wallet.available_btc
-    user3.profile.d_amount = user3.bitcoin_wallet.available_btc
-    user4.profile.d_amount = user4.bitcoin_wallet.available_btc
-    user5.profile.d_amount = user5.bitcoin_wallet.available_btc
+    
     db.session.add_all([user1,user2,user3,user4,user5])
     db.session.commit()
 
@@ -86,16 +83,16 @@ def create_bet():
     bet1 = NFLOverUnderBet(id=1, bet_key=1, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="u", vs="NYG vs @MIN", total=42.5, amount=0.004, user_id=2, bet_taken=True, taken_by=3, taken_username="Nhilson")
     user2.profile.bets_created += 1
     user2.profile.bets_taken += 1
-    user2.profile.d_amount -= (bet1.amount + network_fees)
+    user2.profile.pending -= (bet1.amount + network_fees)
     user3.profile.bets_taken += 1
-    user3.profile.d_amount -= (bet1.amount + network_fees)
+    user3.profile.pending -= (bet1.amount + network_fees)
 
     bet2 = NFLSideBet(id=2, bet_key=2, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=0.004, user_id=2, bet_taken=True, taken_by=3, taken_username="Nhilson")
     user2.profile.bets_created += 1
     user2.profile.bets_taken += 1
-    user2.profile.d_amount -= (bet2.amount + network_fees)
+    user2.profile.pending -= (bet2.amount + network_fees)
     user3.profile.bets_taken += 1
-    user3.profile.d_amount -= (bet2.amount + network_fees)
+    user3.profile.pending -= (bet2.amount + network_fees)
 
     # bet3 = NFLMLBet(id=3,bet_key=3, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ml=-125, team="MIN", amount=0.0004, user_id=1, bet_taken=True, taken_by=2, taken_username="Nhilson")
    
@@ -115,9 +112,9 @@ def create_bet():
     bet6 = NFLSideBet(id=6, bet_key=6, game_key=201610512, game_date=parse_date("10/9/2016 8:30:00 PM"), away_team="NYG", home_team="GB", vs="NYG vs @GB", ps=-7, team="GB", amount=0.004, user_id=2, bet_taken=True, taken_by=3, taken_username="Nhilson")
     user2.profile.bets_created += 1
     user2.profile.bets_taken += 1
-    user2.profile.d_amount -= (bet6.amount + network_fees)
+    user2.profile.pending -= (bet6.amount + network_fees)
     user3.profile.bets_taken += 1
-    user3.profile.d_amount -= (bet6.amount + network_fees) 
+    user3.profile.pending -= (bet6.amount + network_fees) 
 
     db.session.add_all([bet1, bet2, bet6, user2, user3])
     db.session.commit()
