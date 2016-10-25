@@ -27,7 +27,7 @@ def password_validator(form, field):
         if c.isdigit(): digits+=1
     is_valid = password_length >= 12 and lowers and uppers and digits
     if not is_valid:
-        raise ValidationError("You need 12 characters, at lease one upper, lower, and one digit.")
+        raise ValidationError("You need 12 characters, at least one upper, lower, and one digit.")
 
 def positve_bitcoin(form, field):
     if field.data < 0:
