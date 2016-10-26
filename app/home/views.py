@@ -70,10 +70,10 @@ def update_profile():
         if avatar:
             try:
                 avatar = uploaded_photos.save(avatar)
-                profile = Profile(user_id=user.id, avatar=avatar)
+                user.profile.avatar = avatar
                 user.username = username
                 user.email = email
-                db.session.add_all([user,profile])
+                db.session.add_all([user])
                 db.session.commit()
                 flash("Successful update", "warning")
                 cache.delete("update_profile")

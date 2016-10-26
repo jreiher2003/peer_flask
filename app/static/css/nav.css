@@ -46,3 +46,39 @@ h3.nav__division {
     display: block;
     margin-top: 0;/* // remove the gap so it doesn't close*/
  }
+
+ button.btn.btn-primary.dropdown-toggle {
+    padding-top: 4px;
+ }
+ .navpic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #2780e3;
+ }
+
+
+div.dropdown.nav_pic > ul > li {
+    position: relative;
+    display: inline-block;
+}
+ul.dropdown-menu.nav_pic_menu {
+    display: none;
+    position: absolute;
+    background-color: rgba(0,0,0,.7);
+    min-width: 130px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 2px;
+}
+
+.dropdown-menu > li > a {
+    padding: 3px 20px 3px 10px;
+}
+ul.dropdown-menu.nav_pic_menu > li > a {
+    color: rgba(255,255,255,1);
+}
+.dropdown-menu > li > a.nav_name_dropdown {
+    font-size: 1.8em;
+    padding-left: 5px;
+    margin-left: 5px;
+}
