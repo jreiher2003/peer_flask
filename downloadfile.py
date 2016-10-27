@@ -9,7 +9,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 def download():
     sports = urllib.URLopener()
-    sports.retrieve("https://fantasydata.com/members/download-file.aspx?product=730dbec5-4ea1-4c56-888f-446f8f5560c6", "file.zip")
+    sports.retrieve("https://fantasydata.com/members/download-file.aspx?product=4885cd1b-6fd1-4db8-8c0a-47160973ca68", "file.zip")
     root = "/vagrant"
     zipfile.ZipFile("file.zip").extractall("sports")
     os.remove("file.zip")
