@@ -91,8 +91,9 @@ def nfl_create_bet(game_key):
     form_a = AwayTeamForm()
     if form_o.validate_on_submit():
         amount = request.form["amount"]
+        print type(amount)
         network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-        network_fees = float(network_fees["data"]["estimated_network_fee"])
+        network_fees = network_fees["data"]["estimated_network_fee"]
         if (amount+network_fees) <= user1.bitcoin_wallet.available_btc: 
             game_key_form = request.form["game_key"]
             home = request.form["home_"]
@@ -131,7 +132,7 @@ def nfl_create_bet(game_key):
     elif form_a.validate_on_submit():
         amount = request.form["amount"]
         network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-        network_fees = float(network_fees["data"]["estimated_network_fee"])
+        network_fees = network_fees["data"]["estimated_network_fee"]
         if (amount+network_fees) <= user1.bitcoin_wallet.available_btc: 
             game_key_form = request.form["game_key"]
             home = request.form["home_"]
@@ -169,7 +170,7 @@ def nfl_create_bet(game_key):
     elif form_h.validate_on_submit():
         amount = request.form["amount"]
         network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-        network_fees = float(network_fees["data"]["estimated_network_fee"])
+        network_fees = network_fees["data"]["estimated_network_fee"]
         if (amount+network_fees) <= user1.bitcoin_wallet.available_btc: 
             print user1.bitcoin_wallet.available_btc
             print type(user1.bitcoin_wallet.available_btc)
@@ -251,7 +252,7 @@ def nfl_edit_bet(bet_key):
                 nfl.amount = form.amount.data
                 network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
                 network_fees = float(network_fees["data"]["estimated_network_fee"])
-                if (nfl.amount+network_fees) <= user.bitcoin_wallet.available_btc:
+                if float(nfl.amount+network_fees) <= float(user.bitcoin_wallet.available_btc):
                     nfl.over_under = form.over_under.data
                     nfl.total =  form.total.data
                     db.session.add(nfl)
@@ -275,7 +276,7 @@ def nfl_edit_bet(bet_key):
                     nfl.amount = form.amount.data
                     network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
                     network_fees = float(network_fees["data"]["estimated_network_fee"])
-                    if (nfl.amount+network_fees) <= user.bitcoin_wallet.available_btc:
+                    if float(nfl.amount+network_fees) <= float(user.bitcoin_wallet.available_btc):
                         nfl.ps = form.point_spread.data
                         db.session.add(nfl)
                         db.session.commit()
@@ -291,7 +292,7 @@ def nfl_edit_bet(bet_key):
                     nfl.amount = form.amount.data
                     network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
                     network_fees = float(network_fees["data"]["estimated_network_fee"])
-                    if (nfl.amount+network_fees) <= user.bitcoin_wallet.available_btc:
+                    if float(nfl.amount+network_fees) <= float(user.bitcoin_wallet.available_btc):
                         nfl.ps = form.point_spread.data
                         db.session.add(nfl)
                         db.session.commit()
@@ -369,7 +370,7 @@ def nfl_bet_vs_bet(bet_key):
     if request.method == "POST":
         network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (bc), to_addresses = (bt), priority="low")
         network_fees = float(network_fees["data"]["estimated_network_fee"])
-        if bet_taker.bitcoin_wallet.available_btc >= (nfl.amount+network_fees) and bet_creator.bitcoin_wallet.available_btc >= (nfl.amount+network_fees):
+        if float(bet_taker.bitcoin_wallet.available_btc) >= float(nfl.amount+network_fees) and float(bet_creator.bitcoin_wallet.available_btc) >= float(nfl.amount+network_fees):
 
             # check again if balances are enough to cover bets 
 

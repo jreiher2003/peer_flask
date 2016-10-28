@@ -5,21 +5,27 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6 col-md-offset-3">
             <p>check your pending bets in your profile</p>
-            <h2>Your bet</h2>
-            {{ current_user.username }}<br>
-            {{ live_bet.game_key }}<br>
-            {{ live_bet.bet_key }}<br>
-            {{ live_bet.game_date }}<br>
-            {{ live_bet.vs }}<br>
-            {% if live_bet.opposite_team %}
-                {{ live_bet.opposite_team }} {{ live_bet.opposite_ps }}<br>
-            {% else %}
-                {{ live_bet.opposite_over_under }}{{ live_bet.total_format }}<br>
-            {% endif %}
-            <b>risk: </b><i class='fa fa-btc' aria-hidden='true'></i> {{ live_bet.amount }} / <b>win: </b><i class='fa fa-btc' aria-hidden='true'></i> {{ live_bet.amount_win }}<br>
-            <b>vs: </b>{{ live_bet.users.username }}
+            <div class="thumbnail">
+                <h2 class="text-center">Your bet</h2>
+                <img class="navpic" src="{{ current_user.profile.imgsrc }}"/>
+                <p class="text-center">{{ current_user.username }}</p>
+                <hr>
+                <div class="caption">
+                    <p><b>Game Key</b>: {{ live_bet.game_key }}</p>
+                    <p><b>Bet Key</b>: {{ live_bet.bet_key }}</p>
+                    <p><b>Date</b>: {{ live_bet.game_date|datetimefilter_f }}</p>
+                    <p><b>VS</b>: {{ live_bet.vs }}</p>
+                    {% if live_bet.opposite_team %}
+                        <p><b>Bet</b>: {{ live_bet.opposite_team }} {{ live_bet.opposite_ps }}</p>
+                    {% else %}
+                        <p><b>Bet</b>: {{ live_bet.opposite_over_under }}{{ live_bet.total_format }}</p>
+                    {% endif %}
+                    <p><b>Risk: </b><i class='fa fa-btc' aria-hidden='true'></i> {{ live_bet.amount }} / <b>win: </b><i class='fa fa-btc' aria-hidden='true'></i> {{ live_bet.amount_win }}</p>
+                    <p><b>Opponent: </b>{{ live_bet.users.username }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

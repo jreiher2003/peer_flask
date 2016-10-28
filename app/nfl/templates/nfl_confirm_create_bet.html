@@ -18,7 +18,7 @@
             <h5 class="text-center">Check to see if everything is correct</h5>
             <h5 class="text-center">If everything is good you don't have to do anything</h5>
             <div class="thumbnail">
-                <p class="text-center"><img src="{{ nfl_bet.users.profile.avatar }}" width="40"/> {{ nfl_bet.users.username }}</p>
+                <p class="text-center"><img class="navpic" src="{{ nfl_bet.users.profile.imgsrc }}"/> {{ nfl_bet.users.username }}</p>
                 <h3 class="text-center">{{ nfl_bet.vs }}</h3>
                 <p class="text-center">{{ nfl_bet.game_date|game_time }} {{ nfl_bet.game_date|game_date }}</p>
                 {% if nfl_bet.total %}

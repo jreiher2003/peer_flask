@@ -13,7 +13,7 @@
                 <div class="col-md-5">
                     <h3 class="text-center">Opponent</h3>
                     <div class="thumbnail">
-                        <p class="text-center"><img src="{{ nfl.users.profile.avatar }}" width="40"/> {{ nfl.users.username }}</p>
+                        <p class="text-center"><img src="{{ nfl.users.profile.imgsrc }}" width="40"/> {{ nfl.users.username }}</p>
                         <h3 class="text-center">{{ nfl.vs }}</h3>
                         <p class="text-center">{{ nfl.game_date|game_time }} {{ nfl.game_date|game_date }}</p>
                             {% if nfl.over_under %}
@@ -34,7 +34,7 @@
                 <div class="col-md-5">
                     <h3 class="text-center">You</h3>
                     <div class="thumbnail">
-                        <p class="text-center"><img src="{{ current_user.profile.avatar }}" width="40"/> {{ current_user.username }}</p>
+                        <p class="text-center"><img src="{{ current_user.profile.imgsrc }}" width="40"/> {{ current_user.username }}</p>
                         <h3 class="text-center">{{ nfl.vs }}</h3>
                         <p class="text-center">{{ nfl.game_date|game_time }} {{ nfl.game_date|game_date }}</p>
                             {% if nfl.over_under %}

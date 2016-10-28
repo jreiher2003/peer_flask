@@ -71,7 +71,7 @@ class ChangePasswordTokenForm(Form):
 class ProfileForm(Form):
     username = TextField("Username",  [InputRequired(), validate_profile_username])
     email = EmailField("Email", [InputRequired(), Email()])
-    avatar = FileField("Avatar", [FileRequired(), FileAllowed(['jpg','png','JPG','PNG','JPEG'], "Images only!")])
+    avatar = FileField("Avatar", [FileAllowed(['jpg','png','JPG','PNG','JPEG'], "Images only!")])
     submit = SubmitField("Update")
     
 class BitcoinWalletForm(Form):

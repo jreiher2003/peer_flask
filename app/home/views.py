@@ -30,6 +30,7 @@ def home():
 @cache.cached(timeout=60*5, key_prefix="user_profile")
 @login_required
 def profile():
+    # block_io.create_notification(url='localhost:8600/notification/', type='address', address='2N2Tcbdd1UqtR8VhszrD5NgKUadz9vvq8Ni')
     user = Users.query.filter_by(id=current_user.id).one() 
     form_p = ProfileForm(obj=user)
     form_w = BitcoinWithdrawlForm()
@@ -67,6 +68,7 @@ def update_profile():
         avatar = request.files["avatar"]
         username = request.form["username"]
         email = request.form["email"]
+        print avatar, username, email
         if avatar:
             try:
                 avatar = uploaded_photos.save(avatar)
@@ -81,13 +83,17 @@ def update_profile():
             except UploadNotAllowed:
                 flash("The upload was not allowed")
         else:
-            user.username = username
-            user.email = email
-            db.session.add(user)
-            db.session.commit()
-            flash("Successful update", "warning")
-            cache.delete("update_profile")
-            return redirect(url_for('home.profile'))
+            if username and email:
+                user.username = username
+                user.email = email
+                db.session.add(user)
+                db.session.commit()
+                flash("Successful update", "warning")
+                cache.delete("update_profile")
+                return redirect(url_for('home.profile'))
+            else:
+                flash("You need a username and password", "danger")
+                print "error in profile"
     return render_template(
         "profile/profile.html", 
         all_teams = all_nfl_teams(), 
@@ -204,3 +210,10 @@ def confirm_email(token):
         db.session.commit()
         flash('You have confirmed your account. Thanks!', 'success')
     return redirect(url_for('home.profile'))
+
+# block_io.create_notification(url='localhost:8600/notification/', type='address', address='2N2Tcbdd1UqtR8VhszrD5NgKUadz9vvq8Ni')
+@home_blueprint.route("/notification/", methods=["POST"])
+def block_io_notifications():
+    content = request.json 
+    print content 
+    return content 

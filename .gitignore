@@ -4,6 +4,7 @@ app/*.pyc
 app/users/*.pyc
 app/nfl/*.pyc
 app/home/*.pyc
+app/static/img/*
 sports/*
 sports/Schedule.2016.csv
 sports/Schedule.2016.json

@@ -15,16 +15,11 @@ class BaseConfig(object):
     MAIL_USERNAME = os.environ["MAIL_USERNAME"]
     MAIL_PASSWORD = os.environ["MAIL_PASSWORD"]
     MAIL_DEFAULT_SENDER = '"Site Admin" <noreply@peer2peer.com>'
-
-    SECURITY_UNAUTHORIZED_VIEW = "/nfl/"
-    SECURITY_MSG_UNAUTHORIZED = ("You don't have permission to go there", "danger")
-
-    UPLOADED_PHOTOS_DEST = '/tmp/photolog/photos'
+    SECURITY_UNAUTHORIZED_VIEW = "/login/"
+    SECURITY_MSG_UNAUTHORIZED = ("Try loging in first", "danger")
     # UPLOADS_DEFAULT_DEST = "app/static/"
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 
-    
-    
    
 class TestConfig(BaseConfig):
     DEBUG = True
@@ -37,6 +32,7 @@ class TestConfig(BaseConfig):
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
+    UPLOADED_PHOTOS_DEST = '/vagrant/peer_flask/app/static/img'
     
 
 class ProductionConfig(BaseConfig):

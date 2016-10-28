@@ -81,7 +81,7 @@ class Profile(db.Model):
     __tablename__ = "profile"
 
     id = db.Column(db.Integer(), primary_key=True)
-    avatar = db.Column(db.String)
+    avatar = db.Column(db.String(), default="user.jpg")
     bets_created = db.Column(db.Integer, default=0) 
     bets_taken = db.Column(db.Integer, default=0)
     wins = db.Column(db.Integer, default=0)
@@ -121,12 +121,12 @@ class BitcoinWallet(db.Model):
     @property 
     def available_btc(self):
         avail = block_io.get_address_by_label(label=self.label)
-        return avail["data"]["available_balance"]
+        return float(avail["data"]["available_balance"])
 
     @property 
     def pending_btc(self):
         avail = block_io.get_address_by_label(label=self.label)
-        return avail["data"]["pending_received_balance"]
+        return float(avail["data"]["pending_received_balance"])
 
 
 

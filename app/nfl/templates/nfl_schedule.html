@@ -22,7 +22,7 @@
                     </thead> 
                     <tbody class="tbody">
                      {% for d in data %}
-                        {#{% if d.Date|dateify > dt %}#}
+                        {% if d.Date|dateify > dt %}
                         <tr>
                             <td rowspan="2" class="text-center"><p class="reg_pboard">{{ d.Date|dateify|game_time }}</p><p class="reg_pboard">{{ d.Date|dateify|game_date }}</p></td>
                             <td rowspan="2" class="text-center"><p class="reg_pboard">{{ d.GameKey }}</p></td>
@@ -57,7 +57,7 @@
                             <td class="middlerow text-center"><p class="bottom_pboard">{{ d.home_ml }}</p></td>
                             
                         </tr>
-                         {#{% endif %}#}
+                         {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>
