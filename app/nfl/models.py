@@ -92,7 +92,7 @@ class NFLSideBet(Base):
 
     id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
     team = db.Column(db.String)
-    ps = db.Column(db.Integer)
+    ps = db.Column(db.Integer, default=0.0)
     taken_by = db.Column(db.Integer) # other player id 
     taken_username = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))

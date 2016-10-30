@@ -22,8 +22,8 @@
           {% if current_user.bitcoin_wallet == None %}
             <li><a href="{{ url_for('home.profile') }}">Create Bitcoin Wallet</a></li>
             {% else %}
-            <li><a href="{{ url_for('home.profile') }}">{{ current_user.bitcoin_wallet.available_btc }} BTC</a></li>
-            <li><a href="{{ url_for('home.profile') }}">({{ current_user.profile.pending }} Pending BTC)</a></li>
+            {#<li><a href="{{ url_for('home.profile') }}">{{ current_user.bitcoin_wallet.available_btc }} BTC</a></li>#}
+            {#<li><a href="{{ url_for('home.profile') }}">({{ current_user.profile.pending }} Pending BTC)</a></li>#}
           {% endif %}
           <!-- <li class="navpic dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false"><img src="{{ current_user.profile.imgsrc }}"><span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -39,6 +39,7 @@
                   <li class="text-center"><a class="nav_name_dropdown">{{ current_user.username }}</a></li>
                   <hr>
                   {% if current_user.bitcoin_wallet %}
+                    <li><a href="#"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;({{ current_user.profile.pending }} Pending BTC)</a></li>
                     <li><a href="#"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;{{ current_user.bitcoin_wallet.available_btc }}</a></li>
                   {% endif %}
                   <li><a href="{{ url_for('home.profile') }}"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;Profile</a></li>

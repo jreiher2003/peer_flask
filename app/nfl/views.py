@@ -90,18 +90,17 @@ def nfl_create_bet(game_key):
     form_h = HomeTeamForm()
     form_a = AwayTeamForm()
     if form_o.validate_on_submit():
-        amount = request.form["amount"]
-        print type(amount)
+        amount = float(request.form["amount"])
         network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-        network_fees = network_fees["data"]["estimated_network_fee"]
-        if (amount+network_fees) <= user1.bitcoin_wallet.available_btc: 
+        network_fees = float(network_fees["data"]["estimated_network_fee"])
+        if float(amount+network_fees) <= float(user1.bitcoin_wallet.available_btc): 
             game_key_form = request.form["game_key"]
             home = request.form["home_"]
             away = request.form["away_"]
             over_under = request.form["over_under"]
             total = request.form["total"]
             bet_key= ""
-            bet_key += hashlib.md5(game_key_form+home+away+total+over_under+amount+salt).hexdigest()
+            bet_key += hashlib.md5(game_key_form+home+away+total+over_under+str(amount)+salt).hexdigest()
             if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
                 bet_o = NFLOverUnderBet(
                     game_key=game_key_form, 
@@ -111,7 +110,7 @@ def nfl_create_bet(game_key):
                     away_team = away,
                     over_under=over_under,
                     total=total,
-                    amount=amount,
+                    amount=float(amount),
                     bet_key=bet_key,
                     user_id=current_user.id
                     )
@@ -130,17 +129,17 @@ def nfl_create_bet(game_key):
             return redirect(url_for('nfl.nfl_create_bet', game_key=game_key))
 
     elif form_a.validate_on_submit():
-        amount = request.form["amount"]
+        amount = float(request.form["amount"])
         network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-        network_fees = network_fees["data"]["estimated_network_fee"]
-        if (amount+network_fees) <= user1.bitcoin_wallet.available_btc: 
+        network_fees = float(network_fees["data"]["estimated_network_fee"])
+        if float(amount+network_fees) <= float(user1.bitcoin_wallet.available_btc): 
             game_key_form = request.form["game_key"]
             home = request.form["home_"]
             away = request.form["away_"]
             awayteam = request.form["away_team"]
             away_ps = request.form["point_spread"]
             bet_key = ""
-            bet_key += hashlib.md5(game_key_form+home+away+awayteam+away_ps+amount+salt).hexdigest()
+            bet_key += hashlib.md5(game_key_form+home+away+awayteam+away_ps+str(amount)+salt).hexdigest()
             if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
                 bet_a = NFLSideBet(
                     game_key=game_key_form,
@@ -150,7 +149,7 @@ def nfl_create_bet(game_key):
                     away_team = away,
                     vs=away+" vs "+"@"+home,
                     ps=away_ps,
-                    amount=amount,
+                    amount=float(amount),
                     bet_key=bet_key,
                     user_id=current_user.id)
                 user1.profile.bets_created += 1
@@ -168,19 +167,17 @@ def nfl_create_bet(game_key):
             return redirect(url_for('nfl.nfl_create_bet', game_key=game_key))
 
     elif form_h.validate_on_submit():
-        amount = request.form["amount"]
+        amount = float(request.form["amount"])
         network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-        network_fees = network_fees["data"]["estimated_network_fee"]
-        if (amount+network_fees) <= user1.bitcoin_wallet.available_btc: 
-            print user1.bitcoin_wallet.available_btc
-            print type(user1.bitcoin_wallet.available_btc)
+        network_fees = float(network_fees["data"]["estimated_network_fee"])
+        if float(amount+network_fees) <= float(user1.bitcoin_wallet.available_btc): 
             game_key_form = request.form["game_key"]
             home = request.form["home_"]
             away = request.form["away_"]
             hometeam = request.form["home_team"]
             home_ps = request.form["point_spread"]
             bet_key = ""
-            bet_key += hashlib.md5(game_key_form+home+away+hometeam+home_ps+amount+salt).hexdigest()
+            bet_key += hashlib.md5(game_key_form+home+away+hometeam+home_ps+str(amount)+salt).hexdigest()
             if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
                 bet_h = NFLSideBet(
                     game_key=game_key_form,
@@ -190,7 +187,7 @@ def nfl_create_bet(game_key):
                     team=hometeam,
                     ps=home_ps,
                     vs=away+" vs "+"@"+home,
-                    amount=amount,
+                    amount=float(amount),
                     bet_key=bet_key,
                     user_id=current_user.id)
                 user1.profile.bets_created += 1
