@@ -88,7 +88,7 @@ class Profile(db.Model):
     losses = db.Column(db.Integer, default=0)
     pushes = db.Column(db.Integer, default=0)
     pending = db.Column(db.Integer, default=0)
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
 
     @property 
     def imgsrc(self):

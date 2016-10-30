@@ -45,9 +45,14 @@ def register():
             current_login_ip = get_ip(),
             current_login_at = datetime.datetime.now()
             )
-        profile = Profile(user_id=user.id)
+        print user.id,"email",user.email
         try:
-            db.session.add_all([user,profile])
+            db.session.add_all([user])
+            db.session.commit()
+            user1 = Users.query.filter_by(email=user.email).one()
+            print user1.id, "id"
+            profile = Profile(user_id=user1.id) 
+            db.session.add(profile)
             db.session.commit()
             cache.clear()
             token = generate_confirmation_token(user.email)

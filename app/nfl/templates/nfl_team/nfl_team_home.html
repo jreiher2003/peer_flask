@@ -12,7 +12,7 @@ td,th {
     <div class="row">
         <div class="col-md-12">
             <form action="" method="get" enctype="multipart/form-data">
-                <select id="goto_season">
+                <select id="goto_season" class="selectpicker">
                     <option value="">Select Season</option>
                     <option value="{{ url_for('nfl.nfl_team_home', sid=1, key=jj.Key, team=jj.FullName|urlify) }}">Regular Season</option>
                     <option value="{{ url_for('nfl.nfl_team_home', sid=2, key=jj.Key, team=jj.FullName|urlify) }}">Pre-Season</option>

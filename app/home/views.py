@@ -72,6 +72,7 @@ def update_profile():
         if avatar:
             try:
                 avatar = uploaded_photos.save(avatar)
+                # user.profile.user_id = user.id 
                 user.profile.avatar = avatar
                 user.username = username
                 user.email = email

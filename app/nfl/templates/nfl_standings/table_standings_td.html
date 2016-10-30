@@ -1,4 +1,4 @@
-<td class="team"><a href="{{ url_for('nfl.nfl_team_home', sid=x.SeasonType, key=x.Key, team=x.Name|urlify) }}">{{ x.Name }}</a></td>
+<td class="team"><a href="{{ url_for('nfl.nfl_team_home', sid=x.SeasonType, key=x.Team, team=x.Name|urlify) }}">{{ x.Name }}</a></td>
 <td class="w">{{ x.Wins }}</td>
 <td class="l">{{ x.Losses }}</td>
 <td class="t">{{ x.Ties }}</td>
