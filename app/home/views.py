@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from dateutil.parser import parse as parse_date
 from app import app, db, cache, block_io, bcrypt, uploaded_photos
 from flask_uploads import UploadNotAllowed
@@ -27,11 +28,13 @@ def home():
         )
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
-@cache.cached(timeout=60*5, key_prefix="user_profile")
+@cache.cached(timeout=300, key_prefix="user_profile")
 @login_required
 def profile():
+    dt = datetime.now()
     # block_io.create_notification(url='localhost:8600/notification/', type='address', address='2N2Tcbdd1UqtR8VhszrD5NgKUadz9vvq8Ni')
     user = Users.query.filter_by(id=current_user.id).one() 
+    graded_bets = NFLBetGraded.query.all()
     form_p = ProfileForm(obj=user)
     form_w = BitcoinWithdrawlForm()
     form_c = BitcoinWalletForm()
@@ -53,6 +56,8 @@ def profile():
         graded_sb = graded_sb(),
         graded_ou = graded_ou(),
         graded_ml = graded_ml(),
+        graded_bets = graded_bets,
+        dt=dt,
         )
 
 @home_blueprint.route("/profile_update/", methods=["POST"])

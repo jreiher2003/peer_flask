@@ -4,6 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
+            {{ dt }}
             <div class="profileborder">
                 {% if current_user.profile.avatar %}
                     <img class="profilepic" src="{{ current_user.profile.imgsrc }}" width="150" height="150"/>

@@ -10,7 +10,12 @@
             <b>You: </b> {{ b.users.username }}<br>
             <b>vs: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
             <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win }}<br>
-            {% if b.win==True %}Win +{{ b.amount_win }}{% elif b.win == False %}Lose -{{ b.amount }}{% endif %}<hr>
+            {% for g in graded_bets %}
+                {% if g.game_key == b.game_key %}
+            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+                {% endif %}
+            {% endfor %}
+            {% if b.win==True %}<span class="label label-success">Win </span> +{{ b.amount_win }}{% elif b.win == False %}<span class="label label-danger">Lose </span> -{{ b.amount }}{% endif %}<hr>
         {% elif b.taken_by == current_user.id %}
             <b>Game Key: </b>{{ b.game_key }}<br>
             <b>Bet Key: </b>{{ b.bet_key }}<br>
@@ -20,7 +25,12 @@
             <b>Bet Taker: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
             <b>opponent:  </b>{{ b.users.username }}<br>
             <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win }}<br>
-            {% if b.win == False %}Win +{{ b.amount_win }}{% elif b.win == True %}Lose -{{ b.amount }}{% endif %}<hr>
+            {% for g in graded_bets %}
+                {% if g.game_key == b.game_key %}
+            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+                {% endif %}
+            {% endfor %}
+            {% if b.win == False %}<span class="label label-success">Win </span> +{{ b.amount_win }}{% elif b.win == True %}<span class="label label-danger">Lose </span> -{{ b.amount }}{% endif %}<hr>
         {% endif %}
     {% endfor %}
     {% for b in graded_sb %}
@@ -33,7 +43,12 @@
             <b>You: </b> {{ b.users.username }}<br>
             <b>vs: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
             <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win }}<br>
-            {% if b.win==True %}Win +{{ b.amount_win }}{% elif b.win == False %}Lose -{{ b.amount }}{% elif b.win == None %}Push{% endif %}<hr>
+            {% for g in graded_bets %}
+                {% if g.game_key == b.game_key %}
+            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+                {% endif %}
+            {% endfor %}
+            {% if b.win==True %}<span class="label label-success">Win </span> +{{ b.amount_win }}{% elif b.win == False %}<span class="label label-danger">Lose </span> -{{ b.amount }}{% elif b.win == None %}Push{% endif %}<hr>
         {% elif b.taken_by == current_user.id %}
             <b>Game Key: </b>{{ b.game_key }}<br>
             <b>Bet Key: </b>{{ b.bet_key }}<br>
@@ -43,7 +58,12 @@
             <b>You: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
             <b>vs:  </b>{{ b.users.username }}<br>
             <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win }}<br>
-            {% if b.win == False %}Win +{{ b.amount_win }}{% elif b.win == True %}Lose -{{ b.amount }}{% endif %}<hr>
+            {% for g in graded_bets %}
+                {% if g.game_key == b.game_key %}
+            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+                {% endif %}
+            {% endfor %}
+            {% if b.win == False %}<span class="label label-success">Win </span> +{{ b.amount_win }}{% elif b.win == True %}<span class="label label-danger">Lose </span> -{{ b.amount }}{% endif %}<hr>
         {% endif %}
     {% endfor %}
     {% for b in graded_ml %}
@@ -56,7 +76,12 @@
             <b>You: </b> {{ b.users.username }}<br>
             <b>vs: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
             <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.ml_win }}<br>
-            {% if b.win==True %}Win +{{ b.ml_win }}{% elif b.win == False %}Lose -{{ b.amount }}{% endif %}<hr>
+            {% for g in graded_bets %}
+                {% if g.game_key == b.game_key %}
+            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+                {% endif %}
+            {% endfor %}
+            {% if b.win==True %}<span class="label label-success">Win </span>+{{ b.ml_win }}{% elif b.win == False %}<span class="label label-danger">Lose </span> -{{ b.amount }}{% endif %}<hr>
         {% elif b.taken_by == current_user.id %}
             <b>Game Key: </b>{{ b.game_key }}<br> 
             <b>Bet Key: </b>{{ b.bet_key }}<br>
@@ -66,7 +91,12 @@
             <b>You: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
             <b>vs:  </b>{{ b.users.username }}<br>
             <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.ml_win }}<br>
-            {% if b.win == False %}Win +{{ b.ml_win }}{% elif b.win == True %}Lose -{{ b.amount }}{% endif %}<hr>
+            {% for g in graded_bets %}
+                {% if g.game_key == b.game_key %}
+            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+                {% endif %}
+            {% endfor %}
+            {% if b.win == False %}<span class="label label-success">Win </span>+{{ b.ml_win }}{% elif b.win == True %}<span class="label label-danger">Lose </span>-{{ b.amount }}{% endif %}<hr>
         {% endif %}
     {% endfor %}
 {% else %}
