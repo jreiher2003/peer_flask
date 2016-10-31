@@ -383,8 +383,8 @@ def nfl_bet_vs_bet(bet_key):
             # we have to check to see if profile_taker and profile_bet_creator have enough bitcoins in their account to proceed.
             block_io.withdraw_from_addresses(amounts = bc_amount, from_addresses = bc, to_addresses = default, priority="low", nonce=nonce)
             block_io.withdraw_from_addresses(amounts = bt_amount, from_addresses = bt, to_addresses = default, priority="low", nonce=nonce1)
-            network_fees = block_io.get_network_fee_estimate(amounts = bc_amount, from_addresses = bc, to_addresses = default, priority="low")
-            network_fees1 = block_io.get_network_fee_estimate(amounts = bt_amount, from_addresses = bt, to_addresses = default, priority="low")
+            # network_fees = block_io.get_network_fee_estimate(amounts = bc_amount, from_addresses = bc, to_addresses = default, priority="low")
+            # network_fees1 = block_io.get_network_fee_estimate(amounts = bt_amount, from_addresses = bt, to_addresses = default, priority="low")
             db.session.add_all([bet_taker, bet_creator, nfl])
             db.session.commit()
             cache.clear()
