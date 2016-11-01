@@ -35,7 +35,7 @@ def positve_bitcoin(form, field):
 
 
 class LoginForm(Form):
-    username = TextField("Username", [InputRequired()])
+    email = EmailField("Email", [InputRequired(), Email()])
     password = PasswordField("Password", [InputRequired()])
     remember = BooleanField("Remember me")
     # recaptcha = RecaptchaField()

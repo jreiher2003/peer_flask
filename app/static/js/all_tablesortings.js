@@ -94,7 +94,14 @@ $(document).ready(function() {
     theme: 'blue',
     sortList: [[4,1]]
     });
- 
+    $("#graded_bets_table").tablesorter({
+        dateFormat: "uk",
+        sortList: [[0,1]],
+    });
+    $("#pending_bets_table").tablesorter({
+        dateFormat: "uk",
+        sortList: [[0,1]],
+    });
 
   // Make table cell focusable
   // http://css-tricks.com/simple-css-row-column-highlighting/

@@ -12,7 +12,7 @@ users_blueprint = Blueprint("users", __name__, template_folder="templates")
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = Users.query.filter_by(username=form.username.data).first()
+        user = Users.query.filter_by(email=form.email.data).first()
         if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
             remember = form.remember.data
             user.login_count += 1

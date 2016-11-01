@@ -1,104 +1,162 @@
 <h4><u>Graded Bets</u></h4>
+<table id="graded_bets_table" class="table table-striped table-responsive">
+    <thead>
+        <tr>
+            <th colspan="10" class="text-center"><small class="text-muted">table is sortable&nbsp;&nbsp;(click on headers)</small></th>
+        </tr>
+        <tr>
+            <th>Game Key<i class="fa fa-fw fa-sort"></i></th>
+            <th>Bet Key<i class="fa fa-fw fa-sort"></i></th>
+            <th>Game Date<i class="fa fa-fw fa-sort"></i></th>
+            <th>VS<i class="fa fa-fw fa-sort"></i></th>
+            <th>Bet<i class="fa fa-fw fa-sort"></i></th>
+            <th>Opponent<i class="fa fa-fw fa-sort"></i></th>
+            <th>Risk / Win<i class="fa fa-fw fa-sort"></i></th>
+            <th>Result<i class="fa fa-fw fa-sort"></i></th>
+            <th>W/L<i class="fa fa-fw fa-sort"></i></th>
+            <th>Amount<i class="fa fa-fw fa-sort"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+
 {% if graded_sb or graded_ou or graded_ml %}
     {% for b in graded_ou %}
         {% if b.user_id == current_user.id %}
-            <b>Game Key: </b>{{ b.game_key }}<br>
-            <b>Bet Key: </b>{{ b.bet_key }}<br>
-            <b>Game Date: </b>{{ b.game_date }}<br>
-            {{ b.vs }}<br>
-            {{ b.over_under }}{{ b.total_format }}<br>
-            <b>You: </b> {{ b.users.username }}<br>
-            <b>vs: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
-            <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win }}<br>
+        <tr>
+            <td>{{ b.game_key }}</td>
+            <td>{{ b.bet_key }}</td>
+            <td>{{ b.game_date | day_first }}</td>
+            <td>{{ b.vs }}</td>
+            <td>{{ b.over_under }}{{ b.total_format }}</td>
+            <td>{{ b.taken_username }}</td>
+            <td>{{ b.amount }} / {{ b.amount_win }}</td>
             {% for g in graded_bets %}
                 {% if g.game_key == b.game_key %}
-            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+            <td>{{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}</td>
                 {% endif %}
             {% endfor %}
-            {% if b.win==True %}<span class="label label-success">Win </span> +{{ b.amount_win }}{% elif b.win == False %}<span class="label label-danger">Lose </span> -{{ b.amount }}{% endif %}<hr>
+            {% if b.win==True %}
+                <td><span class="label label-success" style="display:inline-block; width:45px">Win </span></td> 
+                <td>+{{ b.amount_win }}</td>
+            {% elif b.win == False %}
+                <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td> 
+                <td>-{{ b.amount }}{% endif %}</td>
+        </tr>
         {% elif b.taken_by == current_user.id %}
-            <b>Game Key: </b>{{ b.game_key }}<br>
-            <b>Bet Key: </b>{{ b.bet_key }}<br>
-            <b>Game Date: </b>{{ b.game_date }}<br>
-            {{ b.vs }}<br>
-            {{ b.opposite_over_under }}{{ b.total_format }}<br>
-            <b>Bet Taker: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
-            <b>opponent:  </b>{{ b.users.username }}<br>
-            <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win }}<br>
+        <tr>
+            <td>{{ b.game_key }}</td>
+            <td>{{ b.bet_key }}</td>
+            <td>{{ b.game_date | day_first }}</td>
+            <td>{{ b.vs }}</td>
+            <td>{{ b.opposite_over_under }}{{ b.total_format }}</td>
+            <td>{{ b.users.username }}</td>
+            <td>{{ b.amount }} / {{ b.amount_win }}</td>
             {% for g in graded_bets %}
                 {% if g.game_key == b.game_key %}
-            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+            <td>{{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}</td>
                 {% endif %}
             {% endfor %}
-            {% if b.win == False %}<span class="label label-success">Win </span> +{{ b.amount_win }}{% elif b.win == True %}<span class="label label-danger">Lose </span> -{{ b.amount }}{% endif %}<hr>
+            {% if b.win == False %}
+                <td><span class="label label-success" style="display:inline-block; width:45px">Win </span></td> 
+                <td>+{{ b.amount_win }}</td>
+            {% elif b.win == True %}
+                <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td>
+                <td>-{{ b.amount }}{% endif %}</td>
+        </tr>
         {% endif %}
     {% endfor %}
     {% for b in graded_sb %}
         {% if b.user_id == current_user.id %}
-            <b>Game Key: </b>{{ b.game_key }}<br> 
-            <b>Bet Key: </b>{{ b.bet_key }}<br>
-            <b>Game Date: </b>{{ b.game_date }}<br>
-            {{ b.vs }}<br>
-            {{ b.team }}{{ b.ps_format }}<br>
-            <b>You: </b> {{ b.users.username }}<br>
-            <b>vs: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
-            <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win }}<br>
+        <tr>
+            <td>{{ b.game_key }}</td> 
+            <td>{{ b.bet_key }}</td>
+            <td>{{ b.game_date | day_first }}</td>
+            <td>{{ b.vs }}</td>
+            <td>{{ b.team }}{{ b.ps_format }}</td>
+            <td>{{ b.taken_username }}</td>
+            <td>{{ b.amount }} / {{ b.amount_win }}</td>
             {% for g in graded_bets %}
                 {% if g.game_key == b.game_key %}
-            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+            <td>{{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}</td>
                 {% endif %}
             {% endfor %}
-            {% if b.win==True %}<span class="label label-success">Win </span> +{{ b.amount_win }}{% elif b.win == False %}<span class="label label-danger">Lose </span> -{{ b.amount }}{% elif b.win == None %}Push{% endif %}<hr>
+            {% if b.win==True %}
+                <td><span class="label label-success" style="display:inline-block; width:45px">Win </span></td>
+                <td>+{{ b.amount_win }}</td>
+            {% elif b.win == False %}
+                <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td>
+                <td>-{{ b.amount }}{% elif b.win == None %}Push{% endif %}</td>
+        </tr>
         {% elif b.taken_by == current_user.id %}
-            <b>Game Key: </b>{{ b.game_key }}<br>
-            <b>Bet Key: </b>{{ b.bet_key }}<br>
-            <b>Game Date: </b>{{ b.game_date }}<br>
-            {{ b.vs }}<br>
-            {{ b.opposite_team }} {{ b.opposite_ps }}<br>
-            <b>You: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
-            <b>vs:  </b>{{ b.users.username }}<br>
-            <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.amount_win }}<br>
+        <tr>
+            <td>{{ b.game_key }}</td>
+            <td>{{ b.bet_key }}</td>
+            <td>{{ b.game_date | day_first }}</td>
+            <td>{{ b.vs }}</td>
+            <td>{{ b.opposite_team }} {{ b.opposite_ps }}</td>
+            <td>{{ b.users.username }}</td>
+            <td>{{ b.amount }} / {{ b.amount_win }}</td>
             {% for g in graded_bets %}
                 {% if g.game_key == b.game_key %}
-            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+            <td>{{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}</td>
                 {% endif %}
             {% endfor %}
-            {% if b.win == False %}<span class="label label-success">Win </span> +{{ b.amount_win }}{% elif b.win == True %}<span class="label label-danger">Lose </span> -{{ b.amount }}{% endif %}<hr>
+            {% if b.win == False %}
+                <td><span class="label label-success" style="display:inline-block; width:45px">Win </span></td>
+                <td>+{{ b.amount_win }}</td>
+            {% elif b.win == True %}
+                <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td>
+                <td>-{{ b.amount }}{% endif %}</td>
+        </tr>
         {% endif %}
     {% endfor %}
     {% for b in graded_ml %}
         {% if b.user_id == current_user.id %}
-            <b>Game Key: </b>{{ b.game_key }}<br> 
-            <b>Bet Key: </b>{{ b.bet_key }}<br>
-            <b>Game Date: </b>{{ b.game_date }}<br>
-            {{ b.vs }}<br>
-            {{ b.team }} {{ b.ml }}<br>
-            <b>You: </b> {{ b.users.username }}<br>
-            <b>vs: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
-            <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.ml_win }}<br>
+        <tr>
+            <td>{{ b.game_key }}</td> 
+            <td>{{ b.bet_key }}</td>
+            <td>{{ b.game_date | day_first }}</td>
+            <td>{{ b.vs }}</td>
+            <td>{{ b.team }} {{ b.ml }}</td>
+            <td>{{ b.taken_username }}</td>
+            <td>{{ b.amount }} / {{ b.ml_win }}</td>
             {% for g in graded_bets %}
                 {% if g.game_key == b.game_key %}
-            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+            <td>{{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}</td>
                 {% endif %}
             {% endfor %}
-            {% if b.win==True %}<span class="label label-success">Win </span>+{{ b.ml_win }}{% elif b.win == False %}<span class="label label-danger">Lose </span> -{{ b.amount }}{% endif %}<hr>
+            {% if b.win==True %}
+                <td><span class="label label-success" style="display:inline-block; width:45px">Win </span></td>
+                <td>+{{ b.ml_win }}</td>
+            {% elif b.win == False %}
+                <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td>
+                <td>-{{ b.amount }}{% endif %}</td>
+        </tr>
         {% elif b.taken_by == current_user.id %}
-            <b>Game Key: </b>{{ b.game_key }}<br> 
-            <b>Bet Key: </b>{{ b.bet_key }}<br>
-            <b>Game Date: </b>{{ b.game_date }}<br>
-            {{ b.vs }}<br>
-            {{ b.opposite_team }} {{ b.opposite_ml }}<br>
-            <b>You: </b>{{ b.taken_by }}{{ b.taken_username }}<br>
-            <b>vs:  </b>{{ b.users.username }}<br>
-            <b>risk: </b>{{ b.amount }} / <b>win: </b>{{ b.ml_win }}<br>
+        <tr>
+            <td>{{ b.game_key }}</td> 
+            <td>{{ b.bet_key }}</td>
+            <td>{{ b.game_date | day_first }}</td>
+            <td>{{ b.vs }}</td>
+            <td>{{ b.opposite_team }} {{ b.opposite_ml }}</td>
+            <td>{{ b.users.username }}</td>
+            <td>{{ b.amount }} / {{ b.ml_win }}</td>
             {% for g in graded_bets %}
                 {% if g.game_key == b.game_key %}
-            <b>Result:</b> {{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}<br>
+            <td>{{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}</td>
                 {% endif %}
             {% endfor %}
-            {% if b.win == False %}<span class="label label-success">Win </span>+{{ b.ml_win }}{% elif b.win == True %}<span class="label label-danger">Lose </span>-{{ b.amount }}{% endif %}<hr>
+            {% if b.win == False %}
+                <td><span class="label label-success" style="display:inline-block; width:45px">Win </span></td>
+                <td>+{{ b.ml_win }}</td>
+            {% elif b.win == True %}
+                <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td>
+                <td>-{{ b.amount }}{% endif %}</td>
+        </tr>
         {% endif %}
     {% endfor %}
+     </tbody>
+</table>
 {% else %}
     <p>No graded bets at this time</p>
 {% endif %}

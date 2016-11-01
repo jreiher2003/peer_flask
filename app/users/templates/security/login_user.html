@@ -13,7 +13,7 @@
             <form id="loginForm" action="{{ url_for('users.login') }}" method="POST" name="login_user_form">
               {{ form.csrf_token }}
               <div class="form-group">
-                {{ render_field_with_errors(form.username, class="form-control", placeholder="username or email address...", **{'data-validation':'required'}) }}
+                {{ render_field_with_errors(form.email, class="form-control", placeholder="email address...", **{'data-validation':'required'}) }}
               </div>
               <div class="form-group">
                 {{ render_field_with_errors(form.password, class="form-control", placeholder="password...", **{'data-validation':'required'}) }}

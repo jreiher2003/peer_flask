@@ -27,6 +27,10 @@ def game_day(value):
     return '{dt:%A}'.format(dt=value)
 
 @app.template_filter()
+def day_first(value):
+    return '{dt.day}-{dt:%b}-{dt.year}'.format(dt=value)
+
+@app.template_filter()
 def game_date(value):
     return  '{dt:%b} {dt.day}, {dt.year}'.format(dt=value)
 

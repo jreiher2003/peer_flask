@@ -171,7 +171,8 @@ class NFLScore(db.Model):
     HomeTeamMoneyLine = db.Column(db.Integer)
 
     def cover_line(self):
-        if self.PointSpread < 0:
+        """this covers 0.0 ps's"""
+        if self.PointSpread <= 0:
             if (self.HomeScore + self.PointSpread) == self.AwayScore:return "Push"
             elif (self.HomeScore + self.PointSpread) > self.AwayScore:return self.HomeTeam
             else:return self.AwayTeam

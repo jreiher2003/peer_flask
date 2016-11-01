@@ -4,7 +4,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            {{ dt }}
             <div class="profileborder">
                 {% if current_user.profile.avatar %}
                     <img class="profilepic" src="{{ current_user.profile.imgsrc }}" width="150" height="150"/>
@@ -12,22 +11,22 @@
                     <img class="profilepic" src="{{ url_for('static', filename='img/user.jpg') }}" width="150"/>
                 {% endif %}
                 <div class="caption">
+                    <p class="text-center">{{ dt|game_date }}</p>
                     <hr class="profileme">
-                    <p class="p__status"><b>Username:</b> {{ current_user.username }}</p>
-                    <p class="p__status"><b>Email:</b><small> {{ current_user.email }}</small></p>
-                    <p class="p__status"><b>Bets Created:</b><small> {{ current_user.profile.bets_created }}</small></p>
-                    <p class="p__status"><b>Bets Taken:</b><small> {{ current_user.profile.bets_taken }}</small></p>
-                    <p class="p__status"><b>Wins:</b><small> {{ current_user.profile.wins }}</small></p>
-                    <p class="p__status"><b>Losses:</b><small> {{ current_user.profile.losses }}</small></p>
-                    <p class="p__status"><b>Pushes:</b><small> {{ current_user.profile.pushes }}</small></p>
-                    <p class="p__status"><b>Pending Bets:</b><small> {{ num_pending }}</small></p>
-                    <p class="p__status"><b>Graded Bets:</b><small> {{ num_graded }}</small></p>
-                    <p class="p__status"><b>Balance:</b><small> {{ current_user.bitcoin_wallet.available_btc }} BTC</small></p>
-                    <p class="p__status"><b>Account Confirmed: </b>
+                    <p class="p__status"><span class="glyphicon glyphicon-user text-muted" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;{{ current_user.username }}</p>
+                    <p class="p__status"><span class="glyphicon glyphicon-envelope text-muted" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;{{ current_user.email }}</p>
+                    <p class="p__status"><span class="glyphicon glyphicon-time text-muted" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Joined on {{ current_user.date_created|game_date }}</p>
+                    <p class="p__status"><span class="glyphicon glyphicon-bitcoin text-muted" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;{{ current_user.bitcoin_wallet.available_btc }} BTC</p>
+                    <p class="p__status"><b class="text-muted">W-L-T:</b>&nbsp;&nbsp;&nbsp;{{ current_user.profile.wins }}-{{ current_user.profile.losses }}-{{ current_user.profile.pushes }}</p>
+                    <p class="p__status"><b class="text-muted">Bets Created:</b>&nbsp;&nbsp;&nbsp;{{ current_user.profile.bets_created }}</p>
+                    <p class="p__status"><b class="text-muted">Bets Taken:</b>&nbsp;&nbsp;&nbsp;{{ current_user.profile.bets_taken }}</p>
+                    <p class="p__status"><b class="text-muted">Pending Bets:</b>&nbsp;&nbsp;&nbsp;{{ num_pending }}</p>
+                    <p class="p__status"><b class="text-muted">Graded Bets:</b>&nbsp;&nbsp;&nbsp;{{ num_graded }}</p>
+                    <p class="p__status"><b class="text-muted">Account Confirmed: </b>&nbsp;&nbsp;&nbsp;
                         {% if current_user.confirmed == False %}
-                            <small class="label label-danger"> {{ current_user.confirmed }} </small>
+                            <small class="label label-danger">{{ current_user.confirmed }}</small>
                         {% else %}
-                            <small class="label label-success"> {{ current_user.confirmed }} </small>
+                            <small class="label label-success">{{ current_user.confirmed }}</small>
                         {% endif %}
                     <hr class="profileme">
                     <div class="profile_class_button">
@@ -36,9 +35,9 @@
                         {% endif %}
                         {% include "profile/profile_change_password_modal.html" %}
                     </div>
-                </div>
-            </div>
-        </div>
+                </div><!-- end caption -->
+            </div><!-- end profileborder -->
+        </div><!-- end col-md-2 -->
         <div class="col-md-6">
             {% include "profile/update_profile_form.html" %}
         </div>
@@ -49,10 +48,10 @@
     </div><!-- end row -->
     <br><br>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
             {% include "profile/according.html" %}
         </div>
-        <div class="col-md-6"></div>
+        <!-- <div class="col-md-12"></div> -->
     </div>
 </div><!-- end container -->
 
