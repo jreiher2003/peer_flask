@@ -1,225 +1,115 @@
 {% extends "base.html" %}
 {% block title %}Edit This Bet{% endblock %}
 {% block content %}
+{% from "_macros_nfl.html" import render_field_with_errors, render_field %}
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="thumbnail">
+            <div class="thumbnail editbet">
                 {% if nfl.over_under %}
-                <p class="text-center"><img src="{{ nfl.users.profile.avatar }}" width="40"/> {{ nfl.users.username }}</p>
+                <p class="text-center"><img src="{{ nfl.users.profile.imgsrc }}" width="40"/> {{ nfl.users.username }}</p>
                 <h3 class="text-center">{{ nfl.vs }}</h3>
-                <p class="text-center">{{ nfl.game_date }} {{ nfl.game_date }}</p>
-                <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl.bet_key) }}" method="POST">
-                    {{ form.csrf_token }}
-                    <div class="form-group">
-                        {{ form.game_key }}
+                <p class="text-center">{{ nfl.game_date | game_date }} {{ nfl.game_date | game_time }} </p>
+                <hr>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl.bet_key) }}" method="POST">
+                            {{ form.csrf_token }}
+                            <div class="form-group">
+                                {{ render_field_with_errors(form.game_key) }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field_with_errors(form.away_,value=a_team) }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field_with_errors(form.home_,value=h_team) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.over_under.label }} 
+                                {{ render_field_with_errors(form.over_under) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.total.label }}
+                                {{ render_field_with_errors(form.total, class="form-control") }}  
+                            </div>
+                            <div class="form-group">
+                                {{ form.amount.label }}
+                                {{ render_field_with_errors(form.amount, placeholder="$20.00", class="form-control")}}
+                            </div>
+                            {{ form.submit_o(value="edit", class="btn btn-warning") }} <a class="btn btn-default" href="{{ url_for('nfl.nfl_public_board') }}">cancel</a>
+                        </form>
                     </div>
-                    <span class="error bg-danger">
-                        {% if form.game_key.errors %}
-                            {% for error in form.game_key.errors %}
-                                <div class="bg-danger">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
-                    </span>
-                    <div class="form-group">
-                        {{ form.away_(value=a_team) }}
-                    </div>
-                    <span class="error bg-danger">
-                        {% if form.away_.errors %}
-                            {% for error in form.away_.errors %}
-                                <div class="bg-danger">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
-                    </span>
-                    <div class="form-group">
-                        {{ form.home_(value=h_team) }}
-                    </div>
-                    <span class="error bg-danger">
-                        {% if form.home_.errors %}
-                            {% for error in form.home_.errors %}
-                                <div class="bg-danger">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
-                    </span>
-                    <div class="form-group">
-                        {{ form.over_under.label }} 
-                        {{ form.over_under }}
-                    </div>
-                    <span class="error bg-danger">
-                        {% if form.over_under.errors %}
-                            {% for error in form.over_under.errors %}
-                                <div class="bg-danger">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
-                    </span>
-                    <div class="form-group">
-                        {{ form.total.label }}
-                        {{ form.total(class="form-control") }}  
-                    </div>
-                    <span class="error bg-danger">
-                        {% if form.total.errors %}
-                            {% for error in form.total.errors %}
-                                <div class="bg-danger">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
-                    </span>
-                    <div class="form-group">
-                        {{ form.amount.label }}
-                        {{ form.amount(placeholder="$20.00", class="form-control")}}
-                    </div>
-                    <span class="error bg-danger">
-                        {% if form.amount.errors %}
-                            {% for error in form.amount.errors %}
-                                <div class="bg-danger">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
-                    </span>
-                    {{ form.submit_o(value="edit") }} <a href="{{ url_for('nfl.nfl_public_board') }}">cancel</a>
-                </form>
+                </div>
                 {% endif %}
                 {% if nfl.ps and nfl.team == nfl.home_team %}
-                    <p class="text-center"><img src="{{ nfl.users.profile.avatar }}" width="40"/> {{ nfl.users.username }}</p>
+                    <p class="text-center"><img src="{{ nfl.users.profile.imgsrc }}" width="40"/> {{ nfl.users.username }}</p>
                     <h3 class="text-center">{{ nfl.vs }}</h3>
-                    <p class="text-center">{{ nfl.game_date }} {{ nfl.game_date }}</p>
-                    <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl.bet_key) }}" method="POST">
-                        {{ form.csrf_token }}
-                        <div class="form-group">
-                            {{ form.game_key }}
+                    <p class="text-center">{{ nfl.game_date | game_date }} {{ nfl.game_date | game_time }} </p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl.bet_key) }}" method="POST">
+                                {{ form.csrf_token }}
+                                <div class="form-group">
+                                    {{ render_field_with_errors(form.game_key) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ render_field_with_errors(form.away_, value=a_team) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ render_field_with_errors(form.home_, value=h_team) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.home_team.label }}
+                                    {{ render_field_with_errors(form.home_team, id="home_team", class="form-control", readonly=True) }}
+                                </div>
+                                <div class="form-group">
+                                     {{ form.point_spread.label }}
+                                     {{ render_field_with_errors(form.point_spread, class="form-control", type="number", min="-14", max="14", step="0.5", value=nfl.ps) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.amount.label }}
+                                    {{ render_field_with_errors(form.amount, id="amount", placeholder="$20.00", class="form-control")}}
+                                </div>
+                                {{ form.submit_h(value="edit", class="btn btn-warning") }} <a class="btn btn-default" href="{{ url_for('nfl.nfl_public_board') }}">cancel</a>
+                            </form>
                         </div>
-                        <span class="error bg-danger">
-                            {% if form.game_key.errors %}
-                                {% for error in form.game_key.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        <div class="form-group">
-                            {{ form.away_(value=a_team) }}
-                        </div>
-                        <span class="error bg-danger">
-                            {% if form.away_.errors %}
-                                {% for error in form.away_.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        <div class="form-group">
-                            {{ form.home_(value=h_team) }}
-                        </div>
-                        <span class="error bg-danger">
-                            {% if form.home_.errors %}
-                                {% for error in form.home_.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        <div class="form-group">
-                            {{ form.home_team.label }}
-                            {{ form.home_team(id="home_team", class="form-control", readonly=True) }}
-                        </div>
-                        <span class="error bg-danger">
-                            {% if form.home_team.errors %}
-                                {% for error in form.home_team.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        <div class="form-group">
-                             {{ form.point_spread.label }}
-                             {{ form.point_spread(class="form-control", type="number", min="-14", max="14", step="0.5", value=nfl.ps) }}
-                        </div>
-                        <span class="error bg-danger">
-                            {% if form.point_spread.errors %}
-                                {% for error in form.point_spread.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        <div class="form-group">
-                            {{ form.amount.label }}
-                            {{ form.amount(id="amount", placeholder="$20.00", class="form-control")}}
-                        </div>
-                        <span class="error bg-danger">
-                            {% if form.amount.errors %}
-                                {% for error in form.amount.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        {{ form.submit_h(value="edit") }} <a href="{{ url_for('nfl.nfl_public_board') }}">cancel</a>
-                    </form>
+                    </div>
                 {% endif %}
                 {% if nfl.ps and nfl.team == nfl.away_team %}
-                    <p class="text-center"><img src="{{ nfl.users.profile.avatar }}" width="40"/> {{ nfl.users.username }}</p>
+                    <p class="text-center"><img src="{{ nfl.users.profile.imgsrc }}" width="40"/> {{ nfl.users.username }}</p>
                     <h3 class="text-center">{{ nfl.vs }}</h3>
-                    <p class="text-center">{{ nfl.game_date }} {{ nfl.game_date }}</p>
-                    <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl.bet_key) }}" method="POST">
-                     {{ form.csrf_token }}
-                        <div class="form-group">
-                            {{ form.game_key }}
-                        </div>
-                        <span class="error bg-danger">
-                            {% if form.game_key.errors %}
-                                {% for error in form.game_key.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        <div class="form-group">
-                            {{ form.away_(value=a_team) }}
-                        </div>
-                        <span class="error bg-danger">
-                            {% if form.away_.errors %}
-                                {% for error in form.away_.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        <div class="form-group">
-                            {{ form.home_(value=h_team) }}
-                        </div>
-                        <span class="error bg-danger">
-                            {% if form.home_.errors %}
-                                {% for error in form.home_.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        <div class="form-group">
-                            {{ form.away_team.label }}
-                            {{ form.away_team(id="away_team", class="form-control", readonly=True) }}
-                        </div>
-                        <span class="error bg-danger">
-                            {% if form.away_team.errors %}
-                                {% for error in form.away_team.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        <div class="form-group">
-                         {{ form.point_spread.label }}
-                         {{ form.point_spread(id="away_ps",class="form-control", value=nfl.ps, type="number", min="-14", max="14", step="0.5") }}    
-                        </div>
-                        <span class="error bg-danger">
-                            {% if form.point_spread.errors %}
-                                {% for error in form.point_spread.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        <div class="form-group">
-                            {{ form.amount.label }}
-                            {{ form.amount(id="amount", placeholder="$20.00", class="form-control")}}
-                        </div>
-                        <span class="error bg-danger">
-                            {% if form.amount.errors %}
-                                {% for error in form.amount.errors %}
-                                    <div class="bg-danger">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </span>
-                        {{ form.submit_a }} <a href="{{ url_for('nfl.nfl_public_board') }}">cancel</a>
-                </form>
+                    <p class="text-center">{{ nfl.game_date | game_date }} {{ nfl.game_date | game_time }}</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=nfl.bet_key) }}" method="POST">
+                             {{ form.csrf_token }}
+                                <div class="form-group">
+                                    {{ render_field_with_errors(form.game_key) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ render_field_with_errors(form.away_, value=a_team) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ render_field_with_errors(form.home_, value=h_team) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.away_team.label }}
+                                    {{ render_field_with_errors(form.away_team, id="away_team", class="form-control", readonly=True) }}
+                                </div>
+                                <div class="form-group">
+                                     {{ form.point_spread.label }}
+                                     {{ render_field_with_errors(form.point_spread, id="away_ps",class="form-control", value=nfl.ps, type="number", min="-14", max="14", step="0.5") }}    
+                                </div>
+                                <div class="form-group">
+                                    {{ form.amount.label }}
+                                    {{ render_field_with_errors(form.amount, id="amount", placeholder="$20.00", class="form-control")}}
+                                </div>
+                                {{ form.submit_a(value="edit", class="btn btn-warning") }} <a class="btn btn-default" href="{{ url_for('nfl.nfl_public_board') }}">cancel</a>
+                        </form>
+                    </div>
+                </div>
                 {% endif %}
             </div>
         </div>

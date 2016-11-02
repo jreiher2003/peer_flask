@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+{% from "_macros_nfl.html" import render_field_with_errors, render_field %}
 <div class="container">
     <div class="row">
         <div class="col-md-3">
@@ -44,5 +44,4 @@
         </div>
     </div><!-- row -->
 </div><!-- end container -->
-{% include "footer.html" %}
 {% endblock content %}

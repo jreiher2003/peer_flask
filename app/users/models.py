@@ -55,7 +55,6 @@ class Users(db.Model, UserMixin):
     def get_id(self):
         return unicode(self.id)
 
-
     def __repr__(self):
         return "<username-{}".format(self.username)
 

@@ -63,10 +63,19 @@ class NFLSchedule(db.Model):
         elif self.HomeTeamMoneyLine > 0: return "+%s" % (self.HomeTeamMoneyLine)
         else: return self.HomeTeamMoneyLine
 
+    @property 
+    def is_bye_week(self):
+        bye = NFLSchedule.query.filter_by(SeasonType=1)
+        for b in bye:
+            if b.HomeTeam == self.HomeTeam:
+                print b.Week, b.HomeTeam, b.AwayTeam
+
     @hybrid_property 
     def d_date(self):
         # "9/8/2016 8:30:00 PM"
         return datetime.strptime(self.Date, '%m/%d/%Y %I:%M:%f %p')
+
+
 
 
 

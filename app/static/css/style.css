@@ -119,5 +119,15 @@ ul#over_under {
 .popover.top > .arrow:after { border-top-color: #fff; }
 .popover > .arrow { border-bottom-color: #fff;}
 
-/* -- Graded - Pending Bets tables */
-
+/* -- Edit bet */
+div.thumbnail.editbet {
+ padding: 20px;
+ box-shadow: 5px 5px 5px #9D9D9D;
+}
+span.error {
+ background-color: red;
+ color: white;
+ width: 100%;
+ display: block;
+ text-align: center;
+}
