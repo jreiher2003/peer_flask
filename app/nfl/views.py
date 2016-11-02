@@ -246,7 +246,7 @@ def nfl_edit_bet(bet_key):
             h_team = nfl.vs.split("@")[1].strip()
             form = OverUnderForm(obj=nfl)
             if form.validate_on_submit():
-                nfl.amount = form.amount.data
+                nfl.amount = float(form.amount.data)
                 network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
                 network_fees = float(network_fees["data"]["estimated_network_fee"])
                 if float(nfl.amount+network_fees) <= float(user.bitcoin_wallet.available_btc):
@@ -270,7 +270,7 @@ def nfl_edit_bet(bet_key):
             if nfl.ps and nfl.team == nfl.home_team:
                 form = HomeTeamForm(obj=nfl)
                 if form.validate_on_submit():
-                    nfl.amount = form.amount.data
+                    nfl.amount = float(form.amount.data)
                     network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
                     network_fees = float(network_fees["data"]["estimated_network_fee"])
                     if float(nfl.amount+network_fees) <= float(user.bitcoin_wallet.available_btc):
@@ -286,7 +286,7 @@ def nfl_edit_bet(bet_key):
             elif nfl.ps and nfl.team == nfl.away_team:
                 form = AwayTeamForm(obj=nfl)
                 if form.validate_on_submit():
-                    nfl.amount = form.amount.data
+                    nfl.amount = float(form.amount.data)
                     network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
                     network_fees = float(network_fees["data"]["estimated_network_fee"])
                     if float(nfl.amount+network_fees) <= float(user.bitcoin_wallet.available_btc):

@@ -33,7 +33,7 @@ class HomeTeamForm(Form):
     home_ = HiddenField("home",validators=[DataRequired(), validate_teamname])
     away_ = HiddenField("away",validators=[DataRequired(), validate_teamname])
     home_team = TextField("Home Team", validators=[DataRequired(message="Home_team data required"), validate_teamname])
-    point_spread = FloatField("Point Spread", validators=[DataRequired(message="home ps data required")])#
+    point_spread = FloatField("Point Spread", validators=[DataRequired(), NumberRange(min=-21, max=21, message="Point Spread bet must be inbetween -21 and 21 for it to be valid.")])#
     home_team_ml = IntegerField("Home Team ML")
     amount = TextField("Bet Amount", validators=[DataRequired(message="home team amount data required"), NumberRange(min=0, message="All amounts must be positive")])#
     submit_h = SubmitField("Bet Home Team")
@@ -43,7 +43,7 @@ class AwayTeamForm(Form):
     home_ = HiddenField("home",validators=[DataRequired(), validate_teamname])
     away_ = HiddenField("away",validators=[DataRequired(), validate_teamname])
     away_team = TextField("Away Team", validators=[DataRequired(), validate_teamname])
-    point_spread = FloatField("Point Spread", validators=[DataRequired()])#
+    point_spread = FloatField("Point Spread", validators=[DataRequired(), NumberRange(min=-21, max=21, message="Point Spread bet must be inbetween -21 and 21 for it to be valid.")])
     away_team_ml = IntegerField("Away Team ML")
     amount = TextField("Bet Amount", validators=[DataRequired(), NumberRange(min=0, message="All amounts must be positive")])#
     submit_a = SubmitField("Bet Away Team")
