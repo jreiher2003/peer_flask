@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 {% endif %}
-                {% if nfl.ps and nfl.team == nfl.home_team %}
+                {% if nfl.team == nfl.home_team %}
                     <p class="text-center"><img src="{{ nfl.users.profile.imgsrc }}" width="40"/> {{ nfl.users.username }}</p>
                     <h3 class="text-center">{{ nfl.vs }}</h3>
                     <p class="text-center">{{ nfl.game_date | game_date }} {{ nfl.game_date | game_time }} </p>
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 {% endif %}
-                {% if nfl.ps and nfl.team == nfl.away_team %}
+                {% if nfl.team == nfl.away_team %}
                     <p class="text-center"><img src="{{ nfl.users.profile.imgsrc }}" width="40"/> {{ nfl.users.username }}</p>
                     <h3 class="text-center">{{ nfl.vs }}</h3>
                     <p class="text-center">{{ nfl.game_date | game_date }} {{ nfl.game_date | game_time }}</p>

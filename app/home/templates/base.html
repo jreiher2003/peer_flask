@@ -76,7 +76,10 @@
     </script>
 <!-- - end btc wallet js - -->
     <script>
-    $("[data-toggle=popover]").popover();
+    $(document).ready(function(){
+        $("[data-toggle=popover]").popover();
+        $('a#b_game_key').on('click', function(e) {e.preventDefault(); return true;});
+    });
     </script>
   </body>
 </html>

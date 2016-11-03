@@ -53,10 +53,11 @@ body {
     line-height: .2em;
     letter-spacing: 1px;
  }
- div.ptable__board {
+ /*createbet*/
+ /*div.ptable__board {
     border: 1px solid #ddd;
     padding: 5px;
- }
+ }*/
 thead.thead {
     background-color: #2780e3;
     color: #fff;

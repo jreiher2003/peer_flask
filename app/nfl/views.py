@@ -263,11 +263,11 @@ def nfl_edit_bet(bet_key):
     except exc.SQLAlchemyError:
         print "No over under bets"
     try:
-        nfl = NFLSideBet.query.filter_by(bet_key=bet_key).one()
+        nfl = NFLSideBet.query.filter_by(bet_key=bet_key).one() 
         if nfl is not None:
             a_team = nfl.vs.split("vs")[0].strip()
             h_team = nfl.vs.split("@")[1].strip()
-            if nfl.ps and nfl.team == nfl.home_team:
+            if nfl.team == nfl.home_team:
                 form = HomeTeamForm(obj=nfl)
                 if form.validate_on_submit():
                     nfl.amount = float(form.amount.data)
@@ -283,7 +283,7 @@ def nfl_edit_bet(bet_key):
                     else:
                         flash("You don't have enough money in your account to make this bet", "danger")
                         return redirect(url_for('nfl.nfl_edit_bet', bet_key=bet_key))
-            elif nfl.ps and nfl.team == nfl.away_team:
+            elif nfl.team == nfl.away_team:
                 form = AwayTeamForm(obj=nfl)
                 if form.validate_on_submit():
                     nfl.amount = float(form.amount.data)
@@ -363,7 +363,6 @@ def nfl_bet_vs_bet(bet_key):
     nonce1 = make_salt(length=32)
     bc_amount = nfl.amount 
     bt_amount = nfl.amount 
-    print nfl.amount,bc,bt, default,nonce, bt_amount, type(bt_amount)
     if request.method == "POST":
         network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (bc), to_addresses = (bt), priority="low")
         network_fees = float(network_fees["data"]["estimated_network_fee"])

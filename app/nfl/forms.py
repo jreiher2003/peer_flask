@@ -20,8 +20,6 @@ def validate_gamekey(form, field):
         raise ValidationError("That is not a valid game key")
 
 def validate_pointspread(form, field):
-    print type(field.data)
-    print (field.data)
     if field.data is None:
         raise ValidationError("That is not a valid number.")
     if field.data < -21:

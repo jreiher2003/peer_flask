@@ -13,7 +13,7 @@
                     <tr>
                         <th><a>user</a></th>
                         <th><a>game date</a></th>
-                        <th>game day</th>
+                        <th><a>game day</a></th>
                         <th><a>game time</a></th>
                         <th><a>game</a></th>
                         <th><a>team</a></th>
@@ -33,7 +33,7 @@
                             <td>{{ bet.game_date|game_date }}</td>
                             <td>{{ bet.game_date|game_day }}</td>
                             <td>{{ bet.game_date|game_time }}</td>
-                            <td>{{ bet.vs }}</td>
+                            <td><a href="#" id="b_game_key" data-toggle="popover" title="Bet Key" data-content="This is the bet key {{ bet.bet_key }}">{{ bet.vs }}</a></td>
                             <td></td>
                             <td>{{ bet.team }}</td>
                             <td>{{ bet.over_under }}{{ bet.total_format }}</td>
@@ -60,7 +60,7 @@
                             <td>{{ bet.game_date|game_date }}</td>
                             <td>{{ bet.game_date|game_day }}</td>
                             <td>{{ bet.game_date|game_time }}</td>
-                            <td>{{ bet.vs }}</td>
+                            <td><a href="#" id="b_game_key" data-toggle="popover" title="Bet Key" data-content="This is the bet key {{ bet.bet_key }}">{{ bet.vs }}</a></td>
                             <td>{{ bet.team }}</td>
                             <td>{{ bet.ps_format }}</td>
                             <td></td>
@@ -81,21 +81,6 @@
                     </tbody>
                </table>
            </div><!-- end wrapper -->
-           <!-- <div id="pager" class="pager">
-                <form>
-                    <span class="first"><i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i></span>
-                    <span class="prev"><i class="fa fa-angle-left fa-2x" aria-hidden="true"></i></span>
-                    <input type="text" class="pagedisplay" readonly/>
-                    <span class="next"><i class="fa fa-angle-right fa-2x" aria-hidden="true"></i></span>
-                    <span class="last"><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i></span>
-                    <select class="pagesize">
-                        <option selected="selected"  value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option  value="40">40</option>
-                    </select>
-                </form>
-            </div> -->
         </div>
     </div>
 </div>
