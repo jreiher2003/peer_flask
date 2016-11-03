@@ -28,6 +28,7 @@ class Base(db.Model):
     @property
     def ps_format(self):
         if self.ps == None: return ""
+        elif self.ps == 0: return "even"
         elif self.ps > 0: return "+" + str(self.ps)
         else: return self.ps
 

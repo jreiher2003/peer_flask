@@ -64,6 +64,27 @@ thead.thead {
 tbody.tbody {
     background-color: #fff;
 }
+img {
+    border-radius: 50%;
+    height: 40px;
+}
+tr {
+    margin: 5px 0 5px 0;
+}
+div#pager.pager {
+    top:0 !important;
+    position: relative !important;
+}
+.pagedisplay {
+    width: 90px;
+    text-align: center;
+    border-color: #2780e3;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+i {
+    color: #2780e3;
+}
 
 /* --------- CREATE-A-BET ---------- */
 div.createbet {

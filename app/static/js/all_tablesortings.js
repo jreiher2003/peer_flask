@@ -1,7 +1,8 @@
 $(document).ready(function(){
-    $('#public__board').tablesorter({
-      // debug: true,
-    }).tablesorterPager({container: $("#pager")}) 
+    $('#public__board')
+    .DataTable();
+    // .tablesorter({widthFixed: true, widgets: ['zebra']}) 
+    // .tablesorterPager({container: $("#pager")}); 
 });
 
 $(document).ready(function() {

@@ -1,45 +1,26 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block style %}
-img {
-    border-radius: 50%;
-    height: 40px;
-}
-tr {
-    margin: 5px 0 5px 0;
-}
-div#pager.pager {
-    top:0 !important;
-    position: relative !important;
-}
-.pagedisplay {
-    width: 40px;
-    text-align: center;
-    border-color: lightblue;
-    margin-left: 10px;
-    margin-right: 10px;
-}
-i {
-    color: lightblue;
-}
+
 {% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
             <div id="wrapper">
                <table id="public__board" class="table table-hover tablesorter" cellspacing="1">
                   <thead>
                     <tr>
-                        <th><a>user<i class="fa fa-fw fa-sort"></i></a></th>
-                        <th><a>game day<i class="fa fa-fw fa-sort"></i></a></th>
-                        <th><a>game time<i class="fa fa-fw fa-sort"></i></a></th>
-                        <th><a>game<i class="fa fa-fw fa-sort"></i></a></th>
-                        <th><a>team<i class="fa fa-fw fa-sort"></i></a></th>
-                        <th><a>spread<i class="fa fa-fw fa-sort"></i></a></th>
-                        <th><a>total<i class="fa fa-fw fa-sort"></i></a></th>
-                        <th><a>risk / win<i class="fa fa-fw fa-sort"></i></a></th>
-                        <th><a>bet this<i class="fa fa-fw fa-sort"></i></a></th>
+                        <th><a>user</a></th>
+                        <th><a>game date</a></th>
+                        <th>game day</th>
+                        <th><a>game time</a></th>
+                        <th><a>game</a></th>
+                        <th><a>team</a></th>
+                        <th><a>spread</a></th>
+                        <th><a>total</a></th>
+                        <th><a>risk / win</a></th>
+                        <th><a>bet this</a></th>
                     </tr>
                    </thead>
                    <tbody>
@@ -48,8 +29,9 @@ i {
                             {% if bet.game_date > dt %}
                         <tr> 
                              <td><img class="navpic" src="{{ bet.users.profile.imgsrc }}">&nbsp;&nbsp;&nbsp;
-                                {{ bet.users.username }} {{ bet.user_id }} </td>
-                            <td>{{ bet.game_date|game_date }}<br>{{ bet.game_date|game_day }}</td>
+                                {{ bet.users.username }}</td>
+                            <td>{{ bet.game_date|game_date }}</td>
+                            <td>{{ bet.game_date|game_day }}</td>
                             <td>{{ bet.game_date|game_time }}</td>
                             <td>{{ bet.vs }}</td>
                             <td></td>
@@ -74,8 +56,9 @@ i {
                             {% if bet.game_date > dt %}
                         <tr> 
                              <td><img class="navpic" src="{{ bet.users.profile.imgsrc }}">&nbsp;&nbsp;&nbsp;
-                                {{ bet.users.username }} {{ bet.user_id }} </td>
-                            <td>{{ bet.game_date|game_date }}<br>{{ bet.game_date|game_day }}</td>
+                                {{ bet.users.username }}</td>
+                            <td>{{ bet.game_date|game_date }}</td>
+                            <td>{{ bet.game_date|game_day }}</td>
                             <td>{{ bet.game_date|game_time }}</td>
                             <td>{{ bet.vs }}</td>
                             <td>{{ bet.team }}</td>
@@ -98,7 +81,7 @@ i {
                     </tbody>
                </table>
            </div><!-- end wrapper -->
-           <div id="pager" class="pager">
+           <!-- <div id="pager" class="pager">
                 <form>
                     <span class="first"><i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i></span>
                     <span class="prev"><i class="fa fa-angle-left fa-2x" aria-hidden="true"></i></span>
@@ -112,7 +95,7 @@ i {
                         <option  value="40">40</option>
                     </select>
                 </form>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

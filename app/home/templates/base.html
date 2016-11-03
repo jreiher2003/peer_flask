@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stats_table_styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/moble_under_768.css') }}">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     {#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">#}
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,18 +31,23 @@
     {% endblock content %}
     {% include "footer.html" %}
 
-    <script src="/static/js/jquery/dist/jquery.min.js"></script>
+    <!-- {#<script src="/static/js/jquery/dist/jquery.min.js"></script>#} -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="/static/js/bootstrap/bootstrap.js"></script>
-    <script src="/static/js/jquery-form-validator/form-validator/jquery.form-validator.min.js"></script>
-    <script src="/static/js/tablesorter/jquery.tablesorter.js"></script>
-    <script src="/static/js/tablesorter/pager/jquery.tablesorter.pager.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+    <!--<script src="/static/js/jquery-form-validator/form-validator/jquery.form-validator.min.js"></script>-->
+    <!--<script src="/static/js/tablesorter/jquery.tablesorter.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/js/jquery.tablesorter.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.27.8/js/extras/jquery.tablesorter.pager.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <!--<script src="/static/js/tablesorter/pager/jquery.tablesorter.pager.js"></script>-->
     <script src="/static/js/create_bet_tabs.js"></script>
     <script src="/static/js/select_team.js"></script>
     <script src="/static/js/nfl_team_stats_tabs.js"></script>
     <script src="/static/js/nav_dropdown.js"></script>
     <script src="/static/js/all_tablesortings.js"></script>
     <script src="/static/js/jquery.qrcode.min.js"></script>
-    {#<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>#}
+    <!-- {#<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>#} -->
     <script>
     // prevents tabs in stats from jumping down
     $('.nav-tabs li a').click( function(e) {
