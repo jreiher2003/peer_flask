@@ -58,6 +58,22 @@ body {
     border: 1px solid #ddd;
     padding: 5px;
  }*/
+/*Paginate*/
+.dataTables_wrapper, .dataTables_paginate, .paginate_button {
+    border: none !important;
+    padding: 0 !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    border: none;
+}
+table.dataTable thead .sorting_asc {
+    background-image: none !important;
+    background-image: url("/static/img/arrows/icon-arrow-up-18.png") !important;
+}
+table.dataTable thead .sorting_desc {
+    background-image: none !important;
+    background-image: url("/static/img/arrows/icon-arrow-down-18.png") !important;
+}
 thead.thead {
     background-color: #2780e3;
     color: #fff;
