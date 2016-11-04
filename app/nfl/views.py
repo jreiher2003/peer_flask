@@ -1,3 +1,4 @@
+import sys
 import json
 import datetime
 from datetime import date
@@ -378,14 +379,22 @@ def nfl_bet_vs_bet(bet_key):
             bc = bet_creator.bitcoin_wallet.address
             bt = bet_taker.bitcoin_wallet.address
             # we have to check to see if profile_taker and profile_bet_creator have enough bitcoins in their account to proceed.
-            block_io.withdraw_from_addresses(amounts = bc_amount, from_addresses = bc, to_addresses = default, priority="low", nonce=nonce)
-            block_io.withdraw_from_addresses(amounts = bt_amount, from_addresses = bt, to_addresses = default, priority="low", nonce=nonce1)
-            
-            db.session.add_all([bet_taker, bet_creator, nfl])
-            db.session.commit()
-            cache.clear()
-            flash("%s, You have action" % current_user.username,  "success")
-            return redirect(url_for("nfl.nfl_confirm_live_action", bet_key=bet_key))
+            try:
+                block_io.withdraw_from_addresses(amounts = bc_amount, from_addresses = bc, to_addresses = default, priority="low", nonce=nonce)
+                block_io.withdraw_from_addresses(amounts = bt_amount, from_addresses = bt, to_addresses = default, priority="low", nonce=nonce1)
+                db.session.add_all([bet_taker, bet_creator, nfl])
+                db.session.commit()
+                cache.clear()
+                flash("%s, You have action" % current_user.username,  "success")
+                return redirect(url_for("nfl.nfl_confirm_live_action", bet_key=bet_key))
+            except Exception:
+                exc = sys.exc_info()[1]
+                print exc 
+            # url = "/nfl/bet/action/%s/" % bet_key
+            # base = "http://localhost:8600"
+            # print base + url 
+            # post_url = base + url
+            # print block_io.create_notification(type="address", address = bc, url = post_url)
         else:
             flash("You or your opponent don't have enough money in their account to make this bet.  This is for your protection.", "danger")
             return redirect(url_for('nfl.nfl_edit_bet', bet_key=bet_key))

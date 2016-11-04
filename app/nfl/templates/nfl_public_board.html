@@ -31,8 +31,7 @@
                         {% for bet in tb %}
                             {% if bet.game_date > dt %}
                         <tr> 
-                             <td><img class="navpic" src="{{ bet.users.profile.imgsrc }}">&nbsp;&nbsp;&nbsp;
-                                {{ bet.users.username }}</td>
+                             <td><img class="navpic" src="{{ bet.users.profile.imgsrc }}">&nbsp;&nbsp;&nbsp;{{ bet.users.username }}</td>
                             <td>{{ bet.game_date|game_date }}</td>
                             <td>{{ bet.game_date|game_day }}</td>
                             <td>{{ bet.game_date|game_time }}</td>
@@ -58,8 +57,7 @@
                         {% for bet in sb %}
                             {% if bet.game_date > dt %}
                         <tr> 
-                             <td><img class="navpic" src="{{ bet.users.profile.imgsrc }}">&nbsp;&nbsp;&nbsp;
-                                {{ bet.users.username }}</td>
+                             <td><img class="navpic" src="{{ bet.users.profile.imgsrc }}">&nbsp;&nbsp;&nbsp;{{ bet.users.username }}</td>
                             <td>{{ bet.game_date|game_date }}</td>
                             <td>{{ bet.game_date|game_day }}</td>
                             <td>{{ bet.game_date|game_time }}</td>
