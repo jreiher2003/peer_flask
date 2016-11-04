@@ -7,101 +7,73 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   // call the tablesorter plugin
-  $("#offense_season_stats").DataTable({
-    // // debug: true,
-    // widgets: ["zebra"],
-    // theme: 'blue',
-    // 'order': [[2,1]]
+  $("table#offense_season_stats").DataTable({
+     "pageLength": 50,
+     "order": [[2,"desc"]],
   });
-  $('#offense_passing_season_stats').DataTable({
-    // debug: true,
-    // widgets: ["zebra"],
-    // theme: 'blue',
-    // sortList: [[5,1]]
+  $('table#offense_passing_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[5,"desc"]],  
     });
-  $('#offense_rushing_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[3,1]]
+  $('table#offense_rushing_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[3, "desc"]],
     });
-  $('#offense_receiving_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[3,1]]
+  $('table#offense_receiving_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[3, "desc"]],
     });
-  $('#offense_downs_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[2,1]]
+  $('table#offense_downs_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[2, "desc"]],
     });
   
   
    
-    $('#defense_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[2,0]]
-    }); 
-    $('#defense_passing_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[5,0]]
-    });
-    $('#defense_rushing_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[3,0]]
-    });
-    $('#defense_receiving_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[3,0]]
-    });
-    $('#defense_downs_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[2,0]]
-    });
-    $('#defense_tsif_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[5,1]]
-    });
+  $('table#defense_season_stats').DataTable({
+   "pageLength": 50,
+   "order": [[2,'asc']],
+  }); 
+  $('table#defense_passing_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[5,'asc']],
+  });
+  $('table#defense_rushing_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[3,'asc']],
+  });
+  $('table#defense_receiving_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[3,'asc']],
+  });
+  $('table#defense_downs_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[2,'asc']],
+  });
+  $('table#defense_tsif_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[5,'desc']],
+  });
 
-    $('#special_kicking_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[2,1]]
+  $('table#special_kicking_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[2,'desc']],
+   });
+  $('table#special_punting_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[4,'desc']],
     });
-    $('#special_punting_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[4,1]]
+  $('table#special_returns_season_stats').DataTable({
+    "pageLength": 50,
+    "order": [[4,'desc']],
     });
-    $('#special_returns_season_stats').tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[4,1]]
+  $("table#graded_bets_table").DataTable({
+     "pageLength": 10,
+     "order":[[2,'desc']],
     });
-    $("#graded_bets_table").tablesorter({
-        dateFormat: "uk",
-        sortList: [[0,1]],
-    });
-    $("#pending_bets_table").tablesorter({
-        dateFormat: "uk",
-        sortList: [[0,1]],
+  $("table#pending_bets_table").DataTable({
+     "pageLength": 10,
+     "order":[[0,'desc']],
     });
 
   
