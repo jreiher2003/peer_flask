@@ -1,23 +1,23 @@
-$(document).ready(function(){
-    $('#public__board')
-    .DataTable();
-    // .tablesorter({widthFixed: true, widgets: ['zebra']}) 
-    // .tablesorterPager({container: $("#pager")}); 
-});
+$(document).ready(function() {
+    $('table#public__board').DataTable( {
+        "iDisplayLength": -1,
+        "order": [[ 5, "desc" ]]
+    } );
+} );
 
 $(document).ready(function() {
   // call the tablesorter plugin
-  $("#offense_season_stats").tablesorter({
-    // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[2,1]]
+  $("#offense_season_stats").DataTable({
+    // // debug: true,
+    // widgets: ["zebra"],
+    // theme: 'blue',
+    // 'order': [[2,1]]
   });
-  $('#offense_passing_season_stats').tablesorter({
+  $('#offense_passing_season_stats').DataTable({
     // debug: true,
-    widgets: ["zebra"],
-    theme: 'blue',
-    sortList: [[5,1]]
+    // widgets: ["zebra"],
+    // theme: 'blue',
+    // sortList: [[5,1]]
     });
   $('#offense_rushing_season_stats').tablesorter({
     // debug: true,
@@ -104,17 +104,5 @@ $(document).ready(function() {
         sortList: [[0,1]],
     });
 
-  // Make table cell focusable
-  // http://css-tricks.com/simple-css-row-column-highlighting/
-  if ( $('.focus-highlight').length ) {
-    $('.focus-highlight').find('th, td')
-      .attr('tabindex', '0')
-      // add touch device support
-      .on('touchstart', function() {
-        $(this).focus();
-      });
-  }
-
-
-
+  
 });

@@ -1,88 +1,36 @@
-/* TABLE BACKGROUND color (match the original theme) */
-
-table.focus-highlight td:before {
-  background: #fff;
+.dataTables_wrapper, .dataTables_paginate, .paginate_button {
+    border: none !important;
+    padding: 0 !important;
 }
-
-/* ODD ZEBRA STRIPE color (needs zebra widget) */
-
-.focus-highlight .odd td:before, .focus-highlight .odd th:before {
-  background: #ebf2fa;
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    border: none;
 }
-/* EVEN ZEBRA STRIPE color (needs zebra widget) */
-
-.focus-highlight .even td:before, .focus-highlight .even th:before {
-  background-color: #fff;
+table.dataTable thead .sorting_asc {
+    background-image: none !important;
+    background-image: url("/static/img/arrows/icon-arrow-up-18.png") !important;
 }
-
-/* FOCUS ROW highlight color (touch devices) */
-.focus-highlight td:focus::before, .focus-highlight th:focus::before {
-  background-color: lightblue;
+table.dataTable thead .sorting_desc {
+    background-image: none !important;
+    background-image: url("/static/img/arrows/icon-arrow-down-18.png") !important;
 }
-/* FOCUS COLUMN highlight color (touch devices) */
-.focus-highlight td:focus::after, .focus-highlight th:focus::after {
-  background-color: lightblue;
+thead.thead {
+    background-color: #2780e3;
+    color: #fff;
 }
-/* FOCUS CELL highlight color */
-.focus-highlight th:focus, .focus-highlight td:focus,
-.focus-highlight .even th:focus, .focus-highlight .even td:focus,
-.focus-highlight .odd th:focus, .focus-highlight .odd td:focus {
-  background-color: #d9d9d9;
-  color: #333;
+tbody.tbody {
+    background-color: #fff;
 }
-
-
-
-/* ************************************************* */
-/* **** No need to modify the definitions below **** */
-/* ************************************************* */
-.focus-highlight td:focus::after, .focus-highlight th:focus::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 999em;
-  left: 0;
-  top: -555em;
-  z-index: -1;
+tr {
+    margin: 5px 0 5px 0;
 }
-.focus-highlight td:focus::before, .focus-highlight th:focus::before {
-  content: '';
-  position: absolute;
-  width: 999em;
-  height: 100%;
-  left: -555em;
-  top: 0;
-  z-index: -2;
+div#pager.pager {
+    top:0 !important;
+    position: relative !important;
 }
-/* required styles */
-
-.focus-highlight {
-  overflow: hidden;
-}
-
-.focus-highlight td, .focus-highlight th {
-  position: relative;
-  outline: 0;
-}
-/* override the tablesorter theme styling */
-
-table.focus-highlight, table.focus-highlight tbody > tr > td,
-/* override zebra styling */
-
-table.focus-highlight tbody tr.even > th,
-table.focus-highlight tbody tr.even > td,
-table.focus-highlight tbody tr.odd > th,
-table.focus-highlight tbody tr.odd > td {
-  background: transparent;
-}
-/* table background positioned under the highlight */
-
-table.focus-highlight td:before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  z-index: -3;
+.pagedisplay {
+    width: 90px;
+    text-align: center;
+    border-color: #2780e3;
+    margin-left: 10px;
+    margin-right: 10px;
 }
