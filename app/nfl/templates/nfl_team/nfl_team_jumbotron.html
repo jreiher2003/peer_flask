@@ -43,9 +43,9 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-2">
                 <form action="" method="get" enctype="multipart/form-data">
-                    <select id="goto_team">
+                    <select id="goto_team" class="form-control">
                         <option value="">Select Team</option>
                         {% for team in all_teams %}
                         <option value="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</option>

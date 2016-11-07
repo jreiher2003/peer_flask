@@ -82,6 +82,32 @@
         $('a#b_game_key').on('click', function(e) {e.preventDefault(); return true;});
     });
     </script>
+   <script type="text/javascript">
+      function checkForm(form) // Submit button clicked
+      {
+        form.submit.disabled = true;
+        form.submit.value = "Please wait...";
+        return true;
+      }
+      function OverUnder(form) // Submit button clicked
+      {
+        form.submit_o.disabled = true;
+        form.submit_o.value = "Please wait...";
+        return true;
+      }
+      function AwaySideForm(form) // Submit button clicked
+      {
+        form.submit_a.disabled = true;
+        form.submit_a.value = "Please wait...";
+        return true;
+      }
+      function HomeSideForm(form) // Submit button clicked
+      {
+        form.submit_h.disabled = true;
+        form.submit_h.value = "Please wait...";
+        return true;
+      }
+    </script>
     
   </body>
 </html>

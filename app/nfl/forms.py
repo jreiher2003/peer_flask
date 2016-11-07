@@ -55,3 +55,6 @@ class AwayTeamForm(Form):
     away_team_ml = IntegerField("Away Team ML")
     amount = TextField("Bet Amount", validators=[DataRequired(), NumberRange(min=0, message="All amounts must be positive")])#
     submit_a = SubmitField("Bet Away Team")
+
+class VSForm(Form):
+    submit = SubmitField("Bet This Opponent")

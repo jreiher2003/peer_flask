@@ -49,17 +49,18 @@
                         <div class="caption">
                         </div>
                     </div>
-                </div>
-            </div>
+                </div><!-- col-md-5 -->
+            </div><!-- end row -->
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <form method="POST" action="">
-                       
-                        <input type="submit" class="form-control btn btn-success btn-block" value="bet this opponent">
+                    <form method="POST" action="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=nfl.bet_key) }}" onsubmit="return checkForm(this);" >
+                        {{ form.csrf_token }}
+                        {{ form.submit(class="btn btn-success btn-block") }}
                         <div class="text-center"><a href="{{url_for('nfl.nfl_public_board') }}">cancel</a></div>
                     </form>
                 </div>
+            </div><!-- end row -->
         </div>
     </div>
-</div>
+</div><!-- end container -->
 {% endblock %}

@@ -1,4 +1,4 @@
-<form id="form-over" method="POST" action="{{ url_for('nfl.nfl_create_bet', game_key=nfl_game.GameKey) }}">
+<form id="form-over" method="POST" action="{{ url_for('nfl.nfl_create_bet', game_key=nfl_game.GameKey) }}"  onsubmit="return OverUnder(this);" >
     {{ form_o.csrf_token }}
     <div class="form-group">
         {{ render_field_with_errors(form_o.game_key, value=nfl_game.GameKey) }}

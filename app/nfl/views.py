@@ -9,7 +9,7 @@ from sqlalchemy import exc
 from app.users.models import Users, Role, UserRoles, Profile
 from .models import NFLOverUnderBet, NFLSideBet, NFLMLBet, Base
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
-from forms import OverUnderForm, HomeTeamForm, AwayTeamForm
+from forms import OverUnderForm, HomeTeamForm, AwayTeamForm, VSForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash, abort
 from flask_security import login_required, roles_required, current_user, roles_accepted
 from slugify import slugify
@@ -349,12 +349,12 @@ def nfl_delete_bet(bet_key):
 def nfl_bet_vs_bet(bet_key):
     try:
         nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
-    except exc.SQLAlchemyError:
-        print "No OverUnder bets"
+    except Exception:
+        print sys.exc_info()[1], "OverUnderBet"
     try:
         nfl = NFLSideBet.query.filter_by(bet_key=bet_key).one()
-    except exc.SQLAlchemyError:
-        print "No side bets"
+    except Exception:
+        print sys.exc_info()[1], "SideBets"
     bet_taker = Users.query.filter_by(id=current_user.id).one()
     bet_creator = Users.query.filter_by(id=nfl.users.id).one() 
     default = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7" # default block_io address
@@ -364,7 +364,9 @@ def nfl_bet_vs_bet(bet_key):
     nonce1 = make_salt(length=32)
     bc_amount = nfl.amount 
     bt_amount = nfl.amount 
-    if request.method == "POST":
+    form = VSForm()
+    if form.validate_on_submit():
+        #form validate on submit
         network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (bc), to_addresses = (bt), priority="low")
         network_fees = float(network_fees["data"]["estimated_network_fee"])
         if float(bet_taker.bitcoin_wallet.available_btc) >= float(nfl.amount+network_fees) and float(bet_creator.bitcoin_wallet.available_btc) >= float(nfl.amount+network_fees):
@@ -388,8 +390,8 @@ def nfl_bet_vs_bet(bet_key):
                 flash("%s, You have action" % current_user.username,  "success")
                 return redirect(url_for("nfl.nfl_confirm_live_action", bet_key=bet_key))
             except Exception:
-                exc = sys.exc_info()[1]
-                print exc 
+                print sys.exc_info()[1]
+                 
             # url = "/nfl/bet/action/%s/" % bet_key
             # base = "http://localhost:8600"
             # print base + url 
@@ -401,7 +403,8 @@ def nfl_bet_vs_bet(bet_key):
     return render_template(
         "nfl_vs_bet.html", 
         all_teams = all_nfl_teams(), 
-        nfl = nfl
+        nfl = nfl,
+        form = form,
         )
 
 @nfl_blueprint.route("/nfl/bet/action/<path:bet_key>/confirm/")
