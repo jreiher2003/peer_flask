@@ -221,12 +221,12 @@ def nfl_create_bet(game_key):
 def nfl_confirm_create_bet(bet_key):
     try:
         nfl_bet = NFLSideBet.query.filter_by(bet_key=bet_key).one()
-    except exc.SQLAlchemyError:
-        print "No Side Bets"
+    except Exception:
+        print sys.exc_info()[1], "SideBet"
     try:
         nfl_bet = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
-    except exc.SQLAlchemyError:
-        print "No Over Under bets"
+    except Exception:
+        print sys.exc_info()[1], "OverUnderBet"
     return render_template(
         'nfl_confirm_create_bet.html', 
         nfl_bet = nfl_bet, 
@@ -261,8 +261,8 @@ def nfl_edit_bet(bet_key):
                 else:
                     flash("You don't have enough money in your account to make this bet", "danger")
                     return redirect(url_for('nfl.nfl_edit_bet', bet_key=bet_key))
-    except exc.SQLAlchemyError:
-        print "No over under bets"
+    except Exception:
+        print sys.exc_info()[1], "OverUnderBet"
     try:
         nfl = NFLSideBet.query.filter_by(bet_key=bet_key).one() 
         if nfl is not None:
@@ -300,8 +300,8 @@ def nfl_edit_bet(bet_key):
                     else:
                         flash("You don't have enough money in your account to make this bet", "danger")
                         return redirect(url_for('nfl.nfl_edit_bet', bet_key=bet_key))
-    except exc.SQLAlchemyError:
-        print "No side bets"
+    except Exception:
+        print sys.exc_info()[1], "SideBet"
     return render_template(
         "nfl_edit_bet.html", 
         all_teams = all_nfl_teams(),
@@ -318,12 +318,12 @@ def nfl_edit_bet(bet_key):
 def nfl_delete_bet(bet_key):
     try:
         nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
-    except exc.SQLAlchemyError:
-        print "No Over Under Bets"
+    except Exception:
+        print sys.exc_info()[1], "OverUnderBet"
     try:
         nfl = NFLSideBet.query.filter_by(bet_key=bet_key).one()
-    except exc.SQLAlchemyError:
-        print "No Side Bets"
+    except Exception:
+        print sys.exc_info()[1], "SideBet"
     form = OverUnderForm()
     user = Users.query.filter_by(id=nfl.user_id).one()
     if nfl is not None:
@@ -390,7 +390,7 @@ def nfl_bet_vs_bet(bet_key):
                 flash("%s, You have action" % current_user.username,  "success")
                 return redirect(url_for("nfl.nfl_confirm_live_action", bet_key=bet_key))
             except Exception:
-                print sys.exc_info()[1]
+                print sys.exc_info()[1],"payment error"
                  
             # url = "/nfl/bet/action/%s/" % bet_key
             # base = "http://localhost:8600"
@@ -412,12 +412,12 @@ def nfl_bet_vs_bet(bet_key):
 def nfl_confirm_live_action(bet_key):
     try:
         live_bet = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
-    except exc.SQLAlchemyError:
-        print "No OverUnder Bets"
+    except Exception:
+        print sys.exc_info()[1], "OverUnderBet"
     try:
         live_bet = NFLSideBet.query.filter_by(bet_key=bet_key).one()
-    except exc.SQLAlchemyError:
-        print "No Side Bets"
+    except Exception:
+        print sys.exc_info()[1], "SideBet"
     return render_template(
         "nfl_confirm_live_action.html",
         all_teams = all_nfl_teams(), 

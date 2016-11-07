@@ -72,7 +72,7 @@ $(document).ready(function() {
      "order":[[2,'desc']],
     });
   $("table#pending_bets_table").DataTable({
-     "pageLength": 10,
+     "pageLength": 25,
      "order":[[0,'desc']],
     });
 
