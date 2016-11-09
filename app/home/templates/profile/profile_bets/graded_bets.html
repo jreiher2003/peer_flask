@@ -1,4 +1,5 @@
 <h4><u>Graded Bets</u></h4>
+{% if graded_sb or graded_ou or graded_ml %}
 <table id="graded_bets_table" class="table table-striped table-responsive" cellspacing="0" width="100%">
     <thead>
         <tr>
@@ -19,7 +20,6 @@
     </thead>
     <tbody>
 
-{% if graded_sb or graded_ou or graded_ml %}
     {% for b in graded_ou %}
         {% if b.user_id == current_user.id %}
         <tr>

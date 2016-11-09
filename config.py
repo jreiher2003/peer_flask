@@ -5,7 +5,7 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SECRET_KEY = os.environ['SECRET_KEY']
     # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-    SQLALCHEMY_DATABASE_URI = "sqlite:///peer.db"
+    SQLALCHEMY_DATABASE_URI = "postgresql://finn:finn7797@localhost:5432/peer"
     CACHE_TYPE = "memcached"
     BCRYPT_LOG_ROUNDS = 12
     MAIL_SERVER = os.environ["MAIL_SERVER"]

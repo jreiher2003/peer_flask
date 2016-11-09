@@ -1,5 +1,5 @@
 from dateutil.parser import parse as parse_date
-from app.users.models import Users, Role, UserRoles, Profile, Admin, BitcoinWallet
+from app.users.models import Users, Role, UserRoles, Profile, BitcoinWallet
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet,NFLMLBet
 from app.nfl_stats.models import NFLScore
 from app import app, db, block_io, bcrypt 
@@ -12,9 +12,9 @@ def create_users():
         role3 = Role(id=3,name="bookie", description="More privileges then basic user")
         db.session.add_all([role1,role2,role3])
         db.session.commit() 
-        user1 = Users(id=1,username="admin", email="jreiher2003@yahoo.com", password="password123456")
+        user1 = Users(id=1,username="finn", email="jreiher2003@yahoo.com", password="password123456")
         user2 = Users(id=2,username="j3ff_", email="jeffreiher@gmail.com", password="password123456")
-        user3 = Users(id=3, username="Nhilson", email="ken@gmail.com", password="password123456")
+        user3 = Users(id=3, username="Nhilson", email="jeffreiher@bulletmail.com", password="password123456")
         user4 = Users(id=4, username="Mike", email="mike@gmail.com", password="password123456")
         user5 = Users(id=5, username="Greg", email="greg@gmail.com", password="password123456")
         user6 = Users(id=6, username="Rob", email="rob@gmail.com", password="password123456")
@@ -25,7 +25,6 @@ def create_users():
         u1 = UserRoles(user_id=user1.id, role_id=role1.id)
         u11 = UserRoles(user_id=user1.id, role_id=role2.id)
         u12 = UserRoles(user_id=user1.id, role_id=role3.id)
-        admin = Admin(id=1, user_id=1)
         profile1 = Profile(id=1,avatar=None,user_id=1)
         # user 2
         u2 = UserRoles(user_id=user2.id, role_id=role2.id)
@@ -47,7 +46,7 @@ def create_users():
         u10 = UserRoles(user_id=user6.id, role_id=role2.id)
         u11 = UserRoles(user_id=user6.id, role_id=role3.id)
         profile6 = Profile(id=6,user_id=6)
-        db.session.add_all([u1,admin,u11,u12,profile1,u2,u3,profile2,u4,u5,profile3,u6,u7,profile4,u8,u9,profile5,u10,u11,profile6])
+        db.session.add_all([u1,u11,u12,profile1,u2,u3,profile2,u4,u5,profile3,u6,u7,profile4,u8,u9,profile5,u10,u11,profile6])
         db.session.commit()
 
 def create_wallets():
@@ -65,7 +64,6 @@ def update_profiles_bitcoin():
     user3 = Users.query.filter_by(id=3).one()
     user4 = Users.query.filter_by(id=4).one()
     user5 = Users.query.filter_by(id=5).one()
-    user1.admin.site_money = user1.bitcoin_wallet.available_btc 
     
     db.session.add_all([user1,user2,user3,user4,user5])
     db.session.commit()
@@ -83,16 +81,16 @@ def create_bet():
     bet1 = NFLOverUnderBet(id=1, bet_key=1, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", over_under="u", vs="NYG vs @MIN", total=42.5, amount=0.004, user_id=2, bet_taken=True, taken_by=3, taken_username="Nhilson")
     user2.profile.bets_created += 1
     user2.profile.bets_taken += 1
-    user2.profile.pending -= (bet1.amount + network_fees)
+    user2.profile.pending += (bet1.amount + network_fees)
     user3.profile.bets_taken += 1
-    user3.profile.pending -= (bet1.amount + network_fees)
+    user3.profile.pending += (bet1.amount + network_fees)
 
     bet2 = NFLSideBet(id=2, bet_key=2, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ps=3.5, team="NYG", amount=0.004, user_id=2, bet_taken=True, taken_by=3, taken_username="Nhilson")
     user2.profile.bets_created += 1
     user2.profile.bets_taken += 1
-    user2.profile.pending -= (bet2.amount + network_fees)
+    user2.profile.pending += (bet2.amount + network_fees)
     user3.profile.bets_taken += 1
-    user3.profile.pending -= (bet2.amount + network_fees)
+    user3.profile.pending += (bet2.amount + network_fees)
 
     # bet3 = NFLMLBet(id=3,bet_key=3, game_key=201610420, game_date=parse_date("10/3/2016 8:30:00 PM"), away_team="NYG", home_team="MIN", vs="NYG vs @MIN", ml=-125, team="MIN", amount=0.0004, user_id=1, bet_taken=True, taken_by=2, taken_username="Nhilson")
    
@@ -112,9 +110,9 @@ def create_bet():
     bet6 = NFLSideBet(id=6, bet_key=6, game_key=201610512, game_date=parse_date("10/9/2016 8:30:00 PM"), away_team="NYG", home_team="GB", vs="NYG vs @GB", ps=-7, team="GB", amount=0.004, user_id=2, bet_taken=True, taken_by=3, taken_username="Nhilson")
     user2.profile.bets_created += 1
     user2.profile.bets_taken += 1
-    user2.profile.pending -= (bet6.amount + network_fees)
+    user2.profile.pending += (bet6.amount + network_fees)
     user3.profile.bets_taken += 1
-    user3.profile.pending -= (bet6.amount + network_fees) 
+    user3.profile.pending += (bet6.amount + network_fees) 
 
     db.session.add_all([bet1, bet2, bet6, user2, user3])
     db.session.commit()
@@ -123,7 +121,7 @@ if __name__ == "__main__":
     db.drop_all()
     print "Just Dropped all tables"
     db.create_all()
-    create_users()
+    # create_users()
     # create_wallets()
     # update_profiles_bitcoin()
     # print "users created"

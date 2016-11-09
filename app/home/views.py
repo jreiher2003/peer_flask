@@ -28,7 +28,7 @@ def home():
         )
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
-# @cache.cached(timeout=300, key_prefix="user_profile")
+@cache.cached(timeout=300, key_prefix="user_profile")
 @login_required
 def profile():
     dt = datetime.now()
@@ -84,7 +84,7 @@ def update_profile():
                 db.session.add_all([user])
                 db.session.commit()
                 flash("Successful update", "warning")
-                cache.delete("update_profile")
+                cache.clear()
                 return redirect(url_for('home.profile'))
             except UploadNotAllowed:
                 flash("The upload was not allowed")
@@ -131,7 +131,7 @@ def bitcoin_widthdrawl():
         try: 
             block_io.withdraw_from_addresses(amounts = float(amount), from_addresses = str(current_user.bitcoin_wallet.address), to_addresses = str(address), priority="low", nonce=nonce)
             flash("You just send this amount of bitcoins %s BTC - to this address %s" % (address,amount), "info")
-            cache.delete("user_profile")
+            cache.clear()
             return redirect(url_for("home.profile"))
         except:
             print "Something went wrong"
@@ -163,7 +163,7 @@ def create_bitcoin():
             wallet = BitcoinWallet(label=btc["data"]["label"], address=btc["data"]["address"], user_id=current_user.id)
             db.session.add(wallet)
             db.session.commit()
-            cache.delete("user_profile")
+            cache.clear()
             flash("Just created a new Bitcoin Wallet, Now Make a deposit and start playing!", "success")
             return redirect(url_for("home.profile"))
         except exc.SQLAlchemyError:

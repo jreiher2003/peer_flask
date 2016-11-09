@@ -29,6 +29,7 @@ class NFLSchedule(db.Model):
     ForecastWindSpeed = db.Column(db.Integer)
     AwayTeamMoneyLine = db.Column(db.Integer)
     HomeTeamMoneyLine = db.Column(db.Integer)
+    Channel = db.Column(db.String)
 
     @property 
     def OverUnder_(self):
@@ -94,6 +95,7 @@ class NFLStandings(db.Model):
     DivisionLosses = db.Column(db.Integer)
     ConferenceWins = db.Column(db.Integer)
     ConferenceLosses = db.Column(db.Integer)
+
     
 
 class NFLTeam(db.Model):
@@ -102,6 +104,7 @@ class NFLTeam(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Key = db.Column(db.String)
     TeamID = db.Column(db.Integer)
+    PlayerID = db.Column(db.Integer)
     City = db.Column(db.String)
     Name = db.Column(db.String)
     Conference = db.Column(db.String)
@@ -116,6 +119,23 @@ class NFLTeam(db.Model):
     OffensiveScheme = db.Column(db.String)
     DefensiveScheme = db.Column(db.String)
     UpcomingOpponent = db.Column(db.String)
+    PrimaryColor = db.Column(db.String)
+    SecondaryColor = db.Column(db.String)
+    TertiaryColor = db.Column(db.String)
+    QuaternaryColor = db.Column(db.String)
+    WikipediaLogoUrl = db.Column(db.String)
+    WikipediaWordMarkUrl = db.Column(db.String)
+
+    UpcomingSalary = db.Column(db.Integer)
+    UpcomingOpponent = db.Column(db.String)
+    UpcomingOpponentRank = db.Column(db.Integer)
+    UpcomingOpponentPositionRank = db.Column(db.Integer)
+    UpcomingFanDuelSalary = db.Column(db.Integer)
+    UpcomingDraftKingsSalary = db.Column(db.Integer)
+    UpcomingYahooSalary = db.Column(db.Integer)
+    AverageDraftPosition = db.Column(db.Integer)
+    AverageDraftPositionPPR = db.Column(db.Integer)
+
 
 class NFLStadium(db.Model):
     __tablename__ = "stadium"
@@ -135,7 +155,7 @@ class NFLScore(db.Model):
     __tablename__ = "score"
 
     id = db.Column(db.Integer, primary_key=True)
-    GameKey = db.Column(db.Integer)
+    GameKey = db.Column(db.String)
     SeasonType = db.Column(db.Integer)
     Season = db.Column(db.Integer)
     Week = db.Column(db.Integer)
@@ -171,6 +191,25 @@ class NFLScore(db.Model):
     ForecastWindSpeed = db.Column(db.Integer)
     AwayTeamMoneyLine = db.Column(db.Integer)
     HomeTeamMoneyLine = db.Column(db.Integer)
+
+    TimeRemaining = db.Column(db.String)
+    Possession = db.Column(db.String)
+    Down = db.Column(db.String)
+    Distance = db.Column(db.String)
+    YardLine = db.Column(db.String)
+    YardLineTerritory = db.Column(db.String)
+    RedZone = db.Column(db.String)
+    DownAndDistance = db.Column(db.String)
+    Channel = db.Column(db.String)
+    Has1stQuarterStarted = db.Column(db.Boolean)
+    Has2ndQuarterStarted = db.Column(db.Boolean)
+    Has3rdQuarterStarted = db.Column(db.Boolean)
+    Has4thQuarterStarted = db.Column(db.Boolean)
+    Closed = db.Column(db.Boolean)
+    LastPlay = db.Column(db.String)
+    Quarter = db.Column(db.String)
+    IsInProgress = db.Column(db.Boolean)
+    Canceled = db.Column(db.Boolean)
 
     def cover_line(self):
         """this covers 0.0 ps's"""
@@ -465,6 +504,10 @@ class NFLTeamSeason(db.Model):
     KickReturnYardDifferential = db.Column(db.Integer)
     TwoPointConversionReturns = db.Column(db.Integer)
     OpponentTwoPointConversionReturns = db.Column(db.Integer)
+
+    WindSpeed = db.Column(db.Integer)
+    Temperature = db.Column(db.Integer)
+    Humidity = db.Column(db.Integer)
 
     ######################################################
     ####### total offensive ##############################

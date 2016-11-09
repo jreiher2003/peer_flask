@@ -11,8 +11,8 @@ from app.users.models import Users, Role, UserRoles, Profile
 class Base(db.Model):
     __tablename__ = "base"
     id = db.Column(db.Integer, primary_key=True)
-    game_key = db.Column(db.Integer)
-    bet_key = db.Column(db.Integer, unique=True) 
+    game_key = db.Column(db.String)
+    bet_key = db.Column(db.String, unique=True) 
     game_date = db.Column(db.DateTime)
     vs = db.Column(db.String)
     home_team = db.Column(db.String)
@@ -85,7 +85,7 @@ class NFLOverUnderBet(Base):
     total = db.Column(db.Integer)
     taken_by = db.Column(db.Integer) # other player id 
     taken_username = db.Column(db.String)
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'), index=True)
     users = db.relationship(Users, back_populates="nfl_ou_bet")
 
 class NFLSideBet(Base):
@@ -96,7 +96,7 @@ class NFLSideBet(Base):
     ps = db.Column(db.Integer, default=0.0)
     taken_by = db.Column(db.Integer) # other player id 
     taken_username = db.Column(db.String)
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'), index=True)
     users = db.relationship(Users, back_populates="nfl_side_bet")
 
 class NFLMLBet(Base):
@@ -107,14 +107,14 @@ class NFLMLBet(Base):
     ml = db.Column(db.Integer)
     taken_by = db.Column(db.Integer) # other player id
     taken_username = db.Column(db.String) 
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'), index=True)
     users = db.relationship(Users, back_populates="nfl_ml_bet")
    
 class NFLBetGraded(db.Model):
     __tablename__ = 'nfl_bet_graded'
 
     id = db.Column(db.Integer, primary_key=True)
-    game_key = db.Column(db.Integer)
+    game_key = db.Column(db.String)
     week = db.Column(db.String)
     game_date = db.column(db.DateTime)
     home_team = db.Column(db.String)

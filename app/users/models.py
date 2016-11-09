@@ -22,7 +22,6 @@ class Users(db.Model, UserMixin):
     current_login_ip = db.Column(db.String(45))
     login_count = db.Column(db.Integer, default=0)
     profile = db.relationship('Profile', uselist=False)
-    admin = db.relationship('Admin', uselist=False)
     bitcoin_wallet = db.relationship("BitcoinWallet", uselist=False)
     roles = db.relationship('Role', secondary='user_roles', backref=db.backref('users', lazy='dynamic'))
     nfl_ou_bet = db.relationship("NFLOverUnderBet")
@@ -73,8 +72,8 @@ class UserRoles(db.Model):
     __tablename__ = "user_roles"
     
     id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
-    role_id = db.Column(db.Integer(), db.ForeignKey('role.id', ondelete='CASCADE'))
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'), index=True)
+    role_id = db.Column(db.Integer(), db.ForeignKey('role.id', ondelete='CASCADE'), index=True)
 
 class Profile(db.Model):
     __tablename__ = "profile"
@@ -87,35 +86,19 @@ class Profile(db.Model):
     losses = db.Column(db.Integer, default=0)
     pushes = db.Column(db.Integer, default=0)
     pending = db.Column(db.Integer, default=0)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True)
 
     @property 
     def imgsrc(self):
         return uploaded_photos.url(self.avatar)
  
-
-class Admin(db.Model):
-    __tablename__ = "admin"
-
-    id = db.Column(db.Integer(), primary_key=True)
-    avatar = db.Column(db.String)
-    bets_created = db.Column(db.Integer, default=0)
-    bets_taken = db.Column(db.Integer, default=0)
-    ratio_c_t = db.Column(db.Integer, default=0)
-    pending = db.Column(db.Integer, default=0)
-    graded = db.Column(db.Integer, default=0)
-    total_player_risk = db.Column(db.Integer, default=0)
-    total_player_win = db.Column(db.Integer,default=0)
-    site_money = db.Column(db.Integer, default=0)
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
-
 class BitcoinWallet(db.Model):
     __tablename__ = "bitcoin_wallet"
 
     id = db.Column(db.Integer(), primary_key=True)
     label = db.Column(db.String)
     address = db.Column(db.String)
-    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
+    user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'), index=True)
 
     @property 
     def available_btc(self):
@@ -127,6 +110,20 @@ class BitcoinWallet(db.Model):
         avail = block_io.get_address_by_label(label=self.label)
         return float(avail["data"]["pending_received_balance"])
 
+# class Admin(db.Model):
+#     __tablename__ = "admin"
+
+#     id = db.Column(db.Integer(), primary_key=True)
+#     avatar = db.Column(db.String)
+#     bets_created = db.Column(db.Integer, default=0)
+#     bets_taken = db.Column(db.Integer, default=0)
+#     ratio_c_t = db.Column(db.Integer, default=0)
+#     pending = db.Column(db.Integer, default=0)
+#     graded = db.Column(db.Integer, default=0)
+#     total_player_risk = db.Column(db.Integer, default=0)
+#     total_player_win = db.Column(db.Integer,default=0)
+#     site_money = db.Column(db.Integer, default=0)
+#     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'))
 
 
 

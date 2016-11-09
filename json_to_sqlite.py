@@ -1,14 +1,13 @@
-"""Json to sqlite3 script to dump data into a data base """
+"""Json to sqlite3/postgres script to dump data into a data base """
 import json
-import sqlite3
+import psycopg2
 import time
 from dateutil.parser import parse as parse_date
 from app import app, db, cache
-from app.nfl.models import NFLBetGraded
-from app.nfl_stats.models import NFLScore
+from app.users.models import Users, Role, UserRoles, Profile, BitcoinWallet
+from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet, Base
+from app.nfl_stats.models import NFLScore, NFLTeam, NFLStadium, NFLSchedule, NFLStandings, NFLTeamSeason
 from app.home.utils import kitchen_sink
-
-
 
 schedule = json.load(open('sports/Schedule.2016.json'))
 stadium = json.load(open("sports/Stadium.2016.json"))
@@ -16,117 +15,86 @@ team = json.load(open("sports/Team.2016.json"))
 standing = json.load(open("sports/Standing.2016.json"))
 score = json.load(open("sports/Score.2016.json"))
 teamseason = json.load(open("sports/TeamSeason.2016.json"))
-
-def connect():
-    """Connect to the sqlite database.  Returns a database connection."""
-    conn = sqlite3.connect("app/peer.db")
-    c = conn.cursor()
-    return conn, c
-
-def close():
-    """ commit changes and close db connection """
-    conn.commit()
-    return conn.close()
-
 ###############################################
 ############## populate schedule ##############
 ##### create schedule ########################
 ###############################################
-def create_schedule():
-    cs = c.execute("""CREATE TABLE IF NOT EXISTS schedule (id INTEGER PRIMARY KEY, Week INTEGER, AwayTeamMoneyLine INTEGER, StadiumID INTEGER, GameKey TEXT, Canceled BOOLEAN, Season INTEGER, HomeTeam TEXT, ForecastWindSpeed INTEGER, OverUnder REAL, GeoLong REAL, ForecastDescription INTEGER, AwayTeam TEXT, ForecastTempLow INTEGER, PointSpread REAL, ForecastWindChill INTEGER, ForecastTempHigh INTEGER, Date TEXT, GeoLat REAL, SeasonType INTEGER, Channel NULL, HomeTeamMoneyLine INTEGER)""")
-    print "schedule created"
-    return cs
+def create_roles():
+    role1 = Role(id=1,name="admin", description="Admin of site")
+    role2 = Role(id=2,name="player", description="basic user of site")
+    role3 = Role(id=3,name="bookie", description="More privileges then basic user")
+    db.session.add_all([role1,role2,role3])
+    db.session.commit() 
+    print "create roles table"
 
 def populate_schedule():
-    for item in schedule:
-        c.execute("""insert into schedule (Week,AwayTeamMoneyLine,StadiumID,GameKey,Canceled,Season,HomeTeam,ForecastWindSpeed,OverUnder,GeoLong,ForecastDescription,AwayTeam,ForecastTempLow,PointSpread,ForecastWindChill,ForecastTempHigh,Date,GeoLat,SeasonType,Channel,HomeTeamMoneyLine) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", item.values())
+    NFLSchedule.__table__.drop(db.engine)
+    NFLSchedule.__table__.create(db.engine)
+    for i in schedule:
+        nn = NFLSchedule(Week=i["Week"],AwayTeamMoneyLine=i["AwayTeamMoneyLine"],StadiumID=i["StadiumID"],GameKey=i["GameKey"],Canceled=i["Canceled"],Season=i["Season"],HomeTeam=i["HomeTeam"],ForecastWindSpeed=i["ForecastWindSpeed"],OverUnder=i["OverUnder"],GeoLong=i["GeoLong"],ForecastDescription=i["ForecastDescription"],AwayTeam=i["AwayTeam"],ForecastTempLow=i["ForecastTempLow"],PointSpread=i["PointSpread"],ForecastWindChill=i["ForecastWindChill"],ForecastTempHigh=i["ForecastTempHigh"],Date=i["Date"],GeoLat=i["GeoLat"],SeasonType=i["SeasonType"],Channel=i["Channel"],HomeTeamMoneyLine=i["HomeTeamMoneyLine"])
+        db.session.add(nn)
+        db.session.commit()
     print "populated schedule"
-
-
 ###################################################
 ########## populate_stadium #######################
 ######  create_stadium ############################
 ###################################################
-def create_stadium():
-    cs = c.execute("""CREATE TABLE IF NOT EXISTS stadium (id INTEGER PRIMARY KEY, StadiumID INTEGER, Name TEXT, City TEXT, State TEXT, Country TEXT, Capacity INTEGER, PlayingSurface TEXT, GeoLat REAL, GeoLong REAL)""")
-    print "create stadium"
-    return cs 
-
 def populate_stadium():
-    columns = list(stadium[0].keys())
-    query = "({0}) values ({1})".format(",".join(columns),",?" * len(columns))
-    for item in stadium:
-        c.execute("""insert into stadium (City,StadiumID,Capacity,Name,PlayingSurface,Country,GeoLong,State,GeoLat) values (?,?,?,?,?,?,?,?,?)""", item.values())
+    NFLStadium.__table__.drop(db.engine)
+    NFLStadium.__table__.create(db.engine)
+    for i in stadium:
+        st = NFLStadium(City=i["City"],StadiumID=i["StadiumID"],Capacity=i["Capacity"],Name=i["Name"],PlayingSurface=i["PlayingSurface"],Country=i["Country"],GeoLong=i["GeoLong"],State=i["State"],GeoLat=i["GeoLat"])
+        db.session.add(st)
+        db.session.commit()
     print "stadium table populated"
-
-
 ###################################################
 ###### create Team table ##########################
 ###### populate team ##############################
 ###################################################
-def create_team():
-    ct = c.execute("""CREATE TABLE IF NOT EXISTS team (id INTEGER PRIMARY KEY, Key TEXT, TeamID INTEGER, PlayerID INTEGER, City TEXT, Name TEXT, Conference TEXT, Division TEXT, FullName TEXT, StadiumID INTEGER, ByeWeek INTEGER, AverageDraftPosition INTEGER, AverageDraftPositionPPR INTEGER, HeadCoach TEXT, OffensiveCoordinator TEXT, DefensiveCoordinator TEXT, SpecialTeamsCoach TEXT, OffensiveScheme TEXT, DefensiveScheme TEXT, UpcomingSalary INTEGER, UpcomingOpponent TEXT, UpcomingOpponentRank INTEGER, UpcomingOpponentPositionRank INTEGER, UpcomingFanDuelSalary INTEGER, UpcomingDraftKingsSalary INTEGER, UpcomingYahooSalary INTEGER)""")
-    print "create team table"
-    return ct
-
 def populate_team():
-    columns = list(team[0].keys())
-    query = "({0}) values ({1})".format(",".join(columns),",?" * len(columns))
-    for item in team:
-        c.execute("""insert into team (Conference,City,DefensiveScheme,PlayerID,ByeWeek,UpcomingSalary,UpcomingOpponentRank,UpcomingYahooSalary,Division,UpcomingDraftKingsSalary,DefensiveCoordinator,AverageDraftPositionPPR,Key,SpecialTeamsCoach,Name,UpcomingOpponent,AverageDraftPosition,UpcomingOpponentPositionRank,StadiumID,OffensiveCoordinator,OffensiveScheme,TeamID,UpcomingFanDuelSalary,HeadCoach,FullName) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",item.values())
+    NFLTeam.__table__.drop(db.engine)
+    NFLTeam.__table__.create(db.engine)
+    for i in team:
+        t = NFLTeam(Conference=i["Conference"],City=i["City"],WikipediaLogoUrl=i["WikipediaWordMarkUrl"],DefensiveScheme=i["DefensiveScheme"],PlayerID=i["PlayerID"],ByeWeek=i["ByeWeek"],UpcomingSalary=i["UpcomingSalary"],SecondaryColor=i["SecondaryColor"],UpcomingOpponentRank=i["UpcomingOpponentRank"],UpcomingYahooSalary=i["UpcomingYahooSalary"],QuaternaryColor=i["QuaternaryColor"],Division=i["Division"],UpcomingDraftKingsSalary=i["UpcomingDraftKingsSalary"],DefensiveCoordinator=i["DefensiveCoordinator"],AverageDraftPositionPPR=i["AverageDraftPositionPPR"],Key=i["Key"],SpecialTeamsCoach=i["SpecialTeamsCoach"],Name=i["Name"],UpcomingOpponent=i["UpcomingOpponent"],TertiaryColor=i["TertiaryColor"],AverageDraftPosition=i["AverageDraftPosition"],UpcomingOpponentPositionRank=i["UpcomingOpponentPositionRank"],StadiumID=i["StadiumID"],OffensiveCoordinator=i["OffensiveCoordinator"],OffensiveScheme=i["OffensiveScheme"],TeamID=i["TeamID"],UpcomingFanDuelSalary=i["UpcomingFanDuelSalary"],HeadCoach=i["HeadCoach"],PrimaryColor=i["PrimaryColor"],WikipediaWordMarkUrl=i["WikipediaWordMarkUrl"],FullName=i["FullName"])
+        db.session.add(t)
+        db.session.commit()
     print "populate team table"
-
 ###########################################################
 ############## create standing table ######################
 ######### populate standing ###############################
 ###########################################################
-def create_standing():
-    cs = c.execute("""CREATE TABLE IF NOT EXISTS standing (id INTEGER PRIMARY KEY, SeasonType INTEGER, Season INTEGER, Conference TEXT, Division TEXT, Team TEXT, Name TEXT, Wins INTEGER, Losses INTEGER, Ties INTEGER, Percentage NUMERIC, PointsFor INTEGER, PointsAgainst INTEGER, NetPoints INTEGER, Touchdowns INTEGER, DivisionWins INTEGER, DivisionLosses INTEGER, ConferenceWins INTEGER, ConferenceLosses INTEGER)""")
-    print "create standing table"
-    return cs
-    
 def populate_standing():
-    columns = list(standing[0].keys())
-    query = "({0}) values ({1})".format(",".join(columns),",?" * len(columns))
-    for item in standing:
-        c.execute("""insert into standing (Conference,Division,PointsAgainst,NetPoints,Name,Wins,Season,Touchdowns,Losses,PointsFor,ConferenceWins,DivisionLosses,Team,Ties,Percentage,DivisionWins,SeasonType,ConferenceLosses) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", item.values())
+    NFLStandings.__table__.drop(db.engine)
+    NFLStandings.__table__.create(db.engine)
+    for i in standing:
+        tt = NFLStandings(Conference=i["Conference"],Division=i["Division"],PointsAgainst=i["PointsAgainst"],NetPoints=i["NetPoints"],Name=i["Name"],Wins=i["Wins"],Season=i["Season"],Touchdowns=i["Touchdowns"],Losses=i["Losses"],PointsFor=i["PointsFor"],ConferenceWins=i["ConferenceWins"],DivisionLosses=i["DivisionLosses"],Team=i["Team"],Ties=i["Ties"],Percentage=i["Percentage"],DivisionWins=i["DivisionWins"],SeasonType=i["SeasonType"],ConferenceLosses=i["ConferenceLosses"])
+        db.session.add(tt)
+        db.session.commit()
     print "populate standing table"
-
 ######################################################
 ########## create score ##############################
 ########## populate score table ######################
 ######################################################
-def create_score():
-    cs = c.execute("""CREATE TABLE IF NOT EXISTS score (id INTEGER PRIMARY KEY, GameKey TEXT, SeasonType INTEGER, Season INTEGER, Week INTEGER, Date TEXT, AwayTeam TEXT, HomeTeam TEXT, AwayScore INTEGER, HomeScore INTEGER, Channel TEXT, PointSpread REAL, OverUnder REAL, Quarter TEXT, TimeRemaining NULL, Possession NULL, Down NULL, Distance NULL, YardLine NULL, YardLineTerritory NULL, RedZone NULL, AwayScoreQuarter1 INTEGER, AwayScoreQuarter2 INTEGER, AwayScoreQuarter3 INTEGER, AwayScoreQuarter4 INTEGER, AwayScoreOvertime INTEGER, HomeScoreQuarter1 INTEGER, HomeScoreQuarter2 INTEGER, HomeScoreQuarter3 INTEGER, HomeScoreQuarter4 INTEGER,
-        HomeScoreOvertime INTEGER, HasStarted BOOLEAN, IsInProgress BOOLEAN, IsOver BOOLEAN, Has1stQuarterStarted BOOLEAN,Has2ndQuarterStarted BOOLEAN, Has3rdQuarterStarted BOOLEAN, Has4thQuarterStarted BOOLEAN, IsOvertime BOOLEAN, DownAndDistance NULL, QuarterDescription TEXT, StadiumID INTEGER, LastUpdated NUMERIC, GeoLat REAL, GeoLong REAL, ForecastTempLow INTEGER, ForecastTempHigh INTEGER, ForecastDescription TEXT, ForecastWindChill INTEGER, ForecastWindSpeed INTEGER, AwayTeamMoneyLine INTEGER, HomeTeamMoneyLine INTEGER, Canceled BOOLEAN, Closed BOOLEAN, LastPlay NULL)""")
-    print "create score table"
-    return cs
-        
 def populate_score():
-    columns = list(score[0].keys())
-    query = "({0}) values ({1})".format(",".join(columns),",?" * len(columns))
-    for item in score:
-        c.execute("""insert into score (TimeRemaining,HomeScoreQuarter1,HomeScoreQuarter2,HomeScoreQuarter3,HomeScoreQuarter4,Distance,OverUnder,Has4thQuarterStarted,AwayTeam,ForecastTempLow,PointSpread,GeoLong,Closed,QuarterDescription,YardLineTerritory,Channel,Week,Down,Has2ndQuarterStarted,GameKey,Has3rdQuarterStarted,ForecastWindSpeed,AwayScoreOvertime,Season,SeasonType,ForecastDescription,Has1stQuarterStarted,ForecastWindChill,Date,ForecastTempHigh,IsOvertime,RedZone,Possession,IsInProgress,HomeScoreOvertime,DownAndDistance,HasStarted,AwayScoreQuarter4,AwayScoreQuarter1,AwayScoreQuarter3,AwayScoreQuarter2,AwayTeamMoneyLine,Quarter,IsOver,StadiumID,GeoLat,AwayScore,HomeTeam,LastPlay,LastUpdated,HomeScore,Canceled,HomeTeamMoneyLine,YardLine) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", item.values())
+    NFLScore.__table__.drop(db.engine)
+    NFLScore.__table__.create(db.engine)
+    for i in score:
+        tt = NFLScore(TimeRemaining=i["TimeRemaining"],HomeScoreQuarter1=i["HomeScoreQuarter1"],HomeScoreQuarter2=i["HomeScoreQuarter2"],HomeScoreQuarter3=i["HomeScoreQuarter3"],HomeScoreQuarter4=i["HomeScoreQuarter4"],Distance=i["Distance"],OverUnder=i["OverUnder"],Has4thQuarterStarted=i["Has4thQuarterStarted"],AwayTeam=i["AwayTeam"],ForecastTempLow=i["ForecastTempLow"],PointSpread=i["PointSpread"],GeoLong=i["GeoLong"],Closed=i["Closed"],QuarterDescription=i["QuarterDescription"],YardLineTerritory=i["YardLineTerritory"],Channel=i["Channel"],Week=i["Week"],Down=i["Down"],Has2ndQuarterStarted=i["Has2ndQuarterStarted"],GameKey=i["GameKey"],Has3rdQuarterStarted=i["Has3rdQuarterStarted"],ForecastWindSpeed=i["ForecastWindSpeed"],AwayScoreOvertime=i["AwayScoreOvertime"],Season=i["Season"],SeasonType=i["SeasonType"],ForecastDescription=i["ForecastDescription"],Has1stQuarterStarted=i["Has1stQuarterStarted"],ForecastWindChill=i["ForecastWindChill"],Date=i["Date"],ForecastTempHigh=i["ForecastTempHigh"],IsOvertime=i["IsOvertime"],RedZone=i["RedZone"],Possession=i["Possession"],IsInProgress=i["IsInProgress"],HomeScoreOvertime=i["HomeScoreOvertime"],DownAndDistance=i["DownAndDistance"],HasStarted=i["HasStarted"],AwayScoreQuarter4=i["AwayScoreQuarter4"],AwayScoreQuarter1=i["AwayScoreQuarter1"],AwayScoreQuarter3=i["AwayScoreQuarter3"],AwayScoreQuarter2=i["AwayScoreQuarter2"],AwayTeamMoneyLine=i["AwayTeamMoneyLine"],Quarter=i["Quarter"],IsOver=i["IsOver"],StadiumID=i["StadiumID"],GeoLat=i["GeoLat"],AwayScore=i["AwayScore"],HomeTeam=i["HomeTeam"],LastPlay=i["LastPlay"],LastUpdated=i["LastUpdated"],HomeScore=i["HomeScore"],Canceled=i["Canceled"],HomeTeamMoneyLine=i["HomeTeamMoneyLine"],YardLine=i["YardLine"])
+        db.session.add(tt)
+        db.session.commit()
     print "populate score table"
 
 #############################################################
 ############ create teamseason ##############################
 ############ populate teamseason table ######################
 #############################################################
-def create_teamseason():
-    cts = c.execute("""CREATE TABLE IF NOT EXISTS teamseason (id INTEGER PRIMARY KEY, SeasonType INTEGER, Season INTEGER, Team TEXT, Score INTEGER, OpponentScore INTEGER, TotalScore INTEGER, Temperature INTEGER, Humidity INTEGER, WindSpeed INTEGER, OverUnder REAL, PointSpread REAL, ScoreQuarter1 INTEGER, ScoreQuarter2 INTEGER, ScoreQuarter3 INTEGER, ScoreQuarter4 INTEGER, ScoreOvertime INTEGER, TimeOfPossession TEXT, FirstDowns INTEGER, FirstDownsByRushing INTEGER, FirstDownsByPassing INTEGER, FirstDownsByPenalty INTEGER, OffensivePlays INTEGER, OffensiveYards INTEGER, OffensiveYardsPerPlay NUMERIC, Touchdowns INTEGER, RushingAttempts INTEGER, RushingYards INTEGER, RushingYardsPerAttempt INTEGER, RushingTouchdowns INTEGER, PassingAttempts INTEGER, PassingCompletions INTEGER, PassingYards INTEGER, PassingTouchdowns INTEGER, PassingInterceptions INTEGER,
-        PassingYardsPerAttempt NUMERIC, PassingYardsPerCompletion NUMERIC, CompletionPercentage NUMERIC, PasserRating NUMERIC, ThirdDownAttempts INTEGER, ThirdDownConversions INTEGER, ThirdDownPercentage NUMERIC, FourthDownAttempts INTEGER, FourthDownConversions INTEGER, FourthDownPercentage NUMERIC, RedZoneAttempts INTEGER, RedZoneConversions INTEGER, GoalToGoAttempts INTEGER, GoalToGoConversions INTEGER, ReturnYards INTEGER, Penalties INTEGER, PenaltyYards INTEGER, Fumbles INTEGER, FumblesLost INTEGER, TimesSacked INTEGER, TimesSackedYards INTEGER, QuarterbackHits INTEGER, TacklesForLoss INTEGER, Safeties INTEGER, Punts INTEGER, PuntYards INTEGER, PuntAverage NUMERIC, Giveaways INTEGER, Takeaways INTEGER, TurnoverDifferential INTEGER, OpponentScoreQuarter1 INTEGER, OpponentScoreQuarter2 INTEGER, OpponentScoreQuarter3 INTEGER, OpponentScoreQuarter4 INTEGER, OpponentScoreOvertime INTEGER, OpponentTimeOfPossession TEXT, OpponentFirstDowns INTEGER, OpponentFirstDownsByRushing INTEGER, OpponentFirstDownsByPassing INTEGER, OpponentFirstDownsByPenalty INTEGER, OpponentOffensivePlays INTEGER, OpponentOffensiveYards INTEGER, OpponentOffensiveYardsPerPlay NUMERIC, OpponentTouchdowns INTEGER, OpponentRushingAttempts INTEGER, OpponentRushingYards INTEGER, OpponentRushingYardsPerAttempt NUMERIC, OpponentRushingTouchdowns INTEGER, OpponentPassingAttempts INTEGER, OpponentPassingCompletions INTEGER, OpponentPassingYards INTEGER, OpponentPassingTouchdowns INTEGER, OpponentPassingInterceptions INTEGER, OpponentPassingYardsPerAttempt NUMERIC, OpponentPassingYardsPerCompletion NUMERIC, OpponentCompletionPercentage INTEGER, OpponentPasserRating NUMERIC, OpponentThirdDownAttempts INTEGER, OpponentThirdDownConversions INTEGER, OpponentThirdDownPercentage NUMERIC, OpponentFourthDownAttempts INTEGER, OpponentFourthDownConversions INTEGER, OpponentFourthDownPercentage NUMERIC, OpponentRedZoneAttempts INTEGER, OpponentRedZoneConversions INTEGER, OpponentGoalToGoAttempts INTEGER, OpponentGoalToGoConversions INTEGER, OpponentReturnYards INTEGER, OpponentPenalties INTEGER, OpponentPenaltyYards INTEGER, OpponentFumbles INTEGER, OpponentFumblesLost INTEGER, OpponentTimesSacked INTEGER, OpponentTimesSackedYards INTEGER, OpponentQuarterbackHits INTEGER, OpponentTacklesForLoss INTEGER, OpponentSafeties INTEGER, OpponentPunts INTEGER, OpponentPuntYards INTEGER, OpponentPuntAverage NUMERIC, OpponentGiveaways INTEGER, OpponentTakeaways INTEGER, OpponentTurnoverDifferential INTEGER, RedZonePercentage NUMERIC, GoalToGoPercentage NUMERIC, QuarterbackHitsDifferential INTEGER, TacklesForLossDifferential INTEGER, QuarterbackSacksDifferential INTEGER, TacklesForLossPercentage NUMERIC, QuarterbackHitsPercentage NUMERIC, TimesSackedPercentage NUMERIC, OpponentRedZonePercentage NUMERIC, OpponentGoalToGoPercentage NUMERIC, OpponentQuarterbackHitsDifferential INTEGER,
-            OpponentTacklesForLossDifferential INTEGER, OpponentQuarterbackSacksDifferential INTEGER, OpponentTacklesForLossPercentage NUMERIC, OpponentQuarterbackHitsPercentage NUMERIC, OpponentTimesSackedPercentage NUMERIC, Kickoffs INTEGER, KickoffsInEndZone INTEGER, KickoffTouchbacks INTEGER, PuntsHadBlocked INTEGER, PuntNetAverage NUMERIC, ExtraPointKickingAttempts INTEGER, ExtraPointKickingConversions INTEGER, ExtraPointsHadBlocked INTEGER, ExtraPointPassingAttempts INTEGER, ExtraPointPassingConversions INTEGER, ExtraPointRushingAttempts INTEGER, ExtraPointRushingConversions INTEGER, FieldGoalAttempts INTEGER, FieldGoalsMade INTEGER, FieldGoalsHadBlocked INTEGER, PuntReturns INTEGER, PuntReturnYards INTEGER, KickReturns INTEGER, KickReturnYards INTEGER, InterceptionReturns INTEGER, InterceptionReturnYards INTEGER, OpponentKickoffs INTEGER, OpponentKickoffsInEndZone INTEGER, OpponentKickoffTouchbacks INTEGER, OpponentPuntsHadBlocked INTEGER, OpponentPuntNetAverage INTEGER, OpponentExtraPointKickingAttempts INTEGER, OpponentExtraPointKickingConversions INTEGER, OpponentExtraPointsHadBlocked INTEGER, OpponentExtraPointPassingAttempts INTEGER, OpponentExtraPointPassingConversions INTEGER, 
-                OpponentExtraPointRushingAttempts INTEGER, OpponentExtraPointRushingConversions INTEGER, OpponentFieldGoalAttempts INTEGER, OpponentFieldGoalsMade INTEGER, OpponentFieldGoalsHadBlocked INTEGER, OpponentPuntReturns INTEGER, OpponentPuntReturnYards INTEGER, OpponentKickReturns INTEGER, OpponentKickReturnYards INTEGER, OpponentInterceptionReturns INTEGER, OpponentInterceptionReturnYards INTEGER, SoloTackles INTEGER, AssistedTackles INTEGER, Sacks INTEGER, SackYards INTEGER, PassesDefended INTEGER, FumblesForced INTEGER, FumblesRecovered INTEGER, FumbleReturnYards INTEGER, FumbleReturnTouchdowns INTEGER, InterceptionReturnTouchdowns INTEGER, BlockedKicks INTEGER, PuntReturnTouchdowns INTEGER, PuntReturnLong INTEGER, KickReturnTouchdowns INTEGER, KickReturnLong INTEGER, BlockedKickReturnYards INTEGER, BlockedKickReturnTouchdowns INTEGER, FieldGoalReturnYards INTEGER, FieldGoalReturnTouchdowns INTEGER, PuntNetYards INTEGER, OpponentSoloTackles INTEGER, OpponentAssistedTackles INTEGER, OpponentSacks INTEGER, OpponentSackYards INTEGER, OpponentPassesDefended INTEGER, OpponentFumblesForced INTEGER, OpponentFumblesRecovered INTEGER, OpponentFumbleReturnYards INTEGER, OpponentFumbleReturnTouchdowns INTEGER, OpponentInterceptionReturnTouchdowns INTEGER, OpponentBlockedKicks INTEGER, OpponentPuntReturnTouchdowns INTEGER, OpponentPuntReturnLong INTEGER, OpponentKickReturnTouchdowns INTEGER, OpponentKickReturnLong INTEGER, OpponentBlockedKickReturnYards INTEGER, OpponentBlockedKickReturnTouchdowns INTEGER, OpponentFieldGoalReturnYards INTEGER, OpponentFieldGoalReturnTouchdowns INTEGER, OpponentPuntNetYards INTEGER, TeamName TEXT, Games INTEGER, PassingDropbacks INTEGER, OpponentPassingDropbacks INTEGER, TeamSeasonID INTEGER, PointDifferential INTEGER, PassingInterceptionPercentage NUMERIC, PuntReturnAverage NUMERIC, KickReturnAverage NUMERIC, ExtraPointPercentage NUMERIC, FieldGoalPercentage NUMERIC, OpponentPassingInterceptionPercentage NUMERIC, OpponentPuntReturnAverage NUMERIC, OpponentKickReturnAverage NUMERIC, OpponentExtraPointPercentage NUMERIC, OpponentFieldGoalPercentage NUMERIC, PenaltyYardDifferential INTEGER, PuntReturnYardDifferential INTEGER, KickReturnYardDifferential INTEGER, TwoPointConversionReturns INTEGER, OpponentTwoPointConversionReturns INTEGER)""")
-    print "create teamseason table"
-    return cts
-
 def populate_teamseason():
-    columns = list(teamseason[0].keys())
-    query = "({0}) values ({1})".format(",".join(columns),",?" * len(columns))
-    # print query
-    for item in teamseason:
-        c.execute("""insert into teamseason (OpponentPuntReturnLong,RushingTouchdowns,OpponentSafeties,OpponentQuarterbackHitsDifferential,FieldGoalPercentage,WindSpeed,ExtraPointRushingConversions,OpponentPuntYards,FumblesLost,OpponentExtraPointsHadBlocked,PuntNetAverage,ExtraPointKickingConversions,PointDifferential,OpponentPassingYardsPerCompletion,PassingInterceptions,OpponentPuntReturns,PassingYards,OpponentGoalToGoConversions,OpponentFourthDownConversions,OpponentPassingInterceptionPercentage,GoalToGoPercentage,BlockedKicks,ReturnYards,OpponentKickReturnLong,OpponentFieldGoalsHadBlocked,OpponentSackYards,CompletionPercentage,Fumbles,ThirdDownAttempts,OpponentPunts,RedZoneConversions,OpponentKickReturnYards,PassesDefended,OpponentTimesSacked,TeamName,OpponentThirdDownPercentage,Penalties,OpponentFieldGoalAttempts,Safeties,OpponentRedZoneConversions,OpponentBlockedKickReturnYards,OpponentPenaltyYards,OpponentThirdDownAttempts,OpponentBlockedKickReturnTouchdowns,Touchdowns,TimesSackedPercentage,FirstDowns,Kickoffs,OpponentTurnoverDifferential,InterceptionReturns,TimesSacked,ExtraPointPassingConversions,PenaltyYards,QuarterbackHitsDifferential,PassingInterceptionPercentage,ScoreQuarter4,ScoreQuarter3,ScoreQuarter2,OpponentRushingTouchdowns,OpponentPassingInterceptions,OpponentGoalToGoAttempts,OpponentFourthDownAttempts,RedZonePercentage,RushingAttempts,Season,PuntReturns,FieldGoalReturnYards,OpponentReturnYards,GoalToGoConversions,OpponentFirstDownsByRushing,Punts,FumbleReturnTouchdowns,TotalScore,OpponentPassingAttempts,TurnoverDifferential,PuntReturnTouchdowns,OpponentFumblesLost,OpponentExtraPointKickingAttempts,PuntYards,OpponentTacklesForLossPercentage,Team,KickReturnYards,ExtraPointsHadBlocked,FumblesRecovered,TacklesForLoss,OpponentTimesSackedYards,OpponentAssistedTackles,OpponentFourthDownPercentage,OpponentSoloTackles,BlockedKickReturnTouchdowns,ExtraPointPercentage,ExtraPointKickingAttempts,OpponentQuarterbackSacksDifferential,FieldGoalsHadBlocked,OpponentFieldGoalReturnTouchdowns,FieldGoalReturnTouchdowns,PassingYardsPerAttempt,OpponentKickReturnTouchdowns,OpponentExtraPointRushingAttempts,OpponentExtraPointKickingConversions,KickReturnYardDifferential,KickReturnLong,KickReturnAverage,Temperature,PassingYardsPerCompletion,OpponentTimesSackedPercentage,OpponentPuntAverage,RushingYardsPerAttempt,QuarterbackHits,OverUnder,PassingDropbacks,KickReturns,OpponentQuarterbackHits,OpponentFirstDownsByPenalty,OpponentExtraPointPercentage,PuntsHadBlocked,OpponentCompletionPercentage,OpponentRushingAttempts,SeasonType,TwoPointConversionReturns,OpponentInterceptionReturnTouchdowns,OffensiveYards,PuntAverage,RushingYards,ExtraPointPassingAttempts,PuntNetYards,PassingCompletions,OpponentFumbles,TacklesForLossDifferential,KickReturnTouchdowns,OpponentPuntReturnAverage,PuntReturnAverage,TacklesForLossPercentage,FourthDownConversions,OpponentRedZoneAttempts,OpponentBlockedKicks,OpponentQuarterbackHitsPercentage,OpponentKickReturns,TeamSeasonID,OpponentPassingDropbacks,OpponentKickoffTouchbacks,OpponentGoalToGoPercentage,OpponentFumblesForced,PuntReturnLong,OpponentRushingYards,OpponentKickoffs,OpponentTouchdowns,OpponentTakeaways,FirstDownsByRushing,OpponentThirdDownConversions,OpponentInterceptionReturnYards,OpponentRushingYardsPerAttempt,OpponentKickoffsInEndZone,OpponentOffensiveYardsPerPlay,OpponentPuntNetYards,OpponentExtraPointRushingConversions,KickoffTouchbacks,FieldGoalsMade,InterceptionReturnTouchdowns,OpponentPassingCompletions,OpponentPassingTouchdowns,GoalToGoAttempts,OpponentPassesDefended,OpponentTimeOfPossession,PuntReturnYards,PassingTouchdowns,FieldGoalAttempts,OpponentTacklesForLossDifferential,OpponentFieldGoalPercentage,FumblesForced,OpponentPasserRating,OpponentScoreQuarter2,OpponentScoreQuarter3,OpponentScoreQuarter1,FirstDownsByPenalty,TimesSackedYards,OpponentScoreQuarter4,ExtraPointRushingAttempts,AssistedTackles,Giveaways,OpponentExtraPointPassingConversions,FourthDownPercentage,Score,PointSpread,OpponentScoreOvertime,FirstDownsByPassing,TimeOfPossession,ThirdDownPercentage,OpponentExtraPointPassingAttempts,OpponentPuntsHadBlocked,OpponentPassingYardsPerAttempt,InterceptionReturnYards,Takeaways,OffensivePlays,OpponentFirstDownsByPassing,ScoreQuarter1,PuntReturnYardDifferential,OpponentKickReturnAverage,OpponentPuntReturnTouchdowns,OpponentInterceptionReturns,ThirdDownConversions,PenaltyYardDifferential,OpponentFumbleReturnTouchdowns,QuarterbackSacksDifferential,Sacks,FumbleReturnYards,OpponentPenalties,OpponentGiveaways,OpponentTwoPointConversionReturns,ScoreOvertime,Humidity,SackYards,RedZoneAttempts,Games,PasserRating,OpponentPassingYards,OpponentPuntNetAverage,OpponentSacks,OpponentFumblesRecovered,OpponentOffensivePlays,OffensiveYardsPerPlay,OpponentTacklesForLoss,SoloTackles,OpponentRedZonePercentage,PassingAttempts,OpponentFumbleReturnYards,OpponentScore,KickoffsInEndZone,OpponentPuntReturnYards,OpponentFirstDowns,OpponentFieldGoalsMade,FourthDownAttempts,OpponentFieldGoalReturnYards,OpponentOffensiveYards,QuarterbackHitsPercentage,BlockedKickReturnYards) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", item.values())
+    NFLTeamSeason.__table__.drop(db.engine)
+    NFLTeamSeason.__table__.create(db.engine)
+    for i in teamseason:
+        dd = NFLTeamSeason(OpponentPuntReturnLong=i["OpponentPuntReturnLong"],RushingTouchdowns=i["RushingTouchdowns"],OpponentSafeties=i["OpponentSafeties"],OpponentQuarterbackHitsDifferential=i["OpponentQuarterbackHitsDifferential"],FieldGoalPercentage=i["FieldGoalPercentage"],WindSpeed=i["WindSpeed"],ExtraPointRushingConversions=i["ExtraPointRushingConversions"],OpponentPuntYards=i["OpponentPuntYards"],FumblesLost=i["FumblesLost"],OpponentExtraPointsHadBlocked=i["OpponentExtraPointsHadBlocked"],PuntNetAverage=i["PuntNetAverage"],ExtraPointKickingConversions=i["ExtraPointKickingConversions"],PointDifferential=i["PointDifferential"],OpponentPassingYardsPerCompletion=i["OpponentPassingYardsPerCompletion"],PassingInterceptions=i["PassingInterceptions"],OpponentPuntReturns=i["OpponentPuntReturns"],PassingYards=i["PassingYards"],OpponentGoalToGoConversions=i["OpponentGoalToGoConversions"],OpponentFourthDownConversions=i["OpponentFourthDownConversions"],OpponentPassingInterceptionPercentage=i["OpponentPassingInterceptionPercentage"],GoalToGoPercentage=i["GoalToGoPercentage"],BlockedKicks=i["BlockedKicks"],ReturnYards=i["ReturnYards"],OpponentKickReturnLong=i["OpponentKickReturnLong"],OpponentFieldGoalsHadBlocked=i["OpponentFieldGoalsHadBlocked"],OpponentSackYards=i["OpponentSackYards"],CompletionPercentage=i["CompletionPercentage"],Fumbles=i["Fumbles"],ThirdDownAttempts=i["ThirdDownAttempts"],OpponentPunts=i["OpponentPunts"],RedZoneConversions=i["RedZoneConversions"],OpponentKickReturnYards=i["OpponentKickReturnYards"],PassesDefended=i["PassesDefended"],OpponentTimesSacked=i["OpponentTimesSacked"],TeamName=i["TeamName"],OpponentThirdDownPercentage=i["OpponentThirdDownPercentage"],Penalties=i["Penalties"],OpponentFieldGoalAttempts=i["OpponentFieldGoalAttempts"],Safeties=i["Safeties"],OpponentRedZoneConversions=i["OpponentRedZoneConversions"],OpponentBlockedKickReturnYards=i["OpponentBlockedKickReturnYards"],OpponentPenaltyYards=i["OpponentPenaltyYards"],OpponentThirdDownAttempts=i["OpponentThirdDownAttempts"],OpponentBlockedKickReturnTouchdowns=i["OpponentBlockedKickReturnTouchdowns"],Touchdowns=i["Touchdowns"],TimesSackedPercentage=i["TimesSackedPercentage"],FirstDowns=i["FirstDowns"],Kickoffs=i["Kickoffs"],OpponentTurnoverDifferential=i["OpponentTurnoverDifferential"],InterceptionReturns=i["InterceptionReturns"],TimesSacked=i["TimesSacked"],ExtraPointPassingConversions=i["ExtraPointPassingConversions"],PenaltyYards=i["PenaltyYards"],QuarterbackHitsDifferential=i["QuarterbackHitsDifferential"],PassingInterceptionPercentage=i["PassingInterceptionPercentage"],ScoreQuarter4=i["ScoreQuarter4"],ScoreQuarter3=i["ScoreQuarter3"],ScoreQuarter2=i["ScoreQuarter2"],OpponentRushingTouchdowns=i["OpponentRushingTouchdowns"],OpponentPassingInterceptions=i["OpponentPassingInterceptions"],OpponentGoalToGoAttempts=i["OpponentGoalToGoAttempts"],OpponentFourthDownAttempts=i["OpponentFourthDownAttempts"],RedZonePercentage=i["RedZonePercentage"],RushingAttempts=i["RushingAttempts"],Season=i["Season"],PuntReturns=i["PuntReturns"],FieldGoalReturnYards=i["FieldGoalReturnYards"],OpponentReturnYards=i["OpponentReturnYards"],GoalToGoConversions=i["GoalToGoConversions"],OpponentFirstDownsByRushing=i["OpponentFirstDownsByRushing"],Punts=i["Punts"],FumbleReturnTouchdowns=i["FumbleReturnTouchdowns"],TotalScore=i["TotalScore"],OpponentPassingAttempts=i["OpponentPassingAttempts"],TurnoverDifferential=i["TurnoverDifferential"],PuntReturnTouchdowns=i["PuntReturnTouchdowns"],OpponentFumblesLost=i["OpponentFumblesLost"],OpponentExtraPointKickingAttempts=i["OpponentExtraPointKickingAttempts"],PuntYards=i["PuntYards"],OpponentTacklesForLossPercentage=i["OpponentTacklesForLossPercentage"],Team=i["Team"],KickReturnYards=i["KickReturnYards"],ExtraPointsHadBlocked=i["ExtraPointsHadBlocked"],FumblesRecovered=i["FumblesRecovered"],TacklesForLoss=i["TacklesForLoss"],OpponentTimesSackedYards=i["OpponentTimesSackedYards"],OpponentAssistedTackles=i["OpponentAssistedTackles"],OpponentFourthDownPercentage=i["OpponentFourthDownPercentage"],OpponentSoloTackles=i["OpponentSoloTackles"],BlockedKickReturnTouchdowns=i["BlockedKickReturnTouchdowns"],ExtraPointPercentage=i["ExtraPointPercentage"],ExtraPointKickingAttempts=i["ExtraPointKickingAttempts"],OpponentQuarterbackSacksDifferential=i["OpponentQuarterbackSacksDifferential"],FieldGoalsHadBlocked=i["FieldGoalsHadBlocked"],OpponentFieldGoalReturnTouchdowns=i["OpponentFieldGoalReturnTouchdowns"],FieldGoalReturnTouchdowns=i["FieldGoalReturnTouchdowns"],PassingYardsPerAttempt=i["PassingYardsPerAttempt"],OpponentKickReturnTouchdowns=i["OpponentKickReturnTouchdowns"],OpponentExtraPointRushingAttempts=i["OpponentExtraPointRushingAttempts"],OpponentExtraPointKickingConversions=i["OpponentExtraPointKickingConversions"],KickReturnYardDifferential=i["KickReturnYardDifferential"],KickReturnLong=i["KickReturnLong"],KickReturnAverage=i["KickReturnAverage"],Temperature=i["Temperature"],PassingYardsPerCompletion=i["PassingYardsPerCompletion"],OpponentTimesSackedPercentage=i["OpponentTimesSackedPercentage"],OpponentPuntAverage=i["OpponentPuntAverage"],RushingYardsPerAttempt=i["RushingYardsPerAttempt"],QuarterbackHits=i["QuarterbackHits"],OverUnder=i["OverUnder"],PassingDropbacks=i["PassingDropbacks"],KickReturns=i["KickReturns"],OpponentQuarterbackHits=i["OpponentQuarterbackHits"],OpponentFirstDownsByPenalty=i["OpponentFirstDownsByPenalty"],OpponentExtraPointPercentage=i["OpponentExtraPointPercentage"],PuntsHadBlocked=i["PuntsHadBlocked"],OpponentCompletionPercentage=i["OpponentCompletionPercentage"],OpponentRushingAttempts=i["OpponentRushingAttempts"],SeasonType=i["SeasonType"],TwoPointConversionReturns=i["TwoPointConversionReturns"],OpponentInterceptionReturnTouchdowns=i["OpponentInterceptionReturnTouchdowns"],OffensiveYards=i["OffensiveYards"],PuntAverage=i["PuntAverage"],RushingYards=i["RushingYards"],ExtraPointPassingAttempts=i["ExtraPointPassingAttempts"],PuntNetYards=i["PuntNetYards"],PassingCompletions=i["PassingCompletions"],OpponentFumbles=i["OpponentFumbles"],TacklesForLossDifferential=i["TacklesForLossDifferential"],KickReturnTouchdowns=i["KickReturnTouchdowns"],OpponentPuntReturnAverage=i["OpponentPuntReturnAverage"],PuntReturnAverage=i["PuntReturnAverage"],TacklesForLossPercentage=i["TacklesForLossPercentage"],FourthDownConversions=i["FourthDownConversions"],OpponentRedZoneAttempts=i["OpponentRedZoneAttempts"],OpponentBlockedKicks=i["OpponentBlockedKicks"],OpponentQuarterbackHitsPercentage=i["OpponentQuarterbackHitsPercentage"],OpponentKickReturns=i["OpponentKickReturns"],TeamSeasonID=i["TeamSeasonID"],OpponentPassingDropbacks=i["OpponentPassingDropbacks"],OpponentKickoffTouchbacks=i["OpponentKickoffTouchbacks"],OpponentGoalToGoPercentage=i["OpponentGoalToGoPercentage"],OpponentFumblesForced=i["OpponentFumblesForced"],PuntReturnLong=i["PuntReturnLong"],OpponentRushingYards=i["OpponentRushingYards"],OpponentKickoffs=i["OpponentKickoffs"],OpponentTouchdowns=i["OpponentTouchdowns"],OpponentTakeaways=i["OpponentTakeaways"],FirstDownsByRushing=i["FirstDownsByRushing"],OpponentThirdDownConversions=i["OpponentThirdDownConversions"],OpponentInterceptionReturnYards=i["OpponentInterceptionReturnYards"],OpponentRushingYardsPerAttempt=i["OpponentRushingYardsPerAttempt"],OpponentKickoffsInEndZone=i["OpponentKickoffsInEndZone"],OpponentOffensiveYardsPerPlay=i["OpponentOffensiveYardsPerPlay"],OpponentPuntNetYards=i["OpponentPuntNetYards"],OpponentExtraPointRushingConversions=i["OpponentExtraPointRushingConversions"],KickoffTouchbacks=i["KickoffTouchbacks"],FieldGoalsMade=i["FieldGoalsMade"],InterceptionReturnTouchdowns=i["InterceptionReturnTouchdowns"],OpponentPassingCompletions=i["OpponentPassingCompletions"],OpponentPassingTouchdowns=i["OpponentPassingTouchdowns"],GoalToGoAttempts=i["GoalToGoAttempts"],OpponentPassesDefended=i["OpponentPassesDefended"],OpponentTimeOfPossession=i["OpponentTimeOfPossession"],PuntReturnYards=i["PuntReturnYards"],PassingTouchdowns=i["PassingTouchdowns"],FieldGoalAttempts=i["FieldGoalAttempts"],OpponentTacklesForLossDifferential=i["OpponentTacklesForLossDifferential"],OpponentFieldGoalPercentage=i["OpponentFieldGoalPercentage"],FumblesForced=i["FumblesForced"],OpponentPasserRating=i["OpponentPasserRating"],OpponentScoreQuarter2=i["OpponentScoreQuarter2"],OpponentScoreQuarter3=i["OpponentScoreQuarter3"],OpponentScoreQuarter1=i["OpponentScoreQuarter1"],FirstDownsByPenalty=i["FirstDownsByPenalty"],TimesSackedYards=i["TimesSackedYards"],OpponentScoreQuarter4=i["OpponentScoreQuarter4"],ExtraPointRushingAttempts=i["ExtraPointRushingAttempts"],AssistedTackles=i["AssistedTackles"],Giveaways=i["Giveaways"],OpponentExtraPointPassingConversions=i["OpponentExtraPointPassingConversions"],FourthDownPercentage=i["FourthDownPercentage"],Score=i["Score"],PointSpread=i["PointSpread"],OpponentScoreOvertime=i["OpponentScoreOvertime"],FirstDownsByPassing=i["FirstDownsByPassing"],TimeOfPossession=i["TimeOfPossession"],ThirdDownPercentage=i["ThirdDownPercentage"],OpponentExtraPointPassingAttempts=i["OpponentExtraPointPassingAttempts"],OpponentPuntsHadBlocked=i["OpponentPuntsHadBlocked"],OpponentPassingYardsPerAttempt=i["OpponentPassingYardsPerAttempt"],InterceptionReturnYards=i["InterceptionReturnYards"],Takeaways=i["Takeaways"],OffensivePlays=i["OffensivePlays"],OpponentFirstDownsByPassing=i["OpponentFirstDownsByPassing"],ScoreQuarter1=i["ScoreQuarter1"],PuntReturnYardDifferential=i["PuntReturnYardDifferential"],OpponentKickReturnAverage=i["OpponentKickReturnAverage"],OpponentPuntReturnTouchdowns=i["OpponentPuntReturnTouchdowns"],OpponentInterceptionReturns=i["OpponentInterceptionReturns"],ThirdDownConversions=i["ThirdDownConversions"],PenaltyYardDifferential=i["PenaltyYardDifferential"],OpponentFumbleReturnTouchdowns=i["OpponentFumbleReturnTouchdowns"],QuarterbackSacksDifferential=i["QuarterbackSacksDifferential"],Sacks=i["Sacks"],FumbleReturnYards=i["FumbleReturnYards"],OpponentPenalties=i["OpponentPenalties"],OpponentGiveaways=i["OpponentGiveaways"],OpponentTwoPointConversionReturns=i["OpponentTwoPointConversionReturns"],ScoreOvertime=i["ScoreOvertime"],Humidity=i["Humidity"],SackYards=i["SackYards"],RedZoneAttempts=i["RedZoneAttempts"],Games=i["Games"],PasserRating=i["PasserRating"],OpponentPassingYards=i["OpponentPassingYards"],OpponentPuntNetAverage=i["OpponentPuntNetAverage"],OpponentSacks=i["OpponentSacks"],OpponentFumblesRecovered=i["OpponentFumblesRecovered"],OpponentOffensivePlays=i["OpponentOffensivePlays"],OffensiveYardsPerPlay=i["OffensiveYardsPerPlay"],OpponentTacklesForLoss=i["OpponentTacklesForLoss"],SoloTackles=i["SoloTackles"],OpponentRedZonePercentage=i["OpponentRedZonePercentage"],PassingAttempts=i["PassingAttempts"],OpponentFumbleReturnYards=i["OpponentFumbleReturnYards"],OpponentScore=i["OpponentScore"],KickoffsInEndZone=i["KickoffsInEndZone"],OpponentPuntReturnYards=i["OpponentPuntReturnYards"],OpponentFirstDowns=i["OpponentFirstDowns"],OpponentFieldGoalsMade=i["OpponentFieldGoalsMade"],FourthDownAttempts=i["FourthDownAttempts"],OpponentFieldGoalReturnYards=i["OpponentFieldGoalReturnYards"],OpponentOffensiveYards=i["OpponentOffensiveYards"],QuarterbackHitsPercentage=i["QuarterbackHitsPercentage"],BlockedKickReturnYards=i["BlockedKickReturnYards"])
+        db.session.add(dd)
+        db.session.commit()
     print "team season populated"
 
 def graded_bets():
@@ -146,40 +114,36 @@ def graded_bets():
 
 
 if __name__ == "__main__":
-#     # drop exsisting tables to repopulate
-    conn, c = connect()
-    c.execute("drop table if exists schedule")
-    c.execute("drop table if exists stadium")
-    c.execute("drop table if exists team")
-    c.execute("drop table if exists standing")
-    c.execute("drop table if exists score")
-    c.execute("drop table if exists teamseason")
-    # NFLBetGraded.__table__.drop(db.engine)
-    # NFLBetGraded.__table__.create(db.engine)
-
-    create_schedule()
+    db.drop_all()
+    db.create_all()
+    create_roles()
+    # Base.__table__.drop(db.engine)
+    # Base.__table__.create(db.engine)
+    # NFLOverUnderBet.__table__.drop(db.engine)
+    # NFLOverUnderBet.__table__.create(db.engine)
+    # NFLSideBet.__table__.drop(db.engine)
+    # NFLSideBet.__table__.create(db.engine)
+    # NFLMLBet.__table__.drop(db.engine)
+    # NFLMLBet.__table__.create(db.engine)
     populate_schedule()
-
-    create_stadium()
     populate_stadium()
-    
-    create_team()
     populate_team()
-
-    create_standing()
     populate_standing()
-
-    create_score()
     populate_score()
-
-    create_teamseason()
     populate_teamseason()
-    close()
-
     # import time 
     # time.sleep(15)
     graded_bets()
-    kitchen_sink()
+    # kitchen_sink()
     cache.clear()
 
 
+
+
+
+# def populate_schedule():
+    # for item in schedule:
+    #     sqlCommand = """insert into schedule (Week,AwayTeamMoneyLine,StadiumID,GameKey,Canceled,Season,HomeTeam,ForecastWindSpeed,OverUnder,GeoLong,ForecastDescription,AwayTeam,ForecastTempLow,PointSpread,ForecastWindChill,ForecastTempHigh,Date,GeoLat,SeasonType,Channel,HomeTeamMoneyLine) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+    #     # print sqlCommand
+    #     c.execute(sqlCommand, item.values())
+    # print "populated schedule"
