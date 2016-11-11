@@ -28,7 +28,7 @@ def home():
         )
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
-@cache.cached(timeout=300, key_prefix="user_profile")
+# @cache.cached(timeout=300, key_prefix="user_profile")
 @login_required
 def profile():
     dt = datetime.now()
@@ -63,12 +63,18 @@ def profile():
 @home_blueprint.route("/profile_update/", methods=["POST"])
 @login_required
 def update_profile():
+    dt = datetime.now()
     user = Users.query.filter_by(id=current_user.id).one()
     form = SendEmailConfirmForm(obj=user)
     form_cp = ChangePasswordForm()
     form_p = ProfileForm(obj=user)
     form_w = BitcoinWithdrawlForm()
     form_c = BitcoinWalletForm()
+    import os
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    cwd = os.getcwd()
+    print cwd
+    print dir_path
     if form_p.validate_on_submit():
         avatar = request.files["avatar"]
         username = request.form["username"]
@@ -77,6 +83,7 @@ def update_profile():
         if avatar:
             try:
                 avatar = uploaded_photos.save(avatar)
+                print avatar
                 # user.profile.user_id = user.id 
                 user.profile.avatar = avatar
                 user.username = username
@@ -95,7 +102,7 @@ def update_profile():
                 db.session.add(user)
                 db.session.commit()
                 flash("Successful update", "warning")
-                cache.delete("update_profile")
+                cache.clear()
                 return redirect(url_for('home.profile'))
             else:
                 flash("You need a username and password", "danger")
@@ -116,18 +123,18 @@ def update_profile():
         graded_sb = graded_sb(),
         graded_ou = graded_ou(),
         graded_ml = graded_ml(),
+        dt = dt,
         ) 
 
 @home_blueprint.route("/bitcoin_widthdrawl/", methods=["POST"])
 @login_required
 def bitcoin_widthdrawl():
+    dt = datetime.now()
     nonce = make_salt(length=32)
     form_w = BitcoinWithdrawlForm()
     if form_w.validate_on_submit():
         amount = request.form["amount"]
         address = request.form["address"]
-        print amount,address, type(amount),type(address)
-        print current_user.bitcoin_wallet.address, type(current_user.bitcoin_wallet.address)
         try: 
             block_io.withdraw_from_addresses(amounts = float(amount), from_addresses = str(current_user.bitcoin_wallet.address), to_addresses = str(address), priority="low", nonce=nonce)
             flash("You just send this amount of bitcoins %s BTC - to this address %s" % (address,amount), "info")
@@ -137,12 +144,16 @@ def bitcoin_widthdrawl():
             print "Something went wrong"
 
     user = Users.query.filter_by(id=current_user.id).one()
+    form = SendEmailConfirmForm(obj=user)
     form_p = ProfileForm(obj=user)
+    form_cp = ChangePasswordForm()
     return render_template(
         "profile/profile.html", 
         all_teams = all_nfl_teams(), 
         form_w = form_w,
         form_p = form_p,
+        form_cp = form_cp,
+        form = form,
         ou = ou(),
         sb = sb(),
         ml = ml(),
@@ -151,6 +162,7 @@ def bitcoin_widthdrawl():
         graded_sb = graded_sb(),
         graded_ou = graded_ou(),
         graded_ml = graded_ml(),
+        dt = dt, 
         ) 
 
 @home_blueprint.route("/create_bitcoin/", methods=["POST"])

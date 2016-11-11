@@ -19,6 +19,10 @@ def today_and_now():
 def yesterday():
     return datetime.datetime.now() - datetime.timedelta(days=1)
 
+def date_to_string(value):
+    """convert a datetime object to a formated string """
+    return value.strftime("%m/%d/%Y %I:%M:%S %p")
+
 ## OFFENSIVE STATS by TEAM
 def team_rush_avg(rush_yds, team, sid):
     q = db.session.query(NFLTeamSeason.RushingYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by(db.desc(NFLTeamSeason.RushingYards)).all()

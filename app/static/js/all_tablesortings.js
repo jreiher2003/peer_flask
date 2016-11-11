@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('table#public__board').DataTable( {
         "iDisplayLength": -1,
-        "order": [[ 5, "desc" ]]
+        "order": [[1,"asc"]]
     } );
 } );
 

@@ -9,15 +9,16 @@
                 <p class="text-center">{{ nfl.bet_key }}</p>
                 <p class="text-center">{{ nfl.vs }}</p>
                 {% if nfl.over_under %}
-                <p class="text-center"> {{ nfl.over_under }}{{ nfl.total_format }} for ${{ nfl.amount }}</p>
+                <p class="text-center"> {{ nfl.over_under }}{{ nfl.total_format }} for {{ nfl.amount }}BTC</p>
                 {% endif %}
                 {% if nfl.ps %}
                 <p class="text-center"> {{ nfl.team }}{{ nfl.ps_format }} for {{ nfl.amount }}BTC</p>
                 {% endif %}
                 <p class="text-center">{{ nfl.game_date|game_date }} {{ nfl.game_date|game_time }}</p>
-                <form class="text-center" method="post" action="">
+                <form class="text-center" method="post" action="{{ url_for('nfl.nfl_delete_bet', bet_key=nfl.bet_key) }}" onsubmit="return OverUnder(this);">
                     {{ form.csrf_token }}
-                    <input class="btn btn-danger" type="submit" value="Delete Item">
+                    <!-- <input class="btn btn-danger" type="submit" value="Delete Item"> -->
+                    {{ form.submit_o(class="btn btn-danger", value="Delete Item") }}
                     <a class="btn btn-default" href="{{ url_for('nfl.nfl_public_board') }}">Cancel</a>
                 </form>
                 

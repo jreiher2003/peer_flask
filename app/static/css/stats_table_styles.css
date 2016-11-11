@@ -34,3 +34,9 @@ div#pager.pager {
     margin-left: 10px;
     margin-right: 10px;
 }
+td.vert-align.sorting_1 {
+    vertical-align: middle !important;
+}
+td.vert-align {
+    vertical-align: middle !important;
+}

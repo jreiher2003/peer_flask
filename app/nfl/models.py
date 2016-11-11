@@ -18,7 +18,7 @@ class Base(db.Model):
     home_team = db.Column(db.String)
     away_team = db.Column(db.String)
     win = db.Column(db.Boolean)
-    amount = db.Column(db.BigInteger)
+    amount = db.Column(db.Numeric(precision=8,scale=5))
     bet_taken = db.Column(db.Boolean, default=False)
     bet_graded = db.Column(db.Boolean, default=False)
     paid = db.Column(db.Boolean, default=False)
@@ -64,7 +64,7 @@ class Base(db.Model):
 
     @property    
     def amount_win(self):
-        return self.amount * .9
+        return round(float(self.amount) * .9, 5)
 
     @property 
     def admin_win(self):
@@ -82,7 +82,7 @@ class NFLOverUnderBet(Base):
 
     id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
     over_under = db.Column(db.String)
-    total = db.Column(db.Integer)
+    total = db.Column(db.Float)
     taken_by = db.Column(db.Integer) # other player id 
     taken_username = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'), index=True)
@@ -93,7 +93,7 @@ class NFLSideBet(Base):
 
     id = db.Column(db.Integer, db.ForeignKey(Base.id), primary_key=True)
     team = db.Column(db.String)
-    ps = db.Column(db.Integer, default=0.0)
+    ps = db.Column(db.Float, default=0.0)
     taken_by = db.Column(db.Integer) # other player id 
     taken_username = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'), index=True)
@@ -122,8 +122,8 @@ class NFLBetGraded(db.Model):
     home_score = db.Column(db.Integer)
     away_score = db.Column(db.Integer)
     total_score = db.Column(db.Integer)
-    over_under = db.Column(db.Integer)
-    ps = db.Column(db.Integer)
+    over_under = db.Column(db.Float)
+    ps = db.Column(db.Float)
     cover_total = db.Column(db.String)
     cover_side = db.Column(db.String)
     cover_ml = db.Column(db.String)

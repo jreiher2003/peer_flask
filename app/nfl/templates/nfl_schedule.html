@@ -12,7 +12,7 @@
                 <table class="table table-border">
                     <thead class="thead"> 
                         <tr> 
-                            <th class="text-center">Date Week: 7</th>  
+                            <th class="text-center">Date</th> 
                             <th class="text-center">Game Number</th> 
                             <th class="text-center">Game</th>
                             <th class="text-center">Spread</th>
@@ -25,7 +25,7 @@
                         {% if d.Date|dateify > dt %}
                         <tr>
                             <td rowspan="2" class="text-center"><p class="reg_pboard">{{ d.Date|dateify|game_time }}</p><p class="reg_pboard">{{ d.Date|dateify|game_date }}</p></td>
-                            <td rowspan="2" class="text-center"><p class="reg_pboard">{{ d.GameKey }}</p></td>
+                            <td rowspan="2" class="text-center"><p class="reg_pboard">{{ d.GameKey }}</p><p class="reg_pboard">Week: {{ d.Week }}</p></td>
                             <td class="text-center"><p class="pboard">{{ d.AwayTeam }}</p></td>
                             {% if d.PointSpread > 0 %}
                                 <td class="text-center"><p class="pboard">{{ d.away_pointspread }}</p></td>
@@ -46,6 +46,7 @@
                             {% endif %}
                         </tr>
                         <tr>
+
                             <td class="middlerow text-center"><p class="bottom_pboard">{{ d.HomeTeam }}</p></td>
                              {% if d.PointSpread > 0 %}
                                 <td class="middlerow text-center"><p class="bottom_pboard">{{ d.OverUnder_ }}</p></td>

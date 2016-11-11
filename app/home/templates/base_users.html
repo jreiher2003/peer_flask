@@ -79,5 +79,13 @@
 <script src="/static/js/jquery-form-validator/form-validator/jquery.form-validator.min.js"></script>
 <script src="/static/js/validate_login.js"></script>
 <script src="/static/js/validate_register.js"></script>
+<script type="text/javascript">
+function checkForm(form) // Submit button clicked
+{
+  form.submit.disabled = true;
+  form.submit.value = "Please wait...";
+  return true;
+}
+</script>
 
 </html>

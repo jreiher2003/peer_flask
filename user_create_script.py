@@ -118,14 +118,15 @@ def create_bet():
     db.session.commit()
 
 if __name__ == "__main__":
-    db.drop_all()
-    print "Just Dropped all tables"
-    db.create_all()
+    # db.drop_all()
+    # print "Just Dropped all tables"
+    # db.create_all()
     # create_users()
     # create_wallets()
     # update_profiles_bitcoin()
     # print "users created"
     # create_bet()
-    print "bets created"
+    # print "bets created"
+    print "no functions"
     
     

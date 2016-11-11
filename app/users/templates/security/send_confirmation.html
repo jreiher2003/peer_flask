@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <h1>Resend confirmation instructions</h1>
-            <form action="{{ url_for('home.profile_c_email') }}" method="POST" name="send_confirmation_form">
+            <form action="{{ url_for('home.profile_c_email') }}" method="POST" name="send_confirmation_form" onsubmit="return checkForm(this);">
               {{ form.csrf_token }}
               <div class="form-group">
                 {{ render_field_with_errors(form.email, class="form-control", placeholder="email address...") }}

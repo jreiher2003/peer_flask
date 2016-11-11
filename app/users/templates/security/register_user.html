@@ -13,7 +13,7 @@
           <div class="profileborder">
             <h1 class="text-center">Register</h1>
             <hr>
-            <form id="registerForm" action="{{ url_for('users.register') }}" method="POST" name="register_user_form">
+            <form id="registerForm" action="{{ url_for('users.register') }}" method="POST" name="register_user_form" onsubmit="return checkForm(this);">
               {{ form.csrf_token }}
               <div class="form-group">
                 {{ render_field_with_errors(form.username, class="form-control", placeholder="username...", **{'data-validation':'required','data-validation':'length', 'data-validation-length':'min4', 'data-validation-error-msg':'Pick a longer username'}) }}

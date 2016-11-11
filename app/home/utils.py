@@ -61,15 +61,26 @@ def grade_tb():
         for g in grd:
             for c in cb:
                 if g.game_key == c.game_key:
-                    if g.cover_total == "Push":
-                        c.win == None
-                        c.bet_graded = True
-                    elif g.cover_total == c.over_under:
-                        c.win = True
-                        c.bet_graded = True
-                    else:
-                        c.win = False
-                        c.bet_graded = True
+                    if c.over_under == 'u':
+                        if g.total_score < c.total:
+                            c.win = True
+                            c.bet_graded = True
+                        elif g.total_score > c.total:
+                            c.win = False
+                            c.bet_graded = True
+                        elif g.total_score == c.total:
+                            c.win = None 
+                            c.bet_graded = True 
+                    elif c.over_under == 'o':
+                        if g.total_score > c.total:
+                            c.win = True 
+                            c.bet_graded = True
+                        elif g.total_score < c.total:
+                            c.win = False
+                            c.bet_graded = True
+                        elif g.total_score == c.total:
+                            c.win == None
+                            c.bet_graded = True
         db.session.add(c)
         db.session.commit()
     else:
@@ -86,15 +97,26 @@ def grade_sb():
         for g in grd:
             for c in cb:
                 if g.game_key == c.game_key:
-                    if g.cover_side == "Push":
-                        c.win = None
-                        c.bet_graded = True
-                    elif g.cover_side == c.team:
-                        c.win = True
-                        c.bet_graded = True
-                    else:
-                        c.win = False 
-                        c.bet_graded = True
+                    if c.home_team == c.team:
+                        if g.away_score < (g.home_score + c.ps):
+                            c.win = True
+                            c.bet_graded = True 
+                        elif g.away_score > (g.home_score + c.ps):
+                            c.win = False
+                            c.bet_graded = True 
+                        elif g.away_score == (g.home_score + c.ps):
+                            c.win = None 
+                            c.bet_graded = True
+                    if c.away_team == c.team:
+                        if g.home_score < (g.away_score + c.ps):
+                            c.win = True
+                            c.bet_graded = True
+                        elif g.home_score > (g.away_score + c.ps):
+                            c.win = False 
+                            c.bet_graded = True 
+                        elif g.home_score == (g.away_score + c.ps):
+                            c.win = None 
+                            c.bet_graded = True 
         db.session.add(c)
         db.session.commit()
     else:
@@ -111,15 +133,26 @@ def grade_ml():
         for g in grd:
             for c in cb:
                 if g.game_key == c.game_key:
-                    if g.cover_ml == "Push":
-                        c.win = None
-                        c.bet_graded = True 
-                    elif g.cover_ml == c.team:
-                        c.win = True
-                        c.bet_graded = True
-                    else:
-                        c.win = False 
-                        c.bet_graded = True
+                    if c.home_team == c.team:
+                        if g.home_score > g.away_score:
+                            c.win = True
+                            c.bet_graded = True
+                        elif g.home_score < g.away_score:
+                            c.win = False 
+                            c.bet_graded = True 
+                        elif g.home_score == g.away_score:
+                            c.win = None
+                            c.bet_graded = True 
+                    if c.away_team == c.team:
+                        if g.away_score > g.home_score:
+                            c.win = True
+                            c.bet_graded = True
+                        elif g.away_score < g.home_score:
+                            c.win = False
+                            c.bet_graded = True 
+                        elif g.away_score == g.home_score:
+                            c.win = None 
+                            c.bet_graded = True
         db.session.add(c)
         db.session.commit()
     else:

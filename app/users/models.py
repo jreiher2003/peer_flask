@@ -85,7 +85,7 @@ class Profile(db.Model):
     wins = db.Column(db.Integer, default=0)
     losses = db.Column(db.Integer, default=0)
     pushes = db.Column(db.Integer, default=0)
-    pending = db.Column(db.Integer, default=0)
+    pending = db.Column(db.Numeric, default=0) 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True)
 
     @property 

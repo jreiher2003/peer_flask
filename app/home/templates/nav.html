@@ -25,15 +25,9 @@
             {#<li><a href="{{ url_for('home.profile') }}">{{ current_user.bitcoin_wallet.available_btc }} BTC</a></li>#}
             {#<li><a href="{{ url_for('home.profile') }}">({{ current_user.profile.pending }} Pending BTC)</a></li>#}
           {% endif %}
-          <!-- <li class="navpic dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false"><img src="{{ current_user.profile.imgsrc }}"><span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li>profile</li>
-            </ul>
-          </li> -->
-          
           <li>
             <div class="dropdown nav_pic">
-              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><img class="navpic" src="{{ current_user.profile.imgsrc }}">
+              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><img class="navpic" src="{{ current_user.profile.imgsrc|resize('30x30', fill=1, format='jpg', bgcolor='#333333', quality=100, placeholder=True)  }}">
               <span class="caret"></span></button>
                 <ul class="dropdown-menu nav_pic_menu">
                   <li class="text-center"><a class="nav_name_dropdown">{{ current_user.username }}</a></li>

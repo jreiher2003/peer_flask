@@ -103,6 +103,7 @@ def confirm_email_register(token):
         user_roles = UserRoles(user_id=user.id, role_id=2)
         db.session.add_all([user, user_roles])
         db.session.commit()
+        cache.clear()
         flash('You have confirmed your account. Thanks!', 'success')
     return redirect(url_for('home.profile'))
 
@@ -136,6 +137,7 @@ def forgot_password_reset_token(token):
         db.session.commit()
         email_reset_notice(user.email)
         flash("Successful password updated!", "success")
+        cache.clear()
         return redirect(url_for("users.login"))
     return render_template("security/forgot_password_change.html", form=form, token=token)
 

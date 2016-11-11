@@ -58,3 +58,6 @@ class AwayTeamForm(Form):
 
 class VSForm(Form):
     submit = SubmitField("Bet This Opponent")
+
+class DeleteForm(Form):
+    submit_o = SubmitField("Delete This Bet")

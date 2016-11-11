@@ -2,4 +2,5 @@
 {% block title %}NFL Home{% endblock %}
 {% block content %}
 NFL Home
+<img src="{{ current_user.profile.imgsrc|resize('200x200', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}">
 {% endblock content %}

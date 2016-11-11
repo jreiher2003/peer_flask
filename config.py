@@ -3,9 +3,8 @@ import os
 class BaseConfig(object):
     DEBUG = False
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    SECRET_KEY = os.environ['SECRET_KEY']
-    # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-    SQLALCHEMY_DATABASE_URI = "postgresql://finn:finn7797@localhost:5432/peer"
+    SECRET_KEY = os.environ["SECRET_KEY"]
+    SQLALCHEMY_DATABASE_URI = os.environ["DATABASE_URL"]
     CACHE_TYPE = "memcached"
     BCRYPT_LOG_ROUNDS = 12
     MAIL_SERVER = os.environ["MAIL_SERVER"]
@@ -17,7 +16,6 @@ class BaseConfig(object):
     MAIL_DEFAULT_SENDER = '"Site Admin" <noreply@peer2peer.com>'
     SECURITY_UNAUTHORIZED_VIEW = "/login/"
     SECURITY_MSG_UNAUTHORIZED = ("Try loging in first", "danger")
-    # UPLOADS_DEFAULT_DEST = "app/static/"
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 
    
@@ -27,12 +25,14 @@ class TestConfig(BaseConfig):
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     MAIL_SUPPRESS_SEND = True
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
     
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
-    UPLOADED_PHOTOS_DEST = '/vagrant/peer_flask/app/static/img'
+    UPLOADED_PHOTOS_DEST = "/vagrant/peer_flask/app/static/img"
+    RESIZE_ROOT = "/vagrant/peer_flask/app/static/img"
+    RESIZE_URL = "http://localhost:8600/_uploads/photos/"
     
 
 class ProductionConfig(BaseConfig):

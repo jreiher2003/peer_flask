@@ -4,6 +4,7 @@ import psycopg2
 import time
 from dateutil.parser import parse as parse_date
 from app import app, db, cache
+from sqlalchemy import exc
 from app.users.models import Users, Role, UserRoles, Profile, BitcoinWallet
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet, Base
 from app.nfl_stats.models import NFLScore, NFLTeam, NFLStadium, NFLSchedule, NFLStandings, NFLTeamSeason
@@ -109,34 +110,72 @@ def graded_bets():
         db.session.add(grade)
         db.session.commit()
     print "graded bets table populated"
-        
-            
 
+import urllib
+import os
+import zipfile 
+from datetime import datetime
+import time
+from apscheduler.schedulers.background import BackgroundScheduler
+
+def download():
+    sports = urllib.URLopener()
+    sports.retrieve("https://fantasydata.com/members/download-file.aspx?product=4885cd1b-6fd1-4db8-8c0a-47160973ca68", "file.zip")
+    root = "/vagrant"
+    zipfile.ZipFile("file.zip").extractall("sports")
+    os.remove("file.zip")
+        
 
 if __name__ == "__main__":
-    db.drop_all()
-    db.create_all()
-    create_roles()
-    # Base.__table__.drop(db.engine)
-    # Base.__table__.create(db.engine)
-    # NFLOverUnderBet.__table__.drop(db.engine)
-    # NFLOverUnderBet.__table__.create(db.engine)
-    # NFLSideBet.__table__.drop(db.engine)
-    # NFLSideBet.__table__.create(db.engine)
-    # NFLMLBet.__table__.drop(db.engine)
-    # NFLMLBet.__table__.create(db.engine)
+    # db.drop_all()
+    # db.create_all()
+    # create_roles()
+    download()
+    import time 
+    time.sleep(15)
+    
     populate_schedule()
     populate_stadium()
     populate_team()
     populate_standing()
     populate_score()
     populate_teamseason()
-    # import time 
-    # time.sleep(15)
     graded_bets()
-    # kitchen_sink()
+    kitchen_sink()
     cache.clear()
 
+ # jj = Base.query.all()
+    # if not jj:
+    #     Base.__table__.create(db.engine)
+    #     print "list jj is empty"
+    # else:
+    #     Base.__table__.drop(db.engine)
+    #     Base.__table__.create(db.engine)
+    #     print "list is jj not empty"
+    # nn = NFLSideBet.query.all()
+    # if not nn:
+    #     NFLSideBet.__table__.create(db.engine)
+    #     print "list nn is empty"
+    # else:
+    #     NFLSideBet.__table__.drop(db.engine)
+    #     NFLSideBet.__table__.create(db.engine)
+    #     print "list nn is not empty"
+    # oo = NFLOverUnderBet.query.all()
+    # if not oo:
+    #     NFLOverUnderBet.__table__.create(db.engine)
+    #     print "list oo is empty"
+    # else:
+    #     NFLOverUnderBet.__table__.drop(db.engine)
+    #     NFLOverUnderBet.__table__.create(db.engine)
+    #     print "list oo is not empty"
+    # ml = NFLMLBet.query.all()
+    # if not ml:
+    #     NFLMLBet.__table__.create(db.engine)
+    #     print "list ml is empty"
+    # else:
+    #     NFLMLBet.__table__.drop(db.engine)
+    #     NFLMLBet.__table__.create(db.engine)
+    #     print "list ml is not empty"
 
 
 

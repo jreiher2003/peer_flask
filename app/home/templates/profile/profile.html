@@ -6,7 +6,7 @@
         <div class="col-md-2">
             <div class="profileborder">
                 {% if current_user.profile.avatar %}
-                    <img class="profilepic" src="{{ current_user.profile.imgsrc }}" width="150" height="150"/>
+                    <img class="profilepic" src="{{ current_user.profile.imgsrc| resize('150x150', fill=1, bgcolor='#333') }}"/>
                 {% else %}
                     <img class="profilepic" src="{{ url_for('static', filename='img/user.jpg') }}" width="150"/>
                 {% endif %}

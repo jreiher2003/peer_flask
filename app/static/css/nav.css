@@ -17,7 +17,6 @@ li.nav__team a, h3 .nav__team {
 h3.nav__division {
     text-decoration: underline;
 }
-
 .caret-up {
     width: 0; 
     height: 0; 
@@ -46,18 +45,13 @@ h3.nav__division {
     display: block;
     margin-top: 0;/* // remove the gap so it doesn't close*/
  }
-
  button.btn.btn-primary.dropdown-toggle {
     padding-top: 4px;
  }
  .navpic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    border-radius: 5%;
     border: 3px solid #2780e3;
  }
-
-
 div.dropdown.nav_pic > ul > li {
     position: relative;
     display: inline-block;
@@ -70,7 +64,6 @@ ul.dropdown-menu.nav_pic_menu {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     padding: 12px 2px;
 }
-
 .dropdown-menu > li > a {
     padding: 3px 20px 3px 10px;
 }

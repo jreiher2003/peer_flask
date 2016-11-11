@@ -13,20 +13,20 @@
                 <div class="col-md-5">
                     <h3 class="text-center">Opponent</h3>
                     <div class="thumbnail">
-                        <p class="text-center"><img src="{{ nfl.users.profile.imgsrc }}" width="40"/> {{ nfl.users.username }}</p>
-                        <h3 class="text-center">{{ nfl.vs }}</h3>
+                        <p class="text-center"><img class="navpic" src="{{ nfl.users.profile.imgsrc }}"/> {{ nfl.users.username }}</p>
                         <p class="text-center">{{ nfl.game_date|game_time }} {{ nfl.game_date|game_date }}</p>
+                        <h3 class="text-center">{{ nfl.vs }}</h3>
                             {% if nfl.over_under %}
                         <h4 class="text-center">{{ nfl.over_under }}{{ nfl.total_format }}</h4>
                             {% else %}
                         <h4 class="text-center">{{ nfl.team }}  {{ nfl.ps_format }}</h4>
                             {% endif %}
-                        <h4 class="text-center"> risk: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount }}<br>
-                                                 win: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount_win }}
-                         </h4>
-                        
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4">
+                                <h4>risk: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount }}<br>win: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount_win }}</h4>
+                            </div>
+                        </div>
                         <div class="caption">
-                            
                         </div>
                     </div>
                 </div>
@@ -34,18 +34,20 @@
                 <div class="col-md-5">
                     <h3 class="text-center">You</h3>
                     <div class="thumbnail">
-                        <p class="text-center"><img src="{{ current_user.profile.imgsrc }}" width="40"/> {{ current_user.username }}</p>
-                        <h3 class="text-center">{{ nfl.vs }}</h3>
+                        <p class="text-center"><img class="navpic" src="{{ current_user.profile.imgsrc }}" width="40"/> {{ current_user.username }}</p>
                         <p class="text-center">{{ nfl.game_date|game_time }} {{ nfl.game_date|game_date }}</p>
+                        <h3 class="text-center">{{ nfl.vs }}</h3>
                             {% if nfl.over_under %}
                         <h4 class="text-center">{{ nfl.opposite_over_under }}{{ nfl.total_format }}</h4>
                             {% else %}
                         <h4 class="text-center">{{ nfl.opposite_team }}  {{ nfl.opposite_ps }}</h4>
                             {% endif %}
-                        <h4 class="text-center"> risk: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount }}<br>
-                                                 win:  <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount_win }}
-                        </h4>
-                        
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4">
+                                <h4 class="">risk: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount }}<br>win:  <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount_win }}
+                                </h4>
+                            </div>
+                        </div>
                         <div class="caption">
                         </div>
                     </div>

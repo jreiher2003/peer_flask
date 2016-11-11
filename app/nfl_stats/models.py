@@ -69,10 +69,6 @@ class NFLSchedule(db.Model):
         # "9/8/2016 8:30:00 PM"
         return datetime.strptime(self.Date, '%m/%d/%Y %I:%M:%f %p')
 
-
-
-
-
 class NFLStandings(db.Model):
     __tablename__ = "standing"
 
@@ -86,7 +82,7 @@ class NFLStandings(db.Model):
     Wins = db.Column(db.Integer)
     Losses = db.Column(db.Integer)
     Ties = db.Column(db.Integer)
-    Percentage = db.Column(db.Integer)
+    Percentage = db.Column(db.Float)
     PointsFor = db.Column(db.Integer)
     PointsAgainst = db.Column(db.Integer)
     NetPoints = db.Column(db.Integer)
@@ -95,8 +91,6 @@ class NFLStandings(db.Model):
     DivisionLosses = db.Column(db.Integer)
     ConferenceWins = db.Column(db.Integer)
     ConferenceLosses = db.Column(db.Integer)
-
-    
 
 class NFLTeam(db.Model):
     __tablename__ = "team"
@@ -136,7 +130,6 @@ class NFLTeam(db.Model):
     AverageDraftPosition = db.Column(db.Integer)
     AverageDraftPositionPPR = db.Column(db.Integer)
 
-
 class NFLStadium(db.Model):
     __tablename__ = "stadium"
 
@@ -164,8 +157,8 @@ class NFLScore(db.Model):
     HomeTeam = db.Column(db.String)
     AwayScore = db.Column(db.Integer)
     HomeScore = db.Column(db.Integer)
-    PointSpread = db.Column(db.Integer)
-    OverUnder = db.Column(db.Integer)
+    PointSpread = db.Column(db.Float)
+    OverUnder = db.Column(db.Float)
     AwayScoreQuarter1 = db.Column(db.Integer)
     AwayScoreQuarter2 = db.Column(db.Integer)
     AwayScoreQuarter3 = db.Column(db.Integer)
@@ -231,10 +224,6 @@ class NFLScore(db.Model):
         if self.AwayScore == self.HomeScore: return "Push"
         elif self.AwayScore > self.HomeScore: return self.AwayTeam
         else: return self.HomeTeam 
-    
-
-    # nfl_bet_graded = db.relationship("NFLBetGraded", uselist=False, back_populates="nfl_score")
-    
 
 class NFLTeamSeason(db.Model):
     __tablename__ = "teamseason" 
@@ -248,7 +237,7 @@ class NFLTeamSeason(db.Model):
     OpponentScore = db.Column(db.Integer)
     TotalScore = db.Column(db.Integer)
     OverUnder = db.Column(db.Float)
-    PointSpread = db.Column(db.Integer)
+    PointSpread = db.Column(db.Float)
 
     ScoreQuarter1 = db.Column(db.Integer)
     ScoreQuarter2 = db.Column(db.Integer)

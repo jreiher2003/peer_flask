@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt 
 from flask_login import LoginManager, current_user 
 from flask_uploads import UploadSet, configure_uploads, IMAGES, UploadNotAllowed, patch_request_class
+from flask_resize import Resize 
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_admin import Admin, BaseView, AdminIndexView 
 from flask_admin.contrib.sqla import ModelView
@@ -18,6 +19,7 @@ uploaded_photos = UploadSet('photos', IMAGES)
 configure_uploads(app, uploaded_photos)
 mail = Mail(app)  # Initialize Flask-Mail
 db = SQLAlchemy(app) # Initialize Flask-SQLAlchemy
+resize = Resize(app)
 bcrypt = Bcrypt(app)
 cache = Cache(app)
 manager = Manager(app) 

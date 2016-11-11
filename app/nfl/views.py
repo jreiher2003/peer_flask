@@ -3,20 +3,22 @@ import json
 import datetime
 from datetime import date
 import hashlib
+from decimal import Decimal
+from PIL import Image
 from dateutil.parser import parse as parse_date
 from app import app, db, cache, block_io
 from sqlalchemy import exc
 from app.users.models import Users, Role, UserRoles, Profile
 from .models import NFLOverUnderBet, NFLSideBet, NFLMLBet, Base
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
-from forms import OverUnderForm, HomeTeamForm, AwayTeamForm, VSForm
+from forms import OverUnderForm, HomeTeamForm, AwayTeamForm, VSForm, DeleteForm
 from flask import Blueprint, render_template, url_for, request, redirect,flash, abort
 from flask_security import login_required, roles_required, current_user, roles_accepted
 from slugify import slugify
 from app.home.utils import all_nfl_teams, get_user_wallet
 from .utils import team_rush_avg, team_pass_avg, \
 opp_team_rush_avg, opp_team_pass_avg, team_off_avg, \
-team_def_avg, today_date,today_and_now, make_salt, yesterday
+team_def_avg, today_date,today_and_now, make_salt, yesterday, date_to_string
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 
@@ -42,6 +44,12 @@ def nfl_standings():
 def nfl_schedule():
     dt = datetime.datetime.now()
     sch = NFLSchedule.query.filter(NFLSchedule.SeasonType == 1, NFLSchedule.PointSpread != None).all()
+    # d = date_to_string(dt)
+    # current_week = NFLSchedule.query.filter_by(SeasonType=1).all()
+    # print d[0:8]
+    # for i in current_week:
+    #     if d < i.Date[0:8]:
+    #         print i.Week
     return render_template(
         "nfl_schedule.html", 
         all_teams = all_nfl_teams(), 
@@ -83,7 +91,7 @@ def nfl_create_bet(game_key):
     admin = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7"
     user1 = Users.query.filter_by(id = current_user.id).one()
     btc_address = user1.bitcoin_wallet.address
-    btc_address if btc_address is not None else None
+    btc_address if btc_address else None
     nfl_game = NFLSchedule.query.filter_by(GameKey = game_key).one()
     h_team = nfl_game.HomeTeam 
     a_team = nfl_game.AwayTeam
@@ -91,13 +99,9 @@ def nfl_create_bet(game_key):
     form_h = HomeTeamForm()
     form_a = AwayTeamForm()
     if form_o.validate_on_submit():
-        try:
-            network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-            network_fees = float(network_fees["data"]["estimated_network_fee"])
-        except Exception:
-            flash("Not enough bitcoins to create that bet", "danger")
-            return redirect(url_for('nfl.nfl_create_bet', game_key=game_key))
+        network_fees = 0.00060
         amount = float(request.form["amount"])
+        print amount, type(amount), "overunder amount"
         if float(amount+network_fees) <= float(user1.bitcoin_wallet.available_btc): 
             game_key_form = request.form["game_key"]
             home = request.form["home_"]
@@ -115,7 +119,7 @@ def nfl_create_bet(game_key):
                     away_team = away,
                     over_under=over_under,
                     total=float(total),
-                    amount=float(amount),
+                    amount=amount,
                     bet_key=bet_key,
                     user_id=current_user.id
                     )
@@ -124,7 +128,7 @@ def nfl_create_bet(game_key):
                 db.session.commit()
                 cache.delete("nflboard")
                 cache.delete("user_profile")
-                flash("%s, You just created a bet between %s taking %s%s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_o.vs, bet_o.over_under, bet_o.total, bet_o.amount, bet_o.amount*.9), "success")
+                flash("%s, You just created a bet between %s taking %s%s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_o.vs, bet_o.over_under, bet_o.total, bet_o.amount, bet_o.amount_win), "success")
                 return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
             else:
                 flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
@@ -134,13 +138,9 @@ def nfl_create_bet(game_key):
             return redirect(url_for('nfl.nfl_create_bet', game_key=game_key))
 
     elif form_a.validate_on_submit():
+        network_fees = 0.00060
         amount = float(request.form["amount"])
-        try:
-            network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-            network_fees = float(network_fees["data"]["estimated_network_fee"])
-        except Exception:
-            flash("Not enough bitcoins to create that bet", "danger")
-            return redirect(url_for('nfl.nfl_create_bet', game_key=game_key))
+        print amount, type(amount), "away"
         if float(amount+network_fees) <= float(user1.bitcoin_wallet.available_btc): 
             game_key_form = request.form["game_key"]
             home = request.form["home_"]
@@ -158,7 +158,7 @@ def nfl_create_bet(game_key):
                     away_team = away,
                     vs=away+" vs "+"@"+home,
                     ps=float(away_ps),
-                    amount=float(amount),
+                    amount=amount,
                     bet_key=bet_key,
                     user_id=current_user.id)
                 user1.profile.bets_created += 1
@@ -166,7 +166,7 @@ def nfl_create_bet(game_key):
                 db.session.commit()
                 cache.delete("nflboard")
                 cache.delete("user_profile")
-                flash("%s, You just created a bet between %s taking %s %s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_a.vs, bet_a.team, bet_a.ps_format, bet_a.amount, bet_a.amount*.9), "success")
+                flash("%s, You just created a bet between %s taking %s %s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_a.vs, bet_a.team, bet_a.ps_format, bet_a.amount, bet_a.amount_win), "success")
                 return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
             else:
                 flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
@@ -176,13 +176,9 @@ def nfl_create_bet(game_key):
             return redirect(url_for('nfl.nfl_create_bet', game_key=game_key))
 
     elif form_h.validate_on_submit():
+        network_fees = 0.00060
         amount = float(request.form["amount"])
-        try:
-            network_fees = block_io.get_network_fee_estimate(amounts = (amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-            network_fees = float(network_fees["data"]["estimated_network_fee"])
-        except Exception:
-            flash("Not enough bitcoins to create that bet", "danger")
-            return redirect(url_for('nfl.nfl_create_bet', game_key=game_key))
+        print amount, type(amount), "home"
         if float(amount+network_fees) <= float(user1.bitcoin_wallet.available_btc): 
             game_key_form = request.form["game_key"]
             home = request.form["home_"]
@@ -191,7 +187,6 @@ def nfl_create_bet(game_key):
             home_ps = request.form["point_spread"]
             bet_key = ""
             bet_key += hashlib.md5(game_key_form+home+away+hometeam+home_ps+str(amount)+salt).hexdigest()
-            print type(bet_key)
             if nfl_game.AwayTeam == away and nfl_game.HomeTeam == home and nfl_game.GameKey == game_key_form:
                 bet_h = NFLSideBet(
                     game_key=game_key_form,
@@ -201,7 +196,7 @@ def nfl_create_bet(game_key):
                     team=hometeam,
                     ps=float(home_ps),
                     vs=away+" vs "+"@"+home,
-                    amount=float(amount),
+                    amount=amount,
                     bet_key=bet_key,
                     user_id=current_user.id)
                 user1.profile.bets_created += 1
@@ -209,7 +204,7 @@ def nfl_create_bet(game_key):
                 db.session.commit()
                 cache.delete("nflboard")
                 cache.delete("user_profile")
-                flash("%s, You just created a bet between %s taking %s %s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_h.vs, bet_h.team, bet_h.ps_format, bet_h.amount, bet_h.amount*.9), "success")
+                flash("%s, You just created a bet between %s taking %s %s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_h.vs, bet_h.team, bet_h.ps_format, bet_h.amount, bet_h.amount_win), "success")
                 return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
             else:
                 flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
@@ -255,15 +250,14 @@ def nfl_edit_bet(bet_key):
     btc_address = user.bitcoin_wallet.address 
     try:
         nfl = NFLOverUnderBet.query.filter_by(bet_key=bet_key).one()
-        if nfl is not None:
+        if nfl:
             a_team = nfl.vs.split("vs")[0].strip()
             h_team = nfl.vs.split("@")[1].strip()
             form = OverUnderForm(obj=nfl)
             if form.validate_on_submit():
-                nfl.amount = float(form.amount.data)
-                network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-                network_fees = float(network_fees["data"]["estimated_network_fee"])
-                if float(nfl.amount+network_fees) <= float(user.bitcoin_wallet.available_btc):
+                nfl.amount = form.amount.data
+                network_fees = 0.00060
+                if (float(nfl.amount)+network_fees) <= float(user.bitcoin_wallet.available_btc):
                     nfl.over_under = form.over_under.data
                     nfl.total =  form.total.data
                     db.session.add(nfl)
@@ -278,16 +272,15 @@ def nfl_edit_bet(bet_key):
         print sys.exc_info()[1], "OverUnderBet"
     try:
         nfl = NFLSideBet.query.filter_by(bet_key=bet_key).one() 
-        if nfl is not None:
+        if nfl:
             a_team = nfl.vs.split("vs")[0].strip()
             h_team = nfl.vs.split("@")[1].strip()
             if nfl.team == nfl.home_team:
                 form = HomeTeamForm(obj=nfl)
                 if form.validate_on_submit():
-                    nfl.amount = float(form.amount.data)
-                    network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-                    network_fees = float(network_fees["data"]["estimated_network_fee"])
-                    if float(nfl.amount+network_fees) <= float(user.bitcoin_wallet.available_btc):
+                    nfl.amount = form.amount.data
+                    network_fees = 0.00060
+                    if (float(nfl.amount)+network_fees) <= float(user.bitcoin_wallet.available_btc):
                         nfl.ps = form.point_spread.data
                         db.session.add(nfl)
                         db.session.commit()
@@ -300,10 +293,9 @@ def nfl_edit_bet(bet_key):
             elif nfl.team == nfl.away_team:
                 form = AwayTeamForm(obj=nfl)
                 if form.validate_on_submit():
-                    nfl.amount = float(form.amount.data)
-                    network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (btc_address), to_addresses = (admin), priority="low")
-                    network_fees = float(network_fees["data"]["estimated_network_fee"])
-                    if float(nfl.amount+network_fees) <= float(user.bitcoin_wallet.available_btc):
+                    nfl.amount = form.amount.data
+                    network_fees = 0.00060
+                    if (float(nfl.amount)+network_fees) <= float(user.bitcoin_wallet.available_btc):
                         nfl.ps = form.point_spread.data
                         db.session.add(nfl)
                         db.session.commit()
@@ -315,6 +307,7 @@ def nfl_edit_bet(bet_key):
                         return redirect(url_for('nfl.nfl_edit_bet', bet_key=bet_key))
     except Exception:
         print sys.exc_info()[1], "SideBet"
+    form_d = DeleteForm()
     return render_template(
         "nfl_edit_bet.html", 
         all_teams = all_nfl_teams(),
@@ -322,6 +315,7 @@ def nfl_edit_bet(bet_key):
         h_team = h_team,
         a_team = a_team,
         form = form,
+        form_d = form_d,
         bet_key = bet_key
         )
 
@@ -337,17 +331,16 @@ def nfl_delete_bet(bet_key):
         nfl = NFLSideBet.query.filter_by(bet_key=bet_key).one()
     except Exception:
         print sys.exc_info()[1], "SideBet"
-    form = OverUnderForm()
+    form = DeleteForm()
     user = Users.query.filter_by(id=nfl.user_id).one()
-    if nfl is not None:
-        if request.method == "POST":
+    if nfl:
+        if form.validate_on_submit():
             user.profile.bets_created -= 1
             db.session.delete(nfl)
             db.session.add_all([user])
             db.session.commit()
-            cache.delete("nflboard")
-            cache.delete("user_profile")
-            flash("%s, you just deleted the bet you made between <u>%s</u> for $%s" % (nfl.users.username,nfl.vs,nfl.amount), "danger")
+            cache.clear()
+            flash("%s, you just deleted the bet you made between <u>%s</u> for %s BTC" % (nfl.users.username,nfl.vs,nfl.amount), "danger")
             return redirect(url_for("nfl.nfl_public_board"))
     return render_template(
         "nfl_delete_bet.html", 
@@ -375,25 +368,31 @@ def nfl_bet_vs_bet(bet_key):
     bt = bet_taker.bitcoin_wallet.address
     nonce = make_salt(length=32)
     nonce1 = make_salt(length=32)
-    bc_amount = nfl.amount 
-    bt_amount = nfl.amount 
+    bc_amount = float(nfl.amount) 
+    bt_amount = float(nfl.amount)
     form = VSForm()
     if form.validate_on_submit():
+        print bc_amount, type(bc_amount)
+        print bt_amount, type(bt_amount)
         #form validate on submit
-        network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (bc), to_addresses = (bt), priority="low")
+        network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (bc), to_addresses = (default), priority="low")
         network_fees = float(network_fees["data"]["estimated_network_fee"])
-        if float(bet_taker.bitcoin_wallet.available_btc) >= float(nfl.amount+network_fees) and float(bet_creator.bitcoin_wallet.available_btc) >= float(nfl.amount+network_fees):
+        print network_fees, type(network_fees)
+        nflamount = float(nfl.amount)
+        if float(bet_taker.bitcoin_wallet.available_btc) >= (nflamount+network_fees) and float(bet_creator.bitcoin_wallet.available_btc) >= (nflamount+network_fees):
+            print nflamount, type(nflamount),network_fees,type(network_fees)
+            print nflamount + network_fees
             # check again if balances are enough to cover bets 
             nfl.bet_taken = True
             nfl.taken_by = current_user.id 
             nfl.taken_username = current_user.username 
             bet_creator.profile.bets_taken += 1
-            bet_creator.profile.pending += (nfl.amount+network_fees)
+            bet_creator.profile.pending += Decimal(nflamount+network_fees)
             bet_taker.profile.bets_taken += 1
-            bet_taker.profile.pending += (nfl.amount+network_fees)
+            bet_taker.profile.pending += Decimal(nflamount+network_fees)
             bc = bet_creator.bitcoin_wallet.address
             bt = bet_taker.bitcoin_wallet.address
-            # we have to check to see if profile_taker and profile_bet_creator have enough bitcoins in their account to proceed.
+        #     # we have to check to see if profile_taker and profile_bet_creator have enough bitcoins in their account to proceed.
             try:
                 block_io.withdraw_from_addresses(amounts = bc_amount, from_addresses = bc, to_addresses = default, priority="low", nonce=nonce)
                 block_io.withdraw_from_addresses(amounts = bt_amount, from_addresses = bt, to_addresses = default, priority="low", nonce=nonce1)
@@ -404,12 +403,6 @@ def nfl_bet_vs_bet(bet_key):
                 return redirect(url_for("nfl.nfl_confirm_live_action", bet_key=bet_key))
             except Exception:
                 print sys.exc_info()[1],"payment error"
-                 
-            # url = "/nfl/bet/action/%s/" % bet_key
-            # base = "http://localhost:8600"
-            # print base + url 
-            # post_url = base + url
-            # print block_io.create_notification(type="address", address = bc, url = post_url)
         else:
             flash("You or your opponent don't have enough money in their account to make this bet.  This is for your protection.", "danger")
             return redirect(url_for('nfl.nfl_edit_bet', bet_key=bet_key))
