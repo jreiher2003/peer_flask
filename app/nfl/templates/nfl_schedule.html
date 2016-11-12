@@ -1,8 +1,6 @@
 {% extends "base.html" %}
-
 {% block title %}NFL schedule{% endblock title %}
 {% block style %}
-
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -46,7 +44,6 @@
                             {% endif %}
                         </tr>
                         <tr>
-
                             <td class="middlerow text-center"><p class="bottom_pboard">{{ d.HomeTeam }}</p></td>
                              {% if d.PointSpread > 0 %}
                                 <td class="middlerow text-center"><p class="bottom_pboard">{{ d.OverUnder_ }}</p></td>
@@ -55,8 +52,7 @@
                             {% else %}
                                 <td class="middlerow text-center"><p class="bottom_pboard">{{ d.home_pointspread }}</p></td>
                             {% endif %}
-                            <td class="middlerow text-center"><p class="bottom_pboard">{{ d.home_ml }}</p></td>
-                            
+                            <td class="middlerow text-center"><p class="bottom_pboard">{{ d.home_ml }}</p></td>   
                         </tr>
                          {% endif %}
                     {% endfor %}
@@ -67,5 +63,5 @@
         </div>
     </div>
 </div>
-
+{% include "create_bet_modal.html" %}
 {% endblock content %}

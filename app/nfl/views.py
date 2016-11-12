@@ -44,17 +44,28 @@ def nfl_standings():
 def nfl_schedule():
     dt = datetime.datetime.now()
     sch = NFLSchedule.query.filter(NFLSchedule.SeasonType == 1, NFLSchedule.PointSpread != None).all()
-    # d = date_to_string(dt)
-    # current_week = NFLSchedule.query.filter_by(SeasonType=1).all()
-    # print d[0:8]
-    # for i in current_week:
-    #     if d < i.Date[0:8]:
-    #         print i.Week
+    salt = make_salt()
+    admin = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7"
+    user1 = Users.query.filter_by(id = current_user.id).one()
+    btc_address = user1.bitcoin_wallet.address
+    btc_address if btc_address else None
+    nfl_game = NFLSchedule.query.filter_by(GameKey = "201611034").one()
+    h_team = nfl_game.HomeTeam 
+    a_team = nfl_game.AwayTeam
+    form_o = OverUnderForm()
+    form_h = HomeTeamForm()
+    form_a = AwayTeamForm()
     return render_template(
         "nfl_schedule.html", 
         all_teams = all_nfl_teams(), 
         data = sch, 
         dt = dt,
+        form_o = form_o,
+        form_h = form_h,
+        form_a = form_a, 
+        nfl_game = nfl_game, 
+        h_team = h_team,
+        a_team = a_team,
         )
 
 @nfl_blueprint.route("/nfl/stats/<int:sid>/")
@@ -129,7 +140,7 @@ def nfl_create_bet(game_key):
                 cache.delete("nflboard")
                 cache.delete("user_profile")
                 flash("%s, You just created a bet between %s taking %s%s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_o.vs, bet_o.over_under, bet_o.total, bet_o.amount, bet_o.amount_win), "success")
-                return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
+                return redirect(url_for('nfl.nfl_public_board'))
             else:
                 flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
                 return render_template("nfl_error.html")
