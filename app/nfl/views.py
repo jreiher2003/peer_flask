@@ -43,12 +43,15 @@ def nfl_standings():
 @nfl_blueprint.route("/nfl/schedule/")
 def nfl_schedule():
     dt = datetime.datetime.now()
-    sch = NFLSchedule.query.filter(NFLSchedule.SeasonType == 1, NFLSchedule.PointSpread != None).all()
     salt = make_salt()
     admin = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7"
     user1 = Users.query.filter_by(id = current_user.id).one()
     btc_address = user1.bitcoin_wallet.address
     btc_address if btc_address else None
+    date_string = date_to_string(dt)
+    sch = NFLSchedule.query.filter(NFLSchedule.SeasonType == 1, NFLSchedule.PointSpread != None, NFLSchedule.Date >= date_string).all()
+    # for i in sch:
+    #     print i.GameKey, i.Week
     nfl_game = NFLSchedule.query.filter_by(GameKey = "201611034").one()
     h_team = nfl_game.HomeTeam 
     a_team = nfl_game.AwayTeam

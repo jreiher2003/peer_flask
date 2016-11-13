@@ -12,8 +12,8 @@
             <div class="row">
                 <div class="col-md-5">
                     <h3 class="text-center">Opponent</h3>
-                    <div class="thumbnail">
-                        <p class="text-center"><img class="navpic" src="{{ nfl.users.profile.imgsrc }}"/> {{ nfl.users.username }}</p>
+                    <div class="confirmbet">
+                        <p class="text-center"><img class="navpic" src="{{ nfl.users.profile.imgsrc|resize('100x100', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}"/></p>
                         <p class="text-center">{{ nfl.game_date|game_time }} {{ nfl.game_date|game_date }}</p>
                         <h3 class="text-center">{{ nfl.vs }}</h3>
                             {% if nfl.over_under %}
@@ -30,11 +30,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2"><h1 class="text-center vs">VS</h1></div>
+                <div class="col-md-2"><h1 class="text-center vs"><span class="glyphicon glyphicon-transfer text-muted" aria-hidden="true"></span><br>VS</h1></div>
                 <div class="col-md-5">
                     <h3 class="text-center">You</h3>
-                    <div class="thumbnail">
-                        <p class="text-center"><img class="navpic" src="{{ current_user.profile.imgsrc }}" width="40"/> {{ current_user.username }}</p>
+                    <div class="confirmbet">
+                        <p class="text-center"><img class="navpic" src="{{ current_user.profile.imgsrc|resize('100x100', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}"/></p>
                         <p class="text-center">{{ nfl.game_date|game_time }} {{ nfl.game_date|game_date }}</p>
                         <h3 class="text-center">{{ nfl.vs }}</h3>
                             {% if nfl.over_under %}
@@ -55,6 +55,7 @@
             </div><!-- end row -->
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
+                    <div style="margin-top:10px"></div>
                     <form method="POST" action="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=nfl.bet_key) }}" onsubmit="return checkForm(this);" >
                         {{ form.csrf_token }}
                         {{ form.submit(class="btn btn-success btn-block") }}

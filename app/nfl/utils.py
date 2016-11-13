@@ -23,6 +23,12 @@ def date_to_string(value):
     """convert a datetime object to a formated string """
     return value.strftime("%m/%d/%Y %I:%M:%S %p")
 
+# def nfl_week(current_day):
+#     # weeks go from thursday to wensday. 
+#     # return week based of current date
+#     # ie. current_day = 11/13/2016 ---> 10
+#     start_date = "9/8/2016" # 
+#     end_date = "1/1/2017" 
 ## OFFENSIVE STATS by TEAM
 def team_rush_avg(rush_yds, team, sid):
     q = db.session.query(NFLTeamSeason.RushingYards,NFLTeamSeason.Team).filter_by(SeasonType=sid).order_by(db.desc(NFLTeamSeason.RushingYards)).all()

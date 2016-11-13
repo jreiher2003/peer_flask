@@ -7,10 +7,10 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <p>check your pending bets in your profile</p>
-            <div class="thumbnail">
-                <h2 class="text-center">Your bet</h2>
-                <img class="navpic" src="{{ current_user.profile.imgsrc }}"/>
-                <p class="text-center">{{ current_user.username }}</p>
+            <div class="confirmbet">
+                <h2 class="text-center">{{ current_user.username }}, this is your bet.</h2>
+                <div style="display:block;margin:0 auto;text-align:center;"><img class="navpic" src="{{ current_user.profile.imgsrc|resize('100x100', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}"/></div>
+                
                 <hr>
                 <div class="caption">
                     <p><b>Game Key</b>: {{ live_bet.game_key }}</p>

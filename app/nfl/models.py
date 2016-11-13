@@ -49,6 +49,7 @@ class Base(db.Model):
     @property 
     def opposite_ps(self):
         if self.ps == None: return ""
+        elif self.ps == 0.0: return "even"
         elif self.ps < 0: return str(self.ps).replace("-", "+")
         else: return "-"+str(self.ps)
 
