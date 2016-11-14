@@ -72,7 +72,7 @@
             <td>{{ b.bet_key }}</td>
             <td>{{ b.game_date | day_first }}</td>
             <td>{{ b.vs }}</td>
-            <td>{{ b.team }}{{ b.ps_format }}</td>
+            <td>{{ b.team }}&nbsp;{{ b.ps_format }}</td>
             <td>{{ b.taken_username }}</td>
             <td>{{ b.amount }} / {{ b.amount_win }}</td>
             {% for g in graded_bets %}
@@ -93,7 +93,7 @@
             <td>{{ b.bet_key }}</td>
             <td>{{ b.game_date | day_first }}</td>
             <td>{{ b.vs }}</td>
-            <td>{{ b.opposite_team }} {{ b.opposite_ps }}</td>
+            <td>{{ b.opposite_team }}&nbsp;{{ b.opposite_ps }}</td>
             <td>{{ b.users.username }}</td>
             <td>{{ b.amount }} / {{ b.amount_win }}</td>
             {% for g in graded_bets %}
@@ -117,7 +117,7 @@
             <td>{{ b.bet_key }}</td>
             <td>{{ b.game_date | day_first }}</td>
             <td>{{ b.vs }}</td>
-            <td>{{ b.team }} {{ b.ml }}</td>
+            <td>{{ b.team }}&nbsp;{{ b.ml }}</td>
             <td>{{ b.taken_username }}</td>
             <td>{{ b.amount }} / {{ b.ml_win }}</td>
             {% for g in graded_bets %}
@@ -138,7 +138,7 @@
             <td>{{ b.bet_key }}</td>
             <td>{{ b.game_date | day_first }}</td>
             <td>{{ b.vs }}</td>
-            <td>{{ b.opposite_team }} {{ b.opposite_ml }}</td>
+            <td>{{ b.opposite_team }}&nbsp;{{ b.opposite_ml }}</td>
             <td>{{ b.users.username }}</td>
             <td>{{ b.amount }} / {{ b.ml_win }}</td>
             {% for g in graded_bets %}
