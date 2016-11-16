@@ -131,6 +131,7 @@ if __name__ == "__main__":
     # db.create_all()
     # create_roles()
     download()
+    print "just download please wait 15 sec..."
     import time 
     time.sleep(15)
     
@@ -140,7 +141,11 @@ if __name__ == "__main__":
     populate_standing()
     populate_score()
     populate_teamseason()
+    print "just populated stat tables with new info please wait 15 sec..."
+    time.sleep(15)
     graded_bets()
+    print "just graded bets, please wait 30 sec..."
+    time.sleep(30)
     kitchen_sink()
     cache.clear()
 

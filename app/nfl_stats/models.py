@@ -260,7 +260,7 @@ class NFLTeamSeason(db.Model):
 
     RushingAttempts = db.Column(db.Integer)
     RushingYards = db.Column(db.Integer)
-    RushingYardsPerAttempt = db.Column(db.Integer)
+    RushingYardsPerAttempt = db.Column(db.Float)
     RushingTouchdowns = db.Column(db.Integer)
 
     PassingAttempts = db.Column(db.Integer)
@@ -543,6 +543,10 @@ class NFLTeamSeason(db.Model):
     @property 
     def opponent_net_passing_yrd_per_game(self):
         return round((self.OpponentPassingYards / self.Games),1)
+
+    @property 
+    def passer_rating(self):
+        return round(self.PasserRating, 1)
 
     ##############################################################
     ########## total rushing offense/defence #####################
