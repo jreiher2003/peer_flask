@@ -23,10 +23,21 @@ body {
 .middlerow { 
      /*border-top: none !important; */
  }
+ #bet_tabs li a {
+    text-decoration: none;
+ }
  a.btn.btn-success {
     margin-top: 30px;
     margin-bottom:30px;
  }
+ /*button.btn.btn-success {
+    margin-top: 30px;
+    margin-left:50px;
+    margin-bottom: 30px;
+ }
+ tr td button.btn.btn-success {
+    text-align: right;
+ }*/
 
  p.pboard {
     margin-top: 16px;

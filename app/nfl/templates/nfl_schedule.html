@@ -19,23 +19,24 @@
                         </tr>
                     </thead> 
                     <tbody class="tbody">
-                     {% for d in data %}
-                        {% if d.Date|dateify > dt %}
+                     {% for nfl_game in data %}
+                        {% if nfl_game.Date|dateify > dt %}
                         <tr>
-                            <td rowspan="2" class="text-center"><p class="reg_pboard">{{ d.Date|dateify|game_time }}</p><p class="reg_pboard">{{ d.Date|dateify|game_date }}</p></td>
-                            <td rowspan="2" class="text-center"><p class="reg_pboard">{{ d.GameKey }}</p><p class="reg_pboard">Week: {{ d.Week }}</p></td>
-                            <td class="text-center"><p class="pboard">{{ d.AwayTeam }}</p></td>
-                            {% if d.PointSpread > 0 %}
-                                <td class="text-center"><p class="pboard">{{ d.away_pointspread }}</p></td>
-                            {% elif d.PointSpread == 0.0 %}
-                                <td class="text-center"><p class="pboard">{{ d.OverUnder_ }}</p></td>
+                            <td rowspan="2" class="text-center"><p class="reg_pboard">{{ nfl_game.Date|dateify|game_time }}</p><p class="reg_pboard">{{ nfl_game.Date|dateify|game_date }}</p></td>
+                            <td rowspan="2" class="text-center"><p class="reg_pboard">{{ nfl_game.GameKey }}</p><p class="reg_pboard">Week: {{ nfl_game.Week }}</p></td>
+                            <td class="text-center"><p class="pboard">{{ nfl_game.AwayTeam }}</p></td>
+                            {% if nfl_game.PointSpread > 0 %}
+                                <td class="text-center"><p class="pboard">{{ nfl_game.away_pointspread }}</p></td>
+                            {% elif nfl_game.PointSpread == 0.0 %}
+                                <td class="text-center"><p class="pboard">{{ nfl_game.OverUnder_ }}</p></td>
                             {% else %}
-                                <td class="text-center"><p class="pboard">{{ d.OverUnder_ }}</p></td>
+                                <td class="text-center"><p class="pboard">{{ nfl_game.OverUnder_ }}</p></td>
                             {% endif %}
-                            <td class="text-center"><p class="pboard">{{ d.away_ml }}</p></td>
+                            <td class="text-center"><p class="pboard">{{ nfl_game.away_ml }}</p></td>
                             {% if current_user.is_active %}
                                 {% if current_user.bitcoin_wallet %}
-                                <td rowspan="2" class="text-center"><a class="btn btn-success" href="{{ url_for('nfl.nfl_create_bet', game_key=d.GameKey) }}">Create</a></td>
+                                {#<td rowspan="2" class="text-center"><a class="btn btn-success" href="{{ url_for('nfl.nfl_create_bet', game_key=nfl_game.GameKey) }}">Create</a></td>#}
+                                <td rowspan="2" class="">{% include "create_bet_modal.html" %}<td>
                                 {% else %}
                                     <td rowspan="2" class="text-center"><a href="#" class="btn btn-success cbw" data-toggle="popover" data-placement="top" data-content="CREATE BITCOIN WALLET first before you can create a bet!">Create</a></td>
                                 {% endif %}
@@ -44,15 +45,15 @@
                             {% endif %}
                         </tr>
                         <tr>
-                            <td class="middlerow text-center"><p class="bottom_pboard">{{ d.HomeTeam }}</p></td>
-                             {% if d.PointSpread > 0 %}
-                                <td class="middlerow text-center"><p class="bottom_pboard">{{ d.OverUnder_ }}</p></td>
-                            {% elif d.PointSpread == 0.0 %}
-                                <td class="middlerow text-center"><p class="bottom_pboard">{{ d.even_pointspread }}</p></td>
+                            <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.HomeTeam }}</p></td>
+                             {% if nfl_game.PointSpread > 0 %}
+                                <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.OverUnder_ }}</p></td>
+                            {% elif nfl_game.PointSpread == 0.0 %}
+                                <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.even_pointspread }}</p></td>
                             {% else %}
-                                <td class="middlerow text-center"><p class="bottom_pboard">{{ d.home_pointspread }}</p></td>
+                                <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.home_pointspread }}</p></td>
                             {% endif %}
-                            <td class="middlerow text-center"><p class="bottom_pboard">{{ d.home_ml }}</p></td>   
+                            <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.home_ml }}</p></td>   
                         </tr>
                          {% endif %}
                     {% endfor %}
@@ -66,4 +67,8 @@
 
 {#{% include "create_bet_modal.html" %}#}
 
+
+<script>
+{#data = NFLSchedule.query.filter_by(GameKey = {{ d.GameKey }} ).one()#}
+</script>
 {% endblock content %}

@@ -1,8 +1,7 @@
+<button type="button" class="btn btn-success" data-id="{{ nfl_game.GameKey }}" data-toggle="modal" data-target="#{{ nfl_game.GameKey }}">Create</button>
 <!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-success" data-id="{{ data }}" data-toggle="modal" data-target="#myCreateBet">Create</button>
-
 <!-- Modal -->
-<div id="myCreateBet" class="modal fade" role="dialog">
+<div id="{{ nfl_game.GameKey }}" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->

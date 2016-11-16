@@ -4,10 +4,10 @@
         {{ render_field_with_errors(form_o.game_key, value=nfl_game.GameKey) }}
     </div>
     <div class="form-group">
-        {{ render_field_with_errors(form_o.away_, value=a_team) }}
+        {{ render_field_with_errors(form_o.away_, value=nfl_game.AwayTeam) }}
     </div>
     <div class="form-group">
-        {{ render_field_with_errors(form_o.home_, value=h_team) }}
+        {{ render_field_with_errors(form_o.home_, value=nfl_game.HomeTeam) }}
     </div>
     <div class="form-group">
         {{ form_o.over_under.label }} 
