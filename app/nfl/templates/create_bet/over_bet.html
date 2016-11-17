@@ -9,11 +9,11 @@
     <div class="form-group">
         {{ render_field_with_errors(form_o.home_, value=nfl_game.HomeTeam) }}
     </div>
-    <div class="form-group">
+    <div class="form-group" style="text-align:left;">
         {{ form_o.over_under.label }} 
         {{ render_field_with_errors(form_o.over_under) }}
     </div>
-    <div class="form-group">
+    <div class="form-group" style="text-align:left;">
         {{ form_o.total.label }}
         {{ render_field_with_errors(form_o.total, class="form-control", value=nfl_game.OverUnder) }}  
     </div>
@@ -24,5 +24,7 @@
             {{ render_field_with_errors(form_o.amount, id="amount", placeholder="0.08", class="form-control")}}
         </div>
     </div>
+    <div class="form-group" style="text-align:left;">
     {{ form_o.submit_o(class="btn btn-success") }}
+    </div>
 </form>

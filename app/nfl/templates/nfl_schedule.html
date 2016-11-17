@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div class="createbet">
+            <div class="public__board__border">
                 <table class="table table-border">
                     <thead class="thead"> 
                         <tr> 
@@ -16,6 +16,7 @@
                             <th class="text-center">Spread</th>
                             <th class="text-center">ML</th>
                             <th class="text-center">Bet</th>
+                            <th></th>
                         </tr>
                     </thead> 
                     <tbody class="tbody">
@@ -35,8 +36,8 @@
                             <td class="text-center"><p class="pboard">{{ nfl_game.away_ml }}</p></td>
                             {% if current_user.is_active %}
                                 {% if current_user.bitcoin_wallet %}
-                                {#<td rowspan="2" class="text-center"><a class="btn btn-success" href="{{ url_for('nfl.nfl_create_bet', game_key=nfl_game.GameKey) }}">Create</a></td>#}
-                                <td rowspan="2" class="">{% include "create_bet_modal.html" %}<td>
+                                
+                                <td rowspan="2" class="odds_create_button">{% include "create_bet_modal.html" %}<td>
                                 {% else %}
                                     <td rowspan="2" class="text-center"><a href="#" class="btn btn-success cbw" data-toggle="popover" data-placement="top" data-content="CREATE BITCOIN WALLET first before you can create a bet!">Create</a></td>
                                 {% endif %}
@@ -53,7 +54,8 @@
                             {% else %}
                                 <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.home_pointspread }}</p></td>
                             {% endif %}
-                            <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.home_ml }}</p></td>   
+                            <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.home_ml }}</p></td> 
+                            <td style="border-top: None"></td>  
                         </tr>
                          {% endif %}
                     {% endfor %}

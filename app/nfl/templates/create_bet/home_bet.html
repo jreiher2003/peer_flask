@@ -9,11 +9,11 @@
     <div class="form-group">
         {{ render_field_with_errors(form_h.home_,value=nfl_game.HomeTeam) }}
     </div>
-    <div class="form-group">
+    <div class="form-group" style="text-align:left;">
         {{ form_h.home_team.label }}
         {{ render_field_with_errors(form_h.home_team, id="home_team", class="form-control", readonly=True,value=nfl_game.HomeTeam) }}
     </div>
-    <div class="form-group">
+    <div class="form-group" style="text-align:left;">
      {{ form_h.point_spread.label }}
         {% if nfl_game.PointSpread < 0 %}
             {{ render_field_with_errors(form_h.point_spread, id="home_ps",class="form-control", value=nfl_game.PointSpread, type="number", min="-21", max="21", step="0.5") }}
@@ -28,5 +28,7 @@
             {{ render_field_with_errors(form_h.amount, id="amount", placeholder="0.08", class="form-control")}}
         </div>
     </div>
-    {{ form_h.submit_h(class="btn btn-success") }}
+    <div class="form-group" style="text-align:left;">
+        {{ form_h.submit_h(class="btn btn-success") }}
+    </div>
 </form>

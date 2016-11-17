@@ -33,11 +33,25 @@ def nfl_home():
 @nfl_blueprint.route("/nfl/standings/")
 @cache.cached(timeout=60*5, key_prefix="nfl_season_standings")
 def nfl_standings():
-    st = NFLStandings.query.all()
+    afc_east = NFLStandings.query.filter_by(Conference="AFC",Division="East").all()
+    afc_north = NFLStandings.query.filter_by(Conference="AFC",Division="North").all()
+    afc_south = NFLStandings.query.filter_by(Conference="AFC",Division="South").all()
+    afc_west = NFLStandings.query.filter_by(Conference="AFC",Division="West").all() 
+    nfc_east = NFLStandings.query.filter_by(Conference="NFC",Division="East").all()
+    nfc_north = NFLStandings.query.filter_by(Conference="NFC",Division="North").all()
+    nfc_south = NFLStandings.query.filter_by(Conference="NFC",Division="South").all()
+    nfc_west = NFLStandings.query.filter_by(Conference="NFC",Division="West").all()
     return render_template(
         "nfl_standings/nfl standings.html", 
         all_teams = all_nfl_teams(),
-        standing = st, 
+        afc_east = afc_east,
+        afc_north = afc_north,
+        afc_south = afc_south,
+        afc_west = afc_west,
+        nfc_east = nfc_east,
+        nfc_north = nfc_north,
+        nfc_south = nfc_south,
+        nfc_west = nfc_west 
         )
 
 @nfl_blueprint.route("/nfl/schedule/")

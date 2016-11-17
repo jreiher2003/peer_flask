@@ -4,18 +4,17 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
+      <div class="nfl_standing_table">
       <!-- AFC EAST -->
       <table class="table table-condensed table-responsive">
         <thead> 
           <tr>
-            <th class="team"><b>AFC East</b></th> 
+            <th><b>AFC East</b></th> 
             {% include "nfl_standings/table_head_standing.html" %}
-            {% for x in standing %}
-              {% if x.Conference == "AFC" and x.Division == "East" %}
+            {% for x in afc_east %}
           <tr>
             {% include "nfl_standings/table_standings_td.html" %}
           </tr>
-              {% endif %}
             {% endfor %}
       </table>
       <!-- AFC NORTH -->
@@ -24,12 +23,10 @@
           <tr>
             <th><b>AFC North</b></th> 
             {% include "nfl_standings/table_head_standing.html" %}
-            {% for x in standing %}
-              {% if x.Conference == "AFC" and x.Division == "North" %}
+            {% for x in afc_north %}
             <tr>
               {% include "nfl_standings/table_standings_td.html" %}
             </tr>
-              {% endif %}
             {% endfor %}
       </table>
       <!-- AFC SOUTH -->
@@ -38,12 +35,10 @@
           <tr>
             <th><b>AFC South</b></th> 
             {% include "nfl_standings/table_head_standing.html" %}
-            {% for x in standing %}
-              {% if x.Conference == "AFC" and x.Division == "South" %}
+            {% for x in afc_south %}
             <tr>
               {% include "nfl_standings/table_standings_td.html" %}
             </tr>
-              {% endif %}
             {% endfor %}
       </table>
       <!-- AFC WEST -->
@@ -53,12 +48,10 @@
           <tr>
             <th><b>AFC West</b></th> 
             {% include "nfl_standings/table_head_standing.html" %}
-            {% for x in standing %}
-              {% if x.Conference == "AFC" and x.Division == "West" %}
+            {% for x in afc_west %}
             <tr>
               {% include "nfl_standings/table_standings_td.html" %}
             </tr>
-              {% endif %}
             {% endfor %}
       </table>
       <!-- NFC EAST -->
@@ -67,12 +60,10 @@
           <tr>
             <th><b>NFL East</b></th> 
             {% include "nfl_standings/table_head_standing.html" %}
-            {% for x in standing %}
-              {% if x.Conference == "NFC" and x.Division == "East" %}
+            {% for x in nfc_east %}
             <tr>
               {% include "nfl_standings/table_standings_td.html" %}
             </tr>
-              {% endif %}
             {% endfor %}
       </table>
       <!-- NFC NORTH -->
@@ -81,12 +72,10 @@
           <tr>
             <th><b>NFC North</b></th> 
             {% include "nfl_standings/table_head_standing.html" %}
-            {% for x in standing %}
-              {% if x.Conference == "NFC" and x.Division == "North" %}
+            {% for x in nfc_north %}
             <tr>
               {% include "nfl_standings/table_standings_td.html" %}
             </tr>
-              {% endif %}
             {% endfor %}
       </table>
       <!-- NFL SOUTH -->
@@ -95,12 +84,10 @@
           <tr>
             <th><b>NFC South</b></th> 
             {% include "nfl_standings/table_head_standing.html" %}
-            {% for x in standing %}
-              {% if x.Conference == "NFC" and x.Division == "South" %}
+            {% for x in nfc_south %}
             <tr>
               {% include "nfl_standings/table_standings_td.html" %}
             </tr>
-              {% endif %}
             {% endfor %}
       </table>
       <table class="table table-condensed table-responsive">
@@ -108,14 +95,13 @@
           <tr>
             <th><b>NFC West</b></th> 
             {% include "nfl_standings/table_head_standing.html" %}
-            {% for x in standing %}
-              {% if x.Conference == "NFC" and x.Division == "West" %}
+            {% for x in nfc_west %}
             <tr>
               {% include "nfl_standings/table_standings_td.html" %}
             </tr>
-              {% endif %}
             {% endfor %}
       </table>
+    </div>
     </div>
   </div>
 </div>

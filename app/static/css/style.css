@@ -23,22 +23,13 @@ body {
 .middlerow { 
      /*border-top: none !important; */
  }
- #bet_tabs li a {
-    text-decoration: none;
+ #bet_tabs li a, a {
+    text-decoration: none !important;
  }
  a.btn.btn-success {
     margin-top: 30px;
     margin-bottom:30px;
  }
- /*button.btn.btn-success {
-    margin-top: 30px;
-    margin-left:50px;
-    margin-bottom: 30px;
- }
- tr td button.btn.btn-success {
-    text-align: right;
- }*/
-
  p.pboard {
     margin-top: 16px;
     padding-top: 10px;
@@ -65,7 +56,10 @@ body {
 i {
     color: #2780e3;
 }
-
+.odds_create_button {
+    vertical-align: middle !important;
+    text-align: center !important;
+}
 /* --------- CREATE-A-BET ---------- */
 div.createbet {
     background-color: #fff;
@@ -73,6 +67,11 @@ div.createbet {
     padding: 20px;
     box-shadow: 3px 3px 3px #9D9D9D;
     min-height: 400px;
+}
+div.public__board__border {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 3px 3px 3px #9D9D9D;
 }
 #bet_tabs > li {
     float: none;
@@ -152,4 +151,12 @@ div.thumbnail.editbet, .confirmbet {
     border-left: 1px solid #999;
     border-bottom: 1px solid #999;
     padding: 5px;
+}
+
+/* nfl standing page */
+div.nfl_standing_table {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 3px 3px 3px #9D9D9D;
+    padding: 10px 0 0 20px;
 }
