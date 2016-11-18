@@ -36,7 +36,6 @@ body {
     font-size: 1em;
     line-height: .2em;
     letter-spacing: 1px;
-    /*border-right: 1px solid grey;*/
  }
  p.bottom_pboard {
     margin-top:12px;
@@ -115,7 +114,6 @@ ul#over_under {
     color: black;
     opacity: .8;
 }
-
 .popover.top > .arrow:after { border-top-color: #fff; }
 .popover > .arrow { border-bottom-color: #fff;}
 
@@ -145,14 +143,11 @@ div.thumbnail.editbet, .confirmbet {
 .editbet_border_top {
     padding-top:0;
 }
-
-
 .delete_item {
     border-left: 1px solid #999;
     border-bottom: 1px solid #999;
     padding: 5px;
 }
-
 /* nfl standing page */
 div.nfl_standing_table {
     background-color: #fff;

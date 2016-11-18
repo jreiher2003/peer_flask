@@ -1,3 +1,9 @@
+td.team {
+    text-align: left;
+    width: 160px !important;
+    /*padding-left:60px !important;
+    padding-right: 0 !important;*/
+}
 .dataTables_wrapper, .dataTables_paginate, .paginate_button {
     border: none !important;
     padding: 0 !important;
@@ -13,15 +19,28 @@ table.dataTable thead .sorting_desc {
     background-image: none !important;
     background-image: url("/static/img/arrows/icon-arrow-down-18.png") !important;
 }
+td.sorting_1,
+tr.odd>.sorting_1,
+tr.even>.sorting_1 {
+    background-color:#f3f8ff !important;
+}
 thead.thead {
     background-color: #2780e3;
     color: #fff;
+}
+table.dataTable thead th, 
+table.dataTable.no-footer {
+    border-bottom: 2px solid #dddddd !important;
 }
 tbody.tbody {
     background-color: #fff;
 }
 tr {
     margin: 5px 0 5px 0;
+    text-align: center !important;
+}
+th {
+    text-align: center !important;
 }
 div#pager.pager {
     top:0 !important;
@@ -39,4 +58,32 @@ td.vert-align.sorting_1 {
 }
 td.vert-align {
     vertical-align: middle !important;
+}
+div.col-md-12.team_stats_table {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 3px 3px 3px #9D9D9D;
+}
+form.team_season_form {
+    margin-bottom: 5px;
+}
+select.team_season_select {
+}
+/* tabs teams season stats */
+ul.nav.nav-tabs.team_stats_nav-tabs {
+    border-bottom: none !important;
+    margin-bottom: 10px;
+}
+.nav-tabs.team_stats_nav-tabs > li > a:hover,
+.nav-tabs.team_stats_nav-tabs > li > a:active,
+.nav-tabs.team_stats_nav-tabs > li.active > a {
+    background-color: transparent;
+    border: transparent;
+    border-bottom: 3px solid #2780e3;
+    padding-bottom: 4px;
+    color: #2780e3 !important;
+}
+.nav-tabs.team_stats_nav-tabs > li > a {
+    color: #9D9D9D;
 }

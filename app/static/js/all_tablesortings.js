@@ -7,74 +7,142 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   // call the tablesorter plugin
-  $("table#offense_season_stats").DataTable({
+  var t = $("table#offense_season_stats").DataTable({
      "pageLength": 50,
      "order": [[2,"desc"]],
   });
-  $('table#offense_passing_season_stats').DataTable({
+  t.on('order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var s = $('table#offense_passing_season_stats').DataTable({
     "pageLength": 50,
     "order": [[5,"desc"]],  
     });
-  $('table#offense_rushing_season_stats').DataTable({
+  s.on('order.dt search.dt', function () {
+        s.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var w = $('table#offense_rushing_season_stats').DataTable({
     "pageLength": 50,
     "order": [[3, "desc"]],
     });
-  $('table#offense_receiving_season_stats').DataTable({
+  w.on('order.dt search.dt', function () {
+        w.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var a = $('table#offense_receiving_season_stats').DataTable({
     "pageLength": 50,
     "order": [[3, "desc"]],
     });
-  $('table#offense_downs_season_stats').DataTable({
+  a.on('order.dt search.dt', function () {
+        a.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var b = $('table#offense_downs_season_stats').DataTable({
     "pageLength": 50,
     "order": [[2, "desc"]],
     });
+  b.on('order.dt search.dt', function () {
+        b.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
   
   
    
-  $('table#defense_season_stats').DataTable({
+  var c = $('table#defense_season_stats').DataTable({
    "pageLength": 50,
    "order": [[2,'asc']],
-  }); 
-  $('table#defense_passing_season_stats').DataTable({
+  });
+  c.on('order.dt search.dt', function () {
+        c.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var d = $('table#defense_passing_season_stats').DataTable({
     "pageLength": 50,
     "order": [[5,'asc']],
   });
-  $('table#defense_rushing_season_stats').DataTable({
+  d.on('order.dt search.dt', function () {
+        d.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var f = $('table#defense_rushing_season_stats').DataTable({
     "pageLength": 50,
     "order": [[3,'asc']],
   });
-  $('table#defense_receiving_season_stats').DataTable({
+  f.on('order.dt search.dt', function () {
+        f.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var g = $('table#defense_receiving_season_stats').DataTable({
     "pageLength": 50,
     "order": [[3,'asc']],
   });
-  $('table#defense_downs_season_stats').DataTable({
+  g.on('order.dt search.dt', function () {
+        g.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var h = $('table#defense_downs_season_stats').DataTable({
     "pageLength": 50,
     "order": [[2,'asc']],
   });
-  $('table#defense_tsif_season_stats').DataTable({
+  h.on('order.dt search.dt', function () {
+        h.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var j = $('table#defense_tsif_season_stats').DataTable({
     "pageLength": 50,
     "order": [[5,'desc']],
   });
+  j.on('order.dt search.dt', function () {
+        j.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
 
-  $('table#special_kicking_season_stats').DataTable({
+  var k = $('table#special_kicking_season_stats').DataTable({
     "pageLength": 50,
     "order": [[2,'desc']],
    });
-  $('table#special_punting_season_stats').DataTable({
+  k.on('order.dt search.dt', function () {
+        k.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var l = $('table#special_punting_season_stats').DataTable({
     "pageLength": 50,
     "order": [[4,'desc']],
     });
-  $('table#special_returns_season_stats').DataTable({
+  l.on('order.dt search.dt', function () {
+        l.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var m = $('table#special_returns_season_stats').DataTable({
     "pageLength": 50,
     "order": [[4,'desc']],
     });
-  $("table#graded_bets_table").DataTable({
+  m.on('order.dt search.dt', function () {
+        m.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        });
+    }).draw();
+  var n = $("table#graded_bets_table").DataTable({
      "pageLength": 10,
      "order":[[2,'desc']],
     });
-  $("table#pending_bets_table").DataTable({
+  var p = $("table#pending_bets_table").DataTable({
      "pageLength": 25,
      "order":[[0,'desc']],
     });
-
-  
 });

@@ -15,7 +15,7 @@
     </div>
     <div class="form-group" style="text-align:left;">
         {{ form_o.total.label }}
-        {{ render_field_with_errors(form_o.total, class="form-control", value=nfl_game.OverUnder) }}  
+        {{ render_field_with_errors(form_o.total, class="form-control", value=nfl_game.OverUnder,  type="number", min="25", max="70", step="0.5") }}  
     </div>
     <div class="form-group">
         <label class="sr-only" for="amount">Amount (in btc)</label>

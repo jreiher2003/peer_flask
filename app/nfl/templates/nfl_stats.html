@@ -6,23 +6,26 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form action="" method="get" enctype="multipart/form-data">
-                <select id="goto_stats">
+            <form class="team_season_form" action="" method="get" enctype="multipart/form-data">
+                <select id="goto_stats" class="team_season_select">
                     <option>Season</option>
                     <option value="{{ url_for('nfl.nfl_stats', sid=1) }}">Regular Season</option>
                     <option value="{{ url_for('nfl.nfl_stats', sid=2) }}">Pre-Season</option>
                 </select>
             </form>
-            <ul class="nav nav-tabs">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 team_stats_table">
+            <ul class="nav nav-tabs team_stats_nav-tabs">
                 <li class="active"><a href="#offense" data-toggle="tab">Offense</a></li>
                 <li><a href="#defense" data-toggle="tab">Defense</a></li>
                 <li><a href="#special_teams" data-toggle="tab">Special Teams</a></li>
             </ul>
-                
             <!-- <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane fade active in" id="offense">
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs team_stats_nav-tabs">
                         <li class="active"><a href="#total_offense" data-toggle="tab">Total Offense</a></li>
                         <li><a href="#passing_offense" data-toggle="tab">Passing Offense</a></li>
                         <li><a href="#rushing_offense" data-toggle="tab">Rushing Offense</a></li>
@@ -48,14 +51,14 @@
                     </div>
                 </div><!-- end tab-pane offense -->
                 <div class="tab-pane fade" id="defense">
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs team_stats_nav-tabs">
                         <li><a href="#total_defense" data-toggle="tab">Total Defense</a></li>
                         <li><a href="#passing_defense" data-toggle="tab">Passing Defense</a></li>
                         <li><a href="#rushing_defense" data-toggle="tab">Rushing Defense</a></li>
                         <li><a href="#receiving_defense" data-toggle="tab">Receiving Defense</a></li>
                         <li><a href="#downs_defense" data-toggle="tab">Opponent Downs</a></li>
                         <li><a href="#sacks" data-toggle="tab">Tackles/Sacks/Interceptions/Fumbles</a></li>  
-                    <ul>
+                    </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="total_defense">
                             {% include "team_stat_tables/nfl_team_total_defensive_stats.html" %}
@@ -78,7 +81,7 @@
                     </div>
                 </div><!-- end tab-pane defence -->
                 <div class="tab-pane fade" id="special_teams">
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs team_stats_nav-tabs">
                         <li><a href="#kicking" data-toggle="tab">Field Goals / Xtra Points</a></li>
                         <li><a href="#punting" data-toggle="tab">Punting</a></li>
                         <li><a href="#returns" data-toggle="tab">Kickoff / Punt Returns</a></li>
@@ -97,8 +100,9 @@
                 </div> <!-- end tab-pane special teams -->
             </div><!-- end tab content outer -->
         </div>
-    </div>
-</div>
+    </div> <!-- end row --> 
+</div><!-- end container -->
+
 
 
 {% endblock %}

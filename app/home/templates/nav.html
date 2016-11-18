@@ -27,15 +27,15 @@
           {% endif %}
           <li>
             <div class="dropdown nav_pic">
-              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><img class="navpic" src="{{ current_user.profile.imgsrc|resize('30x30', fill=1, format='jpg', bgcolor='#333333', quality=100, placeholder=True)  }}">
+              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><img class="navpic" src="{{ current_user.profile.imgsrc|resize('20x20', fill=1, format='jpg', bgcolor='#333333', quality=100, placeholder=True)  }}">
               <span class="caret"></span></button>
                 <ul class="dropdown-menu nav_pic_menu">
                   <li class="text-center"><a class="nav_name_dropdown">{{ current_user.username }}</a></li>
                   <hr>
-                  {#{% if current_user.bitcoin_wallet %}
+                  {% if current_user.bitcoin_wallet %}
                     <li><a href="#"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;({{ current_user.profile.pending }} Pending BTC)</a></li>
                     <li><a href="#"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;{{ current_user.bitcoin_wallet.available_btc }}</a></li>
-                  {% endif %}#}
+                  {% endif %}
                   <li><a href="{{ url_for('home.profile') }}"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;Profile</a></li>
                   <li><a href="{{ url_for('users.logout') }}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;logout</a></li>
                 </ul>

@@ -1,8 +1,14 @@
 nav {
     background-color: #2780e3;
     color: #fff;
+    /*height: 30px;*/
+}
+.navbar {
+    max-height: 35px !important;
 }
 nav a {
+    display: block;
+    margin: auto auto;
     color: #FFF;
     text-transform: uppercase;
     font-size: .8em;
@@ -46,7 +52,7 @@ h3.nav__division {
     margin-top: 0;/* // remove the gap so it doesn't close*/
  }
  button.btn.btn-primary.dropdown-toggle {
-    padding-top: 4px;
+    padding-top: 10px;
  }
  .navpic {
     border-radius: 5%;
