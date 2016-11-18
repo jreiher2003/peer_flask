@@ -15,7 +15,7 @@
           <a>NFL Teams<b class="caret"></b></a>
           {% include "dropdown_menu_teams.html" %}
         </li>
-          <li><a href="{{ url_for('nfl.nfl_home') }}">NFL Home</a></li>
+          {#<li><a href="{{ url_for('nfl.nfl_home') }}">NFL Home</a></li>#}
           <li><a href="{{ url_for('nfl.nfl_standings') }}">Standings</a></li>
           <li><a href="{{ url_for('nfl.nfl_stats', sid=1) }}">Stats</a></li>
         {% if current_user.is_active %}

@@ -56,7 +56,7 @@ def populate_team():
     NFLTeam.__table__.drop(db.engine)
     NFLTeam.__table__.create(db.engine)
     for i in team:
-        t = NFLTeam(Conference=i["Conference"],City=i["City"],WikipediaLogoUrl=i["WikipediaWordMarkUrl"],DefensiveScheme=i["DefensiveScheme"],PlayerID=i["PlayerID"],ByeWeek=i["ByeWeek"],UpcomingSalary=i["UpcomingSalary"],SecondaryColor=i["SecondaryColor"],UpcomingOpponentRank=i["UpcomingOpponentRank"],UpcomingYahooSalary=i["UpcomingYahooSalary"],QuaternaryColor=i["QuaternaryColor"],Division=i["Division"],UpcomingDraftKingsSalary=i["UpcomingDraftKingsSalary"],DefensiveCoordinator=i["DefensiveCoordinator"],AverageDraftPositionPPR=i["AverageDraftPositionPPR"],Key=i["Key"],SpecialTeamsCoach=i["SpecialTeamsCoach"],Name=i["Name"],UpcomingOpponent=i["UpcomingOpponent"],TertiaryColor=i["TertiaryColor"],AverageDraftPosition=i["AverageDraftPosition"],UpcomingOpponentPositionRank=i["UpcomingOpponentPositionRank"],StadiumID=i["StadiumID"],OffensiveCoordinator=i["OffensiveCoordinator"],OffensiveScheme=i["OffensiveScheme"],TeamID=i["TeamID"],UpcomingFanDuelSalary=i["UpcomingFanDuelSalary"],HeadCoach=i["HeadCoach"],PrimaryColor=i["PrimaryColor"],WikipediaWordMarkUrl=i["WikipediaWordMarkUrl"],FullName=i["FullName"])
+        t = NFLTeam(Conference=i["Conference"],City=i["City"],WikipediaLogoUrl=i["WikipediaLogoUrl"],DefensiveScheme=i["DefensiveScheme"],PlayerID=i["PlayerID"],ByeWeek=i["ByeWeek"],UpcomingSalary=i["UpcomingSalary"],SecondaryColor=i["SecondaryColor"],UpcomingOpponentRank=i["UpcomingOpponentRank"],UpcomingYahooSalary=i["UpcomingYahooSalary"],QuaternaryColor=i["QuaternaryColor"],Division=i["Division"],UpcomingDraftKingsSalary=i["UpcomingDraftKingsSalary"],DefensiveCoordinator=i["DefensiveCoordinator"],AverageDraftPositionPPR=i["AverageDraftPositionPPR"],Key=i["Key"],SpecialTeamsCoach=i["SpecialTeamsCoach"],Name=i["Name"],UpcomingOpponent=i["UpcomingOpponent"],TertiaryColor=i["TertiaryColor"],AverageDraftPosition=i["AverageDraftPosition"],UpcomingOpponentPositionRank=i["UpcomingOpponentPositionRank"],StadiumID=i["StadiumID"],OffensiveCoordinator=i["OffensiveCoordinator"],OffensiveScheme=i["OffensiveScheme"],TeamID=i["TeamID"],UpcomingFanDuelSalary=i["UpcomingFanDuelSalary"],HeadCoach=i["HeadCoach"],PrimaryColor=i["PrimaryColor"],WikipediaWordMarkUrl=i["WikipediaWordMarkUrl"],FullName=i["FullName"])
         db.session.add(t)
         db.session.commit()
     print "populate team table"
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     # db.create_all()
     # create_roles()
     download()
-    print "just download please wait 15 sec..."
+    print "just downloaded file please wait 15 sec..."
     import time 
     time.sleep(15)
     

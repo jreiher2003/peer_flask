@@ -4,7 +4,15 @@ nav {
     /*height: 30px;*/
 }
 .navbar {
-    max-height: 35px !important;
+    min-height:0px !important;
+}
+.navbar-nav > li > a,
+a.navbar-brand {
+    padding-top:5px !important; 
+    padding-bottom:5px !important;
+}
+nav.navbar {
+    height: 35px;
 }
 nav a {
     display: block;
@@ -52,7 +60,8 @@ h3.nav__division {
     margin-top: 0;/* // remove the gap so it doesn't close*/
  }
  button.btn.btn-primary.dropdown-toggle {
-    padding-top: 10px;
+    padding-top: 2px;
+    padding-bottom: 3px;
  }
  .navpic {
     border-radius: 5%;

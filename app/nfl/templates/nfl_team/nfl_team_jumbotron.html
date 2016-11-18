@@ -1,19 +1,25 @@
-<div class="jumbotron">
+<div class="jumbotron" style="border: 3px solid #{{ jj.SecondaryColor }};">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
+                <div><img style="border: 3px solid #{{ jj.PrimaryColor }};padding: 5px;" src="{{ jj.WikipediaWordMarkUrl }}" height="50px"></div>
+                <!-- <img src="{{ jj.WikipediaLogoUrl }}"><br> -->
+               {# {{ jj.PrimaryColor }}<br>
+                {{ jj.SecondaryColor }}<br>
+                {{ jj.TertiaryColor }}<br>
+                {{ jj.QuaternaryColor }}<br>
                 {{ jj.StadiumID }} | {{ tt.StadiumID }}<br>
                 {{ jj.City }}<br>
-                {{ jj.Name }}<br>
+                {{ jj.Name }}<br>#}
                 {{ jj.Conference }} | {{ jj.Division }}<br>
+                {{ ss.Wins }}-{{ ss.Losses }} Overall | {{ ss.DivisionWins }}-{{ ss.DivisionLosses }} {{ jj.Conference }} {{ jj.Division }}<br>
                 Home Town: {{ tt.City }}, {{ tt.State }}<br>
                 Stadium: {{ tt.Name }} | capacity: {{ tt.Capacity }}<br>
                 Head Coach: {{ jj.HeadCoach }}<br>
-                Bye Week: {{ jj.ByeWeek }}<br>
                 Offensive Scheme: {{ jj.OffensiveScheme }} | Offensive Coordinator: {{ jj.OffensiveCoordinator }}<br>
                 Defensive Scheme: {{ jj.DefensiveScheme }} | Defensive Coordinator:  {{ jj.DefensiveCoordinator }}<br>
                 Special Teams Coach: {{ jj.SpecialTeamsCoach }}<br>
-                {{ ss.Wins }}-{{ ss.Losses }} Overall | {{ ss.DivisionWins }}-{{ ss.DivisionLosses }} {{ jj.Conference }} {{ jj.Division }}
+                Bye Week: {{ jj.ByeWeek }}<br>
             </div>
             <div class="col-md-6">
                 <table class="table">
@@ -44,7 +50,7 @@
         </div>
         <div class="row">
             <div class="col-md-2">
-                <form action="" method="get" enctype="multipart/form-data">
+                <form style="margin-top:20px;margin-bottom:0;" action="" method="get" enctype="multipart/form-data">
                     <select id="goto_team" class="form-control">
                         <option value="">Select Team</option>
                         {% for team in all_teams %}

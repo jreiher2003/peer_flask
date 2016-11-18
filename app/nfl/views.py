@@ -82,7 +82,7 @@ def nfl_stats(sid):
         )
 
 @nfl_blueprint.route("/nfl/board/")
-# @cache.cached(timeout=60*5, key_prefix="nflboard")
+@cache.cached(timeout=60*5, key_prefix="nflboard")
 def nfl_public_board():
     dt = datetime.datetime.now()
     tb = NFLOverUnderBet.query.filter_by(bet_taken=False).all()
