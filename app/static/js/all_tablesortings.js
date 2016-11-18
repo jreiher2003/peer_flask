@@ -137,11 +137,11 @@ $(document).ready(function() {
             cell.innerHTML = i+1;
         });
     }).draw();
-  var n = $("table#graded_bets_table").DataTable({
+  $("table#graded_bets_table").DataTable({
      "pageLength": 10,
      "order":[[2,'desc']],
     });
-  var p = $("table#pending_bets_table").DataTable({
+  $("table#pending_bets_table").DataTable({
      "pageLength": 25,
      "order":[[0,'desc']],
     });

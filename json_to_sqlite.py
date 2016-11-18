@@ -144,8 +144,8 @@ if __name__ == "__main__":
     print "just populated stat tables with new info please wait 15 sec..."
     time.sleep(15)
     graded_bets()
-    print "just graded bets, please wait 30 sec..."
-    time.sleep(30)
+    print "just graded bets, please wait 15 sec..."
+    time.sleep(15)
     kitchen_sink()
     cache.clear()
 

@@ -47,8 +47,8 @@ def graded_ml():
 #################################################################################
 ## this group of functions updates all the bet tables with wins loses or pushes
 ## win is True, lose is False, push is None
-@cache.cached(timeout=30, key_prefix="grading_query")
-def grade_query(update=True):
+# @cache.cached(timeout=5, key_prefix="grading_query")
+def grade_query():
     return NFLBetGraded.query.all() 
 
 def grade_tb():
@@ -168,7 +168,7 @@ def grade_all_bets():
 ### this group of functions pays winners from losers.  Also
 # pays admin 10% of risk of loser.  Push no one gets paid.  
 ############################################################
-@cache.cached(timeout=30, key_prefix="all_users")
+# @cache.cached(timeout=30, key_prefix="all_users")
 def get_all_users():
     return Users.query.all()
 
