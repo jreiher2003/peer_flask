@@ -35,12 +35,16 @@
             <td>{{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}</td>
                 {% endif %}
             {% endfor %}
-            {% if b.win==True %}
+            {% if b.win == True %}
                 <td><span class="label label-success" style="display:inline-block; width:45px">Win </span></td> 
                 <td>+{{ b.amount_win }}</td>
             {% elif b.win == False %}
                 <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td> 
-                <td>-{{ b.amount }}{% endif %}</td>
+                <td>-{{ b.amount }}</td>
+            {% elif b.win == None %}
+                <td><span class="label label-warning" style="display:inline-block; width:45px">Push </span></td>
+                <td>Push</td>
+            {% endif %}
         </tr>
         {% elif b.taken_by == current_user.id %}
         <tr>
@@ -61,7 +65,11 @@
                 <td>+{{ b.amount_win }}</td>
             {% elif b.win == True %}
                 <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td>
-                <td>-{{ b.amount }}{% endif %}</td>
+                <td>-{{ b.amount }}</td>
+            {% elif b.win == None %}
+                <td><span class="label label-warning" style="display:inline-block; width:45px">Push </span></td>
+                <td>Push</td>
+            {% endif %}
         </tr>
         {% endif %}
     {% endfor %}
@@ -80,13 +88,18 @@
             <td>{{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}</td>
                 {% endif %}
             {% endfor %}
-            {% if b.win==True %}
+            {% if b.win == True %}
                 <td><span class="label label-success" style="display:inline-block; width:45px">Win </span></td>
                 <td>+{{ b.amount_win }}</td>
             {% elif b.win == False %}
                 <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td>
-                <td>-{{ b.amount }}{% elif b.win == None %}Push{% endif %}</td>
+                <td>-{{ b.amount }}</td>
+            {% elif b.win == None %}
+                <td><span class="label label-warning" style="display:inline-block; width:45px">Push </span></td>
+                <td>Push</td>
+            {% endif %}
         </tr>
+        
         {% elif b.taken_by == current_user.id %}
         <tr>
             <td>{{ b.game_key }}</td>
@@ -106,8 +119,13 @@
                 <td>+{{ b.amount_win }}</td>
             {% elif b.win == True %}
                 <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td>
-                <td>-{{ b.amount }}{% endif %}</td>
+                <td>-{{ b.amount }}</td>
+            {% elif b.win == None %}
+                <td><span class="label label-warning" style="display:inline-block; width:45px">Push </span></td>
+                <td>Push</td>
+            {% endif %}
         </tr>
+        
         {% endif %}
     {% endfor %}
     {% for b in graded_ml %}
@@ -125,12 +143,16 @@
             <td>{{ g.away_team }} {{ g.away_score }} <b>-</b> {{ g.home_team }} {{ g.home_score }}</td>
                 {% endif %}
             {% endfor %}
-            {% if b.win==True %}
+            {% if b.win == True %}
                 <td><span class="label label-success" style="display:inline-block; width:45px">Win </span></td>
                 <td>+{{ b.ml_win }}</td>
             {% elif b.win == False %}
                 <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td>
-                <td>-{{ b.amount }}{% endif %}</td>
+                <td>-{{ b.amount }}</td>
+            {% elif b.win == None %}
+                <td><span class="label label-warning" style="display:inline-block; width:45px">Push </span></td>
+                <td>Push</td>
+            {% endif %}
         </tr>
         {% elif b.taken_by == current_user.id %}
         <tr>
@@ -151,7 +173,11 @@
                 <td>+{{ b.ml_win }}</td>
             {% elif b.win == True %}
                 <td><span class="label label-danger" style="display:inline-block; width:45px">Lose </span></td>
-                <td>-{{ b.amount }}{% endif %}</td>
+                <td>-{{ b.amount }}</td>
+            {% elif b.win == None %}
+                <td><span class="label label-warning" style="display:inline-block; width:45px">Push </span></td>
+                <td>Push</td>
+            {% endif %}
         </tr>
         {% endif %}
     {% endfor %}
