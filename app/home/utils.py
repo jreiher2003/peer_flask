@@ -362,11 +362,27 @@ def update_users_wins_losses():
         update_profile_p(u.id)
 
 ##############################################################################################################
+
+def reset_pending_bets():
+    """ checks if anybets are pending if nothing is pending resets pending to 0 """
+    user = Users.query.filter_by(id=current_user.id).one()
+    ou = NFLOverUnderBet.query.filter((NFLOverUnderBet.user_id==user.id) | (NFLOverUnderBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
+    sb = NFLSideBet.query.filter((NFLSideBet.user_id==user.id) | (NFLSideBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
+    ml = NFLMLBet.query.filter((NFLMLBet.user_id==user.id) | (NFLMLBet.taken_by==user.id)).filter_by(bet_taken=True, bet_graded=False).all()
+    ou = list(ou)
+    sb = list(sb)
+    ml = list(ml)
+    if not ou and not sb and not ml:
+        print "all lists are empty. if no pending bets exsist then reset pending to 0"
+    else:
+        print "a list had something in it. and don't do anything at all"
+
 ### the kitchen sink function -- combination of all other functions ran then cached  at the end.  
 def kitchen_sink():
     grade_all_bets()
     pay_everyone()
     update_users_wins_losses()
+    
 ##############################################################################################################
 def count_pending_bets():
     """ counts the current pending bets for each user """

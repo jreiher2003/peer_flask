@@ -72,27 +72,6 @@ div.public__board__border {
     border: 1px solid #ddd;
     box-shadow: 3px 3px 3px #9D9D9D;
 }
-#bet_tabs > li {
-    float: none;
-    display: inline-block;
-}
-#bet_tabs  {
-    text-align: center;
-}
-#bet_tabs > li > a {
-    color: #2780e3;
-}
-#bet_tabs > li > a:hover,#bet_tabs > li.active a {
-    background-color: #fff;
-    color: #2780e3;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-bottom: #fff;
-}
-#bet_tabs > li.active a {
-    border-bottom: 3px solid #1EC0FA;
-}
 ul#over_under > li {
     display: inline;
     list-style: none;
@@ -178,3 +157,25 @@ ul.nav.nav-tabs.team_stats_nav-tabs {
 .nav-tabs.team_stats_nav-tabs > li > a {
     color: #9D9D9D;
 }
+ul#bet_tabs.nav.nav-tabls.team_stats_nav-tabs  {
+    width: 450px; 
+    margin: 0 auto;
+    text-align:center;
+}
+/* modal */
+.modal-header {
+    background-color: black;
+    opacity: .8;
+    color: #fff; 
+}
+.modal .close {
+    color: #fff;
+}
+/*.modal-content {
+    display: block !important;
+    margin: auto auto !important;
+}*/
+/*.modal-body {
+    background-color: #fff;
+    color: black;
+}*/

@@ -12,7 +12,7 @@ from app.nfl_stats.models import NFLTeam, NFLScore
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet
 from app.nfl.utils import make_salt
 from flask import Blueprint, render_template
-from .utils import all_nfl_teams, grade_query, count_pending_bets, count_graded_bets, ou, sb, ml, graded_sb, graded_ou, graded_ml, get_user_wallet
+from .utils import all_nfl_teams, grade_query, count_pending_bets, count_graded_bets, ou, sb, ml, graded_sb, graded_ou, graded_ml, get_user_wallet, reset_pending_bets
 from app.users.utils import profile_confirm_email, email_reset_notice
 
 home_blueprint = Blueprint("home", __name__, template_folder="templates")
@@ -34,6 +34,7 @@ def profile():
     dt = datetime.now()
     # block_io.create_notification(url='localhost:8600/notification/', type='address', address='2N2Tcbdd1UqtR8VhszrD5NgKUadz9vvq8Ni')
     user = Users.query.filter_by(id=current_user.id).one() 
+    reset_pending_bets()
     graded_bets = NFLBetGraded.query.all()
     form_p = ProfileForm(obj=user)
     form_w = BitcoinWithdrawlForm()

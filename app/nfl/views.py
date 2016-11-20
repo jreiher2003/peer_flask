@@ -58,7 +58,7 @@ def nfl_standings():
 def nfl_schedule():
     dt = datetime.datetime.now()
     date_string = date_to_string(dt)
-    sch = NFLSchedule.query.filter(NFLSchedule.SeasonType == 1, NFLSchedule.PointSpread != None, NFLSchedule.Date >= date_string).all()
+    sch = NFLSchedule.query.filter(NFLSchedule.SeasonType == 1, NFLSchedule.PointSpread != None).all()
     form_o = OverUnderForm()
     form_h = HomeTeamForm()
     form_a = AwayTeamForm()
@@ -182,7 +182,7 @@ def nfl_create_bet(game_key):
                 cache.delete("nflboard")
                 cache.delete("user_profile")
                 flash("%s, You just created a bet between %s taking %s %s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_a.vs, bet_a.team, bet_a.ps_format, bet_a.amount, bet_a.amount_win), "success")
-                return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
+                return redirect(url_for('nfl.nfl_public_board', bet_key=bet_key))
             else:
                 flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
                 return render_template("nfl_error.html")
@@ -220,7 +220,7 @@ def nfl_create_bet(game_key):
                 cache.delete("nflboard")
                 cache.delete("user_profile")
                 flash("%s, You just created a bet between %s taking %s %s risking <i class='fa fa-btc' aria-hidden='true'></i> %s to win <i class='fa fa-btc' aria-hidden='true'></i> %s." % (current_user.username, bet_h.vs, bet_h.team, bet_h.ps_format, bet_h.amount, bet_h.amount_win), "success")
-                return redirect(url_for('nfl.nfl_confirm_create_bet', bet_key=bet_key))
+                return redirect(url_for('nfl.nfl_public_board', bet_key=bet_key))
             else:
                 flash("There was a problem. Your bet did NOT go through.  <a href='/nfl/schedule/'>Go back</a> and try again", "danger")
                 return render_template("nfl_error.html")
@@ -401,6 +401,7 @@ def nfl_bet_vs_bet(bet_key):
             nfl.bet_taken = True
             nfl.taken_by = current_user.id 
             nfl.taken_username = current_user.username 
+            # nfl.network_fees = Decimal(network_fees)
             bet_creator.profile.bets_taken += 1
             bet_creator.profile.pending += Decimal(nflamount+network_fees)
             bet_taker.profile.bets_taken += 1

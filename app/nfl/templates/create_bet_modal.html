@@ -8,7 +8,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <p class="text-center">game is played between</p>
+        <h4 class="modal-title">{{ nfl_game.HomeTeam }} <small>vs</small> {{ nfl_game.AwayTeam }}</h4>
+        <h5 class="text-center">{{ nfl_game.Date }}</h5>
       </div>
       <div class="modal-body">
         {% include "create_bet/create_bet_modal_strip_down.html" %}

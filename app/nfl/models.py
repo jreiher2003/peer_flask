@@ -19,6 +19,7 @@ class Base(db.Model):
     away_team = db.Column(db.String)
     win = db.Column(db.Boolean)
     amount = db.Column(db.Numeric(precision=8,scale=5))
+    network_fees = db.Column(db.Numeric(precision=8, scale=5))
     bet_taken = db.Column(db.Boolean, default=False)
     bet_graded = db.Column(db.Boolean, default=False)
     paid = db.Column(db.Boolean, default=False)
