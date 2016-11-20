@@ -401,11 +401,11 @@ def nfl_bet_vs_bet(bet_key):
             nfl.bet_taken = True
             nfl.taken_by = current_user.id 
             nfl.taken_username = current_user.username 
-            # nfl.network_fees = Decimal(network_fees)
+            nfl.network_fees = Decimal(network_fees)
             bet_creator.profile.bets_taken += 1
-            bet_creator.profile.pending += Decimal(nflamount+network_fees)
+            bet_creator.profile.pending += Decimal(nflamount)
             bet_taker.profile.bets_taken += 1
-            bet_taker.profile.pending += Decimal(nflamount+network_fees)
+            bet_taker.profile.pending += Decimal(nflamount)
             bc = bet_creator.bitcoin_wallet.address
             bt = bet_taker.bitcoin_wallet.address
         #     # we have to check to see if profile_taker and profile_bet_creator have enough bitcoins in their account to proceed.
