@@ -157,10 +157,15 @@ ul.nav.nav-tabs.team_stats_nav-tabs {
 .nav-tabs.team_stats_nav-tabs > li > a {
     color: #9D9D9D;
 }
-ul#bet_tabs.nav.nav-tabls.team_stats_nav-tabs  {
-    width: 450px; 
-    margin: 0 auto;
-    text-align:center;
+#bet_tabs  {
+    display: flex;
+    /*width: 400px;*/
+    /*margin: 0 auto;
+    text-align: center;*/
+}
+#bet_tabs li {
+    flex: 1;
+    text-align: center;
 }
 /* modal */
 .modal-header {
@@ -175,7 +180,7 @@ ul#bet_tabs.nav.nav-tabls.team_stats_nav-tabs  {
     display: block !important;
     margin: auto auto !important;
 }*/
-/*.modal-body {
-    background-color: #fff;
-    color: black;
-}*/
+.modal-body {
+    padding-left:45px;
+    margin-left: 15px;
+}

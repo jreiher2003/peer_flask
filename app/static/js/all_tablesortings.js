@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('table#public__board').DataTable( {
+        "pageLength": 10,
         "iDisplayLength": -1,
         "order": [[1,"asc"]]
     } );
