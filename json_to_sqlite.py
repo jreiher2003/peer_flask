@@ -133,7 +133,7 @@ if __name__ == "__main__":
     download()
     print "just downloaded file please wait 15 sec..."
     import time 
-    time.sleep(15)
+    time.sleep(120)
     
     populate_schedule()
     populate_stadium()
@@ -142,10 +142,10 @@ if __name__ == "__main__":
     populate_score()
     populate_teamseason()
     print "just populated stat tables with new info please wait 15 sec..."
-    time.sleep(15)
+    time.sleep(120)
     graded_bets()
     print "just graded bets, please wait 15 sec..."
-    time.sleep(15)
+    time.sleep(120)
     kitchen_sink()
     cache.clear()
 
