@@ -1,7 +1,12 @@
 """Json to sqlite3/postgres script to dump data into a data base """
+import os
 import json
 import psycopg2
 import time
+import urllib
+import zipfile 
+from datetime import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
 from dateutil.parser import parse as parse_date
 from app import app, db, cache
 from sqlalchemy import exc
@@ -10,12 +15,15 @@ from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet, 
 from app.nfl_stats.models import NFLScore, NFLTeam, NFLStadium, NFLSchedule, NFLStandings, NFLTeamSeason
 from app.home.utils import kitchen_sink
 
-schedule = json.load(open('sports/Schedule.2016.json'))
-stadium = json.load(open("sports/Stadium.2016.json"))
-team = json.load(open("sports/Team.2016.json"))
-standing = json.load(open("sports/Standing.2016.json"))
-score = json.load(open("sports/Score.2016.json"))
-teamseason = json.load(open("sports/TeamSeason.2016.json"))
+
+def download():
+    sports = urllib.URLopener()
+    sports.retrieve("https://fantasydata.com/members/download-file.aspx?product=4885cd1b-6fd1-4db8-8c0a-47160973ca68", "file.zip")
+    root = "/vagrant"
+    zipfile.ZipFile("file.zip").extractall("sports")
+    os.remove("file.zip")
+
+
 ###############################################
 ############## populate schedule ##############
 ##### create schedule ########################
@@ -111,20 +119,6 @@ def graded_bets():
         db.session.commit()
     print "graded bets table populated"
 
-import urllib
-import os
-import zipfile 
-from datetime import datetime
-import time
-from apscheduler.schedulers.background import BackgroundScheduler
-
-def download():
-    sports = urllib.URLopener()
-    sports.retrieve("https://fantasydata.com/members/download-file.aspx?product=4885cd1b-6fd1-4db8-8c0a-47160973ca68", "file.zip")
-    root = "/vagrant"
-    zipfile.ZipFile("file.zip").extractall("sports")
-    os.remove("file.zip")
-        
 
 if __name__ == "__main__":
     # db.drop_all()
@@ -132,9 +126,16 @@ if __name__ == "__main__":
     # create_roles()
     download()
     print "just downloaded file please wait 15 sec..."
-    import time 
-    time.sleep(120)
-    
+    time.sleep(180)
+
+    schedule = json.load(open('sports/Schedule.2016.json'))
+    stadium = json.load(open("sports/Stadium.2016.json"))
+    team = json.load(open("sports/Team.2016.json"))
+    standing = json.load(open("sports/Standing.2016.json"))
+    score = json.load(open("sports/Score.2016.json"))
+    teamseason = json.load(open("sports/TeamSeason.2016.json"))
+    print "json load .json files."
+    time.sleep(15)
     populate_schedule()
     populate_stadium()
     populate_team()
@@ -142,10 +143,10 @@ if __name__ == "__main__":
     populate_score()
     populate_teamseason()
     print "just populated stat tables with new info please wait 15 sec..."
-    time.sleep(120)
+    time.sleep(15)
     graded_bets()
     print "just graded bets, please wait 15 sec..."
-    time.sleep(120)
+    time.sleep(180)
     kitchen_sink()
     cache.clear()
 
