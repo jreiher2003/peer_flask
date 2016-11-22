@@ -22,39 +22,9 @@ team_def_avg, today_date,today_and_now, make_salt, yesterday, date_to_string
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 
+@nfl_blueprint.route("/nfl/schedule/")
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")
-def nfl_home():
-    return render_template(
-        "nfl_home.html", 
-        all_teams = all_nfl_teams(),
-        )
-
-@nfl_blueprint.route("/nfl/standings/")
-@cache.cached(timeout=60*5, key_prefix="nfl_season_standings")
-def nfl_standings():
-    afc_east = NFLStandings.query.filter_by(Conference="AFC",Division="East").all()
-    afc_north = NFLStandings.query.filter_by(Conference="AFC",Division="North").all()
-    afc_south = NFLStandings.query.filter_by(Conference="AFC",Division="South").all()
-    afc_west = NFLStandings.query.filter_by(Conference="AFC",Division="West").all() 
-    nfc_east = NFLStandings.query.filter_by(Conference="NFC",Division="East").all()
-    nfc_north = NFLStandings.query.filter_by(Conference="NFC",Division="North").all()
-    nfc_south = NFLStandings.query.filter_by(Conference="NFC",Division="South").all()
-    nfc_west = NFLStandings.query.filter_by(Conference="NFC",Division="West").all()
-    return render_template(
-        "nfl_standings/nfl standings.html", 
-        all_teams = all_nfl_teams(),
-        afc_east = afc_east,
-        afc_north = afc_north,
-        afc_south = afc_south,
-        afc_west = afc_west,
-        nfc_east = nfc_east,
-        nfc_north = nfc_north,
-        nfc_south = nfc_south,
-        nfc_west = nfc_west 
-        )
-
-@nfl_blueprint.route("/nfl/schedule/")
 def nfl_schedule():
     dt = datetime.datetime.now()
     date_string = date_to_string(dt)
@@ -70,15 +40,6 @@ def nfl_schedule():
         form_o = form_o,
         form_h = form_h,
         form_a = form_a, 
-        )
-
-@nfl_blueprint.route("/nfl/stats/<int:sid>/")
-def nfl_stats(sid): 
-    teamseason1 = NFLTeamSeason.query.filter_by(SeasonType=sid).all()
-    return render_template(
-        "nfl_stats.html", 
-        all_teams = all_nfl_teams(), 
-        teamseason = teamseason1,
         )
 
 @nfl_blueprint.route("/nfl/board/")
@@ -490,17 +451,46 @@ def nfl_team_home(sid,key,team):
         )
 
 
-@nfl_blueprint.route("/nfl/team/schedule/<path:team>/")
-def nfl_team_schedule(team):
-    all_teams = all_nfl_teams()
-    return "schedule"
+@nfl_blueprint.route("/nfl/standings/")
+@cache.cached(timeout=60*5, key_prefix="nfl_season_standings")
+def nfl_standings():
+    afc_east = NFLStandings.query.filter_by(Conference="AFC",Division="East").all()
+    afc_north = NFLStandings.query.filter_by(Conference="AFC",Division="North").all()
+    afc_south = NFLStandings.query.filter_by(Conference="AFC",Division="South").all()
+    afc_west = NFLStandings.query.filter_by(Conference="AFC",Division="West").all() 
+    nfc_east = NFLStandings.query.filter_by(Conference="NFC",Division="East").all()
+    nfc_north = NFLStandings.query.filter_by(Conference="NFC",Division="North").all()
+    nfc_south = NFLStandings.query.filter_by(Conference="NFC",Division="South").all()
+    nfc_west = NFLStandings.query.filter_by(Conference="NFC",Division="West").all()
+    return render_template(
+        "nfl_standings/nfl standings.html", 
+        all_teams = all_nfl_teams(),
+        afc_east = afc_east,
+        afc_north = afc_north,
+        afc_south = afc_south,
+        afc_west = afc_west,
+        nfc_east = nfc_east,
+        nfc_north = nfc_north,
+        nfc_south = nfc_south,
+        nfc_west = nfc_west 
+        )
 
-@nfl_blueprint.route("/nfl/team/stats/<path:team>/")
-def nfl_team_stats(team):
-    all_teams = all_nfl_teams()
-    return "stats"
+@nfl_blueprint.route("/nfl/stats/<int:sid>/")
+def nfl_stats(sid): 
+    teamseason1 = NFLTeamSeason.query.filter_by(SeasonType=sid).all()
+    return render_template(
+        "nfl_stats.html", 
+        all_teams = all_nfl_teams(), 
+        teamseason = teamseason1,
+        )
 
-
+# @nfl_blueprint.route("/nfl/home/")
+# @nfl_blueprint.route("/nfl/")
+# def nfl_home():
+#     return render_template(
+#         "nfl_home.html", 
+#         all_teams = all_nfl_teams(),
+#         )
 
 
 

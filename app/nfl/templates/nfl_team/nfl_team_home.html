@@ -1,23 +1,35 @@
 {% extends "base.html" %}
 {% block title %}NFL Teams{% endblock %}
 {% block style %}
-
 td,th {
     text-align: center;
+}
+.nav-tabs.team_stats_nav-tabs > li > a:hover,
+.nav-tabs.team_stats_nav-tabs > li > a:active,
+.nav-tabs.team_stats_nav-tabs > li.active > a {
+    background-color: transparent;
+    border: transparent;
+    border-bottom: 3px solid #{{ jj.PrimaryColor }} !important;
+    padding-bottom: 4px;
+    color: #{{ jj.PrimaryColor }} !important;
 }
 {% endblock %}
 {% block content %}
 {% include "nfl_team/nfl_team_jumbotron.html" %}
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <form style="margin-bottom:10px;" action="" method="get" enctype="multipart/form-data">
-                <select id="goto_season" class="selectpicker">
+        <div class="col-md-2">
+            <form style="margin-bottom:10px; border: 1px solid #{{ jj.PrimaryColor }}" action="" method="get" enctype="multipart/form-data">
+                <select class="form-control" id="goto_season" class="selectpicker">
                     <option value="">Select Season</option>
                     <option value="{{ url_for('nfl.nfl_team_home', sid=1, key=jj.Key, team=jj.FullName|urlify) }}">Regular Season</option>
                     <option value="{{ url_for('nfl.nfl_team_home', sid=2, key=jj.Key, team=jj.FullName|urlify) }}">Pre-Season</option>
                 </select>
             </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             {% include "nfl_team/nfl_team_tab_content.html" %}
         </div>
     </div>

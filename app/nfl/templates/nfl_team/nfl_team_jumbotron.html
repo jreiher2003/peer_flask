@@ -1,8 +1,8 @@
-<div class="jumbotron" style="border: 3px solid #{{ jj.SecondaryColor }};">
+<div class="jumbotron" style="border: .07em solid #{{ jj.SecondaryColor }};">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <div><img style="border: 3px solid #{{ jj.PrimaryColor }};padding: 5px;" src="{{ jj.WikipediaWordMarkUrl }}" height="50px"></div>
+                <div><img style="border: .07em solid #{{ jj.PrimaryColor }};padding: 5px;" src="{{ jj.WikipediaWordMarkUrl }}" height="50px"></div>
                 <!-- <img src="{{ jj.WikipediaLogoUrl }}"><br> -->
                {# {{ jj.PrimaryColor }}<br>
                 {{ jj.SecondaryColor }}<br>
@@ -50,7 +50,7 @@
         </div>
         <div class="row">
             <div class="col-md-2">
-                <form style="margin-top:20px;margin-bottom:0;" action="" method="get" enctype="multipart/form-data">
+                <form style="margin-top:20px;margin-bottom:0; border: 1px solid #{{ jj.PrimaryColor }};" action="" method="get" enctype="multipart/form-data">
                     <select id="goto_team" class="form-control">
                         <option value="">Select Team</option>
                         {% for team in all_teams %}

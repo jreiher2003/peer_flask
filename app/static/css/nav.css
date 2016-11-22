@@ -1,24 +1,23 @@
 nav {
     background-color: #2780e3;
     color: #fff;
-    /*height: 30px;*/
 }
 .navbar {
     min-height:0px !important;
 }
 .navbar-nav > li > a,
 a.navbar-brand {
-    padding-top:5px !important; 
-    padding-bottom:5px !important;
+    padding-top:10px !important; 
+    padding-bottom:10px !important;
 }
 nav.navbar {
-    height: 35px;
+    height: 43px;
 }
 nav a {
     display: block;
     margin: auto auto;
     color: #FFF;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-size: .8em;
 }
 a.navbar-brand {
@@ -59,9 +58,11 @@ h3.nav__division {
     display: block;
     margin-top: 0;/* // remove the gap so it doesn't close*/
  }
+ /* nav pic image dropdown */
  button.btn.btn-primary.dropdown-toggle {
-    padding-top: 2px;
-    padding-bottom: 3px;
+    padding-top: 8px !important;
+    padding-bottom: 12px !important;
+    height: 42px;
  }
  .navpic {
     border-radius: 5%;
@@ -74,8 +75,10 @@ div.dropdown.nav_pic > ul > li {
 ul.dropdown-menu.nav_pic_menu {
     display: none;
     position: absolute;
+    top: 46px;
     background-color: rgba(0,0,0,.7);
     min-width: 130px;
+    border: .07em solid rgba(0,0,0,.9);
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     padding: 12px 2px;
 }
@@ -86,7 +89,46 @@ ul.dropdown-menu.nav_pic_menu > li > a {
     color: rgba(255,255,255,1);
 }
 .dropdown-menu > li > a.nav_name_dropdown {
-    font-size: 1.8em;
+    font-size: 1.4em;
     padding-left: 5px;
     margin-left: 5px;
+}
+
+
+ul.dropdown-menu.nav_pic_menu:before {
+  position: absolute;
+  top: -4px;
+  left: 125px; /* Example: right:10px; */
+  display: inline-block;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid rgba(0, 0, 0, 0.2);
+  border-left: 7px solid transparent;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  content: '';
+}
+
+ul.dropdown-menu.nav_pic_menu:after {
+  position: absolute;
+  top: -5px;
+  left: 125px; /* Example: right:10px; */
+  display: inline-block;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid rgba(0,0,0,.7);
+  border-left: 6px solid transparent;
+  content: '';
+}
+ul li div button img.navpic{
+    display: block;
+    float: left;
+    text-align: center;
+}
+.center_dropdown_img {
+    display: block !important;
+    margin: 0 auto !important;
+}
+img.img_dropdown {
+     border-radius: 5%;
+     border: .07em solid rgba(255,255,255,.7); 
+     display:block;
+     margin:0 auto;
 }

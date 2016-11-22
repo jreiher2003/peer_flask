@@ -135,10 +135,9 @@ div.nfl_standing_table {
     padding: 10px 0 0 20px;
 }
 /* team page */
-div.tabbable {
+div.col-md-12.tabbable {
     background-color: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 2px 1px 1px #9D9D9D;
+    margin-bottom: 5px;
     padding: 10px
 }
 ul.nav.nav-tabs.team_stats_nav-tabs {
@@ -159,9 +158,6 @@ ul.nav.nav-tabs.team_stats_nav-tabs {
 }
 #bet_tabs  {
     display: flex;
-    /*width: 400px;*/
-    /*margin: 0 auto;
-    text-align: center;*/
 }
 #bet_tabs li {
     flex: 1;
@@ -176,10 +172,6 @@ ul.nav.nav-tabs.team_stats_nav-tabs {
 .modal .close {
     color: #fff;
 }
-/*.modal-content {
-    display: block !important;
-    margin: auto auto !important;
-}*/
 .modal-body {
     padding-left:45px;
     margin-left: 15px;

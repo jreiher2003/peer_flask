@@ -1,7 +1,7 @@
 <div class="row">
         {% if team_score %}
-        {% for score in team_score %}
-        <div class="col-md-12 team_schedule thumbnail">
+            {% for score in team_score %}
+        <div class="col-md-12 tabbable" style="border: .07em solid #{{ jj.PrimaryColor }};box-shadow: 1px 1px 1px #9D9D9D;">
             <div class="row">
                 <div class="col-md-4">
                     {{ score.AwayTeam }}<br>
@@ -30,7 +30,7 @@
                                 <td>{{ score.AwayScoreQuarter3 }}</td>
                                 <td>{{ score.AwayScoreQuarter4 }}</td>
                                 {% if score.IsOvertime == true %}
-                                <td>{{ score.AwayScoreOvertime }}</td>
+                                    <td>{{ score.AwayScoreOvertime }}</td>
                                 {% endif %}
                             </tr> 
                             <tr>
@@ -40,7 +40,7 @@
                                 <td>{{ score.HomeScoreQuarter3 }}</td>
                                 <td>{{ score.HomeScoreQuarter4 }}</td>
                                 {% if score.IsOvertime == true %}
-                                <td>{{ score.HomeScoreOvertime }}</td>
+                                    <td>{{ score.HomeScoreOvertime }}</td>
                                 {% endif %}
                             </tr>  
                         </tbody>
@@ -52,17 +52,14 @@
                 </div>
             </div>
         </div>
-        {% endfor %}
+            {% endfor %}
         {% endif %}
-       
-    <!-- <div class="col-md-12 team_schedule thumbnail text-center">GAME CURRENTLY IN PROGRESS...</div> -->
-
     </div>
+    <!-- <div class="col-md-12 team_schedule thumbnail text-center">GAME CURRENTLY IN PROGRESS...</div> -->
     <div class="row">
         {% for team in ts %}
-        {% if team.Date|dateify > dt_plus_2h %}
-       
-        <div class="col-md-12 team_schedule thumbnail">
+            {% if team.Date|dateify > dt_plus_2h %}
+        <div class="col-md-12 tabbable" style="border: .07em solid #{{ jj.PrimaryColor }};box-shadow: 2px 1px 1px #9D9D9D;">
             <div class="row">
                 <div class="col-md-4">
                     Away: {{ team.AwayTeam }}<br>
@@ -82,7 +79,6 @@
                 </div>
             </div>
         </div>
-        {{ team.is_bye_week }}
-        {% endif %}
+            {% endif %}
         {% endfor %}
     </div>
