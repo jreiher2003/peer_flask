@@ -88,13 +88,21 @@ def nfl_public_board():
     tb = NFLOverUnderBet.query.filter_by(bet_taken=False).all()
     sb = NFLSideBet.query.filter_by(bet_taken=False).all()
     ml = NFLMLBet.query.filter_by(bet_taken=False).all()
+    form_d = DeleteForm()
+    form_o = OverUnderForm()
+    form_h = HomeTeamForm()
+    form_a = AwayTeamForm()
     return render_template(
         "nfl_public_board.html", 
         all_teams = all_nfl_teams(), 
         dt = dt, 
         tb = tb,
         sb = sb,
-        ml = ml
+        ml = ml,
+        form_d = form_d,
+        form_o = form_o,
+        form_h = form_h,
+        form_a = form_a
         )
 
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])

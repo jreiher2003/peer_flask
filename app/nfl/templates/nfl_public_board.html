@@ -42,8 +42,9 @@
                             <td class="vert-align"> {{ bet.amount }} / {{ bet.amount_win }} BTC</td>
                             {% if current_user.id == bet.user_id %}
                                 <td class="vert-align">
-                                    <a href="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}">delete</a><br>
-                                    <a href="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}">edit</a>
+                                    {#<a href="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}">delete</a><br>
+                                    <a href="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}">edit</a>#}
+                                    {% include "edit_bet_modal.html" %}
                                 </td>
                             {% else %}
                                 <td class="vert-align"><a href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}">bet</a></td>
@@ -68,8 +69,9 @@
                             <td class="vert-align">{{ bet.amount }} / {{ bet.amount_win }} BTC</td>
                             {% if current_user.id == bet.user_id %}
                                 <td class="vert-align">
-                                    <a href="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}">delete</a><br>
-                                    <a href="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}">edit</a>
+                                    {#<a href="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}">delete</a><br>
+                                    <a href="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}">edit</a>#}
+                                    {% include "edit_bet_modal.html" %}
                                 </td>
                             {% else %}
                                 <td class="vert-align"><a href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}">bet</a></td>

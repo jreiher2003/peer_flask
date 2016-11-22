@@ -1,0 +1,191 @@
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-sm" data-id="{{ bet.bet_key }}" data-toggle="modal" data-target="#{{ bet.bet_key }}">Edit</button>
+{% from "_macros_nfl.html" import render_field_with_errors, render_field %}
+<!-- Modal -->
+<div id="{{ bet.bet_key }}" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{ bet.vs }}</h4>
+      </div>
+      <div class="modal-body">
+        
+        <div class="confirmbet editbet_border_top">
+                {% if bet.over_under %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="pull-right" method="post" action="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}" onsubmit="return EditBet(this);">
+                            {{ form_d.csrf_token }}
+                            <div class="delete_item ">
+                                <button type="submit" name="editbutton" id="editbutton" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;&nbsp;Delete Item</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <p class="text-center"><img class="navpic" src="{{ bet.users.profile.imgsrc|resize('100x100', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}"/></p>
+                <h3 class="text-center">{{ bet.vs }}</h3>
+                <p class="text-center">{{ bet.game_date | game_date }} {{ bet.game_date | game_time }} </p>
+                <hr>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}" method="POST" onsubmit="return EditBet(this);">
+                            {{ form_o.csrf_token }}
+                            <div class="form-group">
+                                {{ render_field_with_errors(form_o.game_key, value=bet.game_key) }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field_with_errors(form_o.away_,value=bet.away_team) }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field_with_errors(form_o.home_,value=bet.home_team) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_o.over_under.label }} 
+                                {#{{ form_o.over_under(value=bet.over_under, id=bet.over_under) }}#}
+                                {{ render_field_with_errors(form_o.over_under, value=bet.over_under) }}
+                            </div>
+                            <div class="form-group" style="margin-bottom:15px;">
+                                {{ form_o.total.label }}
+                                {{ render_field_with_errors(form_o.total, class="form-control", value=bet.total) }} 
+                            </div>
+                            <div class="form-group" style="margin-bottom:15px;">
+                                {{ form_o.amount.label }}
+                                {{ render_field_with_errors(form_o.amount, class="form-control", value=bet.amount) }}
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="submit" name="editbutton" id="editbutton" class="btn btn-info editbet_buttons"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;Edit Item</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn btn-default editbet_buttons pull-right" href="{{ url_for('nfl.nfl_public_board') }}"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>&nbsp;&nbsp;Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+                {% if bet.team == bet.home_team %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="pull-right" method="post" action="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}" onsubmit="return EditBet(this);">
+                            {{ form_d.csrf_token }}
+                            <div class="delete_item ">
+                                <button type="submit" name="editbutton" id="editbutton" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;&nbsp;Delete Item</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <p class="text-center"><img src="{{ bet.users.profile.imgsrc|resize('100x100', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}"/></p>
+                <h3 class="text-center">{{ bet.vs }}</h3>
+                <p class="text-center">{{ bet.game_date | game_date }} {{ bet.game_date | game_time }} </p>
+                <hr>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}" method="POST" onsubmit="return EditBet(this);">
+                            {{ form_h.csrf_token }}
+                            <div class="form-group">
+                                {{ render_field_with_errors(form_h.game_key, value=bet.game_key) }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field_with_errors(form_h.away_, value=bet.away_team) }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field_with_errors(form_h.home_, value=bet.home_team) }}
+                            </div>
+                            <div class="form-group" style="margin-bottom:15px;">
+                                {{ form_h.home_team.label }}
+                                {{ render_field_with_errors(form_h.home_team, id="home_team", class="form-control", readonly=True, value=bet.home_team) }}
+                            </div>
+                            <div class="form-group" style="margin-bottom:15px;">
+                                 {{ form_h.point_spread.label }}
+                                 {{ render_field_with_errors(form_h.point_spread, class="form-control", value=bet.ps) }}
+                                 <!-- type="number", min="-21", max="21", step="0.5",  -->
+                            </div>
+                            <div class="form-group" style="margin-bottom:15px;">
+                                {{ form_h.amount.label }}
+                                {{ render_field_with_errors(form_h.amount, id="amount", value=bet.amount, class="form-control")}}
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="submit" name="editbutton" id="editbutton" class="btn btn-info editbet_buttons"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;Edit Item</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn btn-default editbet_buttons pull-right" href="{{ url_for('nfl.nfl_public_board') }}"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>&nbsp;&nbsp;Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>   
+                    </div>
+                </div>
+                {% endif %}
+                {% if bet.team == bet.away_team %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="pull-right" method="post" action="{{ url_for('nfl.nfl_delete_bet', bet_key=bet.bet_key) }}" onsubmit="return EditBet(this);">
+                            {{ form_d.csrf_token }}
+                            <div class="delete_item ">
+                                <button type="submit" name="editbutton" id="editbutton" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;&nbsp;Delete Item</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <p class="text-center"><img src="{{ bet.users.profile.imgsrc|resize('100x100', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}"/></p>
+                <h3 class="text-center">{{ bet.vs }}</h3>
+                <p class="text-center">{{ bet.game_date | game_date }} {{ bet.game_date | game_time }}</p>
+                <hr>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <form action="{{ url_for('nfl.nfl_edit_bet', bet_key=bet.bet_key) }}" method="POST" onsubmit="return EditBet(this);">
+                         {{ form_a.csrf_token }}
+                            <div class="form-group">
+                                {{ render_field_with_errors(form_a.game_key, value=bet.game_key) }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field_with_errors(form_a.away_, value=bet.away_team) }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field_with_errors(form_a.home_, value=bet.home_team) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_a.away_team.label }}
+                                {{ render_field_with_errors(form_a.away_team, id="away_team", class="form-control", value=bet.away_team, readonly=True) }}
+                            </div>
+                            <div class="form-group">
+                                 {{ form_a.point_spread.label }}
+                                 {{ render_field_with_errors(form_a.point_spread, id="away_ps",class="form-control", value=bet.ps, type="number", min="-21", max="21", step="0.5") }}    
+                            </div>
+                            <div class="form-group">
+                                {{ form_a.amount.label }}
+                                {{ render_field_with_errors(form_a.amount, id="amount", value=bet.amount, class="form-control")}}
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="submit" name="editbutton" id="editbutton" class="btn btn-info editbet_buttons"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;Edit Item</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn btn-default editbet_buttons pull-right" href="{{ url_for('nfl.nfl_public_board') }}"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>&nbsp;&nbsp;Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div><!-- confirmbet editbet_border_top -->
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
