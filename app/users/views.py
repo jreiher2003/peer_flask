@@ -27,7 +27,7 @@ def login():
             next = request.args.get("next")
             if not is_safe_url(next):
                 return flask.abort(400)
-            return redirect(next or url_for("nfl.nfl_home"))
+            return redirect(next or url_for("nfl.nfl_schedule"))
         else:
             flash("<strong>Invalid password.</strong> Please try again.", "danger")
             return redirect(url_for("users.login"))
@@ -66,7 +66,7 @@ def register():
             print "next", next 
             if not is_safe_url(next):
                 return flask.abort(400)
-            return redirect(next or url_for("nfl.nfl_home"))
+            return redirect(next or url_for("nfl.nfl_schedule"))
         except:
             flash("That username already exists", "danger")
             return redirect(url_for("users.register"))

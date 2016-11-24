@@ -37,7 +37,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         
-          <li><a href="{{ url_for('nfl.nfl_home') }}">NFL Home</a></li>
+          <li><a href="{{ url_for('nfl.nfl_schedule') }}">NFL Home</a></li>
           
         {% if current_user.is_active %}
           {% if current_user.bitcoin_wallet == None %}
