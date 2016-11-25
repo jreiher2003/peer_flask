@@ -29,3 +29,7 @@ peer.sql
 user_create_script.py
 json_to_sqlite.py
 run.sh
+/home/www/peer_flask/app/static/img/*.png
+/home/www/peer_flask/app/static/img/*.jpg 
+/home/www/peer_flask/app/static/img/*.gif 
+/home/www/peer_flask/app/static/img/*.jpeg
