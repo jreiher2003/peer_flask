@@ -361,6 +361,8 @@ def nfl_bet_vs_bet(bet_key):
         #form validate on submit
         network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (bc), to_addresses = (default), priority="low")
         network_fees = float(network_fees["data"]["estimated_network_fee"])
+        taken_network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (bt), to_addresses = (default), priority="low")
+        taken_network_fees = float(taken_network_fees["data"]["estimated_network_fee"])
         print network_fees, type(network_fees)
         nflamount = float(nfl.amount)
         if float(bet_taker.bitcoin_wallet.available_btc) >= (nflamount+network_fees) and float(bet_creator.bitcoin_wallet.available_btc) >= (nflamount+network_fees):
@@ -371,6 +373,7 @@ def nfl_bet_vs_bet(bet_key):
             nfl.taken_by = current_user.id 
             nfl.taken_username = current_user.username 
             nfl.network_fees = Decimal(network_fees)
+            nfl.taken_network_fees = Decimal(taken_network_fees)
             bet_creator.profile.bets_taken += 1
             bet_creator.profile.pending += Decimal(nflamount)
             bet_taker.profile.bets_taken += 1

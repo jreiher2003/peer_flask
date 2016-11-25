@@ -87,6 +87,7 @@ class NFLOverUnderBet(Base):
     total = db.Column(db.Float)
     taken_by = db.Column(db.Integer) # other player id 
     taken_username = db.Column(db.String)
+    taken_network_fees = db.Column(db.Numeric(precision=8, scale=5))
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'), index=True)
     users = db.relationship(Users, back_populates="nfl_ou_bet")
 
@@ -98,6 +99,7 @@ class NFLSideBet(Base):
     ps = db.Column(db.Float, default=0.0)
     taken_by = db.Column(db.Integer) # other player id 
     taken_username = db.Column(db.String)
+    taken_network_fees = db.Column(db.Numeric(precision=8, scale=5))
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'), index=True)
     users = db.relationship(Users, back_populates="nfl_side_bet")
 
@@ -109,6 +111,7 @@ class NFLMLBet(Base):
     ml = db.Column(db.Integer)
     taken_by = db.Column(db.Integer) # other player id
     taken_username = db.Column(db.String) 
+    taken_network_fees = db.Column(db.Numeric(precision=8, scale=5))
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id, ondelete='CASCADE'), index=True)
     users = db.relationship(Users, back_populates="nfl_ml_bet")
    

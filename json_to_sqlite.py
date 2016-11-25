@@ -126,7 +126,7 @@ if __name__ == "__main__":
     # create_roles()
     download()
     print "just downloaded file please wait 15 sec..."
-    time.sleep(180)
+    time.sleep(120)
 
     schedule = json.load(open('sports/Schedule.2016.json'))
     stadium = json.load(open("sports/Stadium.2016.json"))
@@ -146,7 +146,7 @@ if __name__ == "__main__":
     time.sleep(15)
     graded_bets()
     print "just graded bets, please wait 15 sec..."
-    time.sleep(180)
+    time.sleep(120)
     kitchen_sink()
     cache.clear()
 

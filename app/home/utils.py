@@ -194,9 +194,9 @@ def pay_winners_from_losers_sb():
                     network_fees = block_io.get_network_fee_estimate(amounts = (float(ss.amount) + float(ss.amount_win)), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low")
                   
                     block_io.withdraw_from_addresses(amounts = ((float(ss.amount) + float(ss.amount_win)) - float(network_fees["data"]["estimated_network_fee"])), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=make_salt(length=32))
-                   
                     c_user.profile.pending -=  Decimal((float(ss.amount)))
                     t_user.profile.pending -=  Decimal((float(ss.amount)))
+                    ss.network_fees += Decimal(network_fees)
                     ss.paid = True 
                 if ss.win == False:
                     print "player %s gets paid from player %s this amount %s" % (ss.taken_by, ss.user_id, ss.amount_win)
@@ -204,15 +204,20 @@ def pay_winners_from_losers_sb():
                     
                     block_io.withdraw_from_addresses(amounts = ((float(ss.amount) + float(ss.amount_win)) - float(network_fees["data"]["estimated_network_fee"])), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=make_salt(length=32))
                     
-                    ss.paid = True 
                     t_user.profile.pending -=  Decimal((float(ss.amount)))
                     c_user.profile.pending -=  Decimal((float(ss.amount)))
+                    ss.taken_network_fees += Decimal(network_fees)
+                    ss.paid = True 
                 if ss.win == None:
                     print "this is a push no payment both users get back their money"
+                    network_fees = block_io.get_network_fee_estimate(amounts = (float(ss.amount)), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low")
+                    taken_network_fees = block_io.get_network_fee_estimate(amounts = (float(ss.amount)), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low")
                     block_io.withdraw_from_addresses(amounts = (float(ss.amount) - float(network_fees["data"]["estimated_network_fee"])), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=make_salt(length=32))
-                    block_io.withdraw_from_addresses(amounts = (float(ss.amount) - float(network_fees["data"]["estimated_network_fee"])), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=make_salt(length=32))
+                    block_io.withdraw_from_addresses(amounts = (float(ss.amount) - float(taken_network_fees["data"]["estimated_network_fee"])), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=make_salt(length=32))
                     c_user.profile.pending -=  Decimal((float(ss.amount)))
                     t_user.profile.pending -=  Decimal((float(ss.amount))) 
+                    ss.network_fees += Decimal(network_fees)
+                    ss.taken_network_fees += Decimal(taken_network_fees)
                     ss.paid = True 
                 db.session.add(c_user)
                 db.session.add(t_user)
@@ -241,6 +246,7 @@ def pay_winners_from_losers_ou():
                    
                     c_user.profile.pending -=  Decimal((float(oo.amount)))
                     t_user.profile.pending -=  Decimal((float(oo.amount)))
+                    oo.network_fees += Decimal(network_fees)
                     oo.paid = True 
                 if oo.win == False:
                     print "player %s gets paid from player %s this amount %s" % (oo.taken_by, oo.user_id, oo.amount_win)
@@ -250,13 +256,18 @@ def pay_winners_from_losers_ou():
                     
                     t_user.profile.pending -=  Decimal((float(oo.amount)))
                     c_user.profile.pending -=  Decimal((float(oo.amount)))
+                    oo.taken_network_fees += Decimal(network_fees)
                     oo.paid = True
                 if oo.win == None:
                     print "this is a push no payment. People get back their money."
+                    taken_network_fees = block_io.get_network_fee_estimate(amounts = (float(oo.amount)), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low")
+                    network_fees = block_io.get_network_fee_estimate(amounts = (float(oo.amount)), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low")
                     block_io.withdraw_from_addresses(amounts = (float(oo.amount) - float(network_fees["data"]["estimated_network_fee"])), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=nonce)
                     block_io.withdraw_from_addresses(amounts = (float(oo.amount) - float(network_fees["data"]["estimated_network_fee"])), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=nonce)
                     t_user.profile.pending -=  Decimal((float(oo.amount)))
                     c_user.profile.pending -=  Decimal((float(oo.amount)))
+                    oo.taken_network_fees += Decimal(taken_network_fees)
+                    oo.network_fees += Decimal(network_fees)
                     oo.paid = True  
                 db.session.add(c_user)
                 db.session.add(t_user)
@@ -284,6 +295,7 @@ def pay_winners_from_losers_ml():
                     
                     c_user.profile.pending -=  Decimal((float(ll.amount)))
                     t_user.profile.pending -=  Decimal((float(ll.amount)))
+                    ll.network_fees += Decimal(network_fees)
                     ll.paid = True 
                 if ll.win == False:
                     print "player %s gets paid from player %s this amount %s" % (ll.taken_by, ll.user_id, ll.amount_win)
@@ -293,13 +305,18 @@ def pay_winners_from_losers_ml():
                     
                     t_user.profile.pending -=  Decimal((float(ll.amount)))
                     c_user.profile.pending -=  Decimal((float(ll.amount)))
+                    ll.taken_network_fees += Decimal(network_fees)
                     ll.paid = True 
                 if ll.win == None:
                     print "this is a push no payment. Everyone gets back their money"
+                    network_fees = block_io.get_network_fee_estimate(amounts = (float(ll.amount)), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low")
+                    taken_network_fees = block_io.get_network_fee_estimate(amounts = (float(ll.amount)), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low")
                     block_io.withdraw_from_addresses(amounts = (float(ll.amount) - float(network_fees["data"]["estimated_network_fee"])), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=make_salt(length=32))
                     block_io.withdraw_from_addresses(amounts = (float(ll.amount) - float(network_fees["data"]["estimated_network_fee"])), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=make_salt(length=32))
                     c_user.profile.pending -=  Decimal((float(ll.amount)))
                     t_user.profile.pending -=  Decimal((float(ll.amount))) 
+                    ll.network_fees += Decimal(network_fees)
+                    ll.taken_network_fees += Decimal(taken_network_fees)
                     ll.paid = True
                 db.session.add(c_user)
                 db.session.add(t_user)
