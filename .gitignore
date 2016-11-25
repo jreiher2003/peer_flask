@@ -22,7 +22,10 @@ sports/Team.2016.xml
 sports/TeamSeason.2016.json
 sports/TeamSeason.2016.xml
 peer_backup
-downloadfile.py 
-peer.sql 
+downloadfile* 
+downloadfile.py
+peer.* 
+peer.sql
 user_create_script.py
 json_to_sqlite.py
+run.sh
