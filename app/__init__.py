@@ -24,7 +24,7 @@ bcrypt = Bcrypt(app)
 cache = Cache(app)
 manager = Manager(app) 
 version = 2
-block_io = BlockIo("ef62-6d12-8127-566c", "finn7797", version)
+block_io = BlockIo(os.environ["BLOCK_IO_API"], os.environ["BLOCK_IO_PASSWD"], version)
 login_manager = LoginManager(app) 
 
 from app.users.views import users_blueprint
