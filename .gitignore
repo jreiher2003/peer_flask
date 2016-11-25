@@ -25,3 +25,4 @@ peer_backup
 downloadfile.py 
 peer.sql 
 user_create_script.py
+json_to_sqlite.py
