@@ -17,22 +17,12 @@ from app.users.utils import profile_confirm_email, email_reset_notice
 
 home_blueprint = Blueprint("home", __name__, template_folder="templates")
  
-@home_blueprint.route("/", methods=["GET","POST"])
-def home():
-    all_address = block_io.get_my_addresses()
-    print current_user.has_role("admin")
-    return render_template(
-        "home.html",
-        all_teams = all_nfl_teams(),
-        all_address = all_address
-        )
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
-# @cache.cached(timeout=300, key_prefix="user_profile")
+@cache.cached(timeout=300, key_prefix="user_profile")
 @login_required
 def profile():
     dt = datetime.now()
-    # block_io.create_notification(url='localhost:8600/notification/', type='address', address='2N2Tcbdd1UqtR8VhszrD5NgKUadz9vvq8Ni')
     user = Users.query.filter_by(id=current_user.id).one() 
     reset_pending_bets()
     graded_bets = NFLBetGraded.query.all()
@@ -231,8 +221,18 @@ def confirm_email(token):
     return redirect(url_for('home.profile'))
 
 # block_io.create_notification(url='localhost:8600/notification/', type='address', address='2N2Tcbdd1UqtR8VhszrD5NgKUadz9vvq8Ni')
-@home_blueprint.route("/notification/", methods=["POST"])
-def block_io_notifications():
-    content = request.json 
-    print content 
-    return content 
+# @home_blueprint.route("/notification/", methods=["POST"])
+# def block_io_notifications():
+#     content = request.json 
+#     print content 
+#     return content 
+
+# @home_blueprint.route("/", methods=["GET","POST"])
+# def home():
+#     all_address = block_io.get_my_addresses()
+#     print current_user.has_role("admin")
+#     return render_template(
+#         "home.html",
+#         all_teams = all_nfl_teams(),
+#         all_address = all_address
+#         )

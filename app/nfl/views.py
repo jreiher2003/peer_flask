@@ -22,10 +22,11 @@ team_def_avg, today_date,today_and_now, make_salt, yesterday, date_to_string
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 
-@nfl_blueprint.route("/nfl/schedule/")
+@nfl_blueprint.route("/nfl/odds/")
 @nfl_blueprint.route("/nfl/home/")
 @nfl_blueprint.route("/nfl/")
-def nfl_schedule():
+@nfl_blueprint.route("/")
+def nfl_odds():
     dt = datetime.datetime.now()
     date_string = date_to_string(dt)
     sch = NFLSchedule.query.filter(NFLSchedule.SeasonType == 1, NFLSchedule.PointSpread != None).all()

@@ -47,7 +47,7 @@ def register():
             )
         print user.id,"email",user.email
         try:
-            db.session.add_all([user])
+            db.session.add(user)
             db.session.commit()
             user1 = Users.query.filter_by(email=user.email).one()
             print user1.id, "id"
