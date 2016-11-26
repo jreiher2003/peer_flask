@@ -32,12 +32,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{{ url_for('home.home') }}">Peer2Peer</a>
+      <a class="navbar-brand" href="{{ url_for('nfl.nfl_odds') }}">Peer2Peer</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         
-          <li><a href="{{ url_for('nfl.nfl_schedule') }}">NFL Home</a></li>
+          <li><a href="{{ url_for('nfl.nfl_odds') }}">NFL Home</a></li>
           
         {% if current_user.is_active %}
           {% if current_user.bitcoin_wallet == None %}
@@ -49,7 +49,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-left">
-        <li><a href="{{ url_for('nfl.nfl_schedule') }}">Odds</a></li>
+        <li><a href="{{ url_for('nfl.nfl_odds') }}">Odds</a></li>
         <li><a href="{{ url_for('nfl.nfl_public_board') }}">Board</a></li>
 
       </ul>

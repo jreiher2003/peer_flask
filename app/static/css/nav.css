@@ -75,7 +75,7 @@ div.dropdown.nav_pic > ul > li {
 ul.dropdown-menu.nav_pic_menu {
     display: none;
     position: absolute;
-    top: 46px;
+    top: 48px;
     background-color: rgba(0,0,0,.7);
     min-width: 130px;
     border: .07em solid rgba(0,0,0,.9);
@@ -97,8 +97,8 @@ ul.dropdown-menu.nav_pic_menu > li > a {
 
 ul.dropdown-menu.nav_pic_menu:before {
   position: absolute;
-  top: -4px;
-  left: 125px; /* Example: right:10px; */
+  top: -6px;
+  left: 110px; /* Example: right:10px; */
   display: inline-block;
   border-right: 7px solid transparent;
   border-bottom: 7px solid rgba(0, 0, 0, 0.2);
@@ -109,8 +109,8 @@ ul.dropdown-menu.nav_pic_menu:before {
 
 ul.dropdown-menu.nav_pic_menu:after {
   position: absolute;
-  top: -5px;
-  left: 125px; /* Example: right:10px; */
+  top: -7px;
+  left: 110px; /* Example: right:10px; */
   display: inline-block;
   border-right: 6px solid transparent;
   border-bottom: 6px solid rgba(0,0,0,.7);

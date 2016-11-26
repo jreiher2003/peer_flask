@@ -27,7 +27,7 @@ def login():
             next = request.args.get("next")
             if not is_safe_url(next):
                 return flask.abort(400)
-            return redirect(next or url_for("nfl.nfl_schedule"))
+            return redirect(next or url_for("nfl.nfl_odds"))
         else:
             flash("<strong>Invalid password.</strong> Please try again.", "danger")
             return redirect(url_for("users.login"))
@@ -66,7 +66,7 @@ def register():
             print "next", next 
             if not is_safe_url(next):
                 return flask.abort(400)
-            return redirect(next or url_for("nfl.nfl_schedule"))
+            return redirect(next or url_for("nfl.nfl_odds"))
         except:
             flash("That username already exists", "danger")
             return redirect(url_for("users.register"))
@@ -97,7 +97,6 @@ def confirm_email_register(token):
     if user.confirmed:
         flash('Account already confirmed. Please login.', 'success')
     else:
-        # add user roles to protect create-a-bet page with no wallet
         user.confirmed = True
         user.confirmed_at = datetime.datetime.now()
         user_roles = UserRoles(user_id=user.id, role_id=2)

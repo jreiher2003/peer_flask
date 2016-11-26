@@ -33,17 +33,14 @@ def positve_bitcoin(form, field):
     if field.data < 0:
         raise ValidationError("Only positive values please.")
 
-
 class LoginForm(Form):
     email = EmailField("Email", [InputRequired(), Email()])
     password = PasswordField("Password", [InputRequired()])
     remember = BooleanField("Remember me")
-    # recaptcha = RecaptchaField()
-    # https://flask-wtf.readthedocs.io/en/stable/form.html#module-flask_wtf.file
     submit = SubmitField("Login")
 
 class RegisterForm(Form):
-    username = TextField("Username",  [InputRequired()])#, validate_username
+    username = TextField("Username",  [InputRequired(), validate_username])#
     email = EmailField("Email", [InputRequired(), Email()])
     password = PasswordField("Password", [InputRequired(), Length(min=12, message="The min password length is 12 chars long."), password_validator])
     password_confirm = PasswordField("Confirm", [InputRequired(), EqualTo("password", message="Your passwords don't match.")])
