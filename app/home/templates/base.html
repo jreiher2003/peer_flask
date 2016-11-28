@@ -29,7 +29,7 @@
     {% include "flash_messages.html" %}
     {% block content %}
     {% endblock content %}
-    {% include "footer.html" %}
+    {#{% include "footer.html" %}#}
 
     <!-- {#<script src="/static/js/jquery/dist/jquery.min.js"></script>#} -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -139,7 +139,7 @@
             winning += parseFloat(win);
         }
     });
-    $('#result').text("risk: " + risking.toFixed(2) + " / " + "win: " + winning.toFixed(2));    
+    $('#result').text("risk: " + risking.toFixed(4) + " / " + "win: " + winning.toFixed(4));    
     };
     </script>
     

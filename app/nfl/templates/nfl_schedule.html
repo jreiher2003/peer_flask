@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}NFL schedule{% endblock title %}
+{% block title %}NFL odds | schedule{% endblock title %}
 {% block style %}
 {% endblock %}
 {% block content %}
@@ -36,7 +36,6 @@
                             <td class="text-center"><p class="pboard">{{ nfl_game.away_ml }}</p></td>
                             {% if current_user.is_active %}
                                 {% if current_user.bitcoin_wallet %}
-                                
                                 <td rowspan="2" class="odds_create_button">{% include "create_bet_modal.html" %}</td>
                                 {% else %}
                                     <td rowspan="2" class="text-center"><a href="#" class="btn btn-success cbw" data-toggle="popover" data-placement="top" data-content="CREATE BITCOIN WALLET first before you can create a bet!">Create</a></td>
@@ -62,15 +61,7 @@
                     </tbody>
                 </table>
             </div>
-            
         </div>
     </div>
 </div>
-
-{#{% include "create_bet_modal.html" %}#}
-
-
-<script>
-{#data = NFLSchedule.query.filter_by(GameKey = {{ d.GameKey }} ).one()#}
-</script>
 {% endblock content %}
