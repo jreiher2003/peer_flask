@@ -19,7 +19,8 @@ from app.home.utils import kitchen_sink
 def download():
     sports = urllib.URLopener()
     sports.retrieve("https://fantasydata.com/members/download-file.aspx?product=4885cd1b-6fd1-4db8-8c0a-47160973ca68", "file.zip")
-    root = "/vagrant"
+    root = os.getcwd()
+    print root
     zipfile.ZipFile("file.zip").extractall("sports")
     os.remove("file.zip")
 ###############################################
@@ -147,5 +148,6 @@ if __name__ == "__main__":
     time.sleep(15)
     kitchen_sink()
     cache.clear()
+    print "Done..."
 
  
