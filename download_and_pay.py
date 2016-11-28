@@ -1,5 +1,7 @@
 """Json to postgres script to dump data and update data into a data base """
 import os
+import pwd
+import grp
 import json
 import psycopg2
 import time
@@ -19,10 +21,23 @@ from app.home.utils import kitchen_sink
 def download():
     sports = urllib.URLopener()
     sports.retrieve("https://fantasydata.com/members/download-file.aspx?product=4885cd1b-6fd1-4db8-8c0a-47160973ca68", "file.zip")
-    root = os.getcwd()
-    print root
-    zipfile.ZipFile("file.zip").extractall("sports")
-    os.remove("file.zip")
+    if os.environ["APP_SETTINGS"] == "config.DevelopmentConfig":
+        print "Development download starting now..."
+        root = os.getcwd()
+        path = root + "/file.zip"
+        print path
+        zipfile.ZipFile("file.zip").extractall("sports")
+        os.remove("file.zip")
+    elif os.environ["APP_SETTINGS"] == "config.ProductionConfig":
+        print "Production Download starting now..."
+        root = os.getcwd()
+        uid = pwd.getpwnam("finn").pw_uid
+        gid = grp.getgrnam("finn").gr_gid
+        path = root + "/file.zip"
+        print path
+        os.chown(path, uid, gid)
+        zipfile.ZipFile("file.zip").extractall("sports")
+        os.remove("file.zip")
 ###############################################
 ############## populate schedule ##############
 ##### create schedule ########################
