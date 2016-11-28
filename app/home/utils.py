@@ -212,7 +212,7 @@ def pay_winners_from_losers_sb():
                     network_fees = block_io.get_network_fee_estimate(amounts = (float(ss.amount)), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low")
                     network_fees = float(network_fees["data"]["estimated_network_fee"])
                     taken_network_fees = block_io.get_network_fee_estimate(amounts = (float(ss.amount)), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low")
-                    taken_network_fees = float(network_fees["data"]["estimated_network_fee"])
+                    taken_network_fees = float(taken_network_fees["data"]["estimated_network_fee"])
                     block_io.withdraw_from_addresses(amounts = (float(ss.amount) - network_fees), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=make_salt(length=32))
                     block_io.withdraw_from_addresses(amounts = (float(ss.amount) - taken_network_fees), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=make_salt(length=32))
                     c_user.profile.pending -=  Decimal(ss.amount)
@@ -262,7 +262,7 @@ def pay_winners_from_losers_ou():
                 if oo.win == None:
                     print "this is a push no payment. People get back their money."
                     taken_network_fees = block_io.get_network_fee_estimate(amounts = (float(oo.amount)), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low")
-                    taken_network_fees = float(network_fees["data"]["estimated_network_fee"])
+                    taken_network_fees = float(taken_network_fees["data"]["estimated_network_fee"])
                     network_fees = block_io.get_network_fee_estimate(amounts = (float(oo.amount)), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low")
                     network_fees = float(network_fees["data"]["estimated_network_fee"])
                     block_io.withdraw_from_addresses(amounts = (float(oo.amount) - network_fees), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=nonce)
@@ -315,7 +315,7 @@ def pay_winners_from_losers_ml():
                     network_fees = block_io.get_network_fee_estimate(amounts = (float(ll.amount)), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low")
                     network_fees = float(network_fees["data"]["estimated_network_fee"])
                     taken_network_fees = block_io.get_network_fee_estimate(amounts = (float(ll.amount)), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low")
-                    taken_network_fees = float(network_fees["data"]["estimated_network_fee"])
+                    taken_network_fees = float(taken_network_fees["data"]["estimated_network_fee"])
                     block_io.withdraw_from_addresses(amounts = (float(ll.amount) - network_fees), from_addresses = admin, to_addresses = c_user.bitcoin_wallet.address, priority="low", nonce=make_salt(length=32))
                     block_io.withdraw_from_addresses(amounts = (float(ll.amount) - taken_network_fees), from_addresses = admin, to_addresses = t_user.bitcoin_wallet.address, priority="low", nonce=make_salt(length=32))
                     c_user.profile.pending -=  Decimal(ll.amount)
