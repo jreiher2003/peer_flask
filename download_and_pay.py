@@ -41,7 +41,7 @@ def download():
         root = os.getcwd()
         uid = pwd.getpwnam("finn").pw_uid
         gid = grp.getgrnam("finn").gr_gid
-        path = root + "/file.zip"
+        path = "/home/finn/www/peer_flask" + "/file.zip"
         print path
         os.chown(path, uid, gid)
         zipfile.ZipFile("file.zip").extractall("sports")
