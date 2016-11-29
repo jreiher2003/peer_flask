@@ -1,4 +1,12 @@
-"""Json to postgres script to dump data and update data into a data base """
+"""Json to postgres script to dump data and update data into a data base 
+m      h       dom             mon     dow          command
+Minute Hour    Day of Month    Month   Day of week  <command>
+0 * * * * will execute every minute of every day all the time 
+crontab -e crontab file 
+min
+crontab -l list all cron jobs
+var/log/syslog -- sudo grep CRON syslog  look at all cronjobs 
+"""
 import os
 import pwd
 import grp
@@ -138,8 +146,9 @@ if __name__ == "__main__":
     # db.drop_all()
     # db.create_all()
     # create_roles()
+    print('The time is: %s\r\n' % datetime.now())
     download()
-    print "just downloaded file please wait 20 sec..."
+    print "just downloaded file please wait 20 sec...\r\n"
     time.sleep(20)
 
     schedule = json.load(open('sports/Schedule.2016.json'))
@@ -156,13 +165,14 @@ if __name__ == "__main__":
     populate_standing()
     populate_score()
     populate_teamseason()
-    print "just populated stat tables with new info please wait 5 sec..."
+    print "just populated stat tables with new info please wait 5 sec...\r\n"
     time.sleep(5)
     graded_bets()
-    print "just graded bets, please wait 15 sec..."
+    print "just graded bets, please wait 15 sec...\r\n"
     time.sleep(15)
     kitchen_sink()
     cache.clear()
-    print "Done..."
+    print "Done...\r\n"
+    print "\r\n\r\n\r\n\r\n"
 
  
