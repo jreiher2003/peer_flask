@@ -146,6 +146,7 @@ if __name__ == "__main__":
     # db.drop_all()
     # db.create_all()
     # create_roles()
+    print "######################### start download cron job #######################"
     print('The time is: %s\r\n' % datetime.now())
     download()
     print "just downloaded file please wait 20 sec...\r\n"
@@ -173,6 +174,7 @@ if __name__ == "__main__":
     kitchen_sink()
     cache.clear()
     print "Done...\r\n"
+    print "####################### end download cron job ############################"
     print "\r\n\r\n\r\n\r\n"
 
  
