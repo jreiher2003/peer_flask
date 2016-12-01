@@ -33,4 +33,4 @@ elif os.environ["APP_SETTINGS"] == "config.ProductionConfig":
 
 print "Done...\r\n"
 print "####################### end download cron job ############################"
-print "\r\n\r\n\r\n\r\n"
+print "\r\n\r\n\r\n"

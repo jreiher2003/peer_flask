@@ -141,8 +141,8 @@ if __name__ == "__main__":
     # db.drop_all()
     # db.create_all()
     # create_roles()
-    # print "######################### start download cron job #######################"
-    # print('The time is: %s\r\n' % datetime.now())
+    print "######################### start download cron job #######################"
+    print('The time is: %s\r\n' % datetime.now())
     # myip = urllib2.urlopen("http://myip.dnsdynamic.org/").read()
     # print "your IP Address is: ",  myip
     # download()
@@ -172,5 +172,5 @@ if __name__ == "__main__":
     cache.clear()
     print "Done...\r\n"
     print "####################### end download cron job ############################"
-    print "\r\n\r\n\r\n\r\n"
+    print "\r\n\r\n\r\n"
 
