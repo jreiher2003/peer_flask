@@ -34,3 +34,5 @@ run.sh
 /home/www/peer_flask/app/static/img/*.gif 
 /home/www/peer_flask/app/static/img/*.jpeg
 .vagrant/machines/default/virtualbox
+.vagrant
+.git
