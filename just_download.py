@@ -5,6 +5,7 @@ from datetime import datetime
 import zipfile
 
 
+print "######################### start download cron job #######################"
 print('The time is: %s\r\n' % datetime.now())
 myip = urllib2.urlopen("http://myip.dnsdynamic.org/").read()
 print "your IP Address is: ",  myip
@@ -29,3 +30,7 @@ elif os.environ["APP_SETTINGS"] == "config.ProductionConfig":
     # os.chown(path, uid, gid)
     zipfile.ZipFile("file.zip").extractall("sports")
     os.remove("file.zip")
+
+print "Done...\r\n"
+print "####################### end download cron job ############################"
+print "\r\n\r\n\r\n\r\n"
