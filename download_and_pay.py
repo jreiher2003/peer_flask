@@ -14,6 +14,7 @@ import json
 import psycopg2
 import time
 import urllib
+import urllib2
 import zipfile 
 from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -148,6 +149,8 @@ if __name__ == "__main__":
     # create_roles()
     print "######################### start download cron job #######################"
     print('The time is: %s\r\n' % datetime.now())
+    myip = urllib2.urlopen("http://myip.dnsdynamic.org/").read()
+    print "your IP Address is: ",  myip
     download()
     print "just downloaded file please wait 20 sec...\r\n"
     time.sleep(20)
