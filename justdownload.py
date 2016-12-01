@@ -11,7 +11,7 @@ print "your IP Address is: ",  myip
 
 
 sports = urllib.URLopener()
-sports.retrieve("https://fantasydata.com/members/download-file.aspx?product=4885cd1b-6fd1-4db8-8c0a-47160973ca68", "file.zip")
+sports.retrieve(os.environ["FD_URL"], "file.zip")
 if os.environ["APP_SETTINGS"] == "config.DevelopmentConfig":
     print "Development download starting now..."
     root = os.getcwd()
