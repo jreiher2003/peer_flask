@@ -109,7 +109,6 @@ def populate_score():
         db.session.add(tt)
         db.session.commit()
     print "populate score table"
-
 #############################################################
 ############ create teamseason ##############################
 ############ populate teamseason table ######################
@@ -143,12 +142,6 @@ if __name__ == "__main__":
     # create_roles()
     print "######################### start download cron job #######################"
     print('The time is: %s\r\n' % datetime.now())
-    # myip = urllib2.urlopen("http://myip.dnsdynamic.org/").read()
-    # print "your IP Address is: ",  myip
-    # download()
-    # print "just downloaded file please wait 20 sec...\r\n"
-    # time.sleep(20)
-
     schedule = json.load(open('sports/Schedule.2016.json'))
     stadium = json.load(open("sports/Stadium.2016.json"))
     team = json.load(open("sports/Team.2016.json"))

@@ -22,12 +22,6 @@ if os.environ["APP_SETTINGS"] == "config.DevelopmentConfig":
     os.remove("file.zip")
 elif os.environ["APP_SETTINGS"] == "config.ProductionConfig":
     print "Production Download starting now..."
-    # root = os.getcwd()
-    # uid = pwd.getpwnam("finn").pw_uid
-    # gid = grp.getgrnam("finn").gr_gid
-    # path = "/home/finn/www/peer_flask" + "/file.zip"
-    # print path
-    # os.chown(path, uid, gid)
     zipfile.ZipFile("file.zip").extractall("sports")
     os.remove("file.zip")
 
