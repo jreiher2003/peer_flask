@@ -82,6 +82,10 @@
 <script type="text/javascript">
 function checkForm(form) // Submit button clicked
 {
+  setTimeout(function() {
+  form.submit.disabled = false;
+  form.submit.value = "Try again...";
+  },5000);
   form.submit.disabled = true;
   form.submit.value = "Please wait...";
   return true;

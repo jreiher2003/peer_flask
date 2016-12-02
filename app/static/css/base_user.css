@@ -2,13 +2,29 @@ nav {
     background-color: #2780e3;
     color: #fff;
 }
+.navbar {
+    min-height:0px !important;
+}
+.navbar-nav > li > a,
+a.navbar-brand {
+    padding-top:10px !important; 
+    padding-bottom:10px !important;
+}
+nav.navbar {
+    height: 43px;
+}
 nav a {
+    display: block;
+    margin: auto auto;
     color: #FFF;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-size: .8em;
 }
 a.navbar-brand {
     color: #fff;
+}
+li.text-muted, li.pull-right {
+    list-style: none;
 }
 .strength-meter {
     width: 100%;
@@ -16,13 +32,7 @@ a.navbar-brand {
 span.error, span {
   color: #a94442;
 }
-li {
-  list-style: none;
-}
 div.profileborder {
     border: .8px solid #ddd;
     padding: 10px;
-}
-input.captcha {
-    width: 75px;
 }
