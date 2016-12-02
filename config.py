@@ -37,6 +37,6 @@ class DevelopmentConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
-    UPLOADED_PHOTOS_DEST = "/var/www/peer_flask/peer_flask/app/static/img"
-    RESIZE_ROOT = "/var/www/peer_flask/peer_flask/app/static/img"
+    UPLOADED_PHOTOS_DEST = "/var/www/peer_flask/img"
+    RESIZE_ROOT = "/var/www/peer_flask/img"
     RESIZE_URL = "http://35.160.159.170/_uploads/photos/"
