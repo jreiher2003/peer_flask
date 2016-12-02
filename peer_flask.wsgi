@@ -8,5 +8,5 @@ execfile(activate_this, dict(__file__=activate_this))
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/peer_flask/")
 
-from app import app as application
+from peer_flask import app as application
 application.secret_key = os.environ["SECRET_KEY"] 
