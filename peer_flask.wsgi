@@ -10,5 +10,6 @@ sys.path.insert(0,"/var/www/peer_flask/")
 
 
 from app import app as application
+application.config.from_object(os.environ['APP_SETTINGS']) 
 application.secret_key = os.environ["SECRET_KEY"] 
 
