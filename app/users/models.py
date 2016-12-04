@@ -34,7 +34,7 @@ class Users(db.Model, UserMixin):
 
     @password.setter 
     def _set_password(self, plaintext):
-        self._password = bcrypt.generate_password_hash(plaintext).decode('utf-8')
+        self._password = bcrypt.generate_password_hash(plaintext)
 
     def is_authenticated(self):
         return True
