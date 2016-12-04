@@ -11,7 +11,7 @@ class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True)#nullable=False, 
     email = db.Column(db.String(255), nullable=False, unique=True)
-    _password = db.Column(db.Binary(255), nullable=False) #hybrid column
+    _password = db.Column(db.String(255), nullable=False) #hybrid column
     confirmed = db.Column(db.Boolean(), default=False)
     confirmed_at = db.Column(db.DateTime)
     date_created = db.Column(db.DateTime,  default=datetime.datetime.utcnow)
