@@ -183,7 +183,7 @@ def change_password():
             db.session.add(user)
             db.session.commit()
             referer = request.headers["Referer"]
-            email_reset_notice(user.email)
+            #email_reset_notice(user.email)
             flash("Successfully changed your password", "success")
             return redirect(url_for("home.profile"))
     return render_template("security/change_password.html", form=form)
@@ -195,7 +195,7 @@ def profile_c_email():
     user = Users.query.filter_by(id=current_user.id).one()
     form = SendEmailConfirmForm(obj=user)
     if form.validate_on_submit():
-        profile_confirm_email(user.email)
+        #profile_confirm_email(user.email)
         flash("An email was send to %s" % user.email, "info")
         return redirect(url_for('home.profile'))
     return render_template("security/send_confirmation.html", form=form) 
