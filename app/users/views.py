@@ -13,7 +13,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = Users.query.filter_by(email=form.email.data).first()
-        if user is not None and user.password == form.password.data:# and bcrypt.check_password_hash(user.password, form.password.data):
+        if user is not None and user.password == form.password.data and bcrypt.check_password_hash(user.password, form.password.data):
             remember = form.remember.data
             user.login_count += 1
             user.last_login_ip = user.current_login_ip
