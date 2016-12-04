@@ -45,7 +45,7 @@
                                     {% include "edit_bet_modal.html" %}
                                 </td>
                             {% else %}
-                                <td class="vert-align"><a href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}">bet</a></td>
+                                <td class="vert-align"><a class="btn btn-warning" href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Bet</a></td>
                             {% endif %} 
                         </tr>
                             {% endif %}
@@ -70,7 +70,7 @@
                                     {% include "edit_bet_modal.html" %}
                                 </td>
                             {% else %}
-                                <td class="vert-align"><a href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}">bet</a></td>
+                                <td class="vert-align"><a class="btn btn-warning" href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Bet</a></td>
                             {% endif %} 
                         </tr>
                             {% endif %}

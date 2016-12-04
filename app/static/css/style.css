@@ -176,3 +176,12 @@ ul.nav.nav-tabs.team_stats_nav-tabs {
     padding-left:45px;
     margin-left: 15px;
 }
+/* vs page */
+.cancel-div {
+    margin-top: 10px;
+}
+.cancel-btn {
+    color: grey;
+    font-size: 1.2em;
+    
+}
