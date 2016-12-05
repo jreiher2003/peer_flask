@@ -19,7 +19,7 @@ home_blueprint = Blueprint("home", __name__, template_folder="templates")
  
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
-# @cache.cached(timeout=300, key_prefix="user_profile")
+@cache.cached(timeout=300, key_prefix="user_profile")
 @login_required
 def profile():
     dt = datetime.now()
@@ -178,12 +178,13 @@ def change_password():
     form = ChangePasswordForm()
     if form.validate_on_submit():
         user = Users.query.filter_by(id=current_user.id).first()
-        if user is not None:# and bcrypt.check_password_hash(user.password, form.password.data):
+        if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
             user.password = form.new_password.data
             db.session.add(user)
             db.session.commit()
+            cache.clear()
             referer = request.headers["Referer"]
-            #email_reset_notice(user.email)
+            email_reset_notice(user.email)
             flash("Successfully changed your password", "success")
             return redirect(url_for("home.profile"))
     return render_template("security/change_password.html", form=form)
@@ -195,7 +196,7 @@ def profile_c_email():
     user = Users.query.filter_by(id=current_user.id).one()
     form = SendEmailConfirmForm(obj=user)
     if form.validate_on_submit():
-        #profile_confirm_email(user.email)
+        profile_confirm_email(user.email)
         flash("An email was send to %s" % user.email, "info")
         return redirect(url_for('home.profile'))
     return render_template("security/send_confirmation.html", form=form) 

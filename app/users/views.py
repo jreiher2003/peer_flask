@@ -7,13 +7,13 @@ from flask import Blueprint, render_template, url_for, request, flash, redirect,
 from flask_login import login_user, logout_user, login_required, current_user 
 
 users_blueprint = Blueprint("users", __name__, template_folder="templates")
-
+# user._password == form.password.data and
 @users_blueprint.route("/login/", methods=["GET","POST"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = Users.query.filter_by(email=form.email.data).first()
-        if user is not None:# and user.password == form.password.data and bcrypt.check_password_hash(user.password, form.password.data):
+        if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
             remember = form.remember.data
             user.login_count += 1
             user.last_login_ip = user.current_login_ip
@@ -55,11 +55,11 @@ def register():
             db.session.add(profile)
             db.session.commit()
             cache.clear()
-            #token = generate_confirmation_token(user1.email)
-            #confirm_url = url_for('users.confirm_email_register', token=token, _external=True)
-            #html = render_template("security/email/welcome.html", confirm_url=confirm_url, user=user1)
-            #subject = "Please confirm your email"
-            #send_email(user1.email, subject, html)
+            token = generate_confirmation_token(user1.email)
+            confirm_url = url_for('users.confirm_email_register', token=token, _external=True)
+            html = render_template("security/email/welcome.html", confirm_url=confirm_url, user=user1)
+            subject = "Please confirm your email"
+            send_email(user1.email, subject, html)
             login_user(user1,True)
             flash("Welcome <strong>%s</strong> to Peer2Peer. A confirmation email has been sent to %s" % (user1.username,user1.email), "success")
             next = request.args.get("next")
@@ -106,8 +106,6 @@ def confirm_email_register(token):
         flash('You have confirmed your account. Thanks!', 'success')
     return redirect(url_for('home.profile'))
 
-
-
 @users_blueprint.route("/forgot-password/", methods=["GET","POST"])
 def forgot_password():
     form = RecoverPasswordForm()
@@ -134,7 +132,7 @@ def forgot_password_reset_token(token):
         user.password = request.form["password"]
         db.session.add(user)
         db.session.commit()
-        #email_reset_notice(user.email)
+        email_reset_notice(user.email)
         flash("Successful password updated!", "success")
         cache.clear()
         return redirect(url_for("users.login"))
