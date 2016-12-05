@@ -28,14 +28,13 @@ Flask-Uploads==0.2.1
 Flask-WTF==0.12
 funcsigs==1.0.2
 futures==3.0.5
-gunicorn==19.6.0
 idna==2.1
 ipaddress==1.0.17
 itsdangerous==0.24
 Jinja2==2.8
 Mako==1.0.4
 MarkupSafe==0.23
-
+ndg-httpsclient==0.4.2
 passlib==1.6.5
 pilkit==1.1.13
 Pillow==3.4.2
