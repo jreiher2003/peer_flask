@@ -7,7 +7,7 @@ from flask import request, flash, redirect, url_for
 from sqlalchemy import exc
 from flask_security import login_required, roles_required, roles_accepted, current_user
 from app.users.models import Users, Profile, BitcoinWallet, UserRoles
-from app.users.forms import BitcoinWalletForm, BitcoinWithdrawlForm, ProfileForm, SendEmailConfirmForm, ChangePasswordForm
+from app.users.forms import BitcoinWalletForm, BitcoinWithdrawlForm, ProfileForm, SendEmailConfirmForm, ChangePasswordForm, DeleteUserForm
 from app.nfl_stats.models import NFLTeam, NFLScore
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet
 from app.nfl.utils import make_salt
@@ -19,7 +19,7 @@ home_blueprint = Blueprint("home", __name__, template_folder="templates")
  
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
-@cache.cached(timeout=300, key_prefix="user_profile")
+# @cache.cached(timeout=300, key_prefix="user_profile")
 @login_required
 def profile():
     dt = datetime.now()
@@ -219,6 +219,22 @@ def confirm_email(token):
         db.session.commit()
         flash('You have confirmed your account. Thanks!', 'success')
     return redirect(url_for('home.profile'))
+
+@home_blueprint.route("/delete-user/", methods=["GET","POST"])
+def delete_user():
+    user = Users.query.filter_by(id=current_user.id).one()
+    form = DeleteUserForm()
+    if form.validate_on_submit():
+        db.session.delete(user)
+        db.session.commit()
+        cache.clear()
+        flash("Your account has been successfully deleted!", "danger")
+        return redirect(url_for("nfl.nfl_odds"))
+    return render_template(
+        "profile/user_delete_account.html", 
+        all_teams = all_nfl_teams(),
+        form = form, 
+        )
 
 # block_io.create_notification(url='localhost:8600/notification/', type='address', address='2N2Tcbdd1UqtR8VhszrD5NgKUadz9vvq8Ni')
 # @home_blueprint.route("/notification/", methods=["POST"])

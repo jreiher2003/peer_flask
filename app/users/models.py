@@ -21,12 +21,12 @@ class Users(db.Model, UserMixin):
     current_login_at = db.Column(db.DateTime)
     current_login_ip = db.Column(db.String(45))
     login_count = db.Column(db.Integer, default=0)
-    profile = db.relationship('Profile', uselist=False)
-    bitcoin_wallet = db.relationship("BitcoinWallet", uselist=False)
-    roles = db.relationship('Role', secondary='user_roles', backref=db.backref('users', lazy='dynamic'))
-    nfl_ou_bet = db.relationship("NFLOverUnderBet")
-    nfl_side_bet = db.relationship("NFLSideBet")
-    nfl_ml_bet = db.relationship("NFLMLBet")
+    profile = db.relationship('Profile', uselist=False, cascade="all, delete-orphan")
+    bitcoin_wallet = db.relationship("BitcoinWallet", uselist=False, cascade="all, delete-orphan")
+    roles = db.relationship('Role', secondary='user_roles', backref=db.backref('users', lazy='dynamic', cascade="all, delete-orphan", single_parent=True))
+    nfl_ou_bet = db.relationship("NFLOverUnderBet", cascade="all, delete-orphan")
+    nfl_side_bet = db.relationship("NFLSideBet", cascade="all, delete-orphan")
+    nfl_ml_bet = db.relationship("NFLMLBet", cascade="all, delete-orphan")
 
     @hybrid_property 
     def password(self):

@@ -24,7 +24,7 @@
                     <p class="p__status"><b class="text-muted">Graded Bets:</b>&nbsp;&nbsp;&nbsp;{{ num_graded }}</p>
                     <p class="p__status"><b class="text-muted">Account Confirmed: </b>&nbsp;&nbsp;&nbsp;
                         {% if current_user.confirmed == False %}
-                            <small class="label label-danger">{{ current_user.confirmed }}</small>
+                            <small class="label label-warning">{{ current_user.confirmed }}</small>
                         {% else %}
                             <small class="label label-success">{{ current_user.confirmed }}</small>
                         {% endif %}
@@ -34,6 +34,7 @@
                             {% include "profile/confirm_email_modal.html" %}
                         {% endif %}
                         {% include "profile/profile_change_password_modal.html" %}
+                        <a href="{{ url_for('home.delete_user') }}" class="btn btn-danger btn-sm profile_center">Delete Account</a>
                     </div>
                 </div><!-- end caption -->
             </div><!-- end profileborder -->

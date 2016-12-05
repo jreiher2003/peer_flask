@@ -78,3 +78,6 @@ class BitcoinWithdrawlForm(Form):
     amount = FloatField("Bitcoin Amount", [InputRequired(), positve_bitcoin])
     address = TextField("Bitcoin Address", [InputRequired(), Length(min=8, message="That address doesn't appear to be long enough.")])
     submit = SubmitField("Widthdrawl")
+
+class DeleteUserForm(Form):
+    submit = SubmitField("Delete Your Account")

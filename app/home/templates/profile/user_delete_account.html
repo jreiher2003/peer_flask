@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Delete User Account{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <form class="text-center" method="post" action="{{ url_for('home.delete_user') }}" onsubmit="return OverUnder(this);">
+                {{ form.csrf_token }}
+                {{ form.submit(class="btn btn-danger") }}
+                <a class="btn btn-default" href="{{ url_for('home.profile') }}">Cancel</a>
+            </form>
+       </div>
+    </div>
+</div>
+{% endblock content %}
