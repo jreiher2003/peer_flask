@@ -14,10 +14,12 @@ td.team {
 table.dataTable thead .sorting_asc {
     background-image: none !important;
     background-image: url("/static/img/arrows/icon-arrow-up-18.png") !important;
+    background-repeat: no-repeat;
 }
 table.dataTable thead .sorting_desc {
     background-image: none !important;
     background-image: url("/static/img/arrows/icon-arrow-down-18.png") !important;
+    background-repeat: no-repeat;
 }
 td.sorting_1,
 tr.odd>.sorting_1,
