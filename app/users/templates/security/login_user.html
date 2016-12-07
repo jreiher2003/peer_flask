@@ -20,7 +20,7 @@
               </div>
               <div class="form-group">
                 {{ render_field_with_errors(form.remember) }}<label for="remember">&nbsp;Remember me&nbsp; </label>
-                  <li class="pull-right"><a href="{{ url_for('users.forgot_password') }}">Forgot password</a><br/></li>
+                  {#<li class="pull-right"><a href="{{ url_for('users.forgot_password') }}">Forgot password</a><br/></li>#}
               </div>
               <p>
                 <label class="text-muted">What is 3 + 4 = </label>
@@ -33,6 +33,9 @@
             <hr>
             <li class="text-muted">Not registered? <a href="{{ url_for('users.register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Create an account</a><br/></li>
         </div>
+        <br>
+        <p class="text-center">Make sure you are on the right page</p>
+        <p class="text-center"><b>http://q6rrzsynk7asslo7.onion</b></p>
       </div>
     </div>
 </div>

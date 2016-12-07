@@ -22,17 +22,18 @@
                     <p class="p__status"><b class="text-muted">Bets Taken:</b>&nbsp;&nbsp;&nbsp;{{ current_user.profile.bets_taken }}</p>
                     <p class="p__status"><b class="text-muted">Pending Bets:</b>&nbsp;&nbsp;&nbsp;{{ num_pending }}</p>
                     <p class="p__status"><b class="text-muted">Graded Bets:</b>&nbsp;&nbsp;&nbsp;{{ num_graded }}</p>
-                    <p class="p__status"><b class="text-muted">Account Confirmed: </b>&nbsp;&nbsp;&nbsp;
+                    <!-- <p class="p__status"><b class="text-muted">Account Confirmed: </b>&nbsp;&nbsp;&nbsp;
                         {% if current_user.confirmed == False %}
                             <small class="label label-warning">{{ current_user.confirmed }}</small>
                         {% else %}
                             <small class="label label-success">{{ current_user.confirmed }}</small>
                         {% endif %}
+                    </p> -->
                     <hr class="profileme">
                     <div class="profile_class_button">
-                        {% if current_user.confirmed == False %}
+                        {#{% if current_user.confirmed == False %}
                             {% include "profile/confirm_email_modal.html" %}
-                        {% endif %}
+                        {% endif %}#}
                         {% include "profile/profile_change_password_modal.html" %}
                         <a href="{{ url_for('home.delete_user') }}" class="btn btn-danger btn-sm profile_center">Delete Account</a>
                     </div>
