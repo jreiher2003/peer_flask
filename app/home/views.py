@@ -237,6 +237,16 @@ def delete_user():
         form = form, 
         )
 
+
+@app.errorhandler(500)
+def server_overload(e):
+    return render_template("500.html"),500
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("500.html"),404
+
+
 # block_io.create_notification(url='localhost:8600/notification/', type='address', address='2N2Tcbdd1UqtR8VhszrD5NgKUadz9vvq8Ni')
 # @home_blueprint.route("/notification/", methods=["POST"])
 # def block_io_notifications():
