@@ -15,9 +15,9 @@
                     </tr>
                     <tr>
                         <th><a>user</a></th>
-                        <th><a>game date</a></th>
-                        <th><a>game day</a></th>
-                        <th><a>game time</a></th>
+                        <th class="hidden-xs"><a>game date</a></th>
+                        <th class="hidden-xs"><a>game day</a></th>
+                        <th class="hidden-xs"><a>game time</a></th>
                         <th><a>game</a></th>
                         <th><a>team</a></th>
                         <th><a>spread</a></th>
@@ -32,9 +32,9 @@
                             {% if bet.game_date > dt %}
                         <tr> 
                              <td class="vert-align"><img class="navpic" src="{{ bet.users.profile.imgsrc|resize('50x50', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}">&nbsp;&nbsp;&nbsp;{{ bet.users.username }}</td>
-                            <td class="vert-align">{{ bet.game_date|game_date }}</td>
-                            <td class="vert-align">{{ bet.game_date|game_day }}</td>
-                            <td class="vert-align">{{ bet.game_date|game_time }}</td>
+                            <td class="vert-align hidden-xs">{{ bet.game_date|game_date }}</td>
+                            <td class="vert-align hidden-xs">{{ bet.game_date|game_day }}</td>
+                            <td class="vert-align hidden-xs">{{ bet.game_date|game_time }}</td>
                             <td class="vert-align"><a href="#" id="b_game_key" data-toggle="popover" title="Bet Key" data-content="This is the bet key {{ bet.bet_key }}">{{ bet.vs }}</a></td>
                             <td class="vert-align"></td>
                             <td class="vert-align">{{ bet.team }}</td>
@@ -57,9 +57,9 @@
                             {% if bet.game_date > dt %}
                         <tr> 
                              <td class="vert-align"><img class="navpic" src="{{ bet.users.profile.imgsrc|resize('50x50', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}">&nbsp;&nbsp;&nbsp;{{ bet.users.username }}</td>
-                            <td class="vert-align">{{ bet.game_date|game_date }}</td>
-                            <td class="vert-align">{{ bet.game_date|game_day }}</td>
-                            <td class="vert-align">{{ bet.game_date|game_time }}</td>
+                            <td class="vert-align hidden-xs">{{ bet.game_date|game_date }}</td>
+                            <td class="vert-align hidden-xs">{{ bet.game_date|game_day }}</td>
+                            <td class="vert-align hidden-xs">{{ bet.game_date|game_time }}</td>
                             <td class="vert-align"><a href="#" id="b_game_key" data-toggle="popover" title="Bet Key" data-content="This is the bet key {{ bet.bet_key }}">{{ bet.vs }}</a></td>
                             <td class="vert-align">{{ bet.team }}</td>
                             <td class="vert-align">{{ bet.ps_format }}</td>

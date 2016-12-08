@@ -7,59 +7,61 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="public__board__border">
-                <table class="table table-border">
-                    <thead class="thead"> 
-                        <tr> 
-                            <th class="text-center">Date</th> 
-                            <th class="text-center">Game Number</th> 
-                            <th class="text-center">Game</th>
-                            <th class="text-center">Spread</th>
-                            <th class="text-center">ML</th>
-                            <th class="text-center">Bet</th>
-                            <th></th>
-                        </tr>
-                    </thead> 
-                    <tbody class="tbody">
-                     {% for nfl_game in data %}
-                        {% if nfl_game.Date|dateify > dt %}
-                        <tr>
-                            <td rowspan="2" class="text-center"><p class="reg_pboard">{{ nfl_game.Date|dateify|game_time }}</p><p class="reg_pboard">{{ nfl_game.Date|dateify|game_date }}</p></td>
-                            <td rowspan="2" class="text-center"><p class="reg_pboard">{{ nfl_game.GameKey }}</p><p class="reg_pboard">Week: {{ nfl_game.Week }}</p></td>
-                            <td class="text-center"><p class="pboard">{{ nfl_game.AwayTeam }}</p></td>
-                            {% if nfl_game.PointSpread > 0 %}
-                                <td class="text-center"><p class="pboard">{{ nfl_game.away_pointspread }}</p></td>
-                            {% elif nfl_game.PointSpread == 0.0 %}
-                                <td class="text-center"><p class="pboard">{{ nfl_game.OverUnder_ }}</p></td>
-                            {% else %}
-                                <td class="text-center"><p class="pboard">{{ nfl_game.OverUnder_ }}</p></td>
-                            {% endif %}
-                            <td class="text-center"><p class="pboard">{{ nfl_game.away_ml }}</p></td>
-                            {% if current_user.is_active %}
-                                {% if current_user.bitcoin_wallet %}
-                                <td rowspan="2" class="odds_create_button">{% include "create_bet_modal.html" %}</td>
+                <div class="table-responsive">
+                    <table class="table table-border">
+                        <thead class="thead"> 
+                            <tr> 
+                                <th class="text-center hidden-xs">Date</th> 
+                                <th class="text-center hidden-xs">Game Number</th> 
+                                <th class="text-center">Game</th>
+                                <th class="text-center">Spread</th>
+                                <th class="text-center">ML</th>
+                                <th class="text-center">Bet</th>
+                                <th></th>
+                            </tr>
+                        </thead> 
+                        <tbody class="tbody">
+                         {% for nfl_game in data %}
+                            {% if nfl_game.Date|dateify > dt %}
+                            <tr>
+                                <td rowspan="2" class="text-center hidden-xs"><p class="reg_pboard">{{ nfl_game.Date|dateify|game_time }}</p><p class="reg_pboard">{{ nfl_game.Date|dateify|game_date }}</p></td>
+                                <td rowspan="2" class="text-center hidden-xs"><p class="reg_pboard">{{ nfl_game.GameKey }}</p><p class="reg_pboard">Week: {{ nfl_game.Week }}</p></td>
+                                <td class="text-center"><p class="pboard">{{ nfl_game.AwayTeam }}</p></td>
+                                {% if nfl_game.PointSpread > 0 %}
+                                    <td class="text-center"><p class="pboard">{{ nfl_game.away_pointspread }}</p></td>
+                                {% elif nfl_game.PointSpread == 0.0 %}
+                                    <td class="text-center"><p class="pboard">{{ nfl_game.OverUnder_ }}</p></td>
                                 {% else %}
-                                    <td rowspan="2" class="text-center"><a href="#" class="btn btn-success cbw" data-toggle="popover" data-placement="top" data-content="CREATE BITCOIN WALLET first before you can create a bet!">Create</a></td>
+                                    <td class="text-center"><p class="pboard">{{ nfl_game.OverUnder_ }}</p></td>
                                 {% endif %}
-                            {% elif current_user.is_anonymous %}
-                                <td rowspan="2" class="text-center"><a href="#" class="btn btn-success cbw" data-toggle="popover" data-placement="top" data-content="You have to login in first to create a bet!">Create</a></td>
-                            {% endif %}
-                        </tr>
-                        <tr>
-                            <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.HomeTeam }}</p></td>
-                             {% if nfl_game.PointSpread > 0 %}
-                                <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.OverUnder_ }}</p></td>
-                            {% elif nfl_game.PointSpread == 0.0 %}
-                                <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.even_pointspread }}</p></td>
-                            {% else %}
-                                <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.home_pointspread }}</p></td>
-                            {% endif %}
-                            <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.home_ml }}</p></td> 
-                            <td style="border-top: None"></td>  
-                        </tr>
-                         {% endif %}
-                    {% endfor %}
-                    </tbody>
-                </table>
+                                <td class="text-center"><p class="pboard">{{ nfl_game.away_ml }}</p></td>
+                                {% if current_user.is_active %}
+                                    {% if current_user.bitcoin_wallet %}
+                                    <td rowspan="2" class="odds_create_button">{% include "create_bet_modal.html" %}</td>
+                                    {% else %}
+                                        <td rowspan="2" class="text-center"><a href="#" class="btn btn-success cbw" data-toggle="popover" data-placement="top" data-content="CREATE BITCOIN WALLET first before you can create a bet!">Create</a></td>
+                                    {% endif %}
+                                {% elif current_user.is_anonymous %}
+                                    <td rowspan="2" class="text-center"><a href="#" class="btn btn-success cbw" data-toggle="popover" data-placement="top" data-content="You have to login in first to create a bet!">Create</a></td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.HomeTeam }}</p></td>
+                                 {% if nfl_game.PointSpread > 0 %}
+                                    <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.OverUnder_ }}</p></td>
+                                {% elif nfl_game.PointSpread == 0.0 %}
+                                    <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.even_pointspread }}</p></td>
+                                {% else %}
+                                    <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.home_pointspread }}</p></td>
+                                {% endif %}
+                                <td class="middlerow text-center"><p class="bottom_pboard">{{ nfl_game.home_ml }}</p></td> 
+                                <td style="border-top: None"></td>  
+                            </tr>
+                             {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

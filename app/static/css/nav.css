@@ -10,9 +10,9 @@ a.navbar-brand {
     padding-top:10px !important; 
     padding-bottom:10px !important;
 }
-nav.navbar {
+/*nav.navbar {
     height: 43px;
-}
+}*/
 nav a {
     display: block;
     margin: auto auto;
@@ -56,9 +56,9 @@ h3.nav__division {
 }
 .dropdown:hover .dropdown-menu {
     display: block;
-    margin-top: 0;/* // remove the gap so it doesn't close*/
+    margin-top: 0; 
  }
- /* nav pic image dropdown */
+ 
  button.btn.btn-primary.dropdown-toggle {
     padding-top: 8px !important;
     padding-bottom: 12px !important;
@@ -93,12 +93,10 @@ ul.dropdown-menu.nav_pic_menu > li > a {
     padding-left: 5px;
     margin-left: 5px;
 }
-
-
 ul.dropdown-menu.nav_pic_menu:before {
   position: absolute;
   top: -6px;
-  left: 110px; /* Example: right:10px; */
+  left: 110px; 
   display: inline-block;
   border-right: 7px solid transparent;
   border-bottom: 7px solid rgba(0, 0, 0, 0.2);
@@ -110,7 +108,7 @@ ul.dropdown-menu.nav_pic_menu:before {
 ul.dropdown-menu.nav_pic_menu:after {
   position: absolute;
   top: -7px;
-  left: 110px; /* Example: right:10px; */
+  left: 110px;
   display: inline-block;
   border-right: 6px solid transparent;
   border-bottom: 6px solid rgba(0,0,0,.7);
@@ -131,4 +129,7 @@ img.img_dropdown {
      border: .07em solid rgba(255,255,255,.7); 
      display:block;
      margin:0 auto;
+}
+div#navbar.navbar-collapse.collapse.in {
+  text-align: center;    
 }

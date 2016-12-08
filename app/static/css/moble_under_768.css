@@ -11,4 +11,22 @@
     span.icon-bar {
         background-color: #fff;
     }
+    h2.nav__league, 
+    h3.nav__division, 
+    li.nav__team a, 
+    h3 .nav__team {
+        color: #fff;
+    }
+    div#navbar.navbar-collapse.collapse.in ul.nav.navbar-nav.navbar-left li a {
+        border-bottom: .08em solid #fff;
+    }
+    div.modal-body {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-left: 0;
+    }
+    #bet_tabs {
+        display: block;
+        margin-left: 15px;
+    }
 }

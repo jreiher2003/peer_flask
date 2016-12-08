@@ -128,7 +128,7 @@ def bitcoin_widthdrawl():
         address = request.form["address"]
         try: 
             block_io.withdraw_from_addresses(amounts = float(amount), from_addresses = str(current_user.bitcoin_wallet.address), to_addresses = str(address), priority="low", nonce=nonce)
-            flash("You just send this amount of bitcoins %s BTC - to this address %s" % (address,amount), "info")
+            flash("You just send this amount of bitcoins %s BTC - to this address %s" % (amount,address), "info")
             cache.clear()
             return redirect(url_for("home.profile"))
         except:
@@ -208,19 +208,38 @@ def delete_user():
 
 @home_blueprint.route("/faq/")
 def faq():
-    return render_template("faq.html")
+    return render_template(
+        "faq/faq.html",
+        all_teams = all_nfl_teams(),
+        )
 
-@home_blueprint.route("/contact-us")
+@home_blueprint.route("/contact-us/")
 def contact_us():
-    return render_template("contact_us.html")
+    return render_template(
+        "contact_us.html",
+        all_teams = all_nfl_teams(),
+        )
+
+@home_blueprint.route("/how-to-play/")
+def how_to_play():
+    return render_template(
+        "how_to_play.html",
+        all_teams = all_nfl_teams(),
+        )
 
 @app.errorhandler(500)
 def server_overload(e):
-    return render_template("500.html"),500
+    return render_template(
+        "500.html",
+        all_teams = all_nfl_teams(),
+        ),500
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template("500.html"),404
+    return render_template(
+        "500.html",
+        all_teams = all_nfl_teams(),
+        ),404
 
 
 # #if user doesn't confirm on register
