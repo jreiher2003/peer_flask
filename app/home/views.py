@@ -189,37 +189,6 @@ def change_password():
             return redirect(url_for("home.profile"))
     return render_template("security/change_password.html", form=form)
 
-#if user doesn't confirm on register
-@home_blueprint.route("/confirm-email/", methods=["GET","POST"])
-@login_required
-def profile_c_email():
-    user = Users.query.filter_by(id=current_user.id).one()
-    form = SendEmailConfirmForm(obj=user)
-    if form.validate_on_submit():
-        #profile_confirm_email(user.email)
-        flash("An email was send to %s" % user.email, "info")
-        return redirect(url_for('home.profile'))
-    return render_template("security/send_confirmation.html", form=form) 
-
-#app.user.home.views.profile_c_email
-@home_blueprint.route('/confirm/<token>/')
-@login_required
-def confirm_email(token):
-    try:
-        email = confirm_token(token)
-    except:
-        flash('The confirmation link is invalid or has expired.', 'danger')
-    user = Users.query.filter_by(email=email).first_or_404()
-    if user.confirmed:
-        flash('Account already confirmed. Please login.', 'success')
-    else:
-        user.confirmed = True
-        user.confirmed_at = datetime.datetime.now()
-        user_roles = UserRoles(user_id=user.id, role_id=2)
-        db.session.add_all([user, user_roles])
-        db.session.commit()
-        flash('You have confirmed your account. Thanks!', 'success')
-    return redirect(url_for('home.profile'))
 
 @home_blueprint.route("/delete-user/", methods=["GET","POST"])
 def delete_user():
@@ -237,6 +206,13 @@ def delete_user():
         form = form, 
         )
 
+@home_blueprint.route("/faq/")
+def faq():
+    return render_template("faq.html")
+
+@home_blueprint.route("/contact-us")
+def contact_us():
+    return render_template("contact_us.html")
 
 @app.errorhandler(500)
 def server_overload(e):
@@ -246,6 +222,38 @@ def server_overload(e):
 def page_not_found(e):
     return render_template("500.html"),404
 
+
+# #if user doesn't confirm on register
+# @home_blueprint.route("/confirm-email/", methods=["GET","POST"])
+# @login_required
+# def profile_c_email():
+#     user = Users.query.filter_by(id=current_user.id).one()
+#     form = SendEmailConfirmForm(obj=user)
+#     if form.validate_on_submit():
+#         #profile_confirm_email(user.email)
+#         flash("An email was send to %s" % user.email, "info")
+#         return redirect(url_for('home.profile'))
+#     return render_template("security/send_confirmation.html", form=form) 
+
+# #app.user.home.views.profile_c_email
+# @home_blueprint.route('/confirm/<token>/')
+# @login_required
+# def confirm_email(token):
+#     try:
+#         email = confirm_token(token)
+#     except:
+#         flash('The confirmation link is invalid or has expired.', 'danger')
+#     user = Users.query.filter_by(email=email).first_or_404()
+#     if user.confirmed:
+#         flash('Account already confirmed. Please login.', 'success')
+#     else:
+#         user.confirmed = True
+#         user.confirmed_at = datetime.datetime.now()
+#         user_roles = UserRoles(user_id=user.id, role_id=2)
+#         db.session.add_all([user, user_roles])
+#         db.session.commit()
+#         flash('You have confirmed your account. Thanks!', 'success')
+#     return redirect(url_for('home.profile'))
 
 # block_io.create_notification(url='localhost:8600/notification/', type='address', address='2N2Tcbdd1UqtR8VhszrD5NgKUadz9vvq8Ni')
 # @home_blueprint.route("/notification/", methods=["POST"])

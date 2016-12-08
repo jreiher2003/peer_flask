@@ -19,6 +19,7 @@
             </button>
         </h3>
         <p><b>{{ current_user.bitcoin_wallet.address }}</b></p>
+        <p class="text-muted"><small>(Please allow 10-15 minutes for bitcoins to show up in your account)</small></p>
         <hr>
         <h5>Make a Widthdrawl</h5>
         <form class="bs-component" action="{{ url_for('home.bitcoin_widthdrawl') }}" method="post" onsubmit="return checkForm(this);">
