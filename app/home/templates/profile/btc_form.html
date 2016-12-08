@@ -54,7 +54,7 @@
             {{ form_c.csrf_token }}
             <div class="form-group text-center">
                 {% if current_user.confirmed == False %}
-                    {{ form_c.create(id="createBCB", class="btn btn-lg btn-warning disabled createBCB", **{ 'data-toggle': 'tooltip', 'data-placement':'bottom', 'title':'Confirm your account first'}) }}
+                    {{ form_c.create(class="btn btn-lg btn-warning", **{ 'data-toggle': 'tooltip', 'data-placement':'bottom', 'title':'click here to create a wallet'}) }}
                 {% else %}
                     {{ form_c.create(class="btn btn-lg btn-warning") }}
                 {% endif %}

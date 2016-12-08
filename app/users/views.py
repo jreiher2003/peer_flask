@@ -61,7 +61,7 @@ def register():
             # subject = "Please confirm your email"
             # send_email(user1.email, subject, html)
             login_user(user1,True)
-            flash("Welcome <strong>%s</strong> to Peer2Peer. A confirmation email has been sent to %s" % (user1.username,user1.email), "success")
+            flash("Welcome <strong>%s</strong> to Peer2Peer. Get started by creating a <strong>bitcoin wallet</strong>." % (user1.username), "success")
             next = request.args.get("next")
             print "next", next 
             if not is_safe_url(next):
