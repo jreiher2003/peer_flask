@@ -27,20 +27,6 @@ from app.nfl_stats.models import NFLScore, NFLTeam, NFLStadium, NFLSchedule, NFL
 from app.home.utils import kitchen_sink
 
 
-def download():
-    sports = urllib.URLopener()
-    sports.retrieve(os.environ["FD_URL"], "file.zip")
-    if os.environ["APP_SETTINGS"] == "config.DevelopmentConfig":
-        print "Development download starting now..."
-        root = os.getcwd()
-        path = root + "/file.zip"
-        print path
-        zipfile.ZipFile("file.zip").extractall("sports")
-        os.remove("file.zip")
-    elif os.environ["APP_SETTINGS"] == "config.ProductionConfig":
-        print "Production Download starting now..."
-        zipfile.ZipFile("file.zip").extractall("sports")
-        os.remove("file.zip")
 ###############################################
 ############## populate schedule ##############
 ##### create schedule ########################

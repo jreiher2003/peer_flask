@@ -17,7 +17,11 @@
     h3 .nav__team {
         color: #fff;
     }
-    div#navbar.navbar-collapse.collapse.in ul.nav.navbar-nav.navbar-left li a {
+
+    #navbar ul.nav.navbar-nav.navbar-right li.dropdown a,
+    #navbar ul.nav.navbar-nav.navbar-right li.vert-align a, 
+    div#navbar.navbar-collapse.collapse.in ul.nav.navbar-nav.navbar-left li a,
+    div#navbar.navbar-collapse.collapse.in ul.nav.navbar-nav.navbar-right li a {
         border-bottom: .08em solid #fff;
     }
     div.modal-body {

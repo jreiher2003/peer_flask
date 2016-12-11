@@ -32,7 +32,7 @@ class DevelopmentConfig(BaseConfig):
     DEBUG = True
     UPLOADED_PHOTOS_DEST = "/vagrant/peer_flask/app/static/img"
     RESIZE_ROOT = "/vagrant/peer_flask/app/static/img"
-    RESIZE_URL = "http://localhost:8600/_uploads/photos/"
+    RESIZE_URL = os.environ["SITE_URL"]
     
 
 class ProductionConfig(BaseConfig):

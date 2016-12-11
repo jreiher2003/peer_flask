@@ -44,7 +44,7 @@ def nfl_odds():
         )
 
 @nfl_blueprint.route("/nfl/board/")
-# @cache.cached(timeout=60*5, key_prefix="nflboard")
+@cache.cached(timeout=60*5, key_prefix="nflboard")
 def nfl_public_board():
     dt = datetime.datetime.now()
     tb = NFLOverUnderBet.query.filter_by(bet_taken=False).all()
@@ -70,7 +70,6 @@ def nfl_public_board():
 @nfl_blueprint.route("/nfl/board/create/<path:game_key>/", methods=["GET","POST"])
 @roles_accepted("player", "bookie")
 @login_required
-# we have to check to see if bet_creator has enough bitcoins in their account to proceed.
 def nfl_create_bet(game_key):
     salt = make_salt()
     admin = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7"
@@ -348,7 +347,7 @@ def nfl_bet_vs_bet(bet_key):
         print sys.exc_info()[1], "SideBets"
     bet_taker = Users.query.filter_by(id=current_user.id).one()
     bet_creator = Users.query.filter_by(id=nfl.users.id).one() 
-    default = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7" # default block_io address
+    default = "2MzrAiZFY24U1Zqtcf9ZqD1WskKprzYbqi7" 
     bc = bet_creator.bitcoin_wallet.address
     bt = bet_taker.bitcoin_wallet.address
     nonce = make_salt(length=32)
@@ -361,17 +360,11 @@ def nfl_bet_vs_bet(bet_key):
         print bt_amount, type(bt_amount)
         nflamount = float(nfl.amount)
         if float(bet_taker.bitcoin_wallet.available_btc) >= (nflamount+.0002) and float(bet_creator.bitcoin_wallet.available_btc) >= (nflamount+.0002):
-              # check again if balances are enough to cover bets 
-              # we have to check to see if profile_taker and profile_bet_creator have enough bitcoins in their account to proceed.
             try:
-                #form validate on submit
                 network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (bc), to_addresses = (default), priority="low")
                 network_fees = float(network_fees["data"]["estimated_network_fee"])
                 taken_network_fees = block_io.get_network_fee_estimate(amounts = (nfl.amount), from_addresses = (bt), to_addresses = (default), priority="low")
                 taken_network_fees = float(taken_network_fees["data"]["estimated_network_fee"])
-                # print network_fees, type(network_fees)
-                # print nflamount, type(nflamount),network_fees,type(network_fees)
-                # print nflamount + network_fees
                 nfl.bet_taken = True
                 nfl.taken_by = current_user.id 
                 nfl.taken_username = current_user.username 
@@ -488,13 +481,6 @@ def nfl_stats(sid):
         teamseason = teamseason1,
         )
 
-# @nfl_blueprint.route("/nfl/home/")
-# @nfl_blueprint.route("/nfl/")
-# def nfl_home():
-#     return render_template(
-#         "nfl_home.html", 
-#         all_teams = all_nfl_teams(),
-#         )
 
 
 

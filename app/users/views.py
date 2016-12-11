@@ -7,7 +7,7 @@ from flask import Blueprint, render_template, url_for, request, flash, redirect,
 from flask_login import login_user, logout_user, login_required, current_user 
 
 users_blueprint = Blueprint("users", __name__, template_folder="templates")
-# user._password == form.password.data and
+
 @users_blueprint.route("/login/", methods=["GET","POST"])
 def login():
     form = LoginForm()
@@ -52,7 +52,8 @@ def register():
             user1 = Users.query.filter_by(email=user.email).one()
             print user1.id, "id"
             profile = Profile(user_id=user1.id) 
-            db.session.add(profile)
+            user_roles = UserRoles(user_id=user1.id, role_id=2)
+            db.session.add_all([profile,user_roles])
             db.session.commit()
             cache.clear()
             # token = generate_confirmation_token(user1.email)
