@@ -1,6 +1,6 @@
 import json
 from dateutil.parser import parse
-from flask_wtf import Form 
+from flask_wtf import FlaskForm 
 from wtforms import TextField, IntegerField, RadioField, HiddenField, FloatField, SubmitField, BooleanField
 import datetime
 from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, ValidationError
@@ -27,7 +27,7 @@ def validate_pointspread(form, field):
     if field.data > 21:
         raise ValidationError("That is not a valid number. It is more than 21.")
     
-class OverUnderForm(Form):
+class OverUnderForm(FlaskForm):
     game_key = HiddenField("Game Key", validators=[DataRequired(), validate_gamekey])
     home_ = HiddenField("home",validators=[DataRequired(), validate_teamname])
     away_ = HiddenField("away",validators=[DataRequired(), validate_teamname])
@@ -36,7 +36,7 @@ class OverUnderForm(Form):
     over_under = RadioField("Pick One", choices=[("o", "Over"), ("u","Under")], validators=[DataRequired(message="You need to pick one")])
     submit_o = SubmitField("Bet Over/Under")
 
-class HomeTeamForm(Form):
+class HomeTeamForm(FlaskForm):
     game_key = HiddenField("Game Key", validators=[DataRequired(), validate_gamekey])
     home_ = HiddenField("home",validators=[DataRequired(), validate_teamname])
     away_ = HiddenField("away",validators=[DataRequired(), validate_teamname])
@@ -46,7 +46,7 @@ class HomeTeamForm(Form):
     amount = TextField("Bet Amount", validators=[DataRequired(message="home team amount data required"), NumberRange(min=0, message="All amounts must be positive")])#
     submit_h = SubmitField("Bet Home Team")
 
-class AwayTeamForm(Form):
+class AwayTeamForm(FlaskForm):
     game_key = HiddenField("Game Key", validators=[DataRequired(), validate_gamekey])
     home_ = HiddenField("home",validators=[DataRequired(), validate_teamname])
     away_ = HiddenField("away",validators=[DataRequired(), validate_teamname])
@@ -56,8 +56,8 @@ class AwayTeamForm(Form):
     amount = TextField("Bet Amount", validators=[DataRequired(), NumberRange(min=0, message="All amounts must be positive")])#
     submit_a = SubmitField("Bet Away Team")
 
-class VSForm(Form):
+class VSForm(FlaskForm):
     submit = SubmitField("Bet This Opponent")
 
-class DeleteForm(Form):
+class DeleteForm(FlaskForm):
     submit_o = SubmitField("Delete This Bet")

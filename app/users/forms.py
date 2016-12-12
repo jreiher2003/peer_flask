@@ -1,7 +1,7 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms.validators import InputRequired, Email, NumberRange, Length, ValidationError, EqualTo
 from wtforms import TextField, SubmitField, FloatField, PasswordField, BooleanField
-from flask_wtf.html5 import EmailField
+from wtforms.fields.html5 import EmailField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from flask_login import current_user 
 from .models import Users
@@ -33,51 +33,51 @@ def positve_bitcoin(form, field):
     if field.data < 0:
         raise ValidationError("Only positive values please.")
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     email = EmailField("Email", [InputRequired(), Email()])
     password = PasswordField("Password", [InputRequired()])
     remember = BooleanField("Remember me")
     submit = SubmitField("Login")
 
-class RegisterForm(Form):
+class RegisterForm(FlaskForm):
     username = TextField("Username",  [InputRequired(), validate_username])#
     email = EmailField("Email", [InputRequired(), Email()])
     password = PasswordField("Password", [InputRequired(), Length(min=12, message="The min password length is 12 chars long."), password_validator])
     password_confirm = PasswordField("Confirm", [InputRequired(), EqualTo("password", message="Your passwords don't match.")])
     submit = SubmitField("Register")
 
-class RecoverPasswordForm(Form):
+class RecoverPasswordForm(FlaskForm):
     email = EmailField("Email", [InputRequired(), Email()])
     submit = SubmitField("Reset Password")
 
-class SendEmailConfirmForm(Form):
+class SendEmailConfirmForm(FlaskForm):
     email = EmailField("Email", [InputRequired(), Email()])
     submit = SubmitField("Resend confirmation")
 
-class ChangePasswordForm(Form):
+class ChangePasswordForm(FlaskForm):
     password = PasswordField("Password", [InputRequired(), Length(min=12, message="The min password length is 12 chars long.")])
     new_password = PasswordField("Password", [InputRequired(), Length(min=12, message="The min password length is 12 chars long."), password_validator])
     new_password_confirm = PasswordField("Confirm", [InputRequired(), EqualTo("new_password", message="Your passwords don't match.")])
     submit = SubmitField("Change Password")
 
-class ChangePasswordTokenForm(Form):
+class ChangePasswordTokenForm(FlaskForm):
     password = PasswordField("Password", [InputRequired(), Length(min=12, message="The min password length is 12 chars long."), password_validator])
     password_confirm = PasswordField("Confirm", [InputRequired(), EqualTo("password", message="Your passwords don't match.")])
     submit = SubmitField("Change Password")
 
-class ProfileForm(Form):
+class ProfileForm(FlaskForm):
     username = TextField("Username",  [InputRequired(), validate_profile_username])
     email = EmailField("Email", [InputRequired(), Email()])
     avatar = FileField("Avatar", [FileAllowed(['jpg','png','JPG','PNG','JPEG'], "Images only!")])
     submit = SubmitField("Update")
     
-class BitcoinWalletForm(Form):
+class BitcoinWalletForm(FlaskForm):
     create = SubmitField("Create a wallet")
 
-class BitcoinWithdrawlForm(Form):
+class BitcoinWithdrawlForm(FlaskForm):
     amount = FloatField("Bitcoin Amount", [InputRequired(), positve_bitcoin])
     address = TextField("Bitcoin Address", [InputRequired(), Length(min=8, message="That address doesn't appear to be long enough.")])
     submit = SubmitField("Widthdrawl")
 
-class DeleteUserForm(Form):
+class DeleteUserForm(FlaskForm):
     submit = SubmitField("Delete Your Account")
