@@ -55,6 +55,7 @@ h3.nav__division {
     padding-top: 8px !important;
     padding-bottom: 12px !important;
     height: 42px;
+    margin-top: 5px;
  }
  .navpic {
     border-radius: 5%;
@@ -67,7 +68,7 @@ div.dropdown.nav_pic > ul > li {
 ul.dropdown-menu.nav_pic_menu {
     display: none;
     position: absolute;
-    top: 48px;
+    top: 53px;
     background-color: rgba(0,0,0,.7);
     min-width: 130px;
     border: .07em solid rgba(0,0,0,.9);
@@ -87,7 +88,7 @@ ul.dropdown-menu.nav_pic_menu > li > a {
 }
 ul.dropdown-menu.nav_pic_menu:before {
   position: absolute;
-  top: -6px;
+  top: -5px;
   left: 110px; 
   display: inline-block;
   border-right: 7px solid transparent;
@@ -99,7 +100,7 @@ ul.dropdown-menu.nav_pic_menu:before {
 
 ul.dropdown-menu.nav_pic_menu:after {
   position: absolute;
-  top: -7px;
+  top: -6px;
   left: 110px;
   display: inline-block;
   border-right: 6px solid transparent;
