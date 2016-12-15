@@ -39,4 +39,4 @@ class ProductionConfig(BaseConfig):
     DEBUG = False
     UPLOADED_PHOTOS_DEST = "/var/www/peer_flask/img"
     RESIZE_ROOT = "/var/www/peer_flask/img"
-    RESIZE_URL = os.environ["SITE_URL"] 
+    RESIZE_URL = os.environ["SITE_URL"]
