@@ -1,91 +1,130 @@
 <ul class="dropdown-menu">
-<div class="row">
-<div class="col-md-6">
-    <h2 class="text-center nav__league">AFC</h2>
+<div class="row" style="margin-left:5px;">
+<div class="col-md-2">
+  <ul class="nfl_list">
+    <li class="nfl_li"><a href="#">Home</a></li>
+    <li class="nfl_li"><a href="{{ url_for('nfl.nfl_standings') }}">Standings</a></li>
+    <li class="nfl_li"><a href="{{ url_for('nfl.nfl_stats', sid=1) }}">Stats</a></li>
+  </ul>
+</div>
+<div class="col-md-5">
+    <h2 class="text-left nav__league" style="margin-top:10px;margin-bottom:5px;">AFC</h2>
     <div class="row">
       <div class="col-md-6">
-        <h3 class="text-center nav__division">East</h3>
+        <h3 class="text-left nav__division" style="margin-top:10px;margin-bottom:5px;">East</h3>
          {% for team in all_teams %}
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "East" %}
-                  <li class="nav__team"><img src="{{ team.WikipediaLogoUrl }}" width="20px"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
-                  <li class="divider"></li>
+                <div class="media">
+                  <div class="media-left"><img src="{{ team.WikipediaLogoUrl }}" height="20px" width="20px"></div>
+                  <div class="media-body">
+                    <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
+                  </div>
+                </div>
                 {% endif %}
               {% endif %}
           {% endfor %}
-          <h3 class="text-center nav__division">South</h3>
+          <h3 class="text-left nav__division" style="margin-top:15px;margin-bottom:5px;">South</h3>
          {% for team in all_teams %}
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "South" %}
-                  <li class="nav__team"><img src="{{ team.WikipediaLogoUrl }}" width="20px"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
-                  <li class="divider"></li>
+                  <div class="media">
+                  <div class="media-left"><img src="{{ team.WikipediaLogoUrl }}" height="20px" width="20px"></div>
+                  <div class="media-body">
+                    <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
+                  </div>
+                </div>
                 {% endif %}
               {% endif %}
           {% endfor %}
       </div><!-- end col-md-6 inner -->
       <div class="col-md-6">
-        <h3 class="text-center nav__division">North</h3>
+        <h3 class="text-left nav__division" style="margin-top:10px;margin-bottom:5px;">North</h3>
          {% for team in all_teams %}
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "North" %}
-                  <li class="nav__team"><img src="{{ team.WikipediaLogoUrl }}" width="20px"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
-                  <li class="divider"></li>
+                  <div class="media">
+                  <div class="media-left"><img src="{{ team.WikipediaLogoUrl }}" height="20px" width="20px"></div>
+                  <div class="media-body">
+                    <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
+                  </div>
+                </div>
                 {% endif %}
               {% endif %}
           {% endfor %}
-          <h3 class="text-center nav__division">West</h3>
+          <h3 class="text-left nav__division" style="margin-top:15px;margin-bottom:5px;">West</h3>
          {% for team in all_teams %}
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "West" %}
-                  <li class="nav__team"><img src="{{ team.WikipediaLogoUrl }}" width="20px"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
-                  <li class="divider"></li>
+                  <div class="media">
+                  <div class="media-left"><img src="{{ team.WikipediaLogoUrl }}" height="20px" width="20px"></div>
+                  <div class="media-body">
+                    <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
+                  </div>
+                </div>
                 {% endif %}
               {% endif %}
           {% endfor %}
       </div><!-- end col-md-6 inner -->
-    </div>
-</div><!-- end col-md-6 outter -->
+    </div><!-- end row -->
+</div><!-- end col-md- outter -->
        
 
-<div class="col-md-6">
-    <h2 class="text-center nav__league">NFC</h2>
+<div class="col-md-5">
+    <h2 class="text-left nav__league" style="margin-top:10px;margin-bottom:5px;">NFC</h2>
     <div class="row">
       <div class="col-md-6">
-        <h3 class="text-center nav__division">East</h3>
+        <h3 class="text-left nav__division" style="margin-top:10px;margin-bottom:5px;">East</h3>
          {% for team in all_teams %}
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "East" %}
-                  <li class="nav__team"><img src="{{ team.WikipediaLogoUrl }}" width="20px"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
-                  <li class="divider"></li>
+                  <div class="media">
+                  <div class="media-left"><img src="{{ team.WikipediaLogoUrl }}" height="20px" width="20px"></div>
+                  <div class="media-body">
+                    <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
+                  </div>
+                  </div>
                 {% endif %}
               {% endif %}
           {% endfor %}
-          <h3 class="text-center nav__division">South</h3>
+          <h3 class="text-left nav__division" style="margin-top:15px;margin-bottom:5px;">South</h3>
          {% for team in all_teams %}
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "South" %}
-                  <li class="nav__team"><img src="{{ team.WikipediaLogoUrl }}" width="20px"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
-                  <li class="divider"></li>
+                  <div class="media">
+                  <div class="media-left"><img src="{{ team.WikipediaLogoUrl }}" height="20px" width="20px"></div>
+                  <div class="media-body">
+                    <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
+                  </div>
+                  </div>
                 {% endif %}
               {% endif %}
           {% endfor %}
       </div><!-- end col-md-6 inner -->
       <div class="col-md-6">
-        <h3 class="text-center nav__division">North</h3>
+        <h3 class="text-left nav__division" style="margin-top:10px;margin-bottom:5px;">North</h3>
          {% for team in all_teams %}
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "North" %}
-                  <li class="nav__team"><img src="{{ team.WikipediaLogoUrl }}" width="20px"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
-                  <li class="divider"></li>
+                  <div class="media">
+                  <div class="media-left"><img src="{{ team.WikipediaLogoUrl }}" height="20px" width="20px"></div>
+                  <div class="media-body">
+                    <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
+                  </div>
+                  </div>
                 {% endif %}
               {% endif %}
           {% endfor %}
-          <h3 class="text-center nav__division">West</h3>
+          <h3 class="text-left nav__division" style="margin-top:15px;margin-bottom:5px;">West</h3>
          {% for team in all_teams %}
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "West" %}
-                  <li class="nav__team"><img src="{{ team.WikipediaLogoUrl }}" width="20px"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></li>
-                  <li class="divider"></li>
+                  <div class="media">
+                  <div class="media-left"><img src="{{ team.WikipediaLogoUrl }}" height="20px" width="20px"></div>
+                  <div class="media-body">
+                    <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
+                  </div>
+                  </div>
                 {% endif %}
               {% endif %}
           {% endfor %}
