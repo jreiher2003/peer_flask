@@ -37,7 +37,7 @@
     {% include "flash_messages.html" %}
     {% block content %}
     {% endblock content %}
-    {% if APP_SETTINGS == config.DevelopmentConfig %}
+    {% if 'default' | env_vars("APP_SETTINGS") == 'config.DevelopmentConfig' %}
     <!-- development js files are here -->
     <script src="/static/js/jquery/jquery.min.js" type="text/javascript"></script>
     <script src="/static/js/bootstrap/bootstrap.js"></script>
@@ -57,7 +57,7 @@
     <script src="/static/js/tooltip_popover.js" type="text/javascript"></script>
     <script src="/static/js/tabs_jumping.js" type="text/javascript"></script>
 
-    {% elif APP_SETTINGS == config.ProductionConfig %}
+    {% elif 'default' | env_vars("APP_SETTINGS")  == 'config.ProductionConfig' %}
     <!-- production js files are here -->
     <script src="/static/dist/js_build/jquery/jquery.min.js" type="text/javascript"></script>
     <script src="/static/dist/js_build/bootstrap.min.js"></script>
