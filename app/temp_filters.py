@@ -1,3 +1,4 @@
+import os
 from dateutil.parser import parse as parse_date
 from datetime import datetime 
 from slugify import slugify
@@ -37,6 +38,10 @@ def game_date(value):
 @app.template_filter()
 def urlify(value):
   return slugify(value)
+
+@app.template_filter()
+def env_vars(value,key):
+    return os.getenv(key,value)
 
 # @app.template_filter()
 # def format_date_reg(value):

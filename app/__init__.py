@@ -55,7 +55,9 @@ admin.add_view(ModelView(NFLSideBet, db.session, name="NFL SB"))
 admin.add_view(ModelView(NFLMLBet, db.session, name="NFL ML"))
 admin.add_view(ModelView(NFLBetGraded, db.session, name="nflGraded"))
 
-from temp_filters import dateify, datetimefilter, urlify, datetimefilter_f, game_time, game_date, game_day, day_first
+from temp_filters import dateify, datetimefilter, urlify, datetimefilter_f, \
+game_time, game_date, game_day, day_first, env_vars
+
 app.jinja_env.filters["dateify"] = dateify
 app.jinja_env.filters["datetimefilter"] = datetimefilter
 app.jinja_env.filters["urlify"] = urlify
@@ -64,6 +66,7 @@ app.jinja_env.filters["game_time"] = game_time
 app.jinja_env.filters["game_date"] = game_date
 app.jinja_env.filters["game_day"] = game_day
 app.jinja_env.filters["day_first"] = day_first
+app.jinja_env.filters["env_vars"] = env_vars
 
 user_datastore = SQLAlchemyUserDatastore(db, Users, Role)
 security = Security(app, user_datastore)

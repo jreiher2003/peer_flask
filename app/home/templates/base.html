@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
-    {% if APP_SETTINGS == config.DevelopmentConfig %}
+    {% if 'default' | env_vars("APP_SETTINGS") == 'config.DevelopmentConfig' %}
     <!-- development css files are here 2.33 s-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootswatch/cosmo/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome-4.7.0/css/font-awesome.min.css') }}">
@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/moble_under_768.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables/jquery.dataTables.min.css') }}">
 
-    {% elif APP_SETTINGS == config.ProductionConfig %}
+    {% elif 'default' | env_vars("APP_SETTINGS") == 'config.ProductionConfig' %}
     <!-- production css files are here -->
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css_build/cosmo_bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome-4.7.0/css/font-awesome.min.css') }}">
