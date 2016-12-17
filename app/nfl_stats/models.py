@@ -3,7 +3,7 @@ from datetime import datetime
 from dateutil.parser import parse
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 from sqlalchemy.sql import func
-from app import db
+from app import db, uploaded_photos
 
 class NFLSchedule(db.Model):
     __tablename__ = "schedule"
@@ -119,6 +119,7 @@ class NFLTeam(db.Model):
     QuaternaryColor = db.Column(db.String)
     WikipediaLogoUrl = db.Column(db.String)
     WikipediaWordMarkUrl = db.Column(db.String)
+    TeamImg = db.Column(db.String())
 
     UpcomingSalary = db.Column(db.Integer)
     UpcomingOpponent = db.Column(db.String)
@@ -129,6 +130,10 @@ class NFLTeam(db.Model):
     UpcomingYahooSalary = db.Column(db.Integer)
     AverageDraftPosition = db.Column(db.Integer)
     AverageDraftPositionPPR = db.Column(db.Integer)
+
+    @property 
+    def nfl_team_img(self):
+        return uploaded_photos.url(self.TeamImg)
 
 class NFLStadium(db.Model):
     __tablename__ = "stadium"

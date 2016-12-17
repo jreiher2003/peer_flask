@@ -21,3 +21,4 @@ venv/
 package.json
 node_modules/
 npm-debug.log
+team_img/*
