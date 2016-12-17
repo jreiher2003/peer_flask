@@ -21,7 +21,7 @@ li.text-muted, li.pull-right {
 .strength-meter {
     width: 100%;
 }
-span.error, span {
+span.error {
   color: #a94442;
 }
 div.profileborder {
