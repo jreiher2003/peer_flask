@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div id="wrapper" style="overflow-x:auto;">
+            <div id="wrapper" style="overflow-x:auto;"><!-- --> <!--  -->
                <table id="public__board" class="table table-hover display table-responsive" cellspacing="0">
                   <thead>
                     <tr>
@@ -24,6 +24,7 @@
                         <th><a>total</a></th>
                         <th><a>risk / win</a></th>
                         <th><a>bet this</a></th>
+                        <th class="hidden-xs"><a></a></th>
                     </tr>
                    </thead>
                    <tbody>
@@ -38,7 +39,7 @@
                             <td class="vert-align hidden-xs">{{ bet.game_date|game_day }}</td>
                             <td class="vert-align hidden-xs">{{ bet.game_date|game_time }}</td>
                             <td class="vert-align"><a href="#" id="b_game_key" data-toggle="popover" title="Bet Key" data-content="This is the bet key {{ bet.bet_key }}">{{ bet.vs }}</a></td>
-                            <td class="vert-align"></td>
+                            <td class="vert-align hidden-xs"></td>
                             <td class="vert-align">{{ bet.team }}</td>
                             <td class="vert-align">{{ bet.over_under }}{{ bet.total_format }}</td>
                             <td class="vert-align"> {{ bet.amount }} / {{ bet.amount_win }} BTC</td>
@@ -65,7 +66,8 @@
                             <td class="vert-align hidden-xs">{{ bet.game_date|game_day }}</td>
                             <td class="vert-align hidden-xs">{{ bet.game_date|game_time }}</td>
                             <td class="vert-align hidden-xs"><a href="#" id="b_game_key" data-toggle="popover" title="Bet Key" data-content="This is the bet key {{ bet.bet_key }}">{{ bet.vs }}</a></td>
-                            <td class="vert-align">{{ bet.team }}</td>
+                            <td class="vert-align hidden-xs">{{ bet.team }}</td>
+                            <td class="vert-align visible-xs"><a href="#" id="b_game_key" data-toggle="popover" title="Bet Key" data-content="This is the bet key {{ bet.bet_key }}">{{ bet.team }}</a></td>
                             <td class="vert-align">{{ bet.ps_format }}</td>
                             <td class="vert-align"></td>
                             <td class="vert-align">{{ bet.amount }} / {{ bet.amount_win }} BTC</td>
