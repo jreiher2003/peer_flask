@@ -3,14 +3,19 @@
             {% for score in team_score %}
         <div class="col-md-12 tabbable" style="border: .07em solid #{{ jj.PrimaryColor }};box-shadow: 1px 1px 1px #9D9D9D;">
             <div class="row">
-                <div class="col-md-4">
-                    {{ score.AwayTeam }}<br>
-                    {{ score.AwayScore }}
+                <div class="col-md-4 text-center">
+                    <p class="team_page">{{ score.AwayTeam }}</p>
+                    <p class="team_page">{{ score.AwayScore }}</p>
                 </div>
                 <div class="col-md-4">
                     <table class="table table-condensed">
                         <thead>
-                             {{ score.QuarterDescription }}, Week: {{ score.Week }},{{ score.PointSpread }}, {{ score.AwayTeamMoneyLine }}, {{ score.OverUnder }} stadium: {{ score.StadiumID }} date: {{ score.Date }}
+                            <div class="mobile_schedule_head">
+                             Week: {{ score.Week }}<br>
+                             Date: {{ score.Date }} <br>
+                             Line: {{ score.PointSpread }} / {{ score.OverUnder }} <br>
+                             ML:  {{ score.AwayTeamMoneyLine }}
+                            </div>
                             <tr>
                                 <th></th>
                                 <th>1</th>
@@ -46,9 +51,9 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-md-4">
-                    {{ score.HomeTeam }}<br>
-                    {{ score.HomeScore }}
+                <div class="col-md-4 text-center">
+                    <p class="team_page">{{ score.HomeTeam }}</p>
+                    <p class="team_page">{{ score.HomeScore }}</p>
                 </div>
             </div>
         </div>
@@ -61,11 +66,11 @@
             {% if team.Date|dateify > dt_plus_2h %}
         <div class="col-md-12 tabbable" style="border: .07em solid #{{ jj.PrimaryColor }};box-shadow: 2px 1px 1px #9D9D9D;">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 text-center">
                     Away: {{ team.AwayTeam }}<br>
                     ML: {{ team.AwayTeamMoneyLine }}<br>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 text-center">
                     Week: {{ team.Week }}<br>
                     Date: {{ team.Date }}<br>
                     Over/Under: {{ team.OverUnder }}<br>
@@ -73,7 +78,7 @@
                     Stadium: {{ team.StadiumID }}<br>
                     Forcast: {{ team.ForecastDescription }}
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 text-center">
                     Home:{{ team.HomeTeam }}<br>
                     ML: {{ team.HomeTeamMoneyLine }}<br>
                 </div>

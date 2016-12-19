@@ -17,7 +17,7 @@ import urllib
 import urllib2
 import zipfile 
 from datetime import datetime
-from apscheduler.schedulers.background import BackgroundScheduler
+# from apscheduler.schedulers.background import BackgroundScheduler
 from dateutil.parser import parse as parse_date
 from app import app, db, cache
 from sqlalchemy import exc
@@ -121,6 +121,43 @@ def graded_bets():
         db.session.commit()
     print "graded bets table populated"
 
+def pop_team_img():
+    """ populates the TeamImg field in NFLTeam to save a reference to a img locally.  
+    """
+    t = NFLTeam.query.all()
+    team = list(t)
+    for x in team:
+        if x.WikipediaWordMarkUrl[-3:] == 'png':
+            x.TeamImg = "team_img/" + x.Name + ".png"
+            db.session.add(x)
+        elif x.WikipediaWordMarkUrl[-3:] == 'jpg':
+            x.TeamImg = "team_img/" + x.Name + ".jpg"
+            db.session.add(x)
+        elif x.WikipediaWordMarkUrl[-3:] == 'svg':
+            x.TeamImg = "team_img/" + x.Name + ".svg"
+            db.session.add(x)
+        elif x.WikipediaWordMarkUrl[-3:] == 'gif':
+            x.TeamImg = "team_img/" + x.Name + ".gif"
+            db.session.add(x)
+    db.session.commit()
+
+def pop_nfl_logo():
+    t = NFLTeam.query.all()
+    team = list(t)
+    for x in team:
+        if x.WikipediaLogoUrl[-3:] == 'png':
+            x.NFLLogo = "nfl_logl/" + x.Name + ".png"
+        elif x.WikipediaLogoUrl[-3:] == 'jpg':
+            x.NFLLogo = "nfl_logo/" + x.Name + ".jpg"
+            db.session.add(x)
+        elif x.WikipediaLogoUrl[-3:] == 'svg':
+            x.NFLLogo = "nfl_logo/" + x.Name + ".svg"
+            db.session.add(x)
+        elif x.WikipediaLogoUrl[-3:] == 'gif':
+            x.NFLLogo = "nfl_logo/" + x.Name + ".gif"
+            db.session.add(x)
+    db.session.commit()
+
 
 if __name__ == "__main__":
     # db.drop_all()
@@ -145,6 +182,8 @@ if __name__ == "__main__":
     print "just populated stat tables with new info please wait 5 sec...\r\n"
     time.sleep(5)
     graded_bets()
+    pop_team_img()
+    pop_nfl_logo()
     print "just graded bets, please wait 15 sec...\r\n"
     time.sleep(15)
     kitchen_sink()

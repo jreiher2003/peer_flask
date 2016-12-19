@@ -38,4 +38,33 @@
         -webkit-appearance: none;
         margin: 0;
     }
+    .mobile_schedule_head {
+        text-align: center;
+    }
+    table.dataTable thead th, 
+    table.dataTable thead td {
+        padding: 10px 3px !important;
+    }
+    #public__board thead tr th a,
+    #public__board tbody tr td.vert-align {
+        font-size: 12px;
+    }
+    div.delete_item {
+        text-align: center;
+    }
+    form.form_float {
+        width: 100%;
+        margin: 0 auto;
+    }
+    h4.vs_bet {
+        text-align: center;
+    }
+    span.glyphicon.glyphicon-transfer.text-muted {
+        -ms-transform: rotate(90deg); /* IE 9 */
+        -webkit-transform: rotate(90deg); /* Safari */
+        transform: rotate(90deg); /* Standard syntax */
+    }
+    .vs {
+        margin-top:10px;
+    }
 }

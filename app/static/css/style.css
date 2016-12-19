@@ -123,9 +123,13 @@ div.thumbnail.editbet, .confirmbet {
     padding-top:0;
 }
 .delete_item {
-    border-left: 1px solid #999;
+    /*border-left: 1px solid #999;
     border-bottom: 1px solid #999;
-    padding: 5px;
+    padding: 5px;*/
+    margin-bottom: 5px;
+}
+form.form_float {
+    float: right !important;
 }
 /* nfl standing page */
 div.nfl_standing_table {
@@ -163,6 +167,11 @@ ul.nav.nav-tabs.team_stats_nav-tabs {
     flex: 1;
     text-align: center;
 }
+/*team page content */
+p.team_page {
+    font-size: 2em;
+    color: #999999;
+}
 /* modal */
 .modal-header {
     background-color: black;
@@ -182,6 +191,8 @@ ul.nav.nav-tabs.team_stats_nav-tabs {
 }
 .cancel-btn {
     color: grey;
-    font-size: 1.2em;
-    
+    font-size: 1.2em; 
+}
+.vs {
+    margin-top:125px;
 }

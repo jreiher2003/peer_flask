@@ -7,8 +7,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div id="wrapper">
-               <table id="public__board" class="table table-hover display" cellspacing="0">
+            <div id="wrapper" style="overflow-x:auto;">
+               <table id="public__board" class="table table-hover display table-responsive" cellspacing="0">
                   <thead>
                     <tr>
                         <th colspan="10" class="text-center"><small class="text-muted">table is sortable&nbsp;&nbsp;(click on headers)</small></th>
@@ -18,7 +18,7 @@
                         <th class="hidden-xs"><a>game date</a></th>
                         <th class="hidden-xs"><a>game day</a></th>
                         <th class="hidden-xs"><a>game time</a></th>
-                        <th><a>game</a></th>
+                        <th class="hidden-xs"><a>game</a></th>
                         <th><a>team</a></th>
                         <th><a>spread</a></th>
                         <th><a>total</a></th>
@@ -31,7 +31,9 @@
                         {% for bet in tb %}
                             {% if bet.game_date > dt %}
                         <tr> 
-                             <td class="vert-align"><img class="navpic" src="{{ bet.users.profile.imgsrc|resize('50x50', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}">&nbsp;&nbsp;&nbsp;{{ bet.users.username }}</td>
+                             <td class="vert-align hidden-xs"><img class="navpic" src="{{ bet.users.profile.imgsrc|resize('50x50', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}">&nbsp;&nbsp;&nbsp;{{ bet.users.username }}</td>
+                             <td class="vert-align visible-xs"><img class="navpic" src="{{ bet.users.profile.imgsrc|resize('15x15', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}">&nbsp;&nbsp;&nbsp;{{ bet.users.username }}</td>
+
                             <td class="vert-align hidden-xs">{{ bet.game_date|game_date }}</td>
                             <td class="vert-align hidden-xs">{{ bet.game_date|game_day }}</td>
                             <td class="vert-align hidden-xs">{{ bet.game_date|game_time }}</td>
@@ -45,7 +47,8 @@
                                     {% include "edit_bet_modal.html" %}
                                 </td>
                             {% else %}
-                                <td class="vert-align"><a class="btn btn-warning" href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Bet</a></td>
+                                <td class="vert-align hidden-xs"><a class="btn btn-warning" href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Bet</a></td>
+                                <td class="vert-align visible-xs"><a class="btn btn-warning btn-sm" href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Bet</a></td>
                             {% endif %} 
                         </tr>
                             {% endif %}
@@ -56,11 +59,12 @@
                         {% for bet in sb %}
                             {% if bet.game_date > dt %}
                         <tr> 
-                             <td class="vert-align"><img class="navpic" src="{{ bet.users.profile.imgsrc|resize('50x50', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}">&nbsp;&nbsp;&nbsp;{{ bet.users.username }}</td>
+                             <td class="vert-align hidden-xs"><img class="navpic" src="{{ bet.users.profile.imgsrc|resize('50x50', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}">&nbsp;&nbsp;&nbsp;{{ bet.users.username }}</td>
+                             <td class="vert-align visible-xs"><img class="navpic" src="{{ bet.users.profile.imgsrc|resize('15x15', fill=True, anchor='bottom', format='jpg', bgcolor='#999', quality=100, placeholder=True) }}">&nbsp;&nbsp;&nbsp;{{ bet.users.username }}</td>
                             <td class="vert-align hidden-xs">{{ bet.game_date|game_date }}</td>
                             <td class="vert-align hidden-xs">{{ bet.game_date|game_day }}</td>
                             <td class="vert-align hidden-xs">{{ bet.game_date|game_time }}</td>
-                            <td class="vert-align"><a href="#" id="b_game_key" data-toggle="popover" title="Bet Key" data-content="This is the bet key {{ bet.bet_key }}">{{ bet.vs }}</a></td>
+                            <td class="vert-align hidden-xs"><a href="#" id="b_game_key" data-toggle="popover" title="Bet Key" data-content="This is the bet key {{ bet.bet_key }}">{{ bet.vs }}</a></td>
                             <td class="vert-align">{{ bet.team }}</td>
                             <td class="vert-align">{{ bet.ps_format }}</td>
                             <td class="vert-align"></td>
@@ -70,7 +74,8 @@
                                     {% include "edit_bet_modal.html" %}
                                 </td>
                             {% else %}
-                                <td class="vert-align"><a class="btn btn-warning" href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Bet</a></td>
+                                <td class="vert-align hidden-xs"><a class="btn btn-warning" href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Bet</a></td>
+                                <td class="vert-align visible-xs"><a class="btn btn-warning btn-sm" href="{{ url_for('nfl.nfl_bet_vs_bet', bet_key=bet.bet_key) }}"><span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Bet</a></td>
                             {% endif %} 
                         </tr>
                             {% endif %}

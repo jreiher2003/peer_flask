@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 {% block style %}
-.vs {
-    margin-top:125px;
-}
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -24,7 +21,7 @@
                             {% endif %}
                         <div class="row">
                             <div class="col-md-4 col-md-offset-4">
-                                <h4>risk: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount }}<br>win: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount_win }}</h4>
+                                <h4 class="vs_bet">risk: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount }}<br>win: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount_win }}</h4>
                             </div>
                         </div>
                         <div class="caption">
@@ -46,7 +43,7 @@
                             {% endif %}
                         <div class="row">
                             <div class="col-md-4 col-md-offset-4">
-                                <h4 class="">risk: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount }}<br>win:  <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount_win }}
+                                <h4 class="vs_bet">risk: <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount }}<br>win:  <i class='fa fa-btc' aria-hidden='true'></i> {{ nfl.amount_win }}
                                 </h4>
                             </div>
                         </div>

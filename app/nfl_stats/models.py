@@ -120,6 +120,7 @@ class NFLTeam(db.Model):
     WikipediaLogoUrl = db.Column(db.String)
     WikipediaWordMarkUrl = db.Column(db.String)
     TeamImg = db.Column(db.String())
+    NFLLogo = db.Column(db.String())
 
     UpcomingSalary = db.Column(db.Integer)
     UpcomingOpponent = db.Column(db.String)
@@ -134,6 +135,10 @@ class NFLTeam(db.Model):
     @property 
     def nfl_team_img(self):
         return uploaded_photos.url(self.TeamImg)
+
+    @property 
+    def nfl_logo(self):
+        return uploaded_photos.url(self.NFLLogo)
 
 class NFLStadium(db.Model):
     __tablename__ = "stadium"
