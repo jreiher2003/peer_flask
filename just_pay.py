@@ -146,7 +146,7 @@ def pop_nfl_logo():
     team = list(t)
     for x in team:
         if x.WikipediaLogoUrl[-3:] == 'png':
-            x.NFLLogo = "nfl_logl/" + x.Name + ".png"
+            x.NFLLogo = "nfl_logo/" + x.Name + ".png"
         elif x.WikipediaLogoUrl[-3:] == 'jpg':
             x.NFLLogo = "nfl_logo/" + x.Name + ".jpg"
             db.session.add(x)
