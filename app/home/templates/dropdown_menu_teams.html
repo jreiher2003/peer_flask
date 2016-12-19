@@ -16,7 +16,8 @@
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "East" %}
                 <div class="media">
-                  <div class="media-left"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-left hidden-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-center visible-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
                   <div class="media-body">
                     <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
                   </div>
@@ -29,7 +30,8 @@
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "South" %}
                   <div class="media">
-                  <div class="media-left"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-left hidden-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-center visible-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
                   <div class="media-body">
                     <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
                   </div>
@@ -44,7 +46,8 @@
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "North" %}
                   <div class="media">
-                  <div class="media-left"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-left hidden-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-center visible-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
                   <div class="media-body">
                     <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
                   </div>
@@ -57,7 +60,8 @@
               {% if team.Conference == "AFC" %}
                 {% if team.Division == "West" %}
                   <div class="media">
-                  <div class="media-left"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-left hidden-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-center visible-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
                   <div class="media-body">
                     <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
                   </div>
@@ -79,7 +83,8 @@
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "East" %}
                   <div class="media">
-                  <div class="media-left"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-left hidden-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-center visible-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
                   <div class="media-body">
                     <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
                   </div>
@@ -92,7 +97,8 @@
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "South" %}
                   <div class="media">
-                  <div class="media-left"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-left hidden-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-center visible-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
                   <div class="media-body">
                     <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
                   </div>
@@ -107,7 +113,8 @@
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "North" %}
                   <div class="media">
-                  <div class="media-left"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-left hidden-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-center visible-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
                   <div class="media-body">
                     <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
                   </div>
@@ -120,7 +127,8 @@
               {% if team.Conference == "NFC" %}
                 {% if team.Division == "West" %}
                   <div class="media">
-                  <div class="media-left"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-left hidden-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
+                  <div class="media-center visible-xs"><img src="{{ team.nfl_logo }}" height="20px" width="20px"></div>
                   <div class="media-body">
                     <p class="text-left nav__team"><a href="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</a></p>
                   </div>

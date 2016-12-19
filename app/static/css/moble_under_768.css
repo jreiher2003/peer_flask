@@ -67,4 +67,34 @@
     .vs {
         margin-top:10px;
     }
+    p.text-left.nav__team a, h3 .nav__team {
+        color: #ffffff;
+        text-align: center !important;
+    }
+    p.text-left.nav__team a:hover {
+        color: #fffafa;;
+    }
+    ul.nfl_list {
+      width: 100% !important;
+      list-style: none;
+      text-align: center;
+      font-size: 1em;
+      margin-left: 20px;
+      padding: 0px;
+    }
+    ul.nfl_list:hover{
+      margin-right: 0;
+    }
+    li.nfl_li a {
+        width: 100% !important;
+      text-align: center;
+      color: #ffffff;
+      padding: 10px 0;
+    }
+    li.nfl_li a:hover {
+      color: #2780e3;
+      background-color:#fffafa;
+      border-radius: 5%;
+      padding-left: 5px;
+    }
 }
