@@ -2,6 +2,7 @@
 <h4><u>Pending Bets</u></h4>
 
 {% if ou or sb or ml %}
+<div style="overflow-x:auto;">
 <table id="pending_bets_table" class="table table-striped table-responsive" cellspacing="0" width="100%">
     <thead>
         <tr>
@@ -89,7 +90,7 @@
     {% endfor %}
     </tbody>
 </table>
-
+</div>
 {% else %}
 <p>No Pending Bets</p>
 {% endif %}

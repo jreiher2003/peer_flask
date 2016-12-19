@@ -19,7 +19,7 @@ home_blueprint = Blueprint("home", __name__, template_folder="templates")
  
 
 @home_blueprint.route("/profile/", methods=["GET", "POST"])
-# @cache.cached(timeout=300, key_prefix="user_profile")
+@cache.cached(timeout=300, key_prefix="user_profile")
 @login_required
 def profile():
     dt = datetime.now()
