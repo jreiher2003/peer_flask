@@ -97,4 +97,7 @@
       border-radius: 5%;
       padding-left: 5px;
     }
+    h3.nav__division {
+        text-align: center !important;
+    }
 }
