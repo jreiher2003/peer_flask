@@ -29,7 +29,7 @@ nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 def nfl_odds():
     dt = datetime.datetime.now()
     date_string = date_to_string(dt)
-    sch = NFLSchedule.query.filter(NFLSchedule.SeasonType == 1, NFLSchedule.PointSpread != None).all()
+    sch = NFLSchedule.query.filter(NFLSchedule.PointSpread != None).all()#NFLSchedule.SeasonType == 1, 
     form_o = OverUnderForm()
     form_h = HomeTeamForm()
     form_a = AwayTeamForm()
