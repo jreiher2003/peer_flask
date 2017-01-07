@@ -1,4 +1,4 @@
-<form id="form-home" method="POST" action="{{ url_for('nfl.nfl_create_bet', game_key=nfl_game.GameKey) }}"  onsubmit="return HomeSideForm(this);">
+<form id="form-home" method="POST" action="{{ url_for('nfl.nfl_create_bet', game_key=nfl_game.GameKey) }}"  onsubmit="return checkForm(this);">
     {{ form_h.csrf_token }}
     <div class="form-group">
         {{ render_field_with_errors(form_h.game_key, value=nfl_game.GameKey) }}
@@ -29,6 +29,6 @@
         </div>
     </div>
     <div class="form-group" style="text-align:left;">
-        {{ form_h.submit_h(class="btn btn-success") }}
+        {{ form_h.submit(class="btn btn-success") }}
     </div>
 </form>

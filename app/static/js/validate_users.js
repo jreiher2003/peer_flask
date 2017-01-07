@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.validate({
-      form: "#loginForm",
+      form: "#userForm",
       modules: "security",
       onModulesLoaded: function(){
         var optionalConfig = {

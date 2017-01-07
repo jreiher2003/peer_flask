@@ -1,3 +1,6 @@
+"""
+A script that pops db with imgs strings
+"""
 import os
 import requests
 import time

@@ -34,7 +34,7 @@ class OverUnderForm(FlaskForm):
     total = FloatField("Over/Under", validators=[NumberRange(min=25, max=70, message="Over/Under bet must be inbetween 25 and 70 for it to be valid.")])#
     amount = TextField("Bet Amount", validators=[DataRequired(), NumberRange(min=0, message="All amounts must be positive")])#
     over_under = RadioField("Pick One", choices=[("o", "Over"), ("u","Under")], validators=[DataRequired(message="You need to pick one")])
-    submit_o = SubmitField("Bet Over/Under")
+    submit = SubmitField("Bet Over/Under")
 
 class HomeTeamForm(FlaskForm):
     game_key = HiddenField("Game Key", validators=[DataRequired(), validate_gamekey])
@@ -44,7 +44,7 @@ class HomeTeamForm(FlaskForm):
     point_spread = FloatField("Point Spread", validators=[validate_pointspread])#validate_pointspread
     home_team_ml = IntegerField("Home Team ML")
     amount = TextField("Bet Amount", validators=[DataRequired(message="home team amount data required"), NumberRange(min=0, message="All amounts must be positive")])#
-    submit_h = SubmitField("Bet Home Team")
+    submit = SubmitField("Bet Home Team")
 
 class AwayTeamForm(FlaskForm):
     game_key = HiddenField("Game Key", validators=[DataRequired(), validate_gamekey])
@@ -54,7 +54,7 @@ class AwayTeamForm(FlaskForm):
     point_spread = FloatField("Point Spread", validators=[validate_pointspread])#validate_pointspread
     away_team_ml = IntegerField("Away Team ML")
     amount = TextField("Bet Amount", validators=[DataRequired(), NumberRange(min=0, message="All amounts must be positive")])#
-    submit_a = SubmitField("Bet Away Team")
+    submit = SubmitField("Bet Away Team")
 
 class VSForm(FlaskForm):
     submit = SubmitField("Bet This Opponent")

@@ -1,63 +1,63 @@
 <div class="jumbotron" style="border: .07em solid #{{ jj.SecondaryColor }};">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div><img style="border: .07em solid #{{ jj.PrimaryColor }};padding: 5px;" src="{{ jj.nfl_team_img }}" height="50px"></div>
-               {# {{ jj.PrimaryColor }}<br>
-                {{ jj.SecondaryColor }}<br>
-                {{ jj.TertiaryColor }}<br>
-                {{ jj.QuaternaryColor }}<br>
-                {{ jj.StadiumID }} | {{ tt.StadiumID }}<br>
-                {{ jj.City }}<br>
-                {{ jj.Name }}<br>#}
-                {{ jj.Conference }} | {{ jj.Division }}<br>
-                {{ ss.Wins }}-{{ ss.Losses }} Overall | {{ ss.DivisionWins }}-{{ ss.DivisionLosses }} {{ jj.Conference }} {{ jj.Division }}<br>
-                Home Town: {{ tt.City }}, {{ tt.State }}<br>
-                Stadium: {{ tt.Name }} | capacity: {{ tt.Capacity }}<br>
-                Head Coach: {{ jj.HeadCoach }}<br>
-                Offensive Scheme: {{ jj.OffensiveScheme }} | Offensive Coordinator: {{ jj.OffensiveCoordinator }}<br>
-                Defensive Scheme: {{ jj.DefensiveScheme }} | Defensive Coordinator:  {{ jj.DefensiveCoordinator }}<br>
-                Special Teams Coach: {{ jj.SpecialTeamsCoach }}<br>
-                Bye Week: {{ jj.ByeWeek }}<br>
-            </div>
-            <div class="col-md-6">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Team Ranking</th>
-                            <th>Overall </th>
-                            <th>Rushing / Rank</th>
-                            <th>Passing / Rank</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>offense</td>
-                            <td>{{ team_off_rank }}</td>
-                            <td>{{ tss.RushingYards }}  ({{ team_rush_rank }})</td>
-                            <td>{{ tss.PassingYards }}  ({{ team_pass_rank }})</td>
-                        </tr>
-                        <tr>
-                            <td>defense</td>
-                            <td>{{ team_def_rank }}</td>
-                            <td>{{ tss.OpponentRushingYards }}  ({{ opp_team_rush_rank }})</td>
-                            <td>{{ tss.OpponentPassingYards }}  ({{ opp_team_pass_rank }})</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-                <form style="margin-top:20px;margin-bottom:0; border: 1px solid #{{ jj.PrimaryColor }};" action="" method="get" enctype="multipart/form-data">
-                    <select id="goto_team" class="form-control">
-                        <option value="">Select Team</option>
-                        {% for team in all_teams %}
-                        <option value="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</option>
-                        {% endfor %}
-                    </select>
-                </form>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div><img style="border: .07em solid #{{ jj.PrimaryColor }};padding: 5px;" src="{{ jj.nfl_team_img }}" height="50px"></div>
+        {# {{ jj.PrimaryColor }}<br>
+        {{ jj.SecondaryColor }}<br>
+        {{ jj.TertiaryColor }}<br>
+        {{ jj.QuaternaryColor }}<br>
+        {{ jj.StadiumID }} | {{ tt.StadiumID }}<br>
+        {{ jj.City }}<br>
+        {{ jj.Name }}<br>#}
+        {{ jj.Conference }} | {{ jj.Division }}<br>
+        {{ ss.Wins }}-{{ ss.Losses }} Overall | {{ ss.DivisionWins }}-{{ ss.DivisionLosses }} {{ jj.Conference }} {{ jj.Division }}<br>
+        Home Town: {{ tt.City }}, {{ tt.State }}<br>
+        Stadium: {{ tt.Name }} | capacity: {{ tt.Capacity }}<br>
+        Head Coach: {{ jj.HeadCoach }}<br>
+        Offensive Scheme: {{ jj.OffensiveScheme }} | Offensive Coordinator: {{ jj.OffensiveCoordinator }}<br>
+        Defensive Scheme: {{ jj.DefensiveScheme }} | Defensive Coordinator:  {{ jj.DefensiveCoordinator }}<br>
+        Special Teams Coach: {{ jj.SpecialTeamsCoach }}<br>
+        Bye Week: {{ jj.ByeWeek }}<br>
+      </div>
+      <div class="col-md-6">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Team Ranking</th>
+              <th>Overall </th>
+              <th>Rushing / Rank</th>
+              <th>Passing / Rank</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>offense</td>
+              <td>{{ team_off_rank }}</td>
+              <td>{{ tss.RushingYards }}  ({{ team_rush_rank }})</td>
+              <td>{{ tss.PassingYards }}  ({{ team_pass_rank }})</td>
+            </tr>
+            <tr>
+              <td>defense</td>
+              <td>{{ team_def_rank }}</td>
+              <td>{{ tss.OpponentRushingYards }}  ({{ opp_team_rush_rank }})</td>
+              <td>{{ tss.OpponentPassingYards }}  ({{ opp_team_pass_rank }})</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+    <div class="row">
+      <div class="col-md-2">
+        <form style="margin-top:20px;margin-bottom:0; border: 1px solid #{{ jj.PrimaryColor }};" action="" method="get" enctype="multipart/form-data">
+          <select id="select_season_type" class="form-control">
+            <option value="">Select Team</option>
+            {% for team in all_teams %}
+            <option value="{{ url_for('nfl.nfl_team_home', sid=1, key=team.Key, team=team.FullName|urlify) }}">{{ team.FullName }}</option>
+            {% endfor %}
+          </select>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

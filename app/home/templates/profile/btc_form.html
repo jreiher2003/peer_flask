@@ -51,13 +51,13 @@
         </form>
     {% else %}
         <h2 class="text-center">Create a wallet BTC Wallet</h2>
-        <form class="bs-component" action="{{ url_for('home.create_bitcoin') }}" method="post"  onsubmit="return CreateBitcoinForm(this);">
+        <form class="bs-component" action="{{ url_for('home.create_bitcoin') }}" method="post"  onsubmit="return checkForm(this);">
             {{ form_c.csrf_token }}
             <div class="form-group text-center">
                 {% if current_user.confirmed == False %}
-                    {{ form_c.create(class="btn btn-lg btn-warning", **{ 'data-toggle': 'tooltip', 'data-placement':'bottom', 'title':'click here to create a wallet'}) }}
+                    {{ form_c.submit(class="btn btn-lg btn-warning", **{ 'data-toggle': 'tooltip', 'data-placement':'bottom', 'title':'click here to create a wallet'}) }}
                 {% else %}
-                    {{ form_c.create(class="btn btn-lg btn-warning") }}
+                    {{ form_c.submit(class="btn btn-lg btn-warning") }}
                 {% endif %}
             </div>
         </form>

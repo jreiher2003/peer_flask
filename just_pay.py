@@ -163,7 +163,7 @@ if __name__ == "__main__":
     # db.drop_all()
     # db.create_all()
     # create_roles()
-    print "######################### start download cron job #######################"
+    print "######################### start just_pay cron job #######################"
     print('The time is: %s\r\n' % datetime.now())
     schedule = json.load(open('sports/Schedule.2016.json'))
     stadium = json.load(open("sports/Stadium.2016.json"))

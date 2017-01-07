@@ -4,103 +4,108 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <form class="team_season_form" action="" method="get" enctype="multipart/form-data">
-                <select id="goto_stats" class="team_season_select">
-                    <option>Season</option>
-                    <option value="{{ url_for('nfl.nfl_stats', sid=1) }}">Regular Season</option>
-                    <option value="{{ url_for('nfl.nfl_stats', sid=2) }}">Pre-Season</option>
-                </select>
-            </form>
-        </div>
+  <div class="row">
+    <div class="col-md-12">
+      <form class="team_season_form" action="" method="get" enctype="multipart/form-data">
+        <select id="select_season_type" class="select_season_type">
+          <option>Season</option>
+          <option value="{{ url_for('nfl.nfl_stats', sid=1) }}">Regular Season</option>
+          <option value="{{ url_for('nfl.nfl_stats', sid=2) }}">Pre-Season</option>
+          <option value="{{ url_for('nfl.nfl_stats', sid=3) }}">Post-Season</option>
+        </select>
+      </form>
     </div>
-    <div class="row">
-        <div class="col-md-12 team_stats_table">
-            <ul class="nav nav-tabs team_stats_nav-tabs">
-                <li class="active"><a href="#offense" data-toggle="tab">Offense</a></li>
-                <li><a href="#defense" data-toggle="tab">Defense</a></li>
-                <li><a href="#special_teams" data-toggle="tab">Special Teams</a></li>
-            </ul>
-            <!-- <!-- Tab panes -->
-            <div class="tab-content">
-                <div class="tab-pane fade active in" id="offense">
-                    <ul class="nav nav-tabs team_stats_nav-tabs">
-                        <li class="active"><a href="#total_offense" data-toggle="tab">Total Offense</a></li>
-                        <li><a href="#passing_offense" data-toggle="tab">Passing Offense</a></li>
-                        <li><a href="#rushing_offense" data-toggle="tab">Rushing Offense</a></li>
-                        <li><a href="#receiving_offense" data-toggle="tab">Receiving Offense</a></li>
-                        <li><a href="#downs" data-toggle="tab">Downs</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane fade active in" id="total_offense">
-                            {% include "team_stat_tables/nfl_team_total_offense_stats.html" %}
-                        </div>
-                        <div class="tab-pane fade" id="passing_offense">
-                            {% include "team_stat_tables/nfl_team_total_passing_stats.html" %}
-                        </div>
-                        <div class="tab-pane fade" id="rushing_offense">
-                            {% include "team_stat_tables/nfl_team_total_rushing_stats.html" %}
-                        </div>
-                        <div class="tab-pane fade" id="receiving_offense">
-                            {% include "team_stat_tables/nfl_team_total_receiving_stats.html" %}
-                        </div>
-                        <div class="tab-pane fade" id="downs">
-                            {% include "team_stat_tables/nfl_team_total_downs_stats.html" %}
-                        </div>
-                    </div>
-                </div><!-- end tab-pane offense -->
-                <div class="tab-pane fade" id="defense">
-                    <ul class="nav nav-tabs team_stats_nav-tabs">
-                        <li><a href="#total_defense" data-toggle="tab">Total Defense</a></li>
-                        <li><a href="#passing_defense" data-toggle="tab">Passing Defense</a></li>
-                        <li><a href="#rushing_defense" data-toggle="tab">Rushing Defense</a></li>
-                        <li><a href="#receiving_defense" data-toggle="tab">Receiving Defense</a></li>
-                        <li><a href="#downs_defense" data-toggle="tab">Opponent Downs</a></li>
-                        <li><a href="#sacks" data-toggle="tab">Tackles/Sacks/Interceptions/Fumbles</a></li>  
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane fade active in" id="total_defense">
-                            {% include "team_stat_tables/nfl_team_total_defensive_stats.html" %}
-                        </div>
-                        <div class="tab-pane fade" id="passing_defense">
-                            {% include "team_stat_tables/nfl_team_total_defensive_passing_stats.html" %}
-                        </div>
-                        <div class="tab-pane fade" id="rushing_defense">
-                            {% include "team_stat_tables/nfl_team_total_defensive_rushing_stats.html" %}
-                        </div>
-                        <div class="tab-pane fade" id="receiving_defense">
-                            {% include "team_stat_tables/nfl_team_total_defensive_receiving_stats.html" %}
-                        </div>
-                        <div class="tab-pane fade" id="downs_defense">
-                            {% include "team_stat_tables/nfl_team_total_defensive_downs_stats.html" %}
-                        </div>
-                        <div class="tab-pane fade" id="sacks">
-                            {% include "team_stat_tables/nfl_team_total_defensive_tsif_stats.html" %}
-                        </div>
-                    </div>
-                </div><!-- end tab-pane defence -->
-                <div class="tab-pane fade" id="special_teams">
-                    <ul class="nav nav-tabs team_stats_nav-tabs">
-                        <li><a href="#kicking" data-toggle="tab">Field Goals / Xtra Points</a></li>
-                        <li><a href="#punting" data-toggle="tab">Punting</a></li>
-                        <li><a href="#returns" data-toggle="tab">Kickoff / Punt Returns</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane fade active in" id="kicking">
-                            {% include "team_stat_tables/nfl_team_total_special_kicking.html" %}
-                        </div>
-                        <div class="tab-pane fade" id="punting">
-                            {% include "team_stat_tables/nfl_team_total_special_punting.html" %}
-                        </div>
-                        <div class="tab-pane fade" id="returns">
-                            {% include "team_stat_tables/nfl_team_total_special_returns.html" %}
-                        </div>
-                    </div>
-                </div> <!-- end tab-pane special teams -->
-            </div><!-- end tab content outer -->
-        </div>
-    </div> <!-- end row --> 
+  </div>
+  <div class="row">
+    <div class="col-md-12 team_stats_table">
+      <ul class="nav nav-tabs team_stats_nav-tabs">
+        <li class="active"><a href="#offense" data-toggle="tab">Offense</a></li>
+        <li><a href="#defense" data-toggle="tab">Defense</a></li>
+        <li><a href="#special_teams" data-toggle="tab">Special Teams</a></li>
+      </ul>
+      <!-- <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane fade active in" id="offense">
+          <ul class="nav nav-tabs team_stats_nav-tabs">
+            <li class="active"><a href="#total_offense" data-toggle="tab">Total Offense</a></li>
+            <li><a href="#passing_offense" data-toggle="tab">Passing Offense</a></li>
+            <li><a href="#rushing_offense" data-toggle="tab">Rushing Offense</a></li>
+            <li><a href="#receiving_offense" data-toggle="tab">Receiving Offense</a></li>
+            <li><a href="#downs" data-toggle="tab">Downs</a></li>
+          </ul>
+          {% if teamseason != None %}
+          <div class="tab-content">
+            <div class="tab-pane fade active in" id="total_offense">
+              {% include "team_stat_tables/nfl_team_total_offense_stats.html" %}
+            </div>
+            <div class="tab-pane fade" id="passing_offense">
+              {% include "team_stat_tables/nfl_team_total_passing_stats.html" %}
+            </div>
+            <div class="tab-pane fade" id="rushing_offense">
+              {% include "team_stat_tables/nfl_team_total_rushing_stats.html" %}
+            </div>
+            <div class="tab-pane fade" id="receiving_offense">
+              {% include "team_stat_tables/nfl_team_total_receiving_stats.html" %}
+            </div>
+            <div class="tab-pane fade" id="downs">
+              {% include "team_stat_tables/nfl_team_total_downs_stats.html" %}
+            </div>
+          </div>
+        </div><!-- end tab-pane offense -->
+        {% else %}
+        no information at this time try again in a little bit
+        {% endif %}
+        <div class="tab-pane fade" id="defense">
+          <ul class="nav nav-tabs team_stats_nav-tabs">
+            <li><a href="#total_defense" data-toggle="tab">Total Defense</a></li>
+            <li><a href="#passing_defense" data-toggle="tab">Passing Defense</a></li>
+            <li><a href="#rushing_defense" data-toggle="tab">Rushing Defense</a></li>
+            <li><a href="#receiving_defense" data-toggle="tab">Receiving Defense</a></li>
+            <li><a href="#downs_defense" data-toggle="tab">Opponent Downs</a></li>
+            <li><a href="#sacks" data-toggle="tab">Tackles/Sacks/Interceptions/Fumbles</a></li>  
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade active in" id="total_defense">
+              {% include "team_stat_tables/nfl_team_total_defensive_stats.html" %}
+            </div>
+            <div class="tab-pane fade" id="passing_defense">
+              {% include "team_stat_tables/nfl_team_total_defensive_passing_stats.html" %}
+            </div>
+            <div class="tab-pane fade" id="rushing_defense">
+              {% include "team_stat_tables/nfl_team_total_defensive_rushing_stats.html" %}
+            </div>
+            <div class="tab-pane fade" id="receiving_defense">
+              {% include "team_stat_tables/nfl_team_total_defensive_receiving_stats.html" %}
+            </div>
+            <div class="tab-pane fade" id="downs_defense">
+              {% include "team_stat_tables/nfl_team_total_defensive_downs_stats.html" %}
+            </div>
+            <div class="tab-pane fade" id="sacks">
+              {% include "team_stat_tables/nfl_team_total_defensive_tsif_stats.html" %}
+            </div>
+          </div>
+        </div><!-- end tab-pane defence -->
+        <div class="tab-pane fade" id="special_teams">
+          <ul class="nav nav-tabs team_stats_nav-tabs">
+            <li><a href="#kicking" data-toggle="tab">Field Goals / Xtra Points</a></li>
+            <li><a href="#punting" data-toggle="tab">Punting</a></li>
+            <li><a href="#returns" data-toggle="tab">Kickoff / Punt Returns</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade active in" id="kicking">
+              {% include "team_stat_tables/nfl_team_total_special_kicking.html" %}
+            </div>
+            <div class="tab-pane fade" id="punting">
+              {% include "team_stat_tables/nfl_team_total_special_punting.html" %}
+            </div>
+            <div class="tab-pane fade" id="returns">
+              {% include "team_stat_tables/nfl_team_total_special_returns.html" %}
+            </div>
+          </div>
+        </div> <!-- end tab-pane special teams -->
+      </div><!-- end tab content outer -->
+    </div>
+  </div> <!-- end row --> 
 </div><!-- end container -->
 
 

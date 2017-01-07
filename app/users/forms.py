@@ -72,7 +72,7 @@ class ProfileForm(FlaskForm):
     submit = SubmitField("Update")
     
 class BitcoinWalletForm(FlaskForm):
-    create = SubmitField("Create a wallet")
+    submit = SubmitField("Create a wallet")
 
 class BitcoinWithdrawlForm(FlaskForm):
     amount = FloatField("Bitcoin Amount", [InputRequired(), positve_bitcoin])

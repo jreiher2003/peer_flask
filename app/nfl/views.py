@@ -419,15 +419,26 @@ def nfl_team_home(sid,key,team):
     jj = NFLTeam.query.filter_by(Key=key).one()
     tt = NFLStadium.query.filter_by(StadiumID=jj.StadiumID).one() 
     ss = NFLStandings.query.filter_by(Team=key).one()
-    tss = NFLTeamSeason.query.filter_by(Team=key, SeasonType=sid).one()
-    ts = NFLSchedule.query.filter_by(SeasonType=sid).filter((NFLSchedule.AwayTeam==key) | (NFLSchedule.HomeTeam==key))
-    team_score = NFLScore.query.filter_by(SeasonType=sid).filter((NFLScore.AwayTeam==key) | (NFLScore.HomeTeam==key))
-    team_rush_rank = team_rush_avg(tss.RushingYards,tss.Team, sid) 
-    team_pass_rank = team_pass_avg(tss.PassingYards,tss.Team, sid) 
-    opp_team_rush_rank = opp_team_rush_avg(tss.OpponentRushingYards,tss.Team, sid) 
-    opp_team_pass_rank = opp_team_pass_avg(tss.OpponentPassingYards,tss.Team, sid) 
-    team_off_rank = team_off_avg(tss.OffensiveYards,tss.Team, sid)
-    team_def_rank = team_def_avg(tss.OpponentOffensiveYards,tss.Team, sid) 
+    try:
+        tss = NFLTeamSeason.query.filter_by(Team=key, SeasonType=sid).one()
+        ts = NFLSchedule.query.filter_by(SeasonType=sid).filter((NFLSchedule.AwayTeam==key) | (NFLSchedule.HomeTeam==key))
+        team_score = NFLScore.query.filter_by(SeasonType=sid).filter((NFLScore.AwayTeam==key) | (NFLScore.HomeTeam==key))
+        team_rush_rank = team_rush_avg(tss.RushingYards,tss.Team, sid) 
+        team_pass_rank = team_pass_avg(tss.PassingYards,tss.Team, sid) 
+        opp_team_rush_rank = opp_team_rush_avg(tss.OpponentRushingYards,tss.Team, sid) 
+        opp_team_pass_rank = opp_team_pass_avg(tss.OpponentPassingYards,tss.Team, sid) 
+        team_off_rank = team_off_avg(tss.OffensiveYards,tss.Team, sid)
+        team_def_rank = team_def_avg(tss.OpponentOffensiveYards,tss.Team, sid) 
+    except Exception:
+        tss = None
+        ts = None 
+        team_score = None
+        team_rush_rank = None 
+        team_pass_rank = None
+        opp_team_rush_rank = None 
+        opp_team_pass_rank = None 
+        team_off_rank = None 
+        team_def_rank = None 
     return render_template(
         "nfl_team/nfl_team_home.html",
         all_teams = all_nfl_teams(),
@@ -474,7 +485,10 @@ def nfl_standings():
 
 @nfl_blueprint.route("/nfl/stats/<int:sid>/")
 def nfl_stats(sid): 
-    teamseason1 = NFLTeamSeason.query.filter_by(SeasonType=sid).all()
+    try:
+        teamseason1 = NFLTeamSeason.query.filter_by(SeasonType=sid).all()
+    except Exception:
+        teamseason1 = None
     return render_template(
         "nfl_stats.html", 
         all_teams = all_nfl_teams(), 
