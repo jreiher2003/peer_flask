@@ -113,7 +113,7 @@ def graded_bets():
      """
     NFLBetGraded.__table__.drop(db.engine)
     NFLBetGraded.__table__.create(db.engine)
-    score1 = db.session.query(NFLScore).filter_by(SeasonType=1).all()
+    score1 = db.session.query(NFLScore).all() #.filter_by(SeasonType=3)
     score = list(score1)
     for x in score:
         grade = NFLBetGraded(game_key=x.GameKey,week = x.Week,game_date=parse_date(x.Date),home_team=x.HomeTeam,home_score=x.HomeScore,away_team=x.AwayTeam,away_score=x.AwayScore,total_score=(x.AwayScore+x.HomeScore),over_under=x.OverUnder,ps=x.PointSpread,cover_total=x.cover_total(),cover_side=x.cover_line(),cover_ml=x.cover_ml())
