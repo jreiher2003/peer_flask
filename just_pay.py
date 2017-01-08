@@ -21,6 +21,7 @@ from datetime import datetime
 from dateutil.parser import parse as parse_date
 from app import app, db, cache
 from sqlalchemy import exc
+from sqlalchemy import or_
 from app.users.models import Users, Role, UserRoles, Profile, BitcoinWallet
 from app.nfl.models import NFLBetGraded, NFLOverUnderBet, NFLSideBet, NFLMLBet, Base
 from app.nfl_stats.models import NFLScore, NFLTeam, NFLStadium, NFLSchedule, NFLStandings, NFLTeamSeason
@@ -113,14 +114,14 @@ def graded_bets():
      """
     NFLBetGraded.__table__.drop(db.engine)
     NFLBetGraded.__table__.create(db.engine)
-    score1 = db.session.query(NFLScore).all() #.filter_by(SeasonType=3)
+    score1 = db.session.query(NFLScore).filter((NFLScore.SeasonType==3) | (NFLScore.SeasonType==1)) #.filter_by(SeasonType=3)
     score = list(score1)
     for x in score:
-        print x.GameKey,x.SeasonType,x.Week,x.Date,x.HomeTeam,x.cover_total(),x.cover_line(),x.cover_ml(), x.HomeScore, x.AwayScore
-    #     grade = NFLBetGraded(game_key=x.GameKey,season_type=x.SeasonType,week = x.Week,game_date=parse_date(x.Date),home_team=x.HomeTeam,home_score=x.HomeScore,away_team=x.AwayTeam,away_score=x.AwayScore,total_score=(x.AwayScore+x.HomeScore),over_under=x.OverUnder,ps=x.PointSpread,cover_total=x.cover_total(),cover_side=x.cover_line(),cover_ml=x.cover_ml())
-    #     db.session.add(grade)
-    #     db.session.commit()
-    # print "graded bets table populated"
+        # print x.GameKey,x.SeasonType,x.Week,x.Date,x.HomeTeam,x.cover_total(),x.cover_line(),x.cover_ml(), x.HomeScore, x.AwayScore
+        grade = NFLBetGraded(game_key=x.GameKey,season_type=x.SeasonType,week = x.Week,game_date=parse_date(x.Date),home_team=x.HomeTeam,home_score=x.HomeScore,away_team=x.AwayTeam,away_score=x.AwayScore,total_score=(x.AwayScore+x.HomeScore),over_under=x.OverUnder,ps=x.PointSpread,cover_total=x.cover_total(),cover_side=x.cover_line(),cover_ml=x.cover_ml())
+        db.session.add(grade)
+        db.session.commit()
+    print "graded bets table populated"
 
 def pop_team_img():
     """ populates the TeamImg field in NFLTeam to save a reference to a img locally.  
