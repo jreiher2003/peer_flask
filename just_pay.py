@@ -116,10 +116,11 @@ def graded_bets():
     score1 = db.session.query(NFLScore).all() #.filter_by(SeasonType=3)
     score = list(score1)
     for x in score:
-        grade = NFLBetGraded(game_key=x.GameKey,week = x.Week,game_date=parse_date(x.Date),home_team=x.HomeTeam,home_score=x.HomeScore,away_team=x.AwayTeam,away_score=x.AwayScore,total_score=(x.AwayScore+x.HomeScore),over_under=x.OverUnder,ps=x.PointSpread,cover_total=x.cover_total(),cover_side=x.cover_line(),cover_ml=x.cover_ml())
-        db.session.add(grade)
-        db.session.commit()
-    print "graded bets table populated"
+        print x.GameKey,x.SeasonType,x.Week,x.Date,x.HomeTeam,x.cover_total(),x.cover_line(),x.cover_ml(), x.HomeScore, x.AwayScore
+    #     grade = NFLBetGraded(game_key=x.GameKey,season_type=x.SeasonType,week = x.Week,game_date=parse_date(x.Date),home_team=x.HomeTeam,home_score=x.HomeScore,away_team=x.AwayTeam,away_score=x.AwayScore,total_score=(x.AwayScore+x.HomeScore),over_under=x.OverUnder,ps=x.PointSpread,cover_total=x.cover_total(),cover_side=x.cover_line(),cover_ml=x.cover_ml())
+    #     db.session.add(grade)
+    #     db.session.commit()
+    # print "graded bets table populated"
 
 def pop_team_img():
     """ populates the TeamImg field in NFLTeam to save a reference to a img locally.  
@@ -172,7 +173,7 @@ if __name__ == "__main__":
     score = json.load(open("sports/Score.2016.json"))
     teamseason = json.load(open("sports/TeamSeason.2016.json"))
     print "json load .json files please wait 5 sec...."
-    time.sleep(5)
+    # time.sleep(5)
     populate_schedule()
     populate_stadium()
     populate_team()
@@ -182,13 +183,13 @@ if __name__ == "__main__":
     print "just populated stat tables with new info please wait 5 sec...\r\n"
     time.sleep(5)
     graded_bets()
-    pop_team_img()
-    pop_nfl_logo()
-    print "just graded bets, please wait 15 sec...\r\n"
-    time.sleep(15)
-    kitchen_sink()
-    cache.clear()
-    print "Done...\r\n"
-    print "####################### end download cron job ############################"
-    print "\r\n\r\n\r\n"
+    # pop_team_img()
+    # pop_nfl_logo()
+    # print "just graded bets, please wait 15 sec...\r\n"
+    # time.sleep(15)
+    # kitchen_sink()
+    # cache.clear()
+    # print "Done...\r\n"
+    # print "####################### end download cron job ############################"
+    # print "\r\n\r\n\r\n"
 

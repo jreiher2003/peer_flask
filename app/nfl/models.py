@@ -119,6 +119,7 @@ class NFLBetGraded(db.Model):
     __tablename__ = 'nfl_bet_graded'
 
     id = db.Column(db.Integer, primary_key=True)
+    season_type = db.Column(db.Integer)
     game_key = db.Column(db.String)
     week = db.Column(db.String)
     game_date = db.column(db.DateTime)
