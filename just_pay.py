@@ -184,13 +184,13 @@ if __name__ == "__main__":
     print "just populated stat tables with new info please wait 5 sec...\r\n"
     time.sleep(5)
     graded_bets()
-    # pop_team_img()
-    # pop_nfl_logo()
-    # print "just graded bets, please wait 15 sec...\r\n"
-    # time.sleep(15)
-    # kitchen_sink()
-    # cache.clear()
-    # print "Done...\r\n"
-    # print "####################### end download cron job ############################"
-    # print "\r\n\r\n\r\n"
+    pop_team_img()
+    pop_nfl_logo()
+    print "just graded bets, please wait 15 sec...\r\n"
+    time.sleep(15)
+    kitchen_sink()
+    cache.clear()
+    print "Done...\r\n"
+    print "####################### end download cron job ############################"
+    print "\r\n\r\n\r\n"
 
