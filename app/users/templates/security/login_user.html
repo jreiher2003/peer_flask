@@ -4,40 +4,40 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-    {% from "security/_macros.html" import render_field_with_errors, render_field %}
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-          <div class="profileborder">
-            <h1 class="text-center">Login</h1>
-            <hr>
-            <form id="userForm" action="{{ url_for('users.login') }}" method="POST" name="login_user_form" onsubmit="return checkForm(this);">
-              {{ form.csrf_token }}
-              <div class="form-group">
-                {{ render_field_with_errors(form.email, class="form-control", placeholder="email address...", **{'data-validation':'required'}) }}
-              </div>
-              <div class="form-group">
-                {{ render_field_with_errors(form.password, class="form-control", placeholder="password...", **{'data-validation':'required'}) }}
-              </div>
-              <div class="form-group">
-                {{ render_field_with_errors(form.remember) }}<label for="remember">&nbsp;Remember me&nbsp; </label>
-                  <li class="pull-right"><a href="{{ url_for('users.forgot_password') }}">Forgot password</a><br/></li>
-              </div>
-              <p>
-                <label class="text-muted">What is 3 + 4 = </label>
-                <input class="captcha" name="..." data-validation="spamcheck" data-validation-captcha="7">
-              </p>
-              <div class="form-group">
-                {{ render_field(form.submit, class="btn btn-primary btn-block") }}
-              </div>
-            </form>
-            <hr>
-            <li class="text-muted">Not registered? <a href="{{ url_for('users.register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Create an account</a><br/></li>
-        </div>
-        <br>
-        <p class="text-center">Make sure you are on the right page</p>
-        <p class="text-center"><b>http://q6rrzsynk7asslo7.onion</b></p>
+  {% from "security/_macros.html" import render_field_with_errors, render_field %}
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="profileborder">
+        <h1 class="text-center">Login</h1>
+        <hr>
+        <form id="userForm" action="{{ url_for('users.login') }}" method="POST" name="login_user_form" onsubmit="return checkForm(this);">
+          {{ form.csrf_token }}
+          <div class="form-group">
+            {{ render_field_with_errors(form.email, class="form-control", placeholder="email address...", **{'data-validation':'required'}) }}
+          </div>
+          <div class="form-group">
+            {{ render_field_with_errors(form.password, class="form-control", placeholder="password...", **{'data-validation':'required'}) }}
+          </div>
+          <div class="form-group">
+            {{ render_field_with_errors(form.remember) }}<label for="remember">&nbsp;Remember me&nbsp; </label>
+            <li class="pull-right"><a href="{{ url_for('users.forgot_password') }}">Forgot password</a><br/></li>
+          </div>
+          <p>
+            <label class="text-muted">What is 3 + 4 = </label>
+            <input class="captcha" name="..." data-validation="spamcheck" data-validation-captcha="7">
+          </p>
+          <div class="form-group">
+            {{ render_field(form.submit, class="btn btn-primary btn-block") }}
+          </div>
+        </form>
+        <hr>
+        <li class="text-muted">Not registered? <a href="{{ url_for('users.register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Create an account</a><br/></li>
+      </div>
+      <br>
+        <!-- <p class="text-center">Make sure you are on the right page</p>
+        <p class="text-center"><b>http://q6rrzsynk7asslo7.onion</b></p> -->
       </div>
     </div>
-</div>
+  </div>
 
-{% endblock %}
+  {% endblock %}

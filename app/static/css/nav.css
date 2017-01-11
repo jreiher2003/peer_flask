@@ -40,10 +40,10 @@ h3.nav__division {
 }
 .nav > li.dropdown.open .dropdown-menu, a.dropdown-toggle {
     display:table; 
-    width: 75%;
-    height: 485px;
+    width: auto;
+    height: auto;
     text-align: center; 
-    left: 350px; 
+    border: 1.5px solid black;
 }
 .dropdown-menu>li {
     display: table-cell;
