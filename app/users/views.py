@@ -56,11 +56,11 @@ def register():
             db.session.add_all([profile,user_roles])
             db.session.commit()
             cache.clear()
-            # token = generate_confirmation_token(user1.email)
-            # confirm_url = url_for('users.confirm_email_register', token=token, _external=True)
-            # html = render_template("security/email/welcome.html", confirm_url=confirm_url, user=user1)
-            # subject = "Please confirm your email"
-            # send_email(user1.email, subject, html)
+            token = generate_confirmation_token(user1.email)
+            confirm_url = url_for('users.confirm_email_register', token=token, _external=True)
+            html = render_template("security/email/welcome.html", confirm_url=confirm_url, user=user1)
+            subject = "Please confirm your email"
+            send_email(user1.email, subject, html)
             login_user(user1,True)
             flash("Welcome <strong>%s</strong> to Peer2Peer. Get started by creating a <strong>bitcoin wallet</strong>." % (user1.username), "success")
             next = request.args.get("next")
