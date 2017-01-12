@@ -19,3 +19,4 @@
 The app was designed to be automated with cron jobs scripts - just_download and just_pay.  
 Just download will download the latest json feed and scheduled intervals.
 Just pay will populate the database with the latest data, grade all games played, grade bets made and pay winners.  
+
