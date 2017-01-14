@@ -25,9 +25,9 @@ def password_validator(form, field):
         if c.islower(): lowers+=1
         if c.isupper(): uppers+=1
         if c.isdigit(): digits+=1
-    is_valid = password_length >= 12 and lowers and uppers and digits
+    is_valid = password_length >= 8 and lowers and uppers and digits
     if not is_valid:
-        raise ValidationError("You need 12 characters, at least one upper, lower, and one digit.")
+        raise ValidationError("You need 8 characters, at least one upper, lower, and one digit.")
 
 def positve_bitcoin(form, field):
     if field.data < 0:
@@ -42,7 +42,7 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     username = TextField("Username",  [InputRequired(), validate_username])#
     email = EmailField("Email", [InputRequired(), Email()])
-    password = PasswordField("Password", [InputRequired(), Length(min=12, message="The min password length is 12 chars long."), password_validator])
+    password = PasswordField("Password", [InputRequired(), Length(min=8, message="The min password length is 8 chars long."), password_validator])
     password_confirm = PasswordField("Confirm", [InputRequired(), EqualTo("password", message="Your passwords don't match.")])
     submit = SubmitField("Register")
 
@@ -55,13 +55,13 @@ class SendEmailConfirmForm(FlaskForm):
     submit = SubmitField("Resend confirmation")
 
 class ChangePasswordForm(FlaskForm):
-    password = PasswordField("Password", [InputRequired(), Length(min=12, message="The min password length is 12 chars long.")])
-    new_password = PasswordField("Password", [InputRequired(), Length(min=12, message="The min password length is 12 chars long."), password_validator])
+    password = PasswordField("Password", [InputRequired(), Length(min=8, message="The min password length is 12 chars long.")])
+    new_password = PasswordField("Password", [InputRequired(), Length(min=8, message="The min password length is 12 chars long."), password_validator])
     new_password_confirm = PasswordField("Confirm", [InputRequired(), EqualTo("new_password", message="Your passwords don't match.")])
     submit = SubmitField("Change Password")
 
 class ChangePasswordTokenForm(FlaskForm):
-    password = PasswordField("Password", [InputRequired(), Length(min=12, message="The min password length is 12 chars long."), password_validator])
+    password = PasswordField("Password", [InputRequired(), Length(min=8, message="The min password length is 12 chars long."), password_validator])
     password_confirm = PasswordField("Confirm", [InputRequired(), EqualTo("password", message="Your passwords don't match.")])
     submit = SubmitField("Change Password")
 
