@@ -13,7 +13,7 @@ class BaseConfig(object):
     MAIL_USE_TLS = False
     MAIL_USERNAME = os.environ["MAIL_USERNAME"]
     MAIL_PASSWORD = os.environ["MAIL_PASSWORD"]
-    MAIL_DEFAULT_SENDER = '"Site Admin" <noreply@peer2peer.com>'
+    MAIL_DEFAULT_SENDER = '"Peer2Peer Admin" <noreply@peer2peer.com>'
     SECURITY_UNAUTHORIZED_VIEW = "/login/"
     SECURITY_MSG_UNAUTHORIZED = ("Try loging in first", "danger")
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024

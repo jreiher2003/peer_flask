@@ -18,7 +18,7 @@ from slugify import slugify
 from app.home.utils import all_nfl_teams, get_user_wallet
 from .utils import team_rush_avg, team_pass_avg, \
 opp_team_rush_avg, opp_team_pass_avg, team_off_avg, \
-team_def_avg, today_date,today_and_now, make_salt, yesterday, date_to_string
+team_def_avg, today_date,today_and_now, make_salt, yesterday, date_to_string, player_has_action
 
 nfl_blueprint = Blueprint("nfl", __name__, template_folder="templates")
 
@@ -381,6 +381,8 @@ def nfl_bet_vs_bet(bet_key):
                 db.session.add_all([bet_taker, bet_creator, nfl])
                 db.session.commit()
                 cache.clear()
+                player_has_action(bet_taker.email)
+                player_has_action(bet_creator.email)
                 flash("%s, You have action" % current_user.username,  "success")
                 return redirect(url_for("nfl.nfl_confirm_live_action", bet_key=bet_key))
             except Exception:

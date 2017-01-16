@@ -63,3 +63,4 @@ def email_reset_notice(email):
     html = render_template("security/email/reset_notice.html")
     subject = "Password reset"
     send_email(email, subject, html)
+

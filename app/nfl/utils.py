@@ -2,7 +2,9 @@ import json
 import datetime
 import random
 from string import hexdigits
-from app import db
+from app import app,db,mail
+from flask import render_template
+from flask_mail import Message 
 from app.nfl_stats.models import NFLStandings, NFLTeam, NFLStadium, NFLSchedule, NFLScore, NFLTeamSeason
 
 def make_salt(length=10):
@@ -75,5 +77,18 @@ def team_def_avg(pass_yds, team, sid):
     return team_.index((pass_yds, team)) + 1
 
 
-    
-             
+def send_email(to, subject, template):
+    msg = Message(
+        subject,
+        recipients=[to],
+        html=template,
+        sender=app.config['MAIL_DEFAULT_SENDER']
+    )
+    mail.send(msg)
+
+def player_has_action(email):
+    """ send notifation when bet becomes live """ 
+    html = render_template("email/action.html")
+    subject = "You have action!!!!"
+    send_email(email,subject,html)   
+  
