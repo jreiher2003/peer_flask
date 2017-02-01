@@ -130,22 +130,23 @@ def pop_team_img():
     team = list(t)
     for x in team:
         if x.Key != "AFC" or x.Key != "NFC":
-            
-            if x.WikipediaWordMarkUrl[-3:] == 'png':
-                x.TeamImg = "team_img/" + x.Name + ".png"
-                print x.TeamImg
-                # db.session.add(x)
-            elif x.WikipediaWordMarkUrl[-3:] == 'jpg':
-                x.TeamImg = "team_img/" + x.Name + ".jpg"
-                print x.TeamImg
-                # db.session.add(x)
-            elif x.WikipediaWordMarkUrl[-3:] == 'svg':
-                x.TeamImg = "team_img/" + x.Name + ".svg"
-                print x.TeamImg
-                # db.session.add(x)
-            elif x.WikipediaWordMarkUrl[-3:] == 'gif':
-                x.TeamImg = "team_img/" + x.Name + ".gif"
-                print x.TeamImg
+            print x.WikipediaLogoUrl
+            print x.WikipediaWordMarkUrl
+            # if x.WikipediaWordMarkUrl[-3:] == 'png':
+            #     x.TeamImg = "team_img/" + x.Name + ".png"
+            #     print x.TeamImg
+            #     # db.session.add(x)
+            # elif x.WikipediaWordMarkUrl[-3:] == 'jpg':
+            #     x.TeamImg = "team_img/" + x.Name + ".jpg"
+            #     print x.TeamImg
+            #     # db.session.add(x)
+            # elif x.WikipediaWordMarkUrl[-3:] == 'svg':
+            #     x.TeamImg = "team_img/" + x.Name + ".svg"
+            #     print x.TeamImg
+            #     # db.session.add(x)
+            # elif x.WikipediaWordMarkUrl[-3:] == 'gif':
+            #     x.TeamImg = "team_img/" + x.Name + ".gif"
+            #     print x.TeamImg
                 # db.session.add(x)
     db.session.commit()
 
