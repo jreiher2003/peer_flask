@@ -133,16 +133,20 @@ def pop_team_img():
             
             if x.WikipediaWordMarkUrl[-3:] == 'png':
                 x.TeamImg = "team_img/" + x.Name + ".png"
-                db.session.add(x)
+                print x.TeamImg
+                # db.session.add(x)
             elif x.WikipediaWordMarkUrl[-3:] == 'jpg':
                 x.TeamImg = "team_img/" + x.Name + ".jpg"
-                db.session.add(x)
+                print x.TeamImg
+                # db.session.add(x)
             elif x.WikipediaWordMarkUrl[-3:] == 'svg':
                 x.TeamImg = "team_img/" + x.Name + ".svg"
-                db.session.add(x)
+                print x.TeamImg
+                # db.session.add(x)
             elif x.WikipediaWordMarkUrl[-3:] == 'gif':
                 x.TeamImg = "team_img/" + x.Name + ".gif"
-                db.session.add(x)
+                print x.TeamImg
+                # db.session.add(x)
     db.session.commit()
 
 def pop_nfl_logo():
@@ -152,7 +156,7 @@ def pop_nfl_logo():
         if x.Key != "AFC" or x.Key != "NFC":
             if x.WikipediaLogoUrl[-3:] == 'png':
                 x.NFLLogo = "nfl_logo/" + x.Name + ".png"
-                print x.NFLLogo
+                db.session.add(x)
             elif x.WikipediaLogoUrl[-3:] == 'jpg':
                 x.NFLLogo = "nfl_logo/" + x.Name + ".jpg"
                 db.session.add(x)
