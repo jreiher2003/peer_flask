@@ -130,41 +130,35 @@ def pop_team_img():
     team = list(t)
     for x in team:
         if x.Key != "AFC" or x.Key != "NFC":
-            print x.WikipediaLogoUrl, x.WikipediaLogoUrl[-3:]
-            print x.WikipediaWordMarkUrl, x.WikipediaWordMarkUrl[-3:] + "\n\r\n\r"
-            # if x.WikipediaWordMarkUrl[-3:] == 'png':
-            #     x.TeamImg = "team_img/" + x.Name + ".png"
-            #     print x.TeamImg
-            #     # db.session.add(x)
-            # elif x.WikipediaWordMarkUrl[-3:] == 'jpg':
-            #     x.TeamImg = "team_img/" + x.Name + ".jpg"
-            #     print x.TeamImg
-            #     # db.session.add(x)
-            # elif x.WikipediaWordMarkUrl[-3:] == 'svg':
-            #     x.TeamImg = "team_img/" + x.Name + ".svg"
-            #     print x.TeamImg
-            #     # db.session.add(x)
-            # elif x.WikipediaWordMarkUrl[-3:] == 'gif':
-            #     x.TeamImg = "team_img/" + x.Name + ".gif"
-            #     print x.TeamImg
-                # db.session.add(x)
-    # db.session.commit()
+            if str(x.WikipediaWordMarkUrl)[-3:] == 'png':
+                x.TeamImg = "team_img/" + x.Name + ".png"
+                db.session.add(x)
+            elif str(x.WikipediaWordMarkUrl)[-3:] == 'jpg':
+                x.TeamImg = "team_img/" + x.Name + ".jpg"
+                db.session.add(x)
+            elif str(x.WikipediaWordMarkUrl)[-3:] == 'svg':
+                x.TeamImg = "team_img/" + x.Name + ".svg"
+                db.session.add(x)
+            elif str(x.WikipediaWordMarkUrl)[-3:] == 'gif':
+                x.TeamImg = "team_img/" + x.Name + ".gif"
+                db.session.add(x)
+    db.session.commit()
 
 def pop_nfl_logo():
     t = NFLTeam.query.all()
     team = list(t)
     for x in team:
         if x.Key != "AFC" or x.Key != "NFC":
-            if x.WikipediaLogoUrl[-3:] == 'png':
+            if str(x.WikipediaLogoUrl)[-3:] == 'png':
                 x.NFLLogo = "nfl_logo/" + x.Name + ".png"
                 db.session.add(x)
-            elif x.WikipediaLogoUrl[-3:] == 'jpg':
+            elif str(x.WikipediaLogoUrl)[-3:] == 'jpg':
                 x.NFLLogo = "nfl_logo/" + x.Name + ".jpg"
                 db.session.add(x)
-            elif x.WikipediaLogoUrl[-3:] == 'svg':
+            elif str(x.WikipediaLogoUrl)[-3:] == 'svg':
                 x.NFLLogo = "nfl_logo/" + x.Name + ".svg"
                 db.session.add(x)
-            elif x.WikipediaLogoUrl[-3:] == 'gif':
+            elif str(x.WikipediaLogoUrl)[-3:] == 'gif':
                 x.NFLLogo = "nfl_logo/" + x.Name + ".gif"
                 db.session.add(x)
     db.session.commit()
@@ -194,7 +188,7 @@ if __name__ == "__main__":
     time.sleep(5)
     graded_bets()
     pop_team_img()
-    # pop_nfl_logo()
+    pop_nfl_logo()
     print "just graded bets, please wait 15 sec...\r\n"
     time.sleep(15)
     kitchen_sink()
