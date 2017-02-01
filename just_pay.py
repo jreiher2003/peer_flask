@@ -148,7 +148,7 @@ def pop_team_img():
             #     x.TeamImg = "team_img/" + x.Name + ".gif"
             #     print x.TeamImg
                 # db.session.add(x)
-    db.session.commit()
+    # db.session.commit()
 
 def pop_nfl_logo():
     t = NFLTeam.query.all()
@@ -194,7 +194,7 @@ if __name__ == "__main__":
     time.sleep(5)
     graded_bets()
     pop_team_img()
-    pop_nfl_logo()
+    # pop_nfl_logo()
     print "just graded bets, please wait 15 sec...\r\n"
     time.sleep(15)
     kitchen_sink()
