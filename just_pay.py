@@ -130,8 +130,8 @@ def pop_team_img():
     team = list(t)
     for x in team:
         if x.Key != "AFC" or x.Key != "NFC":
-            print x.WikipediaLogoUrl
-            print x.WikipediaWordMarkUrl
+            print x.WikipediaLogoUrl, x.WikipediaLogoUrl[-3:]
+            print x.WikipediaWordMarkUrl, x.WikipediaWordMarkUrl[-3:] + "\n\r\n\r"
             # if x.WikipediaWordMarkUrl[-3:] == 'png':
             #     x.TeamImg = "team_img/" + x.Name + ".png"
             #     print x.TeamImg
