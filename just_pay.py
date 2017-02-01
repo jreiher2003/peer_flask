@@ -129,35 +129,38 @@ def pop_team_img():
     t = NFLTeam.query.all()
     team = list(t)
     for x in team:
-        if x.WikipediaWordMarkUrl[-3:] == 'png':
-            x.TeamImg = "team_img/" + x.Name + ".png"
-            db.session.add(x)
-        elif x.WikipediaWordMarkUrl[-3:] == 'jpg':
-            x.TeamImg = "team_img/" + x.Name + ".jpg"
-            db.session.add(x)
-        elif x.WikipediaWordMarkUrl[-3:] == 'svg':
-            x.TeamImg = "team_img/" + x.Name + ".svg"
-            db.session.add(x)
-        elif x.WikipediaWordMarkUrl[-3:] == 'gif':
-            x.TeamImg = "team_img/" + x.Name + ".gif"
-            db.session.add(x)
+        if x.Key != "AFC" or x.Key != "NFC":
+            
+            if x.WikipediaWordMarkUrl[-3:] == 'png':
+                x.TeamImg = "team_img/" + x.Name + ".png"
+                db.session.add(x)
+            elif x.WikipediaWordMarkUrl[-3:] == 'jpg':
+                x.TeamImg = "team_img/" + x.Name + ".jpg"
+                db.session.add(x)
+            elif x.WikipediaWordMarkUrl[-3:] == 'svg':
+                x.TeamImg = "team_img/" + x.Name + ".svg"
+                db.session.add(x)
+            elif x.WikipediaWordMarkUrl[-3:] == 'gif':
+                x.TeamImg = "team_img/" + x.Name + ".gif"
+                db.session.add(x)
     db.session.commit()
 
 def pop_nfl_logo():
     t = NFLTeam.query.all()
     team = list(t)
     for x in team:
-        if x.WikipediaLogoUrl[-3:] == 'png':
-            x.NFLLogo = "nfl_logo/" + x.Name + ".png"
-        elif x.WikipediaLogoUrl[-3:] == 'jpg':
-            x.NFLLogo = "nfl_logo/" + x.Name + ".jpg"
-            db.session.add(x)
-        elif x.WikipediaLogoUrl[-3:] == 'svg':
-            x.NFLLogo = "nfl_logo/" + x.Name + ".svg"
-            db.session.add(x)
-        elif x.WikipediaLogoUrl[-3:] == 'gif':
-            x.NFLLogo = "nfl_logo/" + x.Name + ".gif"
-            db.session.add(x)
+        if x.Key != "AFC" or x.Key != "NFC":
+            if x.WikipediaLogoUrl[-3:] == 'png':
+                x.NFLLogo = "nfl_logo/" + x.Name + ".png"
+            elif x.WikipediaLogoUrl[-3:] == 'jpg':
+                x.NFLLogo = "nfl_logo/" + x.Name + ".jpg"
+                db.session.add(x)
+            elif x.WikipediaLogoUrl[-3:] == 'svg':
+                x.NFLLogo = "nfl_logo/" + x.Name + ".svg"
+                db.session.add(x)
+            elif x.WikipediaLogoUrl[-3:] == 'gif':
+                x.NFLLogo = "nfl_logo/" + x.Name + ".gif"
+                db.session.add(x)
     db.session.commit()
 
 
